@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "case-uco-generator"
+version = "0.1.0"
+description = "Code generator for CASE/UCO ontology libraries"
+requires-python = ">=3.9"
+license = {text = "Apache-2.0"}
+dependencies = [
+    "rdflib>=7.0.0",
+    "Jinja2>=3.1.0",
+]
+
+[project.scripts]
+case-uco-generate = "case_uco_generator.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+case_uco_generator = ["templates/**/*"]

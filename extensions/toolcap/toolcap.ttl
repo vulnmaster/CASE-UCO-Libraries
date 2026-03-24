@@ -1,0 +1,167 @@
+# Forensic Tool Capability Extension for CASE/UCO
+# Defines classes and properties for modeling which forensic tools
+# can parse which applications, on which platforms, for which observables.
+
+@prefix toolcap: <https://example.org/ontology/toolcap/> .
+@prefix core: <https://ontology.unifiedcyberontology.org/uco/core/> .
+@prefix tool: <https://ontology.unifiedcyberontology.org/uco/tool/> .
+@prefix observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/ontology/toolcap>
+	a owl:Ontology ;
+	rdfs:label "toolcap"@en ;
+	rdfs:comment "Forensic tool capability extension — models which forensic tools can parse which applications, on which platforms, for which observables."@en ;
+	owl:versionIRI toolcap:0.1.0 ;
+	.
+
+# ToolCapability: Asserts that a forensic tool can parse data from a specific application.
+toolcap:ToolCapability
+	a
+		owl:Class ,
+		sh:NodeShape
+		;
+	rdfs:subClassOf core:UcoObject ;
+	rdfs:label "ToolCapability"@en ;
+	rdfs:comment "A tool capability asserts that a forensic tool can parse data from a specific application on a specific platform."@en ;
+	sh:property
+		[
+			sh:class tool:Tool ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:minCount "1"^^xsd:integer ;
+			sh:nodeKind sh:IRI ;
+			sh:path toolcap:tool ;
+		] ,
+		[
+			sh:class observable:ObservableObject ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:minCount "1"^^xsd:integer ;
+			sh:nodeKind sh:IRI ;
+			sh:path toolcap:application ;
+		] ,
+		[
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:path toolcap:supportedPlatform ;
+		] ,
+		[
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:path toolcap:parsedObservableType ;
+		] ,
+		[
+			sh:datatype xsd:string ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:nodeKind sh:Literal ;
+			sh:path toolcap:toolVersion ;
+		] ,
+		[
+			sh:datatype xsd:boolean ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:nodeKind sh:Literal ;
+			sh:path toolcap:isVerified ;
+		] ,
+		[
+			sh:datatype xsd:dateTime ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:nodeKind sh:Literal ;
+			sh:path toolcap:lastTestedDate ;
+		]
+		;
+	sh:targetClass toolcap:ToolCapability ;
+	.
+
+# CapabilityMatrix: A collection of tool capabilities, representing
+# the full comparison matrix for a set of tools and applications.
+toolcap:CapabilityMatrix
+	a
+		owl:Class ,
+		sh:NodeShape
+		;
+	rdfs:subClassOf core:ContextualCompilation ;
+	rdfs:label "CapabilityMatrix"@en ;
+	rdfs:comment "A capability matrix is a collection of tool capabilities representing which forensic tools support which applications."@en ;
+	sh:property
+		[
+			sh:datatype xsd:string ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:nodeKind sh:Literal ;
+			sh:path toolcap:matrixName ;
+		] ,
+		[
+			sh:datatype xsd:string ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:nodeKind sh:Literal ;
+			sh:path toolcap:matrixVersion ;
+		]
+		;
+	sh:targetClass toolcap:CapabilityMatrix ;
+	.
+
+# Properties
+toolcap:tool
+	a owl:ObjectProperty ;
+	rdfs:label "tool"@en ;
+	rdfs:comment "The forensic tool that has this capability."@en ;
+	rdfs:range tool:Tool ;
+	.
+
+toolcap:application
+	a owl:ObjectProperty ;
+	rdfs:label "application"@en ;
+	rdfs:comment "The application whose data can be parsed by the tool."@en ;
+	rdfs:range observable:ObservableObject ;
+	.
+
+toolcap:supportedPlatform
+	a owl:DatatypeProperty ;
+	rdfs:label "supportedPlatform"@en ;
+	rdfs:comment "A platform (e.g., Android, iOS, Windows) on which the tool can parse the application data."@en ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:parsedObservableType
+	a owl:DatatypeProperty ;
+	rdfs:label "parsedObservableType"@en ;
+	rdfs:comment "A type of observable (e.g., messages, contacts, calendar events) that the tool can extract from the application."@en ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:toolVersion
+	a owl:DatatypeProperty ;
+	rdfs:label "toolVersion"@en ;
+	rdfs:comment "The version of the tool that has been verified to support this capability."@en ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:isVerified
+	a owl:DatatypeProperty ;
+	rdfs:label "isVerified"@en ;
+	rdfs:comment "Whether this capability has been independently verified through testing."@en ;
+	rdfs:range xsd:boolean ;
+	.
+
+toolcap:lastTestedDate
+	a owl:DatatypeProperty ;
+	rdfs:label "lastTestedDate"@en ;
+	rdfs:comment "The date when this capability was last tested/verified."@en ;
+	rdfs:range xsd:dateTime ;
+	.
+
+toolcap:matrixName
+	a owl:DatatypeProperty ;
+	rdfs:label "matrixName"@en ;
+	rdfs:comment "The name of this capability matrix."@en ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:matrixVersion
+	a owl:DatatypeProperty ;
+	rdfs:label "matrixVersion"@en ;
+	rdfs:comment "The version of this capability matrix."@en ;
+	rdfs:range xsd:string ;
+	.

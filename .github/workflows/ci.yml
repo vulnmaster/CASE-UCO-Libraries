@@ -1,0 +1,147 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - ".github/workflows/ci.yml"
+      - "generator/**"
+      - "python/**"
+      - "csharp/**"
+      - "java/**"
+      - "rust/**"
+      - "ontology/**"
+      - "Makefile"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - ".github/workflows/ci.yml"
+      - "generator/**"
+      - "python/**"
+      - "csharp/**"
+      - "java/**"
+      - "rust/**"
+      - "ontology/**"
+      - "Makefile"
+
+jobs:
+  generate:
+    name: Generate Libraries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install generator dependencies
+        run: pip install rdflib jinja2
+
+      - name: Run code generator
+        run: |
+          PYTHONPATH=generator/src python -m case_uco_generator generate --lang all
+
+      - name: Upload generated sources
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-sources
+          path: |
+            python/case_uco/
+            csharp/CaseUco/
+            java/src/
+            rust/src/
+
+  test-python:
+    name: Test Python
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download generated sources
+        uses: actions/download-artifact@v4
+        with:
+          name: generated-sources
+          path: .
+
+      - name: Install dependencies
+        run: pip install rdflib jinja2 pytest
+
+      - name: Run tests
+        run: PYTHONPATH=generator/src:python python -m pytest generator/tests python/tests -v
+
+  test-csharp:
+    name: Test C#
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Download generated sources
+        uses: actions/download-artifact@v4
+        with:
+          name: generated-sources
+          path: .
+
+      - name: Build and test
+        run: |
+          cd csharp
+          dotnet build
+          dotnet test
+
+  test-java:
+    name: Test Java
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Download generated sources
+        uses: actions/download-artifact@v4
+        with:
+          name: generated-sources
+          path: .
+
+      - name: Build and test
+        run: |
+          cd java
+          mvn package -q
+
+  test-rust:
+    name: Test Rust
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Download generated sources
+        uses: actions/download-artifact@v4
+        with:
+          name: generated-sources
+          path: .
+
+      - name: Build and test
+        run: |
+          cd rust
+          cargo build
+          cargo test

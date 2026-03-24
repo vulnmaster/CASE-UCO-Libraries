@@ -1,0 +1,29 @@
+// Auto-generated CASE/UCO ontology class — do not edit manually.
+package org.caseontology.uco.observable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/** A message thread facet is a grouping of characteristics unique to a running commentary of electronic messages pertaining to one topic or question. */
+public class MessageThreadFacet extends Facet {
+    public static final String CLASS_IRI = "https://ontology.unifiedcyberontology.org/uco/observable/MessageThreadFacet";
+    public static final String NAMESPACE_PREFIX = "uco-observable";
+
+    private Thread messageThread;
+    private List<ObservableObject> participant;
+    private Boolean visibility;
+
+    public MessageThreadFacet() {
+        this.participant = new ArrayList<>();
+    }
+
+    public Thread getMessageThread() { return this.messageThread; }
+    public MessageThreadFacet setMessageThread(Thread value) { this.messageThread = value; return this; }
+
+    public List<ObservableObject> getParticipant() { return this.participant; }
+    public MessageThreadFacet setParticipant(List<ObservableObject> value) { this.participant = value; return this; }
+
+    public Boolean getVisibility() { return this.visibility; }
+    public MessageThreadFacet setVisibility(Boolean value) { this.visibility = value; return this; }
+
+}

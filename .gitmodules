@@ -1,0 +1,8 @@
+[submodule "ontology/UCO"]
+	path = ontology/UCO
+	url = https://github.com/ucoProject/UCO.git
+	branch = master
+[submodule "ontology/CASE"]
+	path = ontology/CASE
+	url = https://github.com/casework/CASE.git
+	branch = master
