@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.action.Action;
 
 /** An observation is a temporal perception of an observable. */
 public class Observation extends Action {
@@ -14,7 +15,7 @@ public class Observation extends Action {
     public Observation() {
     }
 
-    public String getName() { return this.name; }
-    public Observation setName(String value) { this.name = value; return this; }
+    public String getNameValue() { return this.name; }
+    public Observation setNameValue(String value) { this.name = value; return this; }
 
 }

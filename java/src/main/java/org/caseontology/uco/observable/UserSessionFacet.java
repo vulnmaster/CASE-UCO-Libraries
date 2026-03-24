@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A user session facet is a grouping of characteristics unique to a temporary and interactive information interchange between two or more communicating devices within the managed scope of a single user. */
 public class UserSessionFacet extends Facet {

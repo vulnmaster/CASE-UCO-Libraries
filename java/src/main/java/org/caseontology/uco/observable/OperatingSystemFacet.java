@@ -3,6 +3,9 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.identity.Identity;
+import org.caseontology.uco.types.Dictionary;
 
 /** An operating system facet is a grouping of characteristics unique to the software that manages computer hardware, software resources, and provides common services for computer programs. [based on http */
 public class OperatingSystemFacet extends Facet {

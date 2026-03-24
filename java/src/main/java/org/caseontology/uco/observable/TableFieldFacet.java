@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A database record facet contains properties associated with a specific table record value from a database. */
 public class TableFieldFacet extends Facet {

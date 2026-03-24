@@ -3,6 +3,7 @@ package org.caseontology.uco.pattern;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A pattern expression is a grouping of characteristics unique to an explicit logical expression defining a pattern (e.g., regular expression, SQL Select expression, etc.). */
 public class PatternExpression extends UcoInherentCharacterizationThing {

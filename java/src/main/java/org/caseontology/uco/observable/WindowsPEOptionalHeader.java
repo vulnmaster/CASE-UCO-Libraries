@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A Windows PE optional header is a grouping of characteristics unique to the 'optional header' of a Windows PE (Portable Executable) file, consisting of a collection of metadata about the executable co */
 public class WindowsPEOptionalHeader extends UcoInherentCharacterizationThing {

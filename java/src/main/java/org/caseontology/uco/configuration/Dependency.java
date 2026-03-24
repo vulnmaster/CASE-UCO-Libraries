@@ -3,6 +3,7 @@ package org.caseontology.uco.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A dependency is a grouping of characteristics unique to something that a tool or other software relies on to function as intended. */
 public class Dependency extends UcoInherentCharacterizationThing {

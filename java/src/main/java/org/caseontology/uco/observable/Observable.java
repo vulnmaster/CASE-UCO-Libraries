@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoObject;
 
 /** An observable is a characterizable item or action within the digital domain. */
 public class Observable extends UcoObject {

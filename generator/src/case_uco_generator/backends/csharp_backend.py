@@ -6,12 +6,10 @@ from pathlib import Path
 
 from case_uco_generator.backends.base import CodegenBackend
 from case_uco_generator.schema_model import (
-    Cardinality,
     OntologyClass,
     OntologyProperty,
-    OntologySchema,
     OntologyVocab,
-    iri_local_name,
+    compact_ontology_iri,
 )
 
 
@@ -51,12 +49,16 @@ class CSharpBackend(CodegenBackend):
         self, top: str, mod: str, classes: list[OntologyClass], vocabs: list[OntologyVocab]
     ) -> str:
         ns = f"CaseUco.{self.to_pascal_case(top)}.{self.to_pascal_case(mod)}"
+        current_module = f"{top}.{mod}"
         lines: list[str] = []
         lines.append("// Auto-generated CASE/UCO ontology classes — do not edit manually.")
         lines.append(f"// Module: {top}-{mod}")
         lines.append("")
         lines.append("using System;")
         lines.append("using System.Collections.Generic;")
+        imports = self._collect_imports(current_module, classes, vocabs)
+        for imp in sorted(imports):
+            lines.append(imp)
         lines.append("")
         lines.append(f"namespace {ns}")
         lines.append("{")
@@ -71,6 +73,53 @@ class CSharpBackend(CodegenBackend):
 
         lines.append("}")
         return "\n".join(lines)
+
+    def _collect_imports(
+        self,
+        current_module: str,
+        classes: list[OntologyClass],
+        vocabs: list[OntologyVocab],
+    ) -> set[str]:
+        imports: set[str] = set()
+        local_names = {cls.name for cls in classes} | {vocab.name for vocab in vocabs}
+
+        for cls in classes:
+            for parent_iri in cls.parent_iris:
+                parent_cls = self.schema.resolve_class(parent_iri)
+                if parent_cls and parent_cls.name not in local_names:
+                    imports.add(self._namespace_import(parent_cls.module))
+
+            for prop in cls.properties:
+                if prop.is_xsd_type or prop.is_union:
+                    continue
+
+                type_name = prop.type_name_for("csharp")
+                if type_name in local_names:
+                    continue
+
+                range_cls = self.schema.resolve_class(prop.range_iri)
+                if range_cls:
+                    imports.add(self._namespace_import(range_cls.module))
+                    continue
+
+                if prop.range_iri in self.schema.vocabs:
+                    module = self._module_path_for_iri(prop.range_iri)
+                    if module and module != current_module:
+                        imports.add(self._namespace_import(module))
+
+        return imports
+
+    def _module_path_for_iri(self, iri: str) -> str | None:
+        compact = compact_ontology_iri(iri)
+        if ":" not in compact or "-" not in compact.split(":", 1)[0]:
+            return None
+        prefix = compact.split(":", 1)[0]
+        top, mod = prefix.split("-", 1)
+        return f"{top}.{mod}"
+
+    def _namespace_import(self, module_key: str) -> str:
+        top, mod = module_key.split(".", 1)
+        return f"using CaseUco.{self.to_pascal_case(top)}.{self.to_pascal_case(mod)};"
 
     def _render_vocab(self, vocab: OntologyVocab, indent: int) -> list[str]:
         pad = "    " * indent
@@ -98,12 +147,13 @@ class CSharpBackend(CodegenBackend):
 
         parent_name = cls.all_parent_names[0] if cls.all_parent_names else None
         base = f" : {parent_name}" if parent_name else ""
+        const_prefix = "new " if parent_name else ""
 
         lines.append(f"{pad}/// <summary>{cls.description[:200] if cls.description else cls.name}</summary>")
         lines.append(f"{pad}public class {cls.name}{base}")
         lines.append(f"{pad}{{")
-        lines.append(f'{pad}    public const string ClassIri = "{cls.iri}";')
-        lines.append(f'{pad}    public const string NamespacePrefix = "{cls.namespace_prefix}";')
+        lines.append(f'{pad}    public {const_prefix}const string ClassIri = "{cls.iri}";')
+        lines.append(f'{pad}    public {const_prefix}const string NamespacePrefix = "{cls.namespace_prefix}";')
 
         for prop in cls.properties:
             cs_type = self._csharp_type(prop)
@@ -116,8 +166,24 @@ class CSharpBackend(CodegenBackend):
 
     def _csharp_type(self, prop: OntologyProperty) -> str:
         base = prop.type_name_for("csharp")
+        nullable_value_types = {
+            "bool",
+            "decimal",
+            "double",
+            "float",
+            "DateTime",
+            "TimeSpan",
+            "long",
+            "ulong",
+            "sbyte",
+            "uint",
+            "ushort",
+            "int",
+            "short",
+            "byte",
+        }
         if prop.cardinality.is_list:
             return f"List<{base}>"
-        if not prop.cardinality.is_required:
-            return f"{base}?"  # Nullable in C# 8+
+        if not prop.cardinality.is_required and base in nullable_value_types:
+            return f"{base}?"
         return base

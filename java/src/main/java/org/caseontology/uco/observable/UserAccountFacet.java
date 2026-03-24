@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A user account facet is a grouping of characteristics unique to an account controlling a user's access to a network, system, or platform. */
 public class UserAccountFacet extends Facet {

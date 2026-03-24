@@ -3,6 +3,7 @@ package org.caseontology.uco.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** An action argument facet is a grouping of characteristics unique to a single parameter of an action. */
 public class ActionArgumentFacet extends Facet {

@@ -3,6 +3,7 @@ package org.caseontology.uco.types;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoThing;
 
 /** A ThreadItem is a member of a thread. */
 public class ThreadItem extends UcoThing {

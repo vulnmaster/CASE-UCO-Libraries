@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A defined effect facet is a grouping of characteristics unique to the effect of an observable action in relation to one or more observable objects. */
 public class DefinedEffectFacet extends Facet {

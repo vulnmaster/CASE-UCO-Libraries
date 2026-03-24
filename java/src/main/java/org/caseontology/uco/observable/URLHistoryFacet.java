@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A URL history facet is a grouping of characteristics unique to the stored URL history for a particular web browser */
 public class URLHistoryFacet extends Facet {

@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A captured telecommunications information facet represents certain information within captured or intercepted telecommunications data. */
 public class CapturedTelecommunicationsInformationFacet extends Facet {

@@ -3,6 +3,7 @@ package org.caseontology.uco.tool;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A compiler type is a grouping of characteristics unique to a specific program that translates computer code written in one programming language (the source language) into another language (the target  */
 public class CompilerType extends UcoInherentCharacterizationThing {

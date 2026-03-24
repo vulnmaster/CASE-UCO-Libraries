@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** An NTFS file facet is a grouping of characteristics unique to a file on an NTFS (new technology filesystem) file system. */
 public class NTFSFileFacet extends Facet {

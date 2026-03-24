@@ -3,6 +3,7 @@ package org.caseontology.uco.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** An action estimation facet is a grouping of characteristics unique to decision-focused approximation aspects for an action that may potentially be performed. */
 public class ActionEstimationFacet extends Facet {

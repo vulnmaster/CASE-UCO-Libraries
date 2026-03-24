@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Relationship;
 
 /** An observable relationship is a grouping of characteristics unique to an assertion of an association between two observable objects. */
 public class ObservableRelationship extends Relationship {
@@ -17,10 +18,10 @@ public class ObservableRelationship extends Relationship {
         this.target = new ArrayList<>();
     }
 
-    public List<Observable> getSource() { return this.source; }
-    public ObservableRelationship setSource(List<Observable> value) { this.source = value; return this; }
+    public List<Observable> getSourceValue() { return this.source; }
+    public ObservableRelationship setSourceValue(List<Observable> value) { this.source = value; return this; }
 
-    public List<Observable> getTarget() { return this.target; }
-    public ObservableRelationship setTarget(List<Observable> value) { this.target = value; return this; }
+    public List<Observable> getTargetValue() { return this.target; }
+    public ObservableRelationship setTargetValue(List<Observable> value) { this.target = value; return this; }
 
 }

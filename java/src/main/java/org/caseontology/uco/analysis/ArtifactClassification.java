@@ -3,6 +3,7 @@ package org.caseontology.uco.analysis;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** An artifact classification is a single specific assertion that a particular class of a classification taxonomy applies to something. */
 public class ArtifactClassification extends UcoInherentCharacterizationThing {
@@ -16,8 +17,8 @@ public class ArtifactClassification extends UcoInherentCharacterizationThing {
         this._class = new ArrayList<>();
     }
 
-    public List<String> getClass() { return this._class; }
-    public ArtifactClassification setClass(List<String> value) { this._class = value; return this; }
+    public List<String> getClassValue() { return this._class; }
+    public ArtifactClassification setClassValue(List<String> value) { this._class = value; return this; }
 
     public java.math.BigDecimal getClassificationConfidence() { return this.classificationConfidence; }
     public ArtifactClassification setClassificationConfidence(java.math.BigDecimal value) { this.classificationConfidence = value; return this; }

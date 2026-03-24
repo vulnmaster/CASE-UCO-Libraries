@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A UNIX account facet is a grouping of characteristics unique to an account on a UNIX operating system. */
 public class UNIXAccountFacet extends Facet {

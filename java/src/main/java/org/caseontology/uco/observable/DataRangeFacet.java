@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A data range facet is a grouping of characteristics unique to a particular contiguous scope within a block of digital data. */
 public class DataRangeFacet extends Facet {

@@ -3,6 +3,7 @@ package org.caseontology.uco.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoObject;
 
 /** A configuration is a grouping of characteristics unique to a set of parameters or initial settings for the use of a tool, application, software, or other cyber object. */
 public class Configuration extends UcoObject {

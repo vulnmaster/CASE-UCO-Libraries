@@ -3,6 +3,8 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.identity.Identity;
 
 /** A profile facet is a grouping of characteristics unique to an explicit digital representation of identity and characteristics of the owner of a single user account associated with an online service or */
 public class ProfileFacet extends Facet {

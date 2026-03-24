@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** An image facet is a grouping of characteristics unique to a complete copy of a hard disk, memory, or other digital media. */
 public class ImageFacet extends Facet {

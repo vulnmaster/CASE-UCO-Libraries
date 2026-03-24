@@ -15,7 +15,7 @@ public class ControlledDictionary extends Dictionary {
         this.entry = new ArrayList<>();
     }
 
-    public List<ControlledDictionaryEntry> getEntry() { return this.entry; }
-    public ControlledDictionary setEntry(List<ControlledDictionaryEntry> value) { this.entry = value; return this; }
+    public List<ControlledDictionaryEntry> getEntryValue() { return this.entry; }
+    public ControlledDictionary setEntryValue(List<ControlledDictionaryEntry> value) { this.entry = value; return this; }
 
 }

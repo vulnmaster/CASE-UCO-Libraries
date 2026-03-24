@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.action.Action;
 
 /** An observable action is a grouping of characteristics unique to something that may be done or performed within the digital domain. */
 public class ObservableAction extends Action {

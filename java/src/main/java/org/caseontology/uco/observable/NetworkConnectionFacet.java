@@ -3,6 +3,9 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.core.UcoObject;
+import org.caseontology.uco.types.ControlledDictionary;
 
 /** A network connection facet is a grouping of characteristics unique to a connection (complete or attempted) accross a digital network (a group of two or more computer systems linked together). [based o */
 public class NetworkConnectionFacet extends Facet {

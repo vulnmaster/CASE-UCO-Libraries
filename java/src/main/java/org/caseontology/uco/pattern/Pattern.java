@@ -3,6 +3,7 @@ package org.caseontology.uco.pattern;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoObject;
 
 /** A pattern is a combination of properties, acts, tendencies, etc., forming a consistent or characteristic arrangement. */
 public class Pattern extends UcoObject {

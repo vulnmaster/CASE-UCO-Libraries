@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A contact profile is a grouping of characteristics unique to details for contacting a contact entity by online service. */
 public class ContactProfile extends UcoInherentCharacterizationThing {

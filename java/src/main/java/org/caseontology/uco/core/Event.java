@@ -3,6 +3,7 @@ package org.caseontology.uco.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.types.Dictionary;
 
 /** An Event is a noteworthy occurrence (something that happens or might happen). */
 public class Event extends UcoObject {

@@ -1,8 +1,9 @@
 // Auto-generated CASE/UCO ontology class — do not edit manually.
-package org.caseontology.case.investigation;
+package org.caseontology._case.investigation;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoObject;
 
 /** An authorization is a grouping of characteristics unique to some form of authoritative permission identified for investigative action. */
 public class Authorization extends UcoObject {

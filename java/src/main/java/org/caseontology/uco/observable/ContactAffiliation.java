@@ -3,6 +3,8 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
+import org.caseontology.uco.identity.Organization;
 
 /** A contact affiliation is a grouping of characteristics unique to details of an organizational affiliation for a single contact entity. */
 public class ContactAffiliation extends UcoInherentCharacterizationThing {

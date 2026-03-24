@@ -3,6 +3,8 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.types.Dictionary;
 
 /** An HTTP connection facet is a grouping of characteristics unique to portions of a network connection that are conformant to the Hypertext Transfer Protocol (HTTP) standard. */
 public class HTTPConnectionFacet extends Facet {

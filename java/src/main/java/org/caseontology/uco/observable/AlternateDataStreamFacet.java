@@ -3,6 +3,8 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.types.Hash;
 
 /** An alternate data stream facet is a grouping of characteristics unique to data content stored within an NTFS file that is independent of the standard content stream of the file and is hidden from acce */
 public class AlternateDataStreamFacet extends Facet {

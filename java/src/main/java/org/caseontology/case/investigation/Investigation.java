@@ -1,8 +1,9 @@
 // Auto-generated CASE/UCO ontology class — do not edit manually.
-package org.caseontology.case.investigation;
+package org.caseontology._case.investigation;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.ContextualCompilation;
 
 /** An investigation is a grouping of characteristics unique to an exploration of the facts involved in a cyber-relevant set of suspicious activity. */
 public class Investigation extends ContextualCompilation {

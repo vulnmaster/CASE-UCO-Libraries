@@ -3,6 +3,7 @@ package org.caseontology.uco.identity;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** An identity facet is a grouping of characteristics unique to a particular aspect of an identity. */
 public class IdentityFacet extends Facet {

@@ -3,6 +3,7 @@ package org.caseontology.uco.analysis;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** An analytic result facet is a grouping of characteristics unique to the results of an analysis action. */
 public class AnalyticResultFacet extends Facet {

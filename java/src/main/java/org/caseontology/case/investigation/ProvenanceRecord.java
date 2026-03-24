@@ -1,8 +1,9 @@
 // Auto-generated CASE/UCO ontology class — do not edit manually.
-package org.caseontology.case.investigation;
+package org.caseontology._case.investigation;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.ContextualCompilation;
 
 /** A provenance record is a grouping of characteristics unique to the provenantial (chronology of the ownership, custody or location) connection between an investigative action and a set of observations  */
 public class ProvenanceRecord extends ContextualCompilation {

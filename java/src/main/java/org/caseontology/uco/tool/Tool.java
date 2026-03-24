@@ -3,6 +3,8 @@ package org.caseontology.uco.tool;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoObject;
+import org.caseontology.uco.identity.Identity;
 
 /** A tool is an element of hardware and/or software utilized to carry out a particular function. */
 public class Tool extends UcoObject {

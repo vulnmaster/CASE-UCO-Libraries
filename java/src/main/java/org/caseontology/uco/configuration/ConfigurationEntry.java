@@ -3,6 +3,8 @@ package org.caseontology.uco.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
+import org.caseontology.uco.core.UcoObject;
 
 /** A configuration entry is a grouping of characteristics unique to a particular parameter or initial setting for the use of a tool, application, software, or other cyber object. */
 public class ConfigurationEntry extends UcoInherentCharacterizationThing {

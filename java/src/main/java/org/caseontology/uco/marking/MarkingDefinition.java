@@ -3,6 +3,7 @@ package org.caseontology.uco.marking;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.MarkingDefinitionAbstraction;
 
 /** A marking definition is a grouping of characteristics unique to the expression of a specific data marking conveying restrictions, permissions, and other guidance for how marked data can be used and sh */
 public class MarkingDefinition extends MarkingDefinitionAbstraction {

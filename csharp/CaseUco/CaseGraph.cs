@@ -5,8 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace CaseUco
 {
@@ -56,12 +54,7 @@ namespace CaseUco
                 ["@context"] = _context,
                 ["@graph"] = _objects,
             };
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = indented,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            };
-            return JsonSerializer.Serialize(doc, options);
+            return ToJsonString(doc, indented ? 0 : -1);
         }
 
         /// <summary>Write the graph to a file.</summary>
@@ -182,5 +175,78 @@ namespace CaseUco
             ["uco-vocabulary"] = "https://ontology.unifiedcyberontology.org/uco/vocabulary/",
             ["xsd"] = "http://www.w3.org/2001/XMLSchema#",
         };
+
+        private string ToJsonString(object value, int indent)
+        {
+            if (value == null)
+                return "null";
+
+            if (value is string stringValue)
+                return "\"" + Escape(stringValue) + "\"";
+
+            if (value is bool || value is sbyte || value is byte || value is short || value is ushort ||
+                value is int || value is uint || value is long || value is ulong ||
+                value is float || value is double || value is decimal)
+                return Convert.ToString(value, CultureInfo.InvariantCulture);
+
+            if (value is IDictionary dictionary)
+                return SerializeDictionary(dictionary, indent);
+
+            if (!(value is string) && value is IEnumerable enumerable)
+                return SerializeEnumerable(enumerable, indent);
+
+            return "\"" + Escape(Convert.ToString(value, CultureInfo.InvariantCulture)) + "\"";
+        }
+
+        private string SerializeDictionary(IDictionary dictionary, int indent)
+        {
+            var items = new List<string>();
+            foreach (DictionaryEntry entry in dictionary)
+            {
+                items.Add($"\"{Escape(Convert.ToString(entry.Key, CultureInfo.InvariantCulture))}\": {ToJsonString(entry.Value, NextIndent(indent))}");
+            }
+
+            if (indent < 0)
+                return "{" + string.Join(",", items) + "}";
+
+            if (items.Count == 0)
+                return "{}";
+
+            var pad = new string(' ', indent * 4);
+            var childPad = new string(' ', (indent + 1) * 4);
+            return "{\n" + childPad + string.Join(",\n" + childPad, items) + "\n" + pad + "}";
+        }
+
+        private string SerializeEnumerable(IEnumerable enumerable, int indent)
+        {
+            var items = new List<string>();
+            foreach (var item in enumerable)
+                items.Add(ToJsonString(item, NextIndent(indent)));
+
+            if (indent < 0)
+                return "[" + string.Join(",", items) + "]";
+
+            if (items.Count == 0)
+                return "[]";
+
+            var pad = new string(' ', indent * 4);
+            var childPad = new string(' ', (indent + 1) * 4);
+            return "[\n" + childPad + string.Join(",\n" + childPad, items) + "\n" + pad + "]";
+        }
+
+        private int NextIndent(int indent)
+        {
+            return indent < 0 ? -1 : indent + 1;
+        }
+
+        private string Escape(string value)
+        {
+            return value
+                .Replace("\\", "\\\\")
+                .Replace("\"", "\\\"")
+                .Replace("\n", "\\n")
+                .Replace("\r", "\\r")
+                .Replace("\t", "\\t");
+        }
     }
 }

@@ -3,6 +3,7 @@ package org.caseontology.uco.tool;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A build facet is a grouping of characteristics unique to a particular version of a software. */
 public class BuildFacet extends Facet {

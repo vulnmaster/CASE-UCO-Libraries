@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A task action type is a grouping of characteristics for a scheduled action to be completed. */
 public class TaskActionType extends UcoInherentCharacterizationThing {

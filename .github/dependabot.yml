@@ -1,0 +1,65 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+  - package-ecosystem: "pip"
+    directory: "/generator"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "python"
+
+  - package-ecosystem: "pip"
+    directory: "/python"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "python"
+
+  - package-ecosystem: "nuget"
+    directory: "/csharp/CaseUco"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "csharp"
+
+  - package-ecosystem: "nuget"
+    directory: "/csharp/CaseUco.Tests"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "csharp"
+
+  - package-ecosystem: "maven"
+    directory: "/java"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "java"
+
+  - package-ecosystem: "cargo"
+    directory: "/rust"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "rust"
+
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "ontology"

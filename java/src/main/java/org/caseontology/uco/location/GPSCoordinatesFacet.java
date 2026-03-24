@@ -3,6 +3,7 @@ package org.caseontology.uco.location;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A GPS coordinates facet is a grouping of characteristics unique to the expression of quantified dilution of precision (DOP) for an asserted set of geolocation coordinates typically associated with sat */
 public class GPSCoordinatesFacet extends Facet {

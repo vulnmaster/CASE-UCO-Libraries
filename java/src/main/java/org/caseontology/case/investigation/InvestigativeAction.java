@@ -1,8 +1,9 @@
 // Auto-generated CASE/UCO ontology class — do not edit manually.
-package org.caseontology.case.investigation;
+package org.caseontology._case.investigation;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.action.Action;
 
 /** An investigative action is something that may be done or performed within the context of an investigation, typically to examine or analyze evidence or other data. */
 public class InvestigativeAction extends Action {

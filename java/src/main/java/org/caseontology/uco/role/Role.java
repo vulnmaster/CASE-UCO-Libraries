@@ -3,6 +3,7 @@ package org.caseontology.uco.role;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoObject;
 
 /** A role is a usual or customary function based on contextual perspective. */
 public class Role extends UcoObject {

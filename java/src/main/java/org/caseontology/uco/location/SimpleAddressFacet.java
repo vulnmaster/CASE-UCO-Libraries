@@ -3,6 +3,7 @@ package org.caseontology.uco.location;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A simple address facet is a grouping of characteristics unique to a geolocation expressed as an administrative address. */
 public class SimpleAddressFacet extends Facet {

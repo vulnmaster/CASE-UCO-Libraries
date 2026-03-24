@@ -3,6 +3,7 @@ package org.caseontology.uco.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.pattern.Pattern;
 
 /** An action pattern is a grouping of characteristics unique to a combination of actions forming a consistent or characteristic arrangement. */
 public class ActionPattern extends Action {

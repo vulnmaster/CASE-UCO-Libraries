@@ -3,6 +3,7 @@ package org.caseontology.uco.tool;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.configuration.Configuration;
 
 /** A ConfiguredTool is a Tool that is known to be configured to run in a more specified manner than some unconfigured or less-configured Tool. */
 public class ConfiguredTool extends Tool {

@@ -3,6 +3,7 @@ package org.caseontology.uco.tool;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A library type is a grouping of characteristics unique to a collection of resources incorporated into the build of a software. */
 public class LibraryType extends UcoInherentCharacterizationThing {

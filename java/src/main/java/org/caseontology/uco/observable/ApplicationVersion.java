@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** An application version is a grouping of characteristics unique to a particular software program version. */
 public class ApplicationVersion extends UcoInherentCharacterizationThing {

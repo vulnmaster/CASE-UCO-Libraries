@@ -3,6 +3,7 @@ package org.caseontology.uco.types;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A dictionary entry is a single (term/key, value) pair. */
 public class DictionaryEntry extends UcoInherentCharacterizationThing {

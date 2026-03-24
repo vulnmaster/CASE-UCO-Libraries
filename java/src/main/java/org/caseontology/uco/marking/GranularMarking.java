@@ -3,6 +3,7 @@ package org.caseontology.uco.marking;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A granular marking is a grouping of characteristics unique to specification of marking definitions (restrictions, permissions, and other guidance for how data can be used and shared) that apply to par */
 public class GranularMarking extends UcoInherentCharacterizationThing {

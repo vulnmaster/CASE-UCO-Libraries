@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A Windows thread facet is a grouping os characteristics unique to a single thread of execution within a Windows process. */
 public class WindowsThreadFacet extends Facet {

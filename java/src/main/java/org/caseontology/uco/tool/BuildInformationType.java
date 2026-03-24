@@ -3,6 +3,8 @@ package org.caseontology.uco.tool;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.configuration.Configuration;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A build information type is a grouping of characteristics that describe how a particular version of software was converted from source code to executable code. */
 public class BuildInformationType extends UcoInherentCharacterizationThing {

@@ -3,6 +3,8 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.types.Thread;
 
 /** A message thread facet is a grouping of characteristics unique to a running commentary of electronic messages pertaining to one topic or question. */
 public class MessageThreadFacet extends Facet {

@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A mime part type is a grouping of characteristics unique to a component of a multi-part email body. */
 public class MimePartType extends UcoInherentCharacterizationThing {

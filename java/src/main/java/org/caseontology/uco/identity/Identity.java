@@ -3,6 +3,7 @@ package org.caseontology.uco.identity;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.IdentityAbstraction;
 
 /** An identity is a grouping of identifying characteristics unique to an individual or organization. */
 public class Identity extends IdentityAbstraction {

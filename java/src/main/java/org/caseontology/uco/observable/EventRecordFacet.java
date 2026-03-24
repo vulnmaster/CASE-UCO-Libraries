@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** An event record facet is a grouping of characteristics unique to something that happens in a digital context (e.g., operating system events). */
 public class EventRecordFacet extends Facet {

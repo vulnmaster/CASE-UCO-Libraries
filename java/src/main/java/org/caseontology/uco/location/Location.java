@@ -3,6 +3,7 @@ package org.caseontology.uco.location;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoObject;
 
 /** A location is a geospatial place, site, or position. */
 public class Location extends UcoObject {

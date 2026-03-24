@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A SMS message facet is a grouping of characteristics unique to a message conformant to the short message service (SMS) communication protocol standards. */
 public class SMSMessageFacet extends Facet {

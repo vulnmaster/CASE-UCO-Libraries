@@ -3,6 +3,7 @@ package org.caseontology.uco.types;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoThing;
 
 /** A semi-ordered array of items, that can be present in multiple copies.  Implemetation of a UCO Thread is similar to a Collections Ontology List, except a Thread may fork and merge - that is, one of it */
 public class Thread extends UcoThing {

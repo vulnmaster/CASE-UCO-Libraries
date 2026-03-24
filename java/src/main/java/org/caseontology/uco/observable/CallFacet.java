@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A call facet is a grouping of characteristics unique to a connection as part of a realtime cyber communication between one or more parties. */
 public class CallFacet extends Facet {

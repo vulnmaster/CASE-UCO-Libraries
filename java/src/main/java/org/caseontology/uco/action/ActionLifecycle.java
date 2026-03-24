@@ -3,6 +3,7 @@ package org.caseontology.uco.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoObject;
 
 /** An action lifecycle is an action pattern consisting of an ordered set of multiple actions or subordinate action lifecycles. */
 public class ActionLifecycle extends Action {
@@ -22,19 +23,19 @@ public class ActionLifecycle extends Action {
         this.startTime = new ArrayList<>();
     }
 
-    public List<Long> getActionCount() { return this.actionCount; }
-    public ActionLifecycle setActionCount(List<Long> value) { this.actionCount = value; return this; }
+    public List<Long> getActionCountValue() { return this.actionCount; }
+    public ActionLifecycle setActionCountValue(List<Long> value) { this.actionCount = value; return this; }
 
-    public List<java.time.ZonedDateTime> getEndTime() { return this.endTime; }
-    public ActionLifecycle setEndTime(List<java.time.ZonedDateTime> value) { this.endTime = value; return this; }
+    public List<java.time.ZonedDateTime> getEndTimeValue() { return this.endTime; }
+    public ActionLifecycle setEndTimeValue(List<java.time.ZonedDateTime> value) { this.endTime = value; return this; }
 
-    public List<UcoObject> getError() { return this.error; }
-    public ActionLifecycle setError(List<UcoObject> value) { this.error = value; return this; }
+    public List<UcoObject> getErrorValue() { return this.error; }
+    public ActionLifecycle setErrorValue(List<UcoObject> value) { this.error = value; return this; }
 
     public ArrayOfAction getPhase() { return this.phase; }
     public ActionLifecycle setPhase(ArrayOfAction value) { this.phase = value; return this; }
 
-    public List<java.time.ZonedDateTime> getStartTime() { return this.startTime; }
-    public ActionLifecycle setStartTime(List<java.time.ZonedDateTime> value) { this.startTime = value; return this; }
+    public List<java.time.ZonedDateTime> getStartTimeValue() { return this.startTime; }
+    public ActionLifecycle setStartTimeValue(List<java.time.ZonedDateTime> value) { this.startTime = value; return this; }
 
 }

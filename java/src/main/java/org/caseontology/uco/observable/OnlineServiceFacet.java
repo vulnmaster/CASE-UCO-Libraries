@@ -3,6 +3,8 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.location.Location;
 
 /** An online service facet is a grouping of characteristics unique to a particular provision mechanism of information access, distribution or manipulation over the Internet. */
 public class OnlineServiceFacet extends Facet {

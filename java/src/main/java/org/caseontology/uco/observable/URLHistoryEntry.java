@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A URL history entry is a grouping of characteristics unique to the properties of a single URL history entry for a particular browser. */
 public class URLHistoryEntry extends UcoInherentCharacterizationThing {

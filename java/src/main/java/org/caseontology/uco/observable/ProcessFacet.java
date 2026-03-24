@@ -3,6 +3,8 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.types.Dictionary;
 
 /** A process facet is a grouping of characteristics unique to an instance of a computer program executed on an operating system. */
 public class ProcessFacet extends Facet {

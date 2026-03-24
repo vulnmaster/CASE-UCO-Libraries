@@ -3,6 +3,7 @@ package org.caseontology.uco.victim;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.role.NeutralRole;
 
 /** A victim is a role played by a person or organization that is/was the target of some malicious action. */
 public class Victim extends NeutralRole {

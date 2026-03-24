@@ -3,6 +3,8 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
+import org.caseontology.uco.location.Location;
 
 /** A contact address is a grouping of characteristics unique to a geolocation address of a contact entity. */
 public class ContactAddress extends UcoInherentCharacterizationThing {

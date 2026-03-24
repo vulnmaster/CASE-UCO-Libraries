@@ -3,6 +3,8 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.types.Hash;
 
 /** A Windows PE binary file facet is a grouping of characteristics unique to a Windows portable executable (PE) file. */
 public class WindowsPEBinaryFileFacet extends Facet {

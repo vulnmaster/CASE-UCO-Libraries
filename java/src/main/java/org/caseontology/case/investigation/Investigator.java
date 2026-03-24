@@ -1,8 +1,9 @@
 // Auto-generated CASE/UCO ontology class — do not edit manually.
-package org.caseontology.case.investigation;
+package org.caseontology._case.investigation;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.role.Role;
 
 /** Investigator is a role involved in coordinating an investigation. */
 public class Investigator extends Role {

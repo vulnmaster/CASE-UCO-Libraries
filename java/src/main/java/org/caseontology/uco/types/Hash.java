@@ -3,6 +3,7 @@ package org.caseontology.uco.types;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A hash is a grouping of characteristics unique to the result of applying a mathematical algorithm that maps data of arbitrary size to a bit string (the 'hash') and is a one-way function, that is, a fu */
 public class Hash extends UcoInherentCharacterizationThing {

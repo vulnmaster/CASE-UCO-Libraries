@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A UNIX process facet is a grouping of characteristics unique to an instance of a computer program executed on a UNIX operating system. */
 public class UNIXProcessFacet extends Facet {

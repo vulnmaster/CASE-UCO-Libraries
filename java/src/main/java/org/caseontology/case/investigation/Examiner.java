@@ -1,8 +1,9 @@
 // Auto-generated CASE/UCO ontology class — do not edit manually.
-package org.caseontology.case.investigation;
+package org.caseontology._case.investigation;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.role.Role;
 
 /** Examiner is a role involved in providing scientific evaluations of evidence that are used to aid law enforcement investigations and court cases. */
 public class Examiner extends Role {

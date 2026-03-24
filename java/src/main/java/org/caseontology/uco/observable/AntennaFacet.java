@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** An antenna alignment facet contains the metadata surrounding the cell tower's antenna position. */
 public class AntennaFacet extends Facet {

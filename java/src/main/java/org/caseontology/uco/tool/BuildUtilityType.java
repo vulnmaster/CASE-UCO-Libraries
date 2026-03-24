@@ -3,6 +3,7 @@ package org.caseontology.uco.tool;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A build utility type characterizes the tool used to convert from source code to executable code for a particular version of software. */
 public class BuildUtilityType extends UcoInherentCharacterizationThing {

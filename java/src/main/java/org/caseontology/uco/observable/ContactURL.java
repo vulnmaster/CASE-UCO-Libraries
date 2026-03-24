@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A contact URL is a grouping of characteristics unique to details for contacting a contact entity by Uniform Resource Locator (URL). */
 public class ContactURL extends UcoInherentCharacterizationThing {

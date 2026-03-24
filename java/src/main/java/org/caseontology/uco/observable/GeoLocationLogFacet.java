@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A geolocation log facet is a grouping of characteristics unique to a record containing geolocation tracks and/or geolocation entries. */
 public class GeoLocationLogFacet extends Facet {

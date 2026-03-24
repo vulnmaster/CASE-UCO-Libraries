@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** An account authentication facet is a grouping of characteristics unique to the mechanism of accessing an account. */
 public class AccountAuthenticationFacet extends Facet {

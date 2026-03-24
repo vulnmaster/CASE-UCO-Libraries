@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A contact facet is a grouping of characteristics unique to a set of identification and communication related details for a single entity. */
 public class ContactFacet extends Facet {

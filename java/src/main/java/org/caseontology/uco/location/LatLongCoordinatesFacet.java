@@ -3,6 +3,7 @@ package org.caseontology.uco.location;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A lat long coordinates facet is a grouping of characteristics unique to the expression of a geolocation as the intersection of specific latitude, longitude, and altitude values. */
 public class LatLongCoordinatesFacet extends Facet {

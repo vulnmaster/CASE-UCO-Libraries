@@ -3,6 +3,7 @@ package org.caseontology.uco.types;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** A dictionary is list of (term/key, value) pairs with each term/key having an expectation to exist no more than once.  types:Dictionary alone does not validate this expectation, but validation is avail */
 public class Dictionary extends UcoInherentCharacterizationThing {

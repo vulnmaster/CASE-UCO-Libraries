@@ -3,6 +3,9 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.core.UcoObject;
+import org.caseontology.uco.identity.Identity;
 
 /** A digital signature info facet is a grouping of characteristics unique to a value calculated via a mathematical scheme for demonstrating the authenticity of an electronic message or document. */
 public class DigitalSignatureInfoFacet extends Facet {

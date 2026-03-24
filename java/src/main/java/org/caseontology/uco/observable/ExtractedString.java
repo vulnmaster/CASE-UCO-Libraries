@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** An extracted string is a grouping of characteristics unique to a series of characters pulled from an observable object. */
 public class ExtractedString extends UcoInherentCharacterizationThing {

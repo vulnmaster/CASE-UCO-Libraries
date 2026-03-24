@@ -3,6 +3,8 @@ package org.caseontology.uco.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoObject;
+import org.caseontology.uco.location.Location;
 
 /** An action is something that may be done or performed. */
 public class Action extends UcoObject {

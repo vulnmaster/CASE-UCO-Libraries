@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A fragment facet is a grouping of characteristics unique to an individual piece of the content of a file. */
 public class FragmentFacet extends Facet {

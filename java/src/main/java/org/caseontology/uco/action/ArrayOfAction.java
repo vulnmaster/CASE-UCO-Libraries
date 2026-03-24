@@ -3,6 +3,7 @@ package org.caseontology.uco.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.UcoInherentCharacterizationThing;
 
 /** An array of action is an ordered list of references to things that may be done or performed. */
 public class ArrayOfAction extends UcoInherentCharacterizationThing {

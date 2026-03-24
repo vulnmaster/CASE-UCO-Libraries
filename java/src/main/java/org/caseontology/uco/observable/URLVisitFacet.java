@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A URL visit facet is a grouping of characteristics unique to the properties of a visit of a URL within a particular browser. */
 public class URLVisitFacet extends Facet {

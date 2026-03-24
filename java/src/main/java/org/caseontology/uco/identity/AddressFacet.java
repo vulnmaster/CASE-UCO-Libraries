@@ -3,6 +3,7 @@ package org.caseontology.uco.identity;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.location.Location;
 
 /** An address facet is a grouping of characteristics unique to an administrative identifier for a geolocation associated with a specific identity. */
 public class AddressFacet extends IdentityFacet {

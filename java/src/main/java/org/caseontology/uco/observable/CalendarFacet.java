@@ -3,6 +3,8 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.core.UcoObject;
 
 /** A calendar facet is a grouping of characteristics unique to a collection of appointments, meetings, and events. */
 public class CalendarFacet extends Facet {

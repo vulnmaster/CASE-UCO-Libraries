@@ -6,11 +6,10 @@ from pathlib import Path
 
 from case_uco_generator.backends.base import CodegenBackend
 from case_uco_generator.schema_model import (
-    Cardinality,
     OntologyClass,
     OntologyProperty,
     OntologyVocab,
-    iri_local_name,
+    compact_ontology_iri,
 )
 
 
@@ -30,13 +29,14 @@ class JavaBackend(CodegenBackend):
                 key=lambda c: c.name,
             )
 
+            module_vocabs = self._vocabs_for_module(classes)
+
             for cls in classes:
                 file_path = pkg_dir / f"{cls.name}.java"
-                content = self._render_class_file(top, mod, cls)
+                content = self._render_class_file(top, mod, cls, module_vocabs)
                 file_path.write_text(content, encoding="utf-8")
                 created.append(file_path)
 
-            module_vocabs = self._vocabs_for_module(classes)
             for vocab in module_vocabs:
                 file_path = pkg_dir / f"{vocab.name}.java"
                 content = self._render_vocab_file(top, mod, vocab)
@@ -53,14 +53,23 @@ class JavaBackend(CodegenBackend):
                     vocab_iris.add(prop.range_iri)
         return [self.schema.vocabs[iri] for iri in sorted(vocab_iris)]
 
-    def _render_class_file(self, top: str, mod: str, cls: OntologyClass) -> str:
-        pkg = f"org.caseontology.{top}.{mod}"
+    def _render_class_file(
+        self,
+        top: str,
+        mod: str,
+        cls: OntologyClass,
+        module_vocabs: list[OntologyVocab],
+    ) -> str:
+        pkg = f"org.caseontology.{self.safe_identifier(top, 'java')}.{self.safe_identifier(mod, 'java')}"
+        current_module = f"{top}.{mod}"
         lines: list[str] = []
         lines.append(f"// Auto-generated CASE/UCO ontology class — do not edit manually.")
         lines.append(f"package {pkg};")
         lines.append("")
         lines.append("import java.util.ArrayList;")
         lines.append("import java.util.List;")
+        for imp in sorted(self._collect_imports(current_module, cls, module_vocabs)):
+            lines.append(imp)
         lines.append("")
 
         parent_name = cls.all_parent_names[0] if cls.all_parent_names else None
@@ -91,13 +100,16 @@ class JavaBackend(CodegenBackend):
         lines.append("    }")
         lines.append("")
 
+        inherited_property_names = self._inherited_property_names(cls)
+
         # Getters/setters
         for prop in cls.properties:
             java_type = self._java_type(prop)
             field_name = self.to_camel_case(prop.name)
             field_name = self.safe_identifier(field_name, "java")
-            getter_name = f"get{self.to_pascal_case(prop.name)}"
-            setter_name = f"set{self.to_pascal_case(prop.name)}"
+            accessor_base = self._java_accessor_base(prop.name, inherited_property_names)
+            getter_name = f"get{accessor_base}"
+            setter_name = f"set{accessor_base}"
 
             lines.append(f"    public {java_type} {getter_name}() {{ return this.{field_name}; }}")
             lines.append(f"    public {cls.name} {setter_name}({java_type} value) {{ this.{field_name} = value; return this; }}")
@@ -105,6 +117,70 @@ class JavaBackend(CodegenBackend):
 
         lines.append("}")
         return "\n".join(lines)
+
+    def _collect_imports(
+        self,
+        current_module: str,
+        cls: OntologyClass,
+        module_vocabs: list[OntologyVocab],
+    ) -> set[str]:
+        imports: set[str] = set()
+        local_vocab_names = {vocab.name for vocab in module_vocabs}
+
+        for parent_iri in cls.parent_iris:
+            parent_cls = self.schema.resolve_class(parent_iri)
+            if parent_cls and parent_cls.module != current_module:
+                imports.add(self._java_import(parent_cls.module, parent_cls.name))
+
+        for prop in cls.properties:
+            if prop.is_xsd_type or prop.is_union:
+                continue
+
+            range_cls = self.schema.resolve_class(prop.range_iri)
+            if range_cls:
+                if range_cls.module != current_module:
+                    imports.add(self._java_import(range_cls.module, range_cls.name))
+                continue
+
+            if prop.range_iri in self.schema.vocabs:
+                vocab_name = prop.type_name_for("java")
+                if vocab_name in local_vocab_names:
+                    continue
+                module = self._module_path_for_iri(prop.range_iri)
+                if module and module != current_module:
+                    imports.add(self._java_import(module, vocab_name))
+
+        return imports
+
+    def _inherited_property_names(self, cls: OntologyClass) -> set[str]:
+        names: set[str] = set()
+        for parent_iri in cls.parent_iris:
+            parent = self.schema.resolve_class(parent_iri)
+            if not parent:
+                continue
+            names.update(prop.name for prop in parent.properties)
+            names.update(self._inherited_property_names(parent))
+        return names
+
+    def _java_accessor_base(self, prop_name: str, inherited_property_names: set[str]) -> str:
+        base = self.to_pascal_case(prop_name)
+        if prop_name in inherited_property_names or prop_name in {"class"}:
+            return f"{base}Value"
+        return base
+
+    def _module_path_for_iri(self, iri: str) -> str | None:
+        compact = compact_ontology_iri(iri)
+        if ":" not in compact or "-" not in compact.split(":", 1)[0]:
+            return None
+        prefix = compact.split(":", 1)[0]
+        top, mod = prefix.split("-", 1)
+        return f"{top}.{mod}"
+
+    def _java_import(self, module_key: str, type_name: str) -> str:
+        top, mod = module_key.split(".", 1)
+        safe_top = self.safe_identifier(top, "java")
+        safe_mod = self.safe_identifier(mod, "java")
+        return f"import org.caseontology.{safe_top}.{safe_mod}.{type_name};"
 
     def _render_vocab_file(self, top: str, mod: str, vocab: OntologyVocab) -> str:
         pkg = f"org.caseontology.{top}.{mod}"

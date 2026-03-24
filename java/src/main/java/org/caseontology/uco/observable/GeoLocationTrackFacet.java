@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A geolocation track facet is a grouping of characteristics unique to a set of contiguous geolocation entries representing a path/track taken. */
 public class GeoLocationTrackFacet extends Facet {

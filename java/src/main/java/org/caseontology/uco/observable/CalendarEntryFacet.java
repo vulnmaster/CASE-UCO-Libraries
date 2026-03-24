@@ -3,6 +3,10 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.core.UcoObject;
+import org.caseontology.uco.identity.Identity;
+import org.caseontology.uco.location.Location;
 
 /** A calendar entry facet is a grouping of characteristics unique to an appointment, meeting, or event within a collection of appointments, meetings, and events. */
 public class CalendarEntryFacet extends Facet {

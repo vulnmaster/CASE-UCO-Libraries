@@ -3,6 +3,8 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
+import org.caseontology.uco.types.ControlledDictionary;
 
 /** A PDF file facet is a grouping of characteristics unique to a PDF (Portable Document Format) file. */
 public class PDFFileFacet extends Facet {

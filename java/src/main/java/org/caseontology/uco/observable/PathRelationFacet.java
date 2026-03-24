@@ -3,6 +3,7 @@ package org.caseontology.uco.observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.caseontology.uco.core.Facet;
 
 /** A path relation facet is a grouping of characteristics unique to the location of one object within another containing object. */
 public class PathRelationFacet extends Facet {
