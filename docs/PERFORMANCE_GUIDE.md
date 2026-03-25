@@ -53,25 +53,25 @@ The following data was measured on commodity hardware (64GB RAM) using passive D
 | 256,000 | 5,376,000 | 136.1s | 291.1 MB | 755.0 MB |
 | 512,000 | 10,752,000 | 276.0s | 582.3 MB | 1,510.0 MB |
 
-### Validation Performance (PyShacl vs RDFox)
+### Validation Performance (PyShacl)
 
-| Records | Triples | PyShacl (TTL) | PyShacl (JSON-LD) | RDFox (TTL) | PyShacl Memory | RDFox Memory |
-|---------|---------|--------------|-------------------|-------------|----------------|--------------|
-| 1,000 | 21,000 | 1.3s | 1.1s | 0.6s | 75 MB | 57 MB |
-| 8,000 | 168,000 | 9.4s | 7.4s | 3.1s | 356 MB | 212 MB |
-| 32,000 | 672,000 | 35.8s | 28.1s | 11.6s | 1,330 MB | 744 MB |
-| 64,000 | 1,344,000 | 71.9s | 54.4s | 22.4s | 2,630 MB | 1,439 MB |
-| 128,000 | 2,688,000 | 141.1s | 112.9s | 44.5s | 5,189 MB | 2,809 MB |
-| 256,000 | 5,376,000 | 277.2s | 224.2s | 89.2s | 10,348 MB | 5,504 MB |
-| 512,000 | 10,752,000 | 561.1s | 451.7s | 178.4s | 20,642 MB | 10,938 MB |
+| Records | Triples | PyShacl (TTL) | PyShacl (JSON-LD) | Memory |
+|---------|---------|--------------|-------------------|--------|
+| 1,000 | 21,000 | 1.3s | 1.1s | 75 MB |
+| 8,000 | 168,000 | 9.4s | 7.4s | 356 MB |
+| 32,000 | 672,000 | 35.8s | 28.1s | 1,330 MB |
+| 64,000 | 1,344,000 | 71.9s | 54.4s | 2,630 MB |
+| 128,000 | 2,688,000 | 141.1s | 112.9s | 5,189 MB |
+| 256,000 | 5,376,000 | 277.2s | 224.2s | 10,348 MB |
+| 512,000 | 10,752,000 | 561.1s | 451.7s | 20,642 MB |
 
 ### Key Findings
 
-- **RDFox is 3.4x faster** than PyShacl on average for SHACL validation
-- **RDFox uses 46% less memory** than PyShacl
 - **JSON-LD files are 2.6x larger** than TTL but validate ~20% faster in PyShacl
-- **Memory per record:** ~50 KB (PyShacl) vs ~27 KB (RDFox)
-- Both tools achieve 100% validation accuracy across all dataset sizes
+- **Memory per record:** ~50 KB with PyShacl
+- **Memory is the primary constraint** before CPU — plan your graph sizes accordingly
+- PyShacl achieves 100% validation accuracy across all dataset sizes
+- Commercial graph store validators may offer better performance at scale; evaluate options for your deployment
 
 ## The "Many Small Graphs" Pattern
 
@@ -177,17 +177,17 @@ CALL n10s.rdf.import.fetch("file:///data/batch-0001.jsonld", "JSON-LD")
 |-------------|-----|----------------|----------|
 | Laptop (16 GB) | 16 GB | ~32K objects (~672K triples) | Field triage, small cases |
 | Workstation (32 GB) | 32 GB | ~64K objects (~1.3M triples) | Medium cases, single devices |
-| Workstation (64 GB) | 64 GB | ~256K objects (~5.4M triples) | Large cases with RDFox |
+| Workstation (64 GB) | 64 GB | ~256K objects (~5.4M triples) | Large cases, multiple devices |
 | Server (128+ GB) | 128+ GB | ~512K+ objects (~10M+ triples) | Enterprise, multi-device cases |
 | Graph Database | Any | Unlimited (disk-backed) | Combined analysis of partitioned graphs |
 
-### Validation Tool Selection
+### Validation Scaling
 
-| Dataset Size | Records | Triples | Recommendation |
-|-------------|---------|---------|----------------|
-| Small | < 32K | < 672K | Either tool works; PyShacl is simpler to deploy |
-| Medium | 32K-128K | 672K-2.7M | RDFox preferred; PyShacl usable with caution |
-| Large | > 128K | > 2.7M | RDFox essential |
+| Dataset Size | Records | Triples | PyShacl Guidance |
+|-------------|---------|---------|-----------------|
+| Small | < 32K | < 672K | Comfortable; single-pass validation works well |
+| Medium | 32K-128K | 672K-2.7M | Usable but monitor memory; consider partitioned validation |
+| Large | > 128K | > 2.7M | Partition into smaller graphs; consider a graph store validator |
 
 Note: PyShacl cannot parallelize SHACL validation because the full UCO graph must be loaded into memory. For large datasets, the "many small graphs" pattern combined with a graph database is the recommended approach.
 
@@ -210,9 +210,9 @@ Note: PyShacl cannot parallelize SHACL validation because the full UCO graph mus
 
 5. **Use a graph database for cross-graph queries.** Apache Jena Fuseki is free, well-documented, and handles SPARQL natively. Load your partitioned graphs as named graphs for combined analysis.
 
-6. **Monitor memory during serialization.** Serialization memory scales linearly — plan for ~50 KB per record with PyShacl, ~27 KB with RDFox.
+6. **Monitor memory during serialization.** Serialization memory scales linearly — plan for ~50 KB per record with PyShacl.
 
-7. **Validate in batches.** If using PyShacl, validate each partition separately rather than the combined dataset. RDFox handles larger datasets but still benefits from partitioned validation.
+7. **Validate in batches.** Validate each partition separately rather than the combined dataset. This keeps memory usage manageable and avoids PyShacl's scaling limitations.
 
 8. **Consider your deployment target.** Field laptops have very different constraints than lab servers. The SDK's partitioning helpers let you build the same quality output regardless of hardware.
 
