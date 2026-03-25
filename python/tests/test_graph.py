@@ -381,3 +381,123 @@ def test_split_then_merge_roundtrip(tmp_path):
 
     merged = CASEGraph.merge_files(paths)
     assert len(merged) == original_count
+
+
+# --- from_jsonld tests ---
+
+def test_from_jsonld_basic():
+    graph = CASEGraph()
+    graph.create(Tool, name="Round Trip Tool", version="2.0")
+    json_str = graph.serialize()
+
+    graph2, objects = CASEGraph.from_jsonld(json_str)
+    assert len(graph2) == 1
+    assert len(objects) == 1
+    assert isinstance(objects[0], Tool)
+    assert objects[0].name == "Round Trip Tool"
+    assert objects[0].version == "2.0"
+
+
+def test_from_jsonld_multiple_types():
+    graph = CASEGraph()
+    graph.create(Tool, name="T1")
+    graph.create(AnalyticTool, name="AT1")
+    json_str = graph.serialize()
+
+    graph2, objects = CASEGraph.from_jsonld(json_str)
+    assert len(objects) == 2
+    types = {type(o).__name__ for o in objects}
+    assert "Tool" in types
+    assert "AnalyticTool" in types
+
+
+def test_from_jsonld_unknown_type():
+    json_str = json.dumps({
+        "@context": {"kb": "http://example.org/kb/"},
+        "@graph": [
+            {"@id": "kb:Unknown-1", "@type": "http://example.org/unknown/FooBar"},
+        ],
+    })
+    graph2, objects = CASEGraph.from_jsonld(json_str)
+    assert len(objects) == 1
+    assert isinstance(objects[0], dict)
+
+
+def test_from_jsonld_preserves_ids():
+    json_str = json.dumps({
+        "@context": {
+            "kb": "http://example.org/kb/",
+            "uco-tool": "https://ontology.unifiedcyberontology.org/uco/tool/",
+            "uco-core": "https://ontology.unifiedcyberontology.org/uco/core/",
+        },
+        "@graph": [
+            {
+                "@id": "kb:Tool-stable-id",
+                "@type": "uco-tool:Tool",
+                "uco-core:name": "Stable Tool",
+            },
+        ],
+    })
+    graph2, objects = CASEGraph.from_jsonld(json_str)
+    assert isinstance(objects[0], Tool)
+    assert graph2.get_id(objects[0]) == "kb:Tool-stable-id"
+
+
+def test_from_jsonld_typed_literals():
+    json_str = json.dumps({
+        "@context": {
+            "kb": "http://example.org/kb/",
+            "uco-tool": "https://ontology.unifiedcyberontology.org/uco/tool/",
+            "uco-core": "https://ontology.unifiedcyberontology.org/uco/core/",
+        },
+        "@graph": [
+            {
+                "@id": "kb:Tool-lit-1",
+                "@type": "uco-tool:Tool",
+                "uco-core:name": "Literal Test",
+                "uco-tool:version": "3.0",
+            },
+        ],
+    })
+    graph2, objects = CASEGraph.from_jsonld(json_str)
+    assert isinstance(objects[0], Tool)
+    assert objects[0].version == "3.0"
+
+
+def test_from_jsonld_extra_classes():
+    @dataclass
+    class CustomExt:
+        CLASS_IRI: str = "http://example.org/ext/Custom"
+        NAMESPACE_PREFIX: str = "ext"
+        value: str = field(default="", metadata={
+            "jsonld_key": "ext:value",
+            "required": False, "cardinality": "zero_or_one",
+            "range_iri": "http://www.w3.org/2001/XMLSchema#string",
+            "alternate_range_iris": [],
+        })
+
+    json_str = json.dumps({
+        "@context": {
+            "kb": "http://example.org/kb/",
+            "ext": "http://example.org/ext/",
+        },
+        "@graph": [
+            {"@id": "kb:Custom-1", "@type": "ext:Custom", "ext:value": "hello"},
+        ],
+    })
+    graph2, objects = CASEGraph.from_jsonld(json_str, extra_classes=[CustomExt])
+    assert isinstance(objects[0], CustomExt)
+    assert objects[0].value == "hello"
+
+
+def test_from_jsonld_roundtrip_context():
+    graph = CASEGraph(
+        kb_prefix="http://mylab.example.org/kb/",
+        extra_context={"myext": "http://example.org/myext/"},
+    )
+    graph.create(Tool, name="Context Test")
+    json_str = graph.serialize()
+
+    graph2, _ = CASEGraph.from_jsonld(json_str, kb_prefix="http://mylab.example.org/kb/")
+    output = json.loads(graph2.serialize())
+    assert "myext" in output["@context"]

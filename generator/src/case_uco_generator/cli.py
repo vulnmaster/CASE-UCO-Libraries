@@ -14,6 +14,7 @@ from case_uco_generator.backends.java_backend import JavaBackend
 from case_uco_generator.backends.rust_backend import RustBackend
 from case_uco_generator.backends.docs_backend import DocsBackend
 from case_uco_generator.mapping_guide import generate_mapping_guide
+from case_uco_generator.scaffold import scaffold_extension
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -22,43 +23,49 @@ def main(argv: list[str] | None = None) -> int:
         description="Generate CASE/UCO ontology libraries from OWL+SHACL Turtle files.",
     )
     parser.add_argument(
-        "command",
-        choices=["generate"],
-        help="Command to run",
+        "-v", "--verbose",
+        action="store_true",
+        help="Enable verbose logging",
     )
-    parser.add_argument(
+
+    subparsers = parser.add_subparsers(dest="command", help="Command to run")
+
+    # --- generate subcommand ---
+    gen_parser = subparsers.add_parser("generate", help="Generate typed libraries from ontology sources")
+    gen_parser.add_argument(
         "--lang",
         choices=["python", "csharp", "java", "rust", "all"],
         default="all",
         help="Target language (default: all)",
     )
-    parser.add_argument(
-        "--ontology-dir",
-        type=Path,
-        default=None,
-        help="Path to ontology/ directory (default: auto-detect from repo root)",
+    gen_parser.add_argument("--ontology-dir", type=Path, default=None)
+    gen_parser.add_argument("--output-dir", type=Path, default=None)
+    gen_parser.add_argument("--extensions-dir", type=Path, default=None)
+    gen_parser.add_argument("--no-extensions", action="store_true")
+
+    # --- scaffold subcommand ---
+    scaf_parser = subparsers.add_parser(
+        "scaffold",
+        help="Generate starter classes from an extension ontology TTL",
     )
-    parser.add_argument(
+    scaf_parser.add_argument(
+        "--extension",
+        type=Path,
+        required=True,
+        nargs="+",
+        help="Path(s) to extension .ttl file(s) (OWL + SHACL shapes)",
+    )
+    scaf_parser.add_argument(
+        "--lang",
+        choices=["python", "csharp", "java", "rust", "all"],
+        default="all",
+        help="Target language(s) for scaffolded classes (default: all)",
+    )
+    scaf_parser.add_argument(
         "--output-dir",
         type=Path,
         default=None,
-        help="Output root directory (default: repo root)",
-    )
-    parser.add_argument(
-        "--extensions-dir",
-        type=Path,
-        default=None,
-        help="Path to extensions/ directory (default: auto-detect from repo root)",
-    )
-    parser.add_argument(
-        "--no-extensions",
-        action="store_true",
-        help="Skip loading extension ontologies",
-    )
-    parser.add_argument(
-        "-v", "--verbose",
-        action="store_true",
-        help="Enable verbose logging",
+        help="Output directory for scaffolded files (default: current directory)",
     )
 
     args = parser.parse_args(argv)
@@ -68,7 +75,19 @@ def main(argv: list[str] | None = None) -> int:
         format="%(levelname)s: %(message)s",
     )
 
-    # Find repo root — walk up from CWD looking for ontology/ dir
+    if not args.command:
+        parser.print_help()
+        return 1
+
+    if args.command == "generate":
+        return _cmd_generate(args)
+    elif args.command == "scaffold":
+        return _cmd_scaffold(args)
+
+    return 0
+
+
+def _cmd_generate(args) -> int:
     repo_root = args.output_dir or Path.cwd()
     ontology_dir = args.ontology_dir or repo_root / "ontology"
     extensions_dir = None if args.no_extensions else (args.extensions_dir or repo_root / "extensions")
@@ -81,9 +100,7 @@ def main(argv: list[str] | None = None) -> int:
     schema = parse_ontology(ontology_dir, extensions_dir=extensions_dir)
     logging.info(
         "Parsed %d classes, %d vocabs across %d modules",
-        len(schema.classes),
-        len(schema.vocabs),
-        len(schema.modules),
+        len(schema.classes), len(schema.vocabs), len(schema.modules),
     )
 
     languages = (
@@ -92,7 +109,6 @@ def main(argv: list[str] | None = None) -> int:
         else [args.lang]
     )
 
-    # Code backends use core-only schema (no extension modules)
     core_schema = schema.without_extensions()
     output_root = repo_root
     total_files = 0
@@ -103,7 +119,6 @@ def main(argv: list[str] | None = None) -> int:
         total_files += len(files)
         logging.info("  -> %d files generated for %s", len(files), lang)
 
-    # Always generate documentation artifacts (using full schema with extensions)
     logging.info("Generating ontology reference ...")
     docs_backend = DocsBackend(schema, output_root)
     docs_files = docs_backend.generate()
@@ -115,7 +130,6 @@ def main(argv: list[str] | None = None) -> int:
     total_files += 1
     logging.info("  -> %s", guide_path)
 
-    # Emit registry JSON with full schema (including extensions) for runtime introspection
     if "python" in languages or args.lang == "all":
         logging.info("Generating runtime registry (full schema with extensions) ...")
         registry_backend = PythonBackend(schema, output_root / "python" / "case_uco")
@@ -123,6 +137,32 @@ def main(argv: list[str] | None = None) -> int:
         logging.info("  -> %s", registry_path)
 
     logging.info("Done: %d total files generated.", total_files)
+    return 0
+
+
+def _cmd_scaffold(args) -> int:
+    ttl_paths = [Path(p) for p in args.extension]
+    for p in ttl_paths:
+        if not p.exists():
+            logging.error("Extension file not found: %s", p)
+            return 1
+
+    languages = (
+        ["python", "csharp", "java", "rust"]
+        if args.lang == "all"
+        else [args.lang]
+    )
+
+    output_dir = args.output_dir or Path.cwd()
+    logging.info("Scaffolding extension from %s ...", ", ".join(str(p) for p in ttl_paths))
+
+    created = scaffold_extension(ttl_paths, output_dir, languages)
+
+    if not created:
+        logging.warning("No classes found. Ensure the TTL has OWL classes with SHACL NodeShapes.")
+        return 1
+
+    logging.info("Done: %d scaffolded files created.", len(created))
     return 0
 
 

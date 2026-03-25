@@ -328,6 +328,49 @@ class CASEGraph:
             elif is_dataclass(value):
                 self._validate_instance(value)
 
+    @classmethod
+    def from_jsonld(
+        cls,
+        json_str: str,
+        *,
+        extra_classes: list[type] | None = None,
+        kb_prefix: str = "http://example.org/kb/",
+    ) -> tuple[CASEGraph, list[Any]]:
+        """Deserialize a JSON-LD string into typed Python objects.
+
+        Returns a tuple of (CASEGraph, list_of_typed_objects). Each object in
+        the ``@graph`` array is matched to a generated Python class by its
+        ``@type`` IRI.  Objects whose type cannot be resolved are returned as
+        plain dicts and still added to the graph.
+
+        Args:
+            json_str: A JSON-LD string containing ``@context`` and ``@graph``.
+            extra_classes: Additional classes (e.g. extension dataclasses)
+                to include in the type registry alongside the built-in ones.
+            kb_prefix: Knowledge-base prefix for the returned graph.
+        """
+        iri_to_class = _build_class_registry(extra_classes)
+
+        doc = json.loads(json_str)
+        context = doc.get("@context", {})
+        graph_items = doc.get("@graph", [])
+
+        graph = cls(kb_prefix=kb_prefix, extra_context=context if isinstance(context, dict) else None)
+
+        typed_objects: list[Any] = []
+        for raw in graph_items:
+            obj = _rehydrate(raw, iri_to_class, context if isinstance(context, dict) else {})
+            typed_objects.append(obj)
+
+            if is_dataclass(obj) and not isinstance(obj, type):
+                obj_id = raw.get("@id", graph._mint_id(obj))
+                graph._id_map[_builtin_id(obj)] = obj_id
+                graph._objects.append(raw)
+            else:
+                graph._objects.append(raw)
+
+        return graph, typed_objects
+
     def _compact_iri(self, iri: str) -> str:
         """Compact a full IRI to prefixed form using the context."""
         for prefix, ns in self._context.items():
@@ -335,3 +378,128 @@ class CASEGraph:
                 local = iri[len(ns):]
                 return f"{prefix}:{local}"
         return iri
+
+
+def _build_class_registry(extra_classes: list[type] | None = None) -> dict[str, type]:
+    """Build a mapping from CLASS_IRI -> Python dataclass for all generated classes."""
+    registry: dict[str, type] = {}
+
+    import importlib
+    module_names = [
+        "case_uco.case.investigation",
+        "case_uco.uco.action",
+        "case_uco.uco.analysis",
+        "case_uco.uco.configuration",
+        "case_uco.uco.core",
+        "case_uco.uco.identity",
+        "case_uco.uco.location",
+        "case_uco.uco.marking",
+        "case_uco.uco.observable",
+        "case_uco.uco.pattern",
+        "case_uco.uco.role",
+        "case_uco.uco.time",
+        "case_uco.uco.tool",
+        "case_uco.uco.types",
+        "case_uco.uco.victim",
+    ]
+
+    for mod_name in module_names:
+        try:
+            mod = importlib.import_module(mod_name)
+        except ImportError:
+            continue
+        for attr_name in dir(mod):
+            attr = getattr(mod, attr_name)
+            if isinstance(attr, type) and is_dataclass(attr) and hasattr(attr, "CLASS_IRI"):
+                registry[attr.CLASS_IRI] = attr
+
+    if extra_classes:
+        for cls in extra_classes:
+            if hasattr(cls, "CLASS_IRI"):
+                registry[cls.CLASS_IRI] = cls
+
+    return registry
+
+
+def _expand_iri(compact: str, context: dict[str, str]) -> str:
+    """Expand a prefixed IRI (e.g. 'uco-tool:Tool') to a full IRI."""
+    if "://" in compact:
+        return compact
+    if ":" in compact:
+        prefix, local = compact.split(":", 1)
+        ns = context.get(prefix)
+        if ns:
+            return ns + local
+    return compact
+
+
+def _rehydrate(
+    raw: dict[str, Any],
+    iri_to_class: dict[str, type],
+    context: dict[str, str],
+) -> Any:
+    """Convert a JSON-LD dict back to a typed Python dataclass instance."""
+    type_value = raw.get("@type")
+    if not type_value:
+        return raw
+
+    type_iri = _expand_iri(type_value, context)
+    cls = iri_to_class.get(type_iri)
+    if cls is None:
+        return raw
+
+    if not is_dataclass(cls):
+        return raw
+
+    jsonld_key_to_field: dict[str, tuple[str, Field]] = {}
+    for f in fields(cls):
+        key = f.metadata.get("jsonld_key")
+        if key:
+            jsonld_key_to_field[key] = (f.name, f)
+
+    kwargs: dict[str, Any] = {}
+    for key, value in raw.items():
+        if key in ("@id", "@type"):
+            continue
+        field_info = jsonld_key_to_field.get(key)
+        if field_info is None:
+            continue
+        field_name, f = field_info
+        kwargs[field_name] = _coerce_value(value, f, iri_to_class, context)
+
+    try:
+        return cls(**kwargs)
+    except (TypeError, ValueError):
+        return raw
+
+
+def _coerce_value(
+    value: Any,
+    field_info: Field,
+    iri_to_class: dict[str, type],
+    context: dict[str, str],
+) -> Any:
+    """Coerce a JSON-LD value back to the Python type expected by the field."""
+    if isinstance(value, dict):
+        if "@value" in value:
+            raw_val = value["@value"]
+            xsd_type = value.get("@type", "")
+            if "boolean" in xsd_type:
+                return raw_val == "true" or raw_val is True
+            if "integer" in xsd_type:
+                return int(raw_val)
+            if "decimal" in xsd_type or "float" in xsd_type or "double" in xsd_type:
+                return float(raw_val)
+            if "dateTime" in xsd_type:
+                return datetime.fromisoformat(str(raw_val))
+            return raw_val
+        if "@type" in value:
+            return _rehydrate(value, iri_to_class, context)
+        if "@id" in value:
+            return value["@id"]
+        return value
+
+    if isinstance(value, list):
+        return [_coerce_value(item, field_info, iri_to_class, context) for item in value]
+
+    return value

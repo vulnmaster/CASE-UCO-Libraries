@@ -151,6 +151,82 @@ public class CaseGraph {
         load(json);
     }
 
+    /**
+     * Estimate the number of RDF triples this graph will produce.
+     */
+    public int estimateTriples() {
+        int total = 0;
+        for (Map<String, Object> obj : objects) {
+            total += countTriples(obj);
+        }
+        return total;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static int countTriples(Map<String, Object> obj) {
+        int count = 0;
+        for (Map.Entry<String, Object> entry : obj.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if ("@id".equals(key)) continue;
+            if ("@type".equals(key)) { count++; continue; }
+            if (value instanceof List) {
+                for (Object item : (List<Object>) value) {
+                    if (item instanceof Map) {
+                        count += 1 + countTriples((Map<String, Object>) item);
+                    } else {
+                        count++;
+                    }
+                }
+            } else if (value instanceof Map) {
+                Map<String, Object> map = (Map<String, Object>) value;
+                if (map.containsKey("@value")) {
+                    count++;
+                } else {
+                    count += 1 + countTriples(map);
+                }
+            } else {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Split the graph into smaller chunks of at most maxObjects each.
+     */
+    public List<CaseGraph> split(int maxObjects) {
+        List<CaseGraph> chunks = new ArrayList<>();
+        for (int i = 0; i < objects.size(); i += maxObjects) {
+            CaseGraph chunk = new CaseGraph(context.get("kb"));
+            chunk.context.putAll(context);
+            int end = Math.min(i + maxObjects, objects.size());
+            for (int j = i; j < end; j++) {
+                chunk.objects.add(objects.get(j));
+            }
+            chunks.add(chunk);
+        }
+        return chunks;
+    }
+
+    /**
+     * Load and merge multiple JSON-LD files into a single graph.
+     */
+    public static CaseGraph mergeFiles(List<String> paths) throws IOException {
+        return mergeFiles(paths, "http://example.org/kb/");
+    }
+
+    /**
+     * Load and merge multiple JSON-LD files into a single graph.
+     */
+    public static CaseGraph mergeFiles(List<String> paths, String kbPrefix) throws IOException {
+        CaseGraph merged = new CaseGraph(kbPrefix);
+        for (String path : paths) {
+            merged.loadFile(path);
+        }
+        return merged;
+    }
+
     private String mintId(Object instance) {
         String typeName = instance.getClass().getSimpleName();
         return "kb:" + typeName + "-" + UUID.randomUUID();

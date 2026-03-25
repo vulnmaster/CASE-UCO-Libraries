@@ -142,6 +142,37 @@ impl CaseGraph {
         std::fs::write(path, json)
     }
 
+    /// Estimate the number of RDF triples this graph will produce.
+    pub fn estimate_triples(&self) -> usize {
+        self.objects.iter().map(|o| count_triples(o)).sum()
+    }
+
+    /// Split the graph into smaller chunks of at most `max_objects` each.
+    ///
+    /// Each chunk gets a clone of the context. The original graph is not modified.
+    pub fn split(&self, max_objects: usize) -> Vec<CaseGraph> {
+        self.objects
+            .chunks(max_objects)
+            .map(|chunk| {
+                let mut g = CaseGraph {
+                    context: self.context.clone(),
+                    objects: chunk.to_vec(),
+                };
+                let _ = &g;
+                g
+            })
+            .collect()
+    }
+
+    /// Load and merge multiple JSON-LD files into a single graph.
+    pub fn merge_files(paths: &[&str], kb_prefix: &str) -> Result<CaseGraph, Box<dyn std::error::Error>> {
+        let mut merged = CaseGraph::new(kb_prefix);
+        for path in paths {
+            merged.load_file(path)?;
+        }
+        Ok(merged)
+    }
+
     fn compact_iri(&self, iri: &str) -> String {
         for (prefix, ns) in &self.context {
             if iri.starts_with(ns.as_str()) {
@@ -182,6 +213,46 @@ impl CaseGraph {
             }
             other => other,
         }
+    }
+}
+
+fn count_triples(value: &Value) -> usize {
+    match value {
+        Value::Object(map) => {
+            let mut count = 0;
+            for (key, val) in map {
+                if key == "@id" {
+                    continue;
+                }
+                if key == "@type" {
+                    count += 1;
+                    continue;
+                }
+                match val {
+                    Value::Array(items) => {
+                        for item in items {
+                            if item.is_object() {
+                                count += 1 + count_triples(item);
+                            } else {
+                                count += 1;
+                            }
+                        }
+                    }
+                    Value::Object(inner) => {
+                        if inner.contains_key("@value") {
+                            count += 1;
+                        } else {
+                            count += 1 + count_triples(val);
+                        }
+                    }
+                    _ => {
+                        count += 1;
+                    }
+                }
+            }
+            count
+        }
+        _ => 0,
     }
 }
 

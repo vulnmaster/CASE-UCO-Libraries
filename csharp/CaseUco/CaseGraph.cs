@@ -112,6 +112,76 @@ namespace CaseUco
             System.IO.File.WriteAllText(path, Serialize());
         }
 
+        /// <summary>Estimate the number of RDF triples this graph will produce.</summary>
+        public int EstimateTriples()
+        {
+            int total = 0;
+            foreach (var obj in _objects)
+                total += CountTriples(obj);
+            return total;
+        }
+
+        private static int CountTriples(Dictionary<string, object> obj)
+        {
+            int count = 0;
+            foreach (var kv in obj)
+            {
+                if (kv.Key == "@id") continue;
+                if (kv.Key == "@type") { count++; continue; }
+                if (kv.Value is List<object> list)
+                {
+                    foreach (var item in list)
+                    {
+                        if (item is Dictionary<string, object> nested)
+                            count += 1 + CountTriples(nested);
+                        else
+                            count++;
+                    }
+                }
+                else if (kv.Value is Dictionary<string, object> dict)
+                {
+                    if (dict.ContainsKey("@value"))
+                        count++;
+                    else
+                        count += 1 + CountTriples(dict);
+                }
+                else
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        /// <summary>Split the graph into smaller chunks of at most maxObjects each.</summary>
+        public List<CaseGraph> Split(int maxObjects = 10000)
+        {
+            var chunks = new List<CaseGraph>();
+            for (int i = 0; i < _objects.Count; i += maxObjects)
+            {
+                var chunk = new CaseGraph(_context["kb"]);
+                foreach (var kv in _context)
+                    chunk._context[kv.Key] = kv.Value;
+                int end = Math.Min(i + maxObjects, _objects.Count);
+                for (int j = i; j < end; j++)
+                    chunk._objects.Add(_objects[j]);
+                chunks.Add(chunk);
+            }
+            return chunks;
+        }
+
+        /// <summary>Load and merge multiple JSON-LD files into a single graph.</summary>
+        public static CaseGraph MergeFiles(IEnumerable<string> paths, string kbPrefix = "http://example.org/kb/")
+        {
+            var merged = new CaseGraph(kbPrefix);
+            foreach (var path in paths)
+            {
+                var json = System.IO.File.ReadAllText(path);
+                merged.Load(json);
+            }
+            return merged;
+        }
+
         private string MintId(object instance)
         {
             var typeName = instance.GetType().Name;

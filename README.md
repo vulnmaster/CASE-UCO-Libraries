@@ -240,33 +240,33 @@ myext:customProperty
     .
 ```
 
-### Step 2: Define a Matching Dataclass
+### Step 2: Scaffold Typed Classes
 
-In your application code, create a dataclass that mirrors the generated SDK pattern:
+Use the built-in scaffold command to auto-generate starter classes for all four languages:
 
-```python
-from dataclasses import dataclass, field
-from typing import Optional
+```bash
+# Generate starter classes from your extension TTL + SHACL shapes
+case-uco-generate scaffold \
+  --extension path/to/myext.ttl path/to/myext-shapes.ttl \
+  --output-dir my_project/
 
-@dataclass
-class MyCustomObject:
-    CLASS_IRI: str = "http://example.org/ontology/myext/MyCustomObject"
-    NAMESPACE_PREFIX: str = "myext"
-
-    custom_property: Optional[str] = field(default=None, metadata={
-        'jsonld_key': 'myext:customProperty',
-        'required': False,
-        'cardinality': 'zero_or_one',
-        'range_iri': 'http://www.w3.org/2001/XMLSchema#string',
-        'alternate_range_iris': [],
-    })
+# Generate for a single language
+case-uco-generate scaffold \
+  --extension path/to/myext.ttl \
+  --lang python \
+  --output-dir my_project/
 ```
 
-### Step 3: Use It with the SDK
+This produces typed dataclasses (Python), C# classes, Java POJOs, and Rust structs with all properties, cardinalities, and IRIs pre-filled.
 
-Register your extension's namespace prefix and use the class like any built-in type:
+### Step 3: Use the Scaffolded Classes
+
+Import the generated classes and use them like any built-in SDK type:
 
 ```python
+from myext_classes import MyCustomObject
+from case_uco import CASEGraph
+
 graph = CASEGraph(extra_context={
     "myext": "http://example.org/ontology/myext/",
 })
@@ -359,6 +359,12 @@ Don't know which CASE/UCO class fits your data? The mapping guide organizes clas
 
 - **[docs/MAPPING_GUIDE.md](docs/MAPPING_GUIDE.md)** — maps common concepts (files, network, devices, email, mobile, etc.) to the right classes, with usage examples
 
+### Recipes
+
+Step-by-step patterns for common forensic workflows — disk imaging, file system analysis, network artifacts, chain of custody, mobile forensics, round-trip serialization, and partitioning large datasets:
+
+- **[docs/RECIPES.md](docs/RECIPES.md)** — practical cookbook with copy-paste examples
+
 ## SDK Architecture
 
 ```
@@ -372,11 +378,30 @@ CASE-UCO-SDK/
 ├── extensions/             Extension ontologies (included in explorer + docs)
 │   └── toolcap/            Forensic tool capability comparison extension
 ├── docs/
-│   └── MAPPING_GUIDE.md    Domain mapping guide (auto-generated)
+│   ├── MAPPING_GUIDE.md    Domain mapping guide (auto-generated)
+│   ├── PERFORMANCE_GUIDE.md  Engineering tradeoffs and benchmarks
+│   └── RECIPES.md          Practical forensic workflow cookbook
 ├── ONTOLOGY_REFERENCE.md   Complete class reference (auto-generated)
 ├── .github/workflows/      CI, CodeQL, dependency review, release workflows
 └── Makefile                Build orchestration
 ```
+
+## Feature Matrix
+
+| Feature | Python | C# | Java | Rust |
+|---------|--------|----|------|------|
+| Full typed classes (428 classes) | Yes | Yes | Yes | Yes |
+| JSON-LD serialization | Yes | Yes | Yes | Yes |
+| Custom / deterministic IDs | `create(id=)` | `AddWithId()` | `addWithId()` | `create_with_id()` |
+| Load existing JSON-LD | `load()` / `load_file()` | `Load()` | `load()` / `loadFile()` | `load()` / `load_file()` |
+| Required-field validation | Yes | Yes | Yes | — |
+| Object count | `len(graph)` | `Count` | `size()` | `len()` |
+| Triple estimation | `estimate_triples()` | `EstimateTriples()` | `estimateTriples()` | `estimate_triples()` |
+| Graph partitioning | `split()` | `Split()` | `split()` | `split()` |
+| Multi-file merge | `merge_files()` | `MergeFiles()` | `mergeFiles()` | `merge_files()` |
+| Typed deserialization | `from_jsonld()` | — | — | — |
+| Runtime introspection | `case_uco.registry` | — | — | — |
+| Provenance metadata | `UCO_VERSION` | `CaseUcoMeta` | `CaseUcoMeta` | `VERSION` |
 
 ## Ontology Versions
 
