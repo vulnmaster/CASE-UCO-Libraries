@@ -124,9 +124,8 @@ namespace CaseUco
         private static int CountTriples(Dictionary<string, object> obj)
         {
             int count = 0;
-            foreach (var kv in obj)
+            foreach (var kv in obj.Where(kv => kv.Key != "@id"))
             {
-                if (kv.Key == "@id") continue;
                 if (kv.Key == "@type") { count++; continue; }
                 if (kv.Value is List<object> list)
                 {
@@ -176,8 +175,7 @@ namespace CaseUco
             var merged = new CaseGraph(kbPrefix);
             foreach (var path in paths)
             {
-                var json = System.IO.File.ReadAllText(path);
-                merged.Load(json);
+                merged.Load(System.IO.File.ReadAllText(path));
             }
             return merged;
         }
@@ -419,7 +417,7 @@ namespace CaseUco
             while (true)
             {
                 while (pos < json.Length && char.IsWhiteSpace(json[pos])) pos++;
-                var key = (string)ParseJsonString(json, pos, out pos);
+                var key = ParseJsonString(json, pos, out pos);
                 while (pos < json.Length && char.IsWhiteSpace(json[pos])) pos++;
                 pos++; // skip ':'
                 var value = ParseJsonValue(json, pos, out pos);

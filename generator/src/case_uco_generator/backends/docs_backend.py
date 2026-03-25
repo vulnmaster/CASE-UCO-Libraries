@@ -7,7 +7,6 @@ from pathlib import Path
 from case_uco_generator.backends.base import CodegenBackend
 from case_uco_generator.schema_model import (
     OntologyClass,
-    OntologyVocab,
     iri_local_name,
 )
 

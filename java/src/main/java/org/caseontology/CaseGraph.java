@@ -435,8 +435,12 @@ public class CaseGraph {
         if ("true".equals(token)) return Boolean.TRUE;
         if ("false".equals(token)) return Boolean.FALSE;
         if ("null".equals(token)) return null;
-        if (token.contains(".")) return Double.parseDouble(token);
-        return Long.parseLong(token);
+        try {
+            if (token.contains(".")) return Double.parseDouble(token);
+            return Long.parseLong(token);
+        } catch (NumberFormatException e) {
+            return token;
+        }
     }
 
     private static Map<String, Object> parseJsonObject(String json, int[] pos) {

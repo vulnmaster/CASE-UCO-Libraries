@@ -10,17 +10,15 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
-from rdflib import Graph, Namespace, URIRef
-from rdflib.namespace import OWL, RDF, RDFS
+from rdflib import Graph, URIRef
+from rdflib.namespace import RDF, RDFS
 
 from case_uco_generator.schema_model import (
     OntologyClass,
     OntologySchema,
     iri_local_name,
-    iri_namespace,
 )
 from case_uco_generator.ontology_parser import (
-    SH,
     FACET_IRI,
     _is_subclass_of,
     _extract_properties,
@@ -140,7 +138,6 @@ def scaffold_python(schema: OntologySchema, prefix: str, ns: str) -> str:
     lines.append("")
 
     for cls in sorted(schema.classes.values(), key=lambda c: c.name):
-        parent_name = cls.all_parent_names[0] if cls.all_parent_names else "object"
         lines.append("@dataclass")
         lines.append(f"class {cls.name}:")
         desc = cls.description[:200] if cls.description else cls.name

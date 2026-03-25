@@ -19,7 +19,7 @@ namespace CaseUco
     /// </summary>
     public static class OntologyRegistry
     {
-        private static Dictionary<string, object> _registry;
+        private static volatile Dictionary<string, object> _registry;
         private static readonly object _lock = new object();
 
         private static Dictionary<string, object> Registry
@@ -42,13 +42,13 @@ namespace CaseUco
         {
             var assembly = typeof(OntologyRegistry).Assembly;
             var dir = Path.GetDirectoryName(assembly.Location) ?? ".";
-            var path = Path.Combine(dir, "_registry.json");
+            var path = dir + Path.DirectorySeparatorChar + "_registry.json";
 
             if (!File.Exists(path))
             {
                 var srcDir = Path.GetDirectoryName(
                     new Uri(assembly.CodeBase ?? assembly.Location).LocalPath) ?? ".";
-                path = Path.Combine(srcDir, "_registry.json");
+                path = srcDir + Path.DirectorySeparatorChar + "_registry.json";
             }
 
             if (!File.Exists(path))
@@ -71,7 +71,8 @@ namespace CaseUco
             {
                 var name = kv.Key;
                 var cls = (Dictionary<string, object>)kv.Value;
-                var desc = cls.ContainsKey("description") ? cls["description"]?.ToString() ?? "" : "";
+                object descObj;
+                var desc = cls.TryGetValue("description", out descObj) ? descObj?.ToString() ?? "" : "";
 
                 if (name.ToLowerInvariant().Contains(q) || desc.ToLowerInvariant().Contains(q))
                 {
@@ -82,8 +83,9 @@ namespace CaseUco
 
             results.Sort((a, b) =>
             {
-                var ma = a.ContainsKey("module") ? a["module"]?.ToString() ?? "" : "";
-                var mb = b.ContainsKey("module") ? b["module"]?.ToString() ?? "" : "";
+                object maObj, mbObj;
+                var ma = a.TryGetValue("module", out maObj) ? maObj?.ToString() ?? "" : "";
+                var mb = b.TryGetValue("module", out mbObj) ? mbObj?.ToString() ?? "" : "";
                 int cmp = string.Compare(ma, mb, StringComparison.Ordinal);
                 if (cmp != 0) return cmp;
                 return string.Compare(
@@ -115,7 +117,8 @@ namespace CaseUco
                     continue;
                 }
                 var cls = (Dictionary<string, object>)kv.Value;
-                var mod = cls.ContainsKey("module") ? cls["module"]?.ToString() ?? "" : "";
+                object modObj;
+                var mod = cls.TryGetValue("module", out modObj) ? modObj?.ToString() ?? "" : "";
                 if (mod.IndexOf(module, StringComparison.OrdinalIgnoreCase) >= 0)
                     results.Add(kv.Key);
             }
@@ -128,16 +131,13 @@ namespace CaseUco
         public static Dictionary<string, object> GetClass(string name)
         {
             var classes = GetClassesDict();
-            foreach (var kv in classes)
+            foreach (var kv in classes.Where(kv => string.Equals(kv.Key, name, StringComparison.OrdinalIgnoreCase)))
             {
-                if (string.Equals(kv.Key, name, StringComparison.OrdinalIgnoreCase))
+                var result = new Dictionary<string, object>((Dictionary<string, object>)kv.Value)
                 {
-                    var result = new Dictionary<string, object>((Dictionary<string, object>)kv.Value)
-                    {
-                        ["name"] = kv.Key
-                    };
-                    return result;
-                }
+                    ["name"] = kv.Key
+                };
+                return result;
             }
             return null;
         }
@@ -152,12 +152,14 @@ namespace CaseUco
             foreach (var kv in classes)
             {
                 var cls = (Dictionary<string, object>)kv.Value;
-                if (!cls.ContainsKey("properties")) continue;
-                var props = (List<object>)cls["properties"];
+                object propsObj;
+                if (!cls.TryGetValue("properties", out propsObj)) continue;
+                var props = (List<object>)propsObj;
                 bool match = props.Any(p =>
                 {
                     var prop = (Dictionary<string, object>)p;
-                    var pt = prop.ContainsKey("type") ? prop["type"]?.ToString() ?? "" : "";
+                    object ptObj;
+                    var pt = prop.TryGetValue("type", out ptObj) ? ptObj?.ToString() ?? "" : "";
                     return pt.ToLowerInvariant().Contains(t);
                 });
                 if (match)
@@ -182,7 +184,8 @@ namespace CaseUco
             foreach (var kv in classes)
             {
                 var cls = (Dictionary<string, object>)kv.Value;
-                if (cls.ContainsKey("is_facet") && cls["is_facet"] is bool isFacet && isFacet)
+                object facetObj;
+                if (cls.TryGetValue("is_facet", out facetObj) && facetObj is bool isFacet && isFacet)
                 {
                     var entry = new Dictionary<string, object>(cls) { ["name"] = kv.Key };
                     results.Add(entry);
@@ -198,8 +201,9 @@ namespace CaseUco
         /// <summary>List all vocabulary types with their members.</summary>
         public static List<Dictionary<string, object>> ListVocabs()
         {
-            if (!Registry.ContainsKey("vocabs")) return new List<Dictionary<string, object>>();
-            var vocabs = (Dictionary<string, object>)Registry["vocabs"];
+            object vocabsObj;
+            if (!Registry.TryGetValue("vocabs", out vocabsObj)) return new List<Dictionary<string, object>>();
+            var vocabs = (Dictionary<string, object>)vocabsObj;
             var results = new List<Dictionary<string, object>>();
 
             foreach (var kv in vocabs)
@@ -248,7 +252,7 @@ namespace CaseUco
             while (true)
             {
                 while (pos < json.Length && char.IsWhiteSpace(json[pos])) pos++;
-                var key = (string)ParseJsonString(json, pos, out pos);
+                var key = ParseJsonString(json, pos, out pos);
                 while (pos < json.Length && char.IsWhiteSpace(json[pos])) pos++;
                 pos++;
                 var value = ParseJsonValue(json, pos, out pos);
