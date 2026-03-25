@@ -1,55 +1,53 @@
 # CASE/UCO SDK
 
-Auto-generated, full-coverage builder libraries for the [CASE](https://caseontology.org/) (Cyber-investigation Analysis Standard Expression) and [UCO](https://unifiedcyberontology.org/) (Unified Cyber Ontology) ontologies.
+A multi-language SDK for building [CASE](https://caseontology.org/) and [UCO](https://unifiedcyberontology.org/) compliant JSON-LD graphs. If your software produces or consumes digital forensic, cyber-investigation, or cyber-observable data, this SDK gives you typed, validated builders in **Python**, **C#**, **Java**, and **Rust** — so you can work with CASE/UCO objects in your language instead of hand-writing JSON-LD.
 
-## Overview
+## What the SDK Does
 
-This monorepo contains:
+The SDK is auto-generated from the official CASE 1.4.0 and UCO 1.4.0 OWL+SHACL ontology sources. Every class, property, and vocabulary term in the published specifications has a corresponding typed class in each language. The generated code gives you:
 
-- **generator/** — A Python-based code generator that parses the UCO/CASE OWL+SHACL ontology (Turtle files) and produces idiomatic builder libraries
-- **python/** — Generated Python library (`case-uco`)
-- **csharp/** — Generated C# library (`CaseUco`, targeting `netstandard2.0`)
-- **java/** — Generated Java library (`case-uco`)
-- **rust/** — Generated Rust crate (`case-uco`)
-- **ontology/** — Git submodules for the [UCO](https://github.com/ucoProject/UCO) and [CASE](https://github.com/casework/CASE) ontology sources
-- **extensions/toolcap/** — A CASE/UCO extension for modeling forensic tool capabilities, compliant with the [CDO Community Playground Guide](https://docs.google.com/document/d/1EiXQiAeUGk-629xdKx7HZHVn927k891LGkPcQzNLLr8/edit?usp=sharing) (see [extensions/toolcap/README.md](extensions/toolcap/README.md))
+- **Full ontology coverage** — all 426 classes across 14 UCO/CASE modules
+- **Typed properties** with correct JSON-LD serialization (IRIs, typed literals, nested objects)
+- **Required-field validation** — ontology-mandated properties are checked before graph insertion
+- **Automatic JSON-LD context** — the standard 18 CASE/UCO namespace prefixes are built in
+- **Deterministic ID support** — use auto-generated UUIDs or supply your own stable IRIs
+- **Round-trip capable** — load existing JSON-LD graphs, add objects, and re-serialize
 
-## Quick Start
+## Installation
 
-### Prerequisites
-
-- Python 3.9+ (for the code generator and Python library)
-- .NET SDK 8.0+ (for C# library)
-- JDK 11+ and Maven (for Java library)
-- Rust toolchain (for Rust library)
-
-### Clone and Generate
+### Python
 
 ```bash
-# Clone with submodules
 git clone --recurse-submodules https://github.com/vulnmaster/CASE-UCO-SDK.git
 cd CASE-UCO-SDK
-
-# Install the generator
-pip install -e generator/
-
-# Generate all libraries (Python, C#, Java, Rust)
-python -m case_uco_generator generate --lang all
-
-# Install the Python library (required before importing)
 pip install -e python/
 ```
 
-Or use the Makefile which handles everything:
+### All Languages (via Makefile)
 
 ```bash
-make init      # submodules + generator install
-make generate  # generate all libraries
-make build     # build all languages
-make test      # run all tests (including generator tests)
+git clone --recurse-submodules https://github.com/vulnmaster/CASE-UCO-SDK.git
+cd CASE-UCO-SDK
+make init      # install generator + fetch submodules
+make generate  # regenerate all libraries from ontology sources
+make build     # build Python, C#, Java, Rust
+make test      # run all test suites
 ```
 
-## Usage Examples
+### Prerequisites
+
+Only install what you need for your language:
+
+| Language | Requirement |
+|----------|-------------|
+| Python | Python 3.9+ |
+| C# | .NET SDK 8.0+ |
+| Java | JDK 11+ and Maven |
+| Rust | Rust toolchain (cargo) |
+
+## Basic Usage
+
+The workflow is the same in every language: create a graph, add typed objects, serialize to JSON-LD.
 
 ### Python
 
@@ -60,13 +58,14 @@ from case_uco.uco.observable import ObservableObject, ApplicationFacet
 
 graph = CASEGraph(kb_prefix="http://example.org/kb/")
 
-tool_a = graph.create(Tool, name="Tool A", version="7.0")
-app_alpha = graph.create(
+tool = graph.create(Tool, name="My Forensic Tool", version="3.0")
+app = graph.create(
     ObservableObject,
-    has_facet=[ApplicationFacet(application_identifier="com.example.app.alpha")],
+    has_facet=[ApplicationFacet(application_identifier="com.example.app")],
 )
 
-print(graph.serialize())
+print(graph.serialize())   # JSON-LD string
+graph.write("output.jsonld")
 ```
 
 ### C\#
@@ -78,12 +77,12 @@ using CaseUco.Uco.Observable;
 
 var graph = new CaseGraph("http://example.org/kb/");
 
-var tool = new Tool { Name = "Tool A", Version = "7.0" };
+var tool = new Tool { Name = "My Forensic Tool", Version = "3.0" };
 graph.Add(tool);
 
 var app = new ObservableObject();
 app.HasFacet = new List<object> {
-    new ApplicationFacet { ApplicationIdentifier = "com.example.app.alpha" }
+    new ApplicationFacet { ApplicationIdentifier = "com.example.app" }
 };
 graph.Add(app);
 
@@ -95,19 +94,15 @@ graph.Write("output.jsonld");
 ```java
 import org.caseontology.CaseGraph;
 import org.caseontology.uco.tool.Tool;
-import org.caseontology.uco.observable.ObservableObject;
-import org.caseontology.uco.observable.ApplicationFacet;
+import org.caseontology.uco.observable.*;
 
 CaseGraph graph = new CaseGraph("http://example.org/kb/");
 
-Tool tool = new Tool();
-tool.setName("Tool A");
-tool.setVersion("7.0");
+Tool tool = new Tool().setName("My Forensic Tool").setVersion("3.0");
 graph.add(tool);
 
 ApplicationFacet facet = new ApplicationFacet();
-facet.setApplicationIdentifier("com.example.app.alpha");
-
+facet.setApplicationIdentifier("com.example.app");
 ObservableObject app = new ObservableObject();
 app.getHasFacet().add(facet);
 graph.add(app);
@@ -124,8 +119,7 @@ use case_uco::uco::tool::Tool;
 let mut graph = CaseGraph::new("http://example.org/kb/");
 
 let tool = Tool::builder()
-    .version("7.0".to_string())
-    .tool_type("forensic".to_string())
+    .version("3.0".to_string())
     .build();
 let id = graph.create(&tool);
 
@@ -133,20 +127,137 @@ let json = graph.serialize().expect("serialization failed");
 println!("{json}");
 ```
 
-## Forensic Tool Capability Comparison
+## Deterministic IDs
 
-This project was created to help model which digital forensic tools can parse which applications, on which platforms, and for which observable types. The **[toolcap extension](extensions/toolcap/)** is a CDO Community Playground-compliant extension that includes separated OWL/SHACL files and a validated exemplar (passes `case_validate` with `Conforms: True`):
+By default, every object gets a UUID-based `@id` like `kb:Tool-550e8400-...`. For pipelines that need stable, reproducible IRIs:
 
-```bash
-python extensions/toolcap/example_capability_matrix.py
+```python
+# Python — pass id= to create() or add()
+tool = graph.create(Tool, id="kb:Tool-my-stable-id", name="My Tool")
 ```
 
-This produces a CASE/UCO-compliant JSON-LD graph representing:
+```csharp
+// C# — use AddWithId()
+graph.AddWithId(tool, "kb:Tool-my-stable-id");
+```
 
-| | App Alpha | App Beta | App Gamma |
-|---|---|---|---|
-| **Tool A** | Android, iOS | Android, iOS | Android, iOS, Windows |
-| **Tool B** | Android | Android, iOS | — |
+```java
+// Java — use addWithId()
+graph.addWithId(tool, "kb:Tool-my-stable-id");
+```
+
+```rust
+// Rust — use create_with_id()
+let id = graph.create_with_id("kb:Tool-my-stable-id", &tool);
+```
+
+## Loading Existing Graphs
+
+All runtimes can ingest an existing JSON-LD graph, add new objects, and re-serialize:
+
+```python
+graph = CASEGraph()
+graph.load_file("existing-case-bundle.jsonld")  # merge context + objects
+graph.create(Tool, name="New Tool")             # add more objects
+graph.write("enriched-bundle.jsonld")           # write combined graph
+```
+
+## Extending the Ontology
+
+The SDK works with extension ontologies out of the box. If CASE/UCO doesn't cover your domain, you can define new classes in OWL Turtle and use them alongside the generated types.
+
+### Step 1: Define Your Extension Ontology
+
+Create a `.ttl` file with your new classes and properties. Every class must subclass an existing UCO/CASE class:
+
+```turtle
+@prefix myext: <http://example.org/ontology/myext/> .
+@prefix uco-core: <https://ontology.unifiedcyberontology.org/uco/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+myext:MyCustomObject
+    a owl:Class ;
+    rdfs:subClassOf uco-core:UcoObject ;
+    rdfs:label "MyCustomObject"@en ;
+    rdfs:comment "A domain-specific object for my use case."@en ;
+    .
+
+myext:customProperty
+    a owl:DatatypeProperty ;
+    rdfs:label "customProperty"@en ;
+    rdfs:comment "A property specific to my extension."@en ;
+    rdfs:domain myext:MyCustomObject ;
+    rdfs:range xsd:string ;
+    .
+```
+
+### Step 2: Define a Matching Dataclass
+
+In your application code, create a dataclass that mirrors the generated SDK pattern:
+
+```python
+from dataclasses import dataclass, field
+from typing import Optional
+
+@dataclass
+class MyCustomObject:
+    CLASS_IRI: str = "http://example.org/ontology/myext/MyCustomObject"
+    NAMESPACE_PREFIX: str = "myext"
+
+    custom_property: Optional[str] = field(default=None, metadata={
+        'jsonld_key': 'myext:customProperty',
+        'required': False,
+        'cardinality': 'zero_or_one',
+        'range_iri': 'http://www.w3.org/2001/XMLSchema#string',
+        'alternate_range_iris': [],
+    })
+```
+
+### Step 3: Use It with the SDK
+
+Register your extension's namespace prefix and use the class like any built-in type:
+
+```python
+graph = CASEGraph(extra_context={
+    "myext": "http://example.org/ontology/myext/",
+})
+
+graph.add(MyCustomObject(custom_property="my value"))
+print(graph.serialize())
+```
+
+### Step 4: Validate with case_validate
+
+If you plan to share your extension with the CDO community, validate your exemplar data:
+
+```bash
+pip install case-utils
+
+case_validate --built-version case-1.4.0 \
+  --ontology-graph path/to/myext.ttl \
+  --inference rdfs --allow-info \
+  path/to/myext-exemplar.ttl
+```
+
+See the [toolcap extension](extensions/toolcap/) for a complete, validated example of this pattern, and the [CDO Community Playground Guide](https://docs.google.com/document/d/1EiXQiAeUGk-629xdKx7HZHVn927k891LGkPcQzNLLr8/edit?usp=sharing) for submission requirements.
+
+## SDK Architecture
+
+```
+CASE-UCO-SDK/
+├── generator/          Python code generator (parses OWL+SHACL → typed libraries)
+├── ontology/           Git submodules: UCO 1.4.0 + CASE 1.4.0 sources
+├── python/             Generated Python library (case-uco)
+├── csharp/             Generated C# library (CaseUco, netstandard2.0)
+├── java/               Generated Java library (org.caseontology)
+├── rust/               Generated Rust crate (case-uco)
+├── extensions/         Extension ontology examples
+│   └── toolcap/        Forensic tool capability comparison extension
+├── .github/workflows/  CI, CodeQL, dependency review, release workflows
+└── Makefile            Build orchestration
+```
 
 ## Ontology Versions
 
@@ -155,15 +266,21 @@ This produces a CASE/UCO-compliant JSON-LD graph representing:
 | UCO | 1.4.0 |
 | CASE | 1.4.0 |
 
+To check at runtime:
+
+```python
+import case_uco
+print(case_uco.UCO_VERSION)   # "1.4.0"
+print(case_uco.CASE_VERSION)  # "1.4.0"
+```
+
 ## Related Projects
 
-- [UCO Ontology](https://github.com/ucoProject/UCO)
-- [CASE Ontology](https://github.com/casework/CASE)
-- [CASE Examples](https://github.com/casework/CASE-Examples)
-- [CASE Profile Example](https://github.com/casework/CASE-Profile-Example)
-- [CASE Mapping Template Stubs](https://github.com/casework/CASE-Mapping-Template-Stubs)
-- [CASE Mappings](https://github.com/casework/CASE-Mappings)
-- [CDO Community Playground Guide - Draft](https://docs.google.com/document/d/1EiXQiAeUGk-629xdKx7HZHVn927k891LGkPcQzNLLr8/edit?usp=sharing)
+- [UCO Ontology](https://github.com/ucoProject/UCO) — Unified Cyber Ontology source
+- [CASE Ontology](https://github.com/casework/CASE) — Cyber-investigation Analysis Standard Expression source
+- [CASE Examples](https://github.com/casework/CASE-Examples) — Validated CASE/UCO example data
+- [CASE Profile Example](https://github.com/casework/CASE-Profile-Example) — Extension testing infrastructure
+- [CDO Community Playground Guide](https://docs.google.com/document/d/1EiXQiAeUGk-629xdKx7HZHVn927k891LGkPcQzNLLr8/edit?usp=sharing) — Requirements for community extensions
 
 ## Contributing
 
