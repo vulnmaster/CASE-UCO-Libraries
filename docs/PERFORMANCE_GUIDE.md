@@ -1,8 +1,8 @@
 # CASE/UCO Performance and Engineering Tradeoffs
 
-This guide helps developers make informed engineering decisions when building CASE/UCO knowledge graphs. The data comes from the [pDNS Benchmarking Experiment](https://github.com/vulnmaster/pDNS-Benchmarking-Experiment), which measured serialization and validation performance across dataset sizes from 1,000 to 512,000 records (21,000 to 10.7 million RDF triples). The pDNS Benchmarking Experiment repository is a private repository as it contains some data about commercial tool benchmarks that cannot be disclosed publicly. Request access from vulnmaster if you need to see it.
+This guide helps developers make informed engineering decisions when building CASE/UCO investigation graphs. The data comes from the [pDNS Benchmarking Experiment](https://github.com/vulnmaster/pDNS-Benchmarking-Experiment), which measured serialization and validation performance across dataset sizes from 1,000 to 512,000 records (21,000 to 10.7 million RDF triples). The pDNS Benchmarking Experiment repository is a private repository as it contains some data about commercial tool benchmarks that cannot be disclosed publicly. Request access from vulnmaster if you need to see it.
 
-The core lesson: **build many smaller, focused knowledge graphs instead of one giant monolith.** This works better in resource-constrained environments, parallelizes naturally, and you can still query them together in a graph database.
+The core lesson: **build many smaller, focused investigation graphs instead of one giant monolith.** This works better in resource-constrained environments, parallelizes naturally, and you can still query them together in a graph database.
 
 ## Triple Count Estimation
 

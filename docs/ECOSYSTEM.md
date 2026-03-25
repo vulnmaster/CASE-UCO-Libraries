@@ -99,6 +99,36 @@ The canonical upstream repositories and community resources.
 | [CDO Community Playground Guide](https://docs.google.com/document/d/1EiXQiAeUGk-629xdKx7HZHVn927k891LGkPcQzNLLr8/edit?usp=sharing) | Requirements and process for submitting community extensions |
 | [Cyber Domain Ontology (CDO)](https://cyberdomainontology.org/) | The Linux Foundation project that governs CASE and UCO |
 
+## AI Development Tools
+
+The SDK includes built-in support for AI coding assistants (Cursor, Claude Code, and similar tools).
+
+### Cursor Rules
+
+The `.cursor/rules/` directory contains rules that teach AI agents how to use the SDK correctly:
+
+- **`case-uco-sdk.mdc`** — Core SDK patterns, the ObservableObject + Facet approach, class discovery, validation, and common pitfalls. Applied automatically to every conversation.
+- **`extension-authoring.mdc`** — Guidance for writing extension ontology TTL files. Applied when editing files in `extensions/`.
+
+### MCP Server
+
+The `mcp_server/` directory contains a [FastMCP](https://gofastmcp.com/) server that exposes ontology discovery as MCP tools. AI agents can call these tools to find the right classes programmatically:
+
+| Tool | Description |
+|------|-------------|
+| `search_classes(query)` | Find classes by keyword (name or description) |
+| `get_class_details(name)` | Full property table for a class |
+| `find_classes_for_domain(domain)` | Map an investigative task to relevant classes |
+| `list_all_facets()` | All Facet classes for the ObservableObject pattern |
+| `get_recipe(scenario)` | Find a code recipe for a forensic workflow |
+| `list_all_vocabs()` | All vocabulary/enum types |
+
+The server also exposes MCP resources (`case-uco://domains`, `case-uco://modules`, `case-uco://patterns`) that AI agents can read for orientation.
+
+Setup: `pip install fastmcp` and restart Cursor. The `.cursor/mcp.json` configuration is included in the repository.
+
+See [mcp_server/README.md](../mcp_server/README.md) for detailed setup and usage instructions.
+
 ## Adding Your Project
 
 If your project extends CASE/UCO and you'd like it listed here, open a pull request or issue on the [SDK repository](https://github.com/vulnmaster/CASE-UCO-SDK).

@@ -1,0 +1,68 @@
+---
+description: Guidance for authoring CASE/UCO extension ontologies in Turtle format
+globs: extensions/**/*.ttl
+alwaysApply: false
+---
+
+# Extension Ontology Authoring
+
+When working on extension ontology TTL files, follow these patterns.
+
+## File Structure
+
+Each extension should have separate OWL and SHACL files:
+- `myext.ttl` — OWL class and property definitions
+- `myext-shapes.ttl` — SHACL NodeShape constraints
+- `myext-exemplar.ttl` — example instance data for validation testing
+
+## Class Definition Pattern
+
+Every extension class must subclass an existing UCO/CASE class:
+
+```turtle
+myext:MyClass
+    a owl:Class ;
+    rdfs:subClassOf uco-core:UcoObject ;
+    rdfs:label "MyClass"@en ;
+    rdfs:comment "Description of what this class represents."@en .
+```
+
+## SHACL Shape Pattern
+
+Each class needs a corresponding NodeShape:
+
+```turtle
+myext:MyClass-shape
+    a sh:NodeShape ;
+    sh:targetClass myext:MyClass ;
+    sh:property [
+        sh:path myext:myProperty ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] .
+```
+
+## Scaffolding Typed Classes
+
+After defining the TTL, generate starter code for any language:
+
+```bash
+case-uco-generate scaffold \
+  --extension myext.ttl myext-shapes.ttl \
+  --lang python \
+  --output-dir ./generated/
+```
+
+## Validation
+
+Validate exemplar data against the extension shapes:
+
+```bash
+case_validate --built-version case-1.4.0 \
+  --ontology-graph myext.ttl \
+  --ontology-graph myext-shapes.ttl \
+  myext-exemplar.ttl
+```
+
+See the `extensions/toolcap/` directory for a complete validated example.

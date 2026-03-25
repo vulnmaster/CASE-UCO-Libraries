@@ -1,10 +1,12 @@
 # CASE/UCO SDK
 
-A multi-language SDK for building [CASE](https://caseontology.org/) and [UCO](https://unifiedcyberontology.org/) compliant JSON-LD graphs. If your software produces or consumes digital forensic, cyber-investigation, or cyber-observable data, this SDK gives you typed, validated builders in **Python**, **C#**, **Java**, and **Rust** — so you can work with CASE/UCO objects in your language instead of hand-writing JSON-LD.
+A multi-language data modeling library for digital forensics, cyber-investigation, and cyber-observable data. If your software produces or consumes forensic evidence, this SDK gives you typed, validated builders in **Python**, **C#**, **Java**, and **Rust** — so you can model investigation data in your language and produce interoperable [CASE/UCO](https://caseontology.org/) JSON-LD output.
+
+The SDK also works with AI coding assistants (Cursor, Claude Code, etc.) — see [AI-Assisted Development](#ai-assisted-development) below.
 
 ## What the SDK Does
 
-The SDK is auto-generated from the official CASE 1.4.0 and UCO 1.4.0 OWL+SHACL ontology sources. Every class, property, and vocabulary term in the published specifications has a corresponding typed class in each language. The generated code gives you:
+The SDK is auto-generated from the official CASE 1.4.0 and UCO 1.4.0 ontology sources. Every class, property, and vocabulary term in the published specifications has a corresponding typed class in each language. The generated code gives you:
 
 - **Full ontology coverage** — all 428 classes across 15 modules (including extensions)
 - **Typed properties** with correct JSON-LD serialization (IRIs, typed literals, nested objects)
@@ -164,7 +166,7 @@ graph.write("enriched-bundle.jsonld")           # write combined graph
 
 ## Working with Large Datasets
 
-CASE/UCO knowledge graphs can grow large quickly — a single DNS record produces 21 triples, and a full filesystem extraction can generate millions. The SDK provides tools to help you partition, estimate, and manage graph sizes for any compute environment.
+CASE/UCO investigation graphs can grow large quickly — a single DNS record produces 21 RDF triples under the hood, and a full filesystem extraction can generate millions. The SDK provides tools to help you partition, estimate, and manage graph sizes for any compute environment.
 
 ### Estimate Before Building
 
@@ -241,7 +243,7 @@ myext:customProperty
 Use the built-in scaffold command to auto-generate starter classes for all four languages:
 
 ```bash
-# Generate starter classes from your extension TTL + SHACL shapes
+# Generate starter classes from your extension TTL + validation shapes
 case-uco-generate scaffold \
   --extension path/to/myext.ttl path/to/myext-shapes.ttl \
   --output-dir my_project/
@@ -320,7 +322,7 @@ The explorer includes extension ontologies by default. Use `--no-extensions` to 
 
 ### Runtime Introspection (All Languages)
 
-Every language in the SDK includes a runtime registry backed by the same auto-generated `_registry.json`. Search, list, and query ontology classes programmatically without leaving your IDE.
+Every language in the SDK includes a runtime registry backed by the same auto-generated `_registry.json`. Search, list, and query available object types programmatically without leaving your IDE.
 
 **Python:**
 
@@ -406,6 +408,12 @@ CASE-UCO-SDK/
 ├── rust/                   Generated Rust crate (case-uco)
 ├── extensions/             Extension ontologies (included in explorer + docs)
 │   └── toolcap/            Forensic tool capability comparison extension
+├── mcp_server/             MCP server for AI-assisted development
+│   ├── server.py           FastMCP server wrapping the ontology registry
+│   └── domain_index.py     Task-to-class mappings and recipe index
+├── .cursor/
+│   ├── rules/              AI agent guidance (SDK patterns, extension authoring)
+│   └── mcp.json            MCP server configuration
 ├── docs/
 │   ├── ECOSYSTEM.md        Companion tools, community extensions, ontology sources
 │   ├── MAPPING_GUIDE.md    Domain mapping guide (auto-generated)
@@ -447,6 +455,40 @@ import case_uco
 print(case_uco.UCO_VERSION)   # "1.4.0"
 print(case_uco.CASE_VERSION)  # "1.4.0"
 ```
+
+## AI-Assisted Development
+
+The SDK is designed to work with AI coding assistants like Cursor, Claude Code, and similar tools. When you open this project in a supported IDE, the AI agent automatically knows how to use the SDK — which classes to pick, how to build graphs, and how to validate output.
+
+### How It Works
+
+1. **Cursor rules** (`.cursor/rules/`) teach the AI agent the core SDK patterns, the ObservableObject + Facet modeling approach, and common pitfalls — so it writes correct code on the first try.
+
+2. **MCP server** (`mcp_server/`) provides programmatic ontology discovery tools. Instead of reading documentation, the AI agent can call `search_classes("mobile")` or `find_classes_for_domain("email evidence")` to find exactly the right types for your scenario.
+
+3. **Domain-oriented task mappings** translate natural-language descriptions ("model a disk image extraction") into the specific classes needed, so you can describe your forensic workflow and get correct code.
+
+### Setup
+
+The Cursor rules are included automatically. To enable the MCP server:
+
+```bash
+pip install fastmcp
+```
+
+Then restart Cursor — the `.cursor/mcp.json` configuration will be detected and the server started.
+
+### What You Can Say
+
+Once configured, you can describe what you need in plain language:
+
+- "Model the results of a Cellebrite extraction from a Samsung Galaxy with WhatsApp messages and GPS data"
+- "Create a chain of custody record for evidence received from a field office"
+- "Model network traffic capture with DNS records and HTTP connections"
+
+The AI agent will use the MCP tools to find the right classes and write correct SDK code.
+
+For more details, see **[mcp_server/README.md](mcp_server/README.md)**.
 
 ## Ecosystem & Tools
 

@@ -1,0 +1,70 @@
+---
+description: CASE/UCO SDK usage patterns for building digital forensics investigation graphs
+alwaysApply: true
+---
+
+# CASE/UCO SDK
+
+This project is a multi-language SDK for building CASE/UCO compliant JSON-LD graphs for digital forensics, cyber-investigation, and cyber-observable data. It supports Python, C#, Java, and Rust.
+
+## Core Pattern
+
+Every workflow follows the same pattern: create a graph, add typed objects, serialize.
+
+```python
+from case_uco import CASEGraph
+from case_uco.uco.tool import Tool
+from case_uco.case.investigation import Investigation, InvestigativeAction
+from case_uco.uco.observable import ObservableObject, FileFacet
+
+graph = CASEGraph()
+graph.create(Investigation, name="Case 2024-001")
+tool = graph.create(Tool, name="Autopsy", version="4.21.0")
+graph.create(ObservableObject, has_facet=[FileFacet(file_name="evidence.dd")])
+graph.write("output.jsonld")
+```
+
+## The ObservableObject + Facet Pattern
+
+Most forensic data uses `ObservableObject` with one or more Facets attached. A single observable can have multiple facets describing different aspects:
+
+```python
+graph.create(ObservableObject, has_facet=[
+    FileFacet(file_name="photo.jpg", size_in_bytes=4096),
+    ContentDataFacet(hash_method="SHA-256", hash_value="abc123..."),
+])
+```
+
+## Finding the Right Class
+
+Use the MCP server tools (search_classes, get_class_details, find_classes_for_domain) to discover classes programmatically. In Python you can also use:
+
+```python
+from case_uco.registry import search, get_class
+search("browser")       # find classes by keyword
+get_class("FileFacet")  # get full property details
+```
+
+Do NOT manually browse ONTOLOGY_REFERENCE.md — use the registry or MCP tools instead.
+
+## Key References
+
+- `docs/RECIPES.md` — copy-paste workflow examples for common forensic scenarios
+- `docs/MAPPING_GUIDE.md` — maps forensic domains (files, network, mobile, email) to the right classes
+- `docs/ECOSYSTEM.md` — companion tools (case-utils for validation, Fuseki for SPARQL)
+
+## Validation
+
+Always validate output with case-utils:
+
+```bash
+pip install case-utils
+case_validate --built-version case-1.4.0 output.jsonld
+```
+
+## Important Constraints
+
+- Do NOT split investigative graphs by arbitrary object count — it breaks cross-object relationships. Partition by natural forensic boundaries (per-volume, per-app, per-device).
+- The `split()` method is only safe for catalog-style graphs with independent objects (hash lists, IoC feeds).
+- Required fields are enforced at insertion time — missing a required property raises an error.
+- All four languages share the same JSON-LD context and produce interoperable output.
