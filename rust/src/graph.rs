@@ -153,13 +153,9 @@ impl CaseGraph {
     pub fn split(&self, max_objects: usize) -> Vec<CaseGraph> {
         self.objects
             .chunks(max_objects)
-            .map(|chunk| {
-                let mut g = CaseGraph {
-                    context: self.context.clone(),
-                    objects: chunk.to_vec(),
-                };
-                let _ = &g;
-                g
+            .map(|chunk| CaseGraph {
+                context: self.context.clone(),
+                objects: chunk.to_vec(),
             })
             .collect()
     }

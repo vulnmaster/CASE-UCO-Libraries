@@ -130,11 +130,22 @@ def _cmd_generate(args) -> int:
     total_files += 1
     logging.info("  -> %s", guide_path)
 
-    if "python" in languages or args.lang == "all":
-        logging.info("Generating runtime registry (full schema with extensions) ...")
-        registry_backend = PythonBackend(schema, output_root / "python" / "case_uco")
-        registry_path = registry_backend._emit_registry()
-        logging.info("  -> %s", registry_path)
+    logging.info("Generating runtime registry (full schema with extensions) ...")
+    registry_backend = PythonBackend(schema, output_root / "python" / "case_uco")
+    registry_path = registry_backend._emit_registry()
+    logging.info("  -> %s", registry_path)
+
+    registry_copies = {
+        "csharp": output_root / "csharp" / "CaseUco" / "_registry.json",
+        "java": output_root / "java" / "src" / "main" / "resources" / "_registry.json",
+        "rust": output_root / "rust" / "src" / "_registry.json",
+    }
+    import shutil
+    for lang_name, dest in registry_copies.items():
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(registry_path, dest)
+        total_files += 1
+        logging.info("  -> %s (%s)", dest, lang_name)
 
     logging.info("Done: %d total files generated.", total_files)
     return 0

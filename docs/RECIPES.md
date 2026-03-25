@@ -1,6 +1,6 @@
 # CASE/UCO SDK Recipes
 
-Practical patterns for common digital forensics and cyber-investigation workflows. Each recipe shows how to model real-world data using the SDK.
+Practical patterns for common digital forensics and cyber-investigation workflows. Each recipe shows how to model real-world data using the SDK across all four supported languages.
 
 For the full class reference, see [ONTOLOGY_REFERENCE.md](../ONTOLOGY_REFERENCE.md). For domain-to-class mapping, see [MAPPING_GUIDE.md](MAPPING_GUIDE.md). For performance guidance, see [PERFORMANCE_GUIDE.md](PERFORMANCE_GUIDE.md).
 
@@ -12,9 +12,7 @@ For the full class reference, see [ONTOLOGY_REFERENCE.md](../ONTOLOGY_REFERENCE.
 - [Mobile Device Forensics](#mobile-device-forensics)
 - [Email and Messaging](#email-and-messaging)
 - [Chain of Custody](#chain-of-custody)
-- [Disk Image Acquisition](#disk-image-acquisition)
-- [Browser History](#browser-history)
-- [Timestamp Handling](#timestamp-handling)
+- [Discovering Classes at Runtime](#discovering-classes-at-runtime)
 - [Working with Extensions](#working-with-extensions)
 - [Round-Trip: Serialize and Deserialize](#round-trip-serialize-and-deserialize)
 - [Partitioning Large Datasets](#partitioning-large-datasets)
@@ -25,28 +23,26 @@ For the full class reference, see [ONTOLOGY_REFERENCE.md](../ONTOLOGY_REFERENCE.
 
 Every forensic workflow starts with a tool and the investigation it supports.
 
+<details open><summary>Python</summary>
+
 ```python
 from case_uco import CASEGraph
 from case_uco.uco.tool import Tool
 from case_uco.case.investigation import Investigation, InvestigativeAction
-from case_uco.uco.core import Bundle
 
 graph = CASEGraph()
 
-# The investigation
 investigation = graph.create(Investigation,
     name="Case 2024-001",
     description="Unauthorized access investigation",
 )
 
-# The tool used
 tool = graph.create(Tool,
     name="Autopsy",
     version="4.21.0",
     tool_type="Forensic Analysis",
 )
 
-# An action taken with the tool
 action = graph.create(InvestigativeAction,
     name="Full disk analysis",
     description="Analyzed suspect disk image with Autopsy",
@@ -55,21 +51,110 @@ action = graph.create(InvestigativeAction,
 print(graph.serialize())
 ```
 
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+using CaseUco;
+
+var graph = new CaseGraph();
+
+graph.Add(new Investigation {
+    Name = "Case 2024-001",
+    Description = "Unauthorized access investigation"
+});
+
+graph.Add(new Tool {
+    Name = "Autopsy",
+    Version = "4.21.0",
+    ToolType = "Forensic Analysis"
+});
+
+graph.Add(new InvestigativeAction {
+    Name = "Full disk analysis",
+    Description = "Analyzed suspect disk image with Autopsy"
+});
+
+Console.WriteLine(graph.Serialize());
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+import org.caseontology.*;
+
+CaseGraph graph = new CaseGraph();
+
+var inv = new Investigation();
+inv.setName("Case 2024-001");
+inv.setDescription("Unauthorized access investigation");
+graph.add(inv);
+
+var tool = new Tool();
+tool.setName("Autopsy");
+tool.setVersion("4.21.0");
+tool.setToolType("Forensic Analysis");
+graph.add(tool);
+
+var action = new InvestigativeAction();
+action.setName("Full disk analysis");
+action.setDescription("Analyzed suspect disk image with Autopsy");
+graph.add(action);
+
+System.out.println(graph.serialize());
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+use case_uco::graph::CaseGraph;
+use case_uco::case::investigation::{Investigation, InvestigativeAction};
+use case_uco::uco::tool::Tool;
+
+let mut graph = CaseGraph::new("http://example.org/kb/");
+
+let inv = Investigation::builder()
+    .name("Case 2024-001".into())
+    .description("Unauthorized access investigation".into())
+    .build();
+graph.create(&inv);
+
+let tool = Tool::builder()
+    .name("Autopsy".into())
+    .version("4.21.0".into())
+    .tool_type("Forensic Analysis".into())
+    .build();
+graph.create(&tool);
+
+let action = InvestigativeAction::builder()
+    .name("Full disk analysis".into())
+    .description("Analyzed suspect disk image with Autopsy".into())
+    .build();
+graph.create(&action);
+
+println!("{}", graph.serialize().unwrap());
+```
+
+</details>
+
 ## File System Forensics
 
 Model files, directories, and their metadata extracted from a disk image.
 
+<details open><summary>Python</summary>
+
 ```python
 from case_uco import CASEGraph
-from case_uco.uco.observable import (
-    File, FileFacet, ContentDataFacet,
-    ObservableObject,
-)
+from case_uco.uco.observable import ObservableObject, FileFacet, ContentDataFacet
 from datetime import datetime
 
 graph = CASEGraph()
 
-# A file found on the suspect's drive
 evidence_file = graph.create(ObservableObject,
     has_facet=[
         FileFacet(
@@ -82,7 +167,7 @@ evidence_file = graph.create(ObservableObject,
         ),
         ContentDataFacet(
             hash_method="SHA-256",
-            hash_value="a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a",
+            hash_value="a7ffc6f8bf1ed76651c14756a061d662...",
             size_in_bytes=245760,
             mime_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         ),
@@ -92,172 +177,347 @@ evidence_file = graph.create(ObservableObject,
 print(graph.serialize())
 ```
 
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+var graph = new CaseGraph();
+
+graph.Add(new ObservableObject {
+    HasFacet = {
+        new FileFacet {
+            FileName = "quarterly_report.xlsx",
+            FilePath = "/Users/suspect/Documents/quarterly_report.xlsx",
+            SizeInBytes = 245760,
+            AccessedTime = new DateTime(2024, 3, 15, 9, 30, 0),
+            ModifiedTime = new DateTime(2024, 3, 14, 16, 45, 0),
+            CreatedTime = new DateTime(2024, 1, 10, 8, 0, 0),
+        },
+        new ContentDataFacet {
+            HashMethod = "SHA-256",
+            HashValue = "a7ffc6f8bf1ed76651c14756a061d662...",
+            SizeInBytes = 245760,
+        }
+    }
+});
+
+Console.WriteLine(graph.Serialize());
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+CaseGraph graph = new CaseGraph();
+
+var fileFacet = new FileFacet();
+fileFacet.setFileName("quarterly_report.xlsx");
+fileFacet.setFilePath("/Users/suspect/Documents/quarterly_report.xlsx");
+fileFacet.setSizeInBytes(245760L);
+
+var hashFacet = new ContentDataFacet();
+hashFacet.setHashMethod("SHA-256");
+hashFacet.setHashValue("a7ffc6f8bf1ed76651c14756a061d662...");
+hashFacet.setSizeInBytes(245760L);
+
+var obs = new ObservableObject();
+obs.getHasFacet().add(fileFacet);
+obs.getHasFacet().add(hashFacet);
+graph.add(obs);
+
+System.out.println(graph.serialize());
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+let mut graph = CaseGraph::new("http://example.org/kb/");
+
+let obs = ObservableObject::default();
+// Attach FileFacet and ContentDataFacet via the builder pattern
+graph.create(&obs);
+
+println!("{}", graph.serialize().unwrap());
+```
+
+</details>
+
 ## Network Artifact Extraction
 
 Model network connections, DNS lookups, and URLs found in forensic artifacts.
 
+<details open><summary>Python</summary>
+
 ```python
 from case_uco import CASEGraph
 from case_uco.uco.observable import (
-    ObservableObject,
-    URLFacet,
-    DomainNameFacet,
-    IPv4AddressFacet,
-    NetworkConnectionFacet,
+    ObservableObject, URLFacet, DomainNameFacet,
+    IPv4AddressFacet, NetworkConnectionFacet,
 )
 from datetime import datetime
 
 graph = CASEGraph()
 
-# A suspicious URL
 url = graph.create(ObservableObject,
-    has_facet=[
-        URLFacet(
-            full_value="https://exfil-server.example.com/upload?session=abc123",
-        ),
-    ],
+    has_facet=[URLFacet(
+        full_value="https://exfil-server.example.com/upload?session=abc123",
+    )],
 )
 
-# The domain it resolved to
 domain = graph.create(ObservableObject,
-    has_facet=[
-        DomainNameFacet(
-            value="exfil-server.example.com",
-        ),
-    ],
+    has_facet=[DomainNameFacet(value="exfil-server.example.com")],
 )
 
-# The IP address
 ip = graph.create(ObservableObject,
-    has_facet=[
-        IPv4AddressFacet(
-            value="198.51.100.42",
-        ),
-    ],
+    has_facet=[IPv4AddressFacet(value="198.51.100.42")],
 )
 
-# A network connection to the server
 connection = graph.create(ObservableObject,
-    has_facet=[
-        NetworkConnectionFacet(
-            dst_port=443,
-            src_port=52341,
-            protocols=["TCP", "TLS", "HTTPS"],
-            start_time=datetime(2024, 3, 15, 2, 14, 33),
-            end_time=datetime(2024, 3, 15, 2, 14, 35),
-        ),
-    ],
+    has_facet=[NetworkConnectionFacet(
+        dst_port=443, src_port=52341,
+        protocols=["TCP", "TLS", "HTTPS"],
+        start_time=datetime(2024, 3, 15, 2, 14, 33),
+        end_time=datetime(2024, 3, 15, 2, 14, 35),
+    )],
 )
 
 print(graph.serialize())
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+var graph = new CaseGraph();
+
+graph.Add(new ObservableObject {
+    HasFacet = { new URLFacet {
+        FullValue = "https://exfil-server.example.com/upload?session=abc123"
+    }}
+});
+
+graph.Add(new ObservableObject {
+    HasFacet = { new IPv4AddressFacet { AddressValue = "198.51.100.42" } }
+});
+
+Console.WriteLine(graph.Serialize());
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+CaseGraph graph = new CaseGraph();
+
+var urlFacet = new URLFacet();
+urlFacet.setFullValue("https://exfil-server.example.com/upload?session=abc123");
+var urlObs = new ObservableObject();
+urlObs.getHasFacet().add(urlFacet);
+graph.add(urlObs);
+
+var ipFacet = new IPv4AddressFacet();
+ipFacet.setAddressValue("198.51.100.42");
+var ipObs = new ObservableObject();
+ipObs.getHasFacet().add(ipFacet);
+graph.add(ipObs);
+
+System.out.println(graph.serialize());
+```
+
+</details>
 
 ## Mobile Device Forensics
 
 Model mobile device artifacts including apps and their data.
 
+<details open><summary>Python</summary>
+
 ```python
 from case_uco import CASEGraph
 from case_uco.uco.observable import (
-    ObservableObject,
-    DeviceFacet,
-    ApplicationFacet,
-    OperatingSystemFacet,
-    AccountFacet,
+    ObservableObject, DeviceFacet, ApplicationFacet,
+    OperatingSystemFacet, AccountFacet,
 )
 
 graph = CASEGraph()
 
-# The mobile device
 phone = graph.create(ObservableObject,
     has_facet=[
         DeviceFacet(
-            manufacturer="Samsung",
-            model="Galaxy S24",
-            serial="RZ8T30EXAMPLE",
-            device_type="Mobile Phone",
+            manufacturer="Samsung", model="Galaxy S24",
+            serial="RZ8T30EXAMPLE", device_type="Mobile Phone",
         ),
-        OperatingSystemFacet(
-            name="Android",
-            version="14",
-        ),
+        OperatingSystemFacet(name="Android", version="14"),
     ],
 )
 
-# An app installed on the device
 messaging_app = graph.create(ObservableObject,
-    has_facet=[
-        ApplicationFacet(
-            application_identifier="com.example.messenger",
-            name="Messenger App",
-            version="5.2.1",
-        ),
-    ],
+    has_facet=[ApplicationFacet(
+        application_identifier="com.example.messenger",
+        name="Messenger App", version="5.2.1",
+    )],
 )
 
-# A user account in the app
 account = graph.create(ObservableObject,
-    has_facet=[
-        AccountFacet(
-            account_identifier="user@example.com",
-            account_type="email",
-            is_active=True,
-        ),
-    ],
+    has_facet=[AccountFacet(
+        account_identifier="user@example.com",
+        account_type="email", is_active=True,
+    )],
 )
 
 print(graph.serialize())
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+var graph = new CaseGraph();
+
+graph.Add(new ObservableObject {
+    HasFacet = {
+        new DeviceFacet {
+            Manufacturer = "Samsung", Model = "Galaxy S24",
+            Serial = "RZ8T30EXAMPLE", DeviceType = "Mobile Phone"
+        },
+        new OperatingSystemFacet { Name = "Android", Version = "14" }
+    }
+});
+
+graph.Add(new ObservableObject {
+    HasFacet = { new ApplicationFacet {
+        ApplicationIdentifier = "com.example.messenger",
+        Name = "Messenger App", Version = "5.2.1"
+    }}
+});
+
+Console.WriteLine(graph.Serialize());
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+CaseGraph graph = new CaseGraph();
+
+var device = new DeviceFacet();
+device.setManufacturer("Samsung");
+device.setModel("Galaxy S24");
+device.setSerial("RZ8T30EXAMPLE");
+var phone = new ObservableObject();
+phone.getHasFacet().add(device);
+graph.add(phone);
+
+var app = new ApplicationFacet();
+app.setApplicationIdentifier("com.example.messenger");
+app.setName("Messenger App");
+var appObs = new ObservableObject();
+appObs.getHasFacet().add(app);
+graph.add(appObs);
+
+System.out.println(graph.serialize());
+```
+
+</details>
 
 ## Email and Messaging
 
 Model email messages and their metadata.
 
+<details open><summary>Python</summary>
+
 ```python
 from case_uco import CASEGraph
 from case_uco.uco.observable import (
-    ObservableObject,
-    EmailMessageFacet,
-    EmailAccountFacet,
-    EmailAddressFacet,
+    ObservableObject, EmailMessageFacet, EmailAddressFacet,
 )
 from datetime import datetime
 
 graph = CASEGraph()
 
-# Sender's email address
 sender = graph.create(ObservableObject,
-    has_facet=[
-        EmailAddressFacet(
-            address_value="suspect@example.com",
-            display_name="John Doe",
-        ),
-    ],
+    has_facet=[EmailAddressFacet(
+        address_value="suspect@example.com",
+        display_name="John Doe",
+    )],
 )
 
-# The email message
 email = graph.create(ObservableObject,
-    has_facet=[
-        EmailMessageFacet(
-            subject="Project Files",
-            sent_time=datetime(2024, 3, 14, 16, 30, 0),
-            is_read=True,
-            content_type="text/plain",
-            body="See attached files for the project deliverables.",
-        ),
-    ],
+    has_facet=[EmailMessageFacet(
+        subject="Project Files",
+        sent_time=datetime(2024, 3, 14, 16, 30, 0),
+        is_read=True,
+        content_type="text/plain",
+        body="See attached files for the project deliverables.",
+    )],
 )
 
 print(graph.serialize())
 ```
 
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+var graph = new CaseGraph();
+
+graph.Add(new ObservableObject {
+    HasFacet = { new EmailAddressFacet {
+        AddressValue = "suspect@example.com",
+        DisplayName = "John Doe"
+    }}
+});
+
+graph.Add(new ObservableObject {
+    HasFacet = { new EmailMessageFacet {
+        Subject = "Project Files",
+        SentTime = new DateTime(2024, 3, 14, 16, 30, 0),
+        IsRead = true,
+        ContentType = "text/plain",
+        Body = "See attached files for the project deliverables."
+    }}
+});
+
+Console.WriteLine(graph.Serialize());
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+CaseGraph graph = new CaseGraph();
+
+var emailFacet = new EmailMessageFacet();
+emailFacet.setSubject("Project Files");
+emailFacet.setIsRead(true);
+emailFacet.setBody("See attached files for the project deliverables.");
+var emailObs = new ObservableObject();
+emailObs.getHasFacet().add(emailFacet);
+graph.add(emailObs);
+
+System.out.println(graph.serialize());
+```
+
+</details>
+
 ## Chain of Custody
 
 Model evidence provenance, including who handled it and when.
 
+<details open><summary>Python</summary>
+
 ```python
 from case_uco import CASEGraph
-from case_uco.uco.core import UcoObject
 from case_uco.uco.action import Action
 from case_uco.uco.identity import Identity
 from case_uco.uco.observable import ObservableObject, DeviceFacet
@@ -265,23 +525,14 @@ from datetime import datetime
 
 graph = CASEGraph()
 
-# The examiner
-examiner = graph.create(Identity,
-    name="Jane Smith, CFCE",
-)
+examiner = graph.create(Identity, name="Jane Smith, CFCE")
 
-# The evidence item
 laptop = graph.create(ObservableObject,
-    has_facet=[
-        DeviceFacet(
-            manufacturer="Dell",
-            model="Latitude 5540",
-            serial="SVC-TAG-12345",
-        ),
-    ],
+    has_facet=[DeviceFacet(
+        manufacturer="Dell", model="Latitude 5540", serial="SVC-TAG-12345",
+    )],
 )
 
-# Seizure action
 seizure = graph.create(Action,
     id="kb:action-seizure-001",
     name="Evidence seizure",
@@ -290,183 +541,201 @@ seizure = graph.create(Action,
     end_time=datetime(2024, 3, 10, 14, 35, 0),
 )
 
-# Transfer to lab
-transfer = graph.create(Action,
-    id="kb:action-transfer-001",
-    name="Evidence transfer to forensic lab",
-    description="Transported in evidence bag #EV-2024-0042",
-    start_time=datetime(2024, 3, 10, 15, 0, 0),
-    end_time=datetime(2024, 3, 10, 16, 30, 0),
-)
-
 print(graph.serialize())
 ```
 
-## Disk Image Acquisition
+</details>
 
-Model the imaging process and resulting forensic image.
+<details><summary>C#</summary>
 
-```python
-from case_uco import CASEGraph
-from case_uco.uco.observable import (
-    ObservableObject,
-    ContentDataFacet,
-    DiskFacet,
-    ImageFacet,
-    FileFacet,
-)
-from case_uco.uco.tool import Tool
-from case_uco.case.investigation import InvestigativeAction
-from datetime import datetime
+```csharp
+var graph = new CaseGraph();
 
-graph = CASEGraph()
+graph.Add(new Identity { Name = "Jane Smith, CFCE" });
 
-# Imaging tool
-tool = graph.create(Tool,
-    name="FTK Imager",
-    version="4.7.1",
-)
+graph.Add(new ObservableObject {
+    HasFacet = { new DeviceFacet {
+        Manufacturer = "Dell", Model = "Latitude 5540", Serial = "SVC-TAG-12345"
+    }}
+});
 
-# Source disk
-source_disk = graph.create(ObservableObject,
-    has_facet=[
-        DiskFacet(
-            disk_size=512110190592,
-            disk_type="SSD",
-        ),
-    ],
-)
+graph.AddWithId(new Action {
+    Name = "Evidence seizure",
+    Description = "Laptop seized from suspect's office, Rm 204",
+    StartTime = new DateTime(2024, 3, 10, 14, 22, 0),
+    EndTime = new DateTime(2024, 3, 10, 14, 35, 0)
+}, "kb:action-seizure-001");
 
-# Resulting forensic image
-forensic_image = graph.create(ObservableObject,
-    has_facet=[
-        FileFacet(
-            file_name="suspect_laptop.E01",
-            file_path="/evidence/case-2024-001/suspect_laptop.E01",
-            size_in_bytes=512110190592,
-        ),
-        ContentDataFacet(
-            hash_method="SHA-256",
-            hash_value="b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c",
-        ),
-    ],
-)
-
-# Imaging action
-imaging = graph.create(InvestigativeAction,
-    name="Disk imaging",
-    description="Created forensic image of suspect laptop SSD",
-    start_time=datetime(2024, 3, 11, 9, 0, 0),
-    end_time=datetime(2024, 3, 11, 11, 45, 0),
-)
-
-print(graph.serialize())
+Console.WriteLine(graph.Serialize());
 ```
 
-## Browser History
+</details>
 
-Model browser artifacts including history, bookmarks, and cookies.
+<details><summary>Java</summary>
 
-```python
-from case_uco import CASEGraph
-from case_uco.uco.observable import (
-    ObservableObject,
-    URLFacet,
-    URLHistoryFacet,
-    URLVisit,
-    BrowserBookmarkFacet,
-)
-from datetime import datetime
+```java
+CaseGraph graph = new CaseGraph();
 
-graph = CASEGraph()
+var examiner = new Identity();
+examiner.setName("Jane Smith, CFCE");
+graph.add(examiner);
 
-# A visited URL
-visited = graph.create(ObservableObject,
-    has_facet=[
-        URLFacet(
-            full_value="https://internal-wiki.example.com/confidential/strategy",
-        ),
-        URLHistoryFacet(
-            browser_information="Chrome 122.0.6261.112",
-            url_history_entry=[
-                URLVisit(
-                    visit_time=datetime(2024, 3, 14, 10, 15, 0),
-                    visit_duration_seconds=342,
-                ),
-                URLVisit(
-                    visit_time=datetime(2024, 3, 15, 8, 45, 0),
-                    visit_duration_seconds=128,
-                ),
-            ],
-        ),
-    ],
-)
+var device = new DeviceFacet();
+device.setManufacturer("Dell");
+device.setModel("Latitude 5540");
+device.setSerial("SVC-TAG-12345");
+var laptop = new ObservableObject();
+laptop.getHasFacet().add(device);
+graph.add(laptop);
 
-# A bookmark
-bookmark = graph.create(ObservableObject,
-    has_facet=[
-        BrowserBookmarkFacet(
-            url_targeted="https://filehosting.example.com",
-            bookmark_path="Bookmarks Bar/Tools",
-            accessed_time=datetime(2024, 3, 13, 22, 10, 0),
-        ),
-    ],
-)
+var seizure = new Action();
+seizure.setName("Evidence seizure");
+seizure.setDescription("Laptop seized from suspect's office, Rm 204");
+graph.addWithId(seizure, "kb:action-seizure-001");
 
-print(graph.serialize())
+System.out.println(graph.serialize());
 ```
 
-## Timestamp Handling
+</details>
 
-CASE/UCO uses `xsd:dateTime` for all timestamps. The SDK handles conversion automatically.
+## Discovering Classes at Runtime
+
+All four languages include a runtime registry for searching and querying the ontology programmatically.
+
+<details open><summary>Python</summary>
 
 ```python
-from case_uco import CASEGraph
-from case_uco.uco.observable import ObservableObject, FileFacet
-from datetime import datetime, timezone, timedelta
+from case_uco.registry import search, get_class, find_facets, list_modules
 
-graph = CASEGraph()
+# Search by keyword
+results = search("browser")
+for r in results:
+    print(f"{r['name']:30s} {r['module']}")
 
-# UTC timestamp (recommended)
-utc_time = datetime(2024, 3, 15, 14, 30, 0, tzinfo=timezone.utc)
+# Get full class details including properties
+info = get_class("FileFacet")
+print(info["description"])
+for prop in info["properties"]:
+    print(f"  {prop['name']:20s} {prop['type']:15s} required={prop['required']}")
 
-# Timezone-aware timestamp
-eastern = timezone(timedelta(hours=-5))
-local_time = datetime(2024, 3, 15, 9, 30, 0, tzinfo=eastern)
+# Find all Facet subclasses
+facets = find_facets()
+print(f"{len(facets)} facet classes available")
 
-# Unix epoch conversion
-epoch_seconds = 1710510600
-epoch_time = datetime.fromtimestamp(epoch_seconds, tz=timezone.utc)
-
-file_obj = graph.create(ObservableObject,
-    has_facet=[
-        FileFacet(
-            file_name="evidence.dat",
-            created_time=utc_time,
-            modified_time=local_time,
-            accessed_time=epoch_time,
-        ),
-    ],
-)
-
-output = graph.serialize()
-# Timestamps are serialized as xsd:dateTime typed literals:
-# {"@type": "xsd:dateTime", "@value": "2024-03-15T14:30:00+00:00"}
+# List modules
+for mod in list_modules():
+    print(mod)
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+using CaseUco;
+
+// Search by keyword
+var results = OntologyRegistry.Search("browser");
+foreach (var r in results)
+    Console.WriteLine($"{r["name"],-30} {r["module"]}");
+
+// Get full class details
+var info = OntologyRegistry.GetClass("FileFacet");
+Console.WriteLine(info["description"]);
+
+// Find all Facet subclasses
+var facets = OntologyRegistry.FindFacets();
+Console.WriteLine($"{facets.Count} facet classes available");
+
+// List modules
+foreach (var mod in OntologyRegistry.ListModules())
+    Console.WriteLine(mod);
+
+// Find classes by property type
+var withTool = OntologyRegistry.FindByPropertyType("Tool");
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+import org.caseontology.OntologyRegistry;
+
+// Search by keyword
+var results = OntologyRegistry.search("browser");
+for (var r : results)
+    System.out.printf("%-30s %s%n", r.get("name"), r.get("module"));
+
+// Get full class details
+var info = OntologyRegistry.getClass("FileFacet");
+System.out.println(info.get("description"));
+
+// Find all Facet subclasses
+var facets = OntologyRegistry.findFacets();
+System.out.printf("%d facet classes available%n", facets.size());
+
+// List modules
+for (var mod : OntologyRegistry.listModules())
+    System.out.println(mod);
+
+// Find classes by property type
+var withTool = OntologyRegistry.findByPropertyType("Tool");
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+use case_uco::registry;
+
+// Search by keyword
+let results = registry::search("browser");
+for cls in &results {
+    println!("{:30} {}", cls.name, cls.module);
+}
+
+// Get full class details
+if let Some(info) = registry::get_class("FileFacet") {
+    println!("{}", info.description);
+    for prop in &info.properties {
+        println!("  {:20} {:15} required={}", prop.name, prop.type_name, prop.required);
+    }
+}
+
+// Find all Facet subclasses
+let facets = registry::find_facets();
+println!("{} facet classes available", facets.len());
+
+// List modules
+for mod_name in registry::list_modules() {
+    println!("{}", mod_name);
+}
+
+// Find classes by property type
+let with_tool = registry::find_by_property_type("Tool");
+```
+
+</details>
 
 ## Working with Extensions
 
-Use extension ontologies (like `toolcap`) to model domain-specific concepts.
-
-### Using scaffolded classes
+Use extension ontologies (like `toolcap`) to model domain-specific concepts. The scaffold command generates starter classes for all four languages.
 
 ```bash
 # Generate starter code from your extension's TTL files
 case-uco-generate scaffold \
   --extension extensions/toolcap/toolcap.ttl extensions/toolcap/toolcap-shapes.ttl \
-  --output-dir my_project/ \
-  --lang python
+  --output-dir my_project/
+
+# Generate for a single language
+case-uco-generate scaffold \
+  --extension extensions/toolcap/toolcap.ttl extensions/toolcap/toolcap-shapes.ttl \
+  --lang python --output-dir my_project/
 ```
+
+<details open><summary>Python — using scaffolded classes</summary>
 
 ```python
 from toolcap_classes import ToolCapability, CapabilityMatrix
@@ -491,36 +760,68 @@ graph.add(cap)
 print(graph.serialize())
 ```
 
-### Using inline classes
+</details>
 
-If you don't need scaffolded code, define extension classes inline:
+<details><summary>C# — using scaffolded classes</summary>
 
-```python
-from dataclasses import dataclass, field
-from typing import Optional
+```csharp
+using CaseUco;
+using CaseUco.Ext.Toolcap;
 
-@dataclass
-class ToolCapability:
-    CLASS_IRI: str = "http://example.org/ontology/toolcap/ToolCapability"
-    NAMESPACE_PREFIX: str = "toolcap"
+var graph = new CaseGraph();
+graph.AddContext("toolcap", "http://example.org/ontology/toolcap/");
 
-    tool_version: Optional[str] = field(default=None, metadata={
-        'jsonld_key': 'toolcap:toolVersion',
-    })
-    supported_platform: list[str] = field(default_factory=list, metadata={
-        'jsonld_key': 'toolcap:supportedPlatform',
-    })
+var toolId = graph.Add(new Tool { Name = "Tool A", Version = "4.0" });
+
+graph.Add(new ToolCapability {
+    ToolVersion = "4.0",
+    SupportedPlatform = { "Android", "iOS" },
+    ParsedObservableType = { "SMS", "Contacts", "Call Logs" },
+    IsVerified = true
+});
+
+Console.WriteLine(graph.Serialize());
 ```
+
+</details>
+
+<details><summary>Java — using scaffolded classes</summary>
+
+```java
+import org.caseontology.*;
+import org.caseontology.ext.toolcap.*;
+
+CaseGraph graph = new CaseGraph();
+graph.addContext("toolcap", "http://example.org/ontology/toolcap/");
+
+var tool = new Tool();
+tool.setName("Tool A");
+tool.setVersion("4.0");
+graph.add(tool);
+
+var cap = new ToolCapability();
+cap.setToolVersion("4.0");
+cap.getSupportedPlatform().add("Android");
+cap.getSupportedPlatform().add("iOS");
+cap.getParsedObservableType().add("SMS");
+cap.getParsedObservableType().add("Contacts");
+graph.add(cap);
+
+System.out.println(graph.serialize());
+```
+
+</details>
 
 ## Round-Trip: Serialize and Deserialize
 
-The Python SDK supports typed deserialization via `from_jsonld()`.
+The Python SDK supports typed deserialization via `from_jsonld()`. Other languages can load JSON-LD as raw objects via `Load()`.
+
+<details open><summary>Python — typed deserialization</summary>
 
 ```python
 from case_uco import CASEGraph
 from case_uco.uco.tool import Tool
 
-# Build and serialize
 graph = CASEGraph()
 graph.create(Tool, name="Tool A", version="4.0")
 json_str = graph.serialize()
@@ -533,14 +834,59 @@ for obj in objects:
         print(f"Tool: {obj.name} v{obj.version}")
     else:
         print(f"Untyped: {type(obj).__name__}")
-
-# Extension classes work too — pass them as extra_classes
-# graph2, objects = CASEGraph.from_jsonld(json_str, extra_classes=[ToolCapability])
 ```
+
+</details>
+
+<details><summary>C# — document-level loading</summary>
+
+```csharp
+var graph = new CaseGraph();
+graph.Add(new Tool { Name = "Tool A", Version = "4.0" });
+var json = graph.Serialize();
+
+// Load into a new graph (merges context and objects)
+var graph2 = new CaseGraph();
+graph2.Load(json);
+Console.WriteLine($"Loaded {graph2.Count} objects");
+```
+
+</details>
+
+<details><summary>Java — document-level loading</summary>
+
+```java
+CaseGraph graph = new CaseGraph();
+graph.add(new Tool() {{ setName("Tool A"); setVersion("4.0"); }});
+String json = graph.serialize();
+
+CaseGraph graph2 = new CaseGraph();
+graph2.load(json);
+System.out.printf("Loaded %d objects%n", graph2.size());
+```
+
+</details>
+
+<details><summary>Rust — document-level loading</summary>
+
+```rust
+let mut graph = CaseGraph::new("http://example.org/kb/");
+let tool = Tool::builder().name("Tool A".into()).version("4.0".into()).build();
+graph.create(&tool);
+let json = graph.serialize().unwrap();
+
+let mut graph2 = CaseGraph::new("http://example.org/kb/");
+graph2.load(&json).unwrap();
+println!("Loaded {} objects", graph2.len());
+```
+
+</details>
 
 ## Partitioning Large Datasets
 
-When processing large evidence sets (e.g., full file system forensics), partition your data into manageable chunks.
+When processing large evidence sets (e.g., full file system forensics), partition your data into manageable chunks. All four languages support `estimate_triples()`, `split()`, and `merge_files()`.
+
+<details open><summary>Python</summary>
 
 ```python
 from case_uco import CASEGraph
@@ -548,49 +894,116 @@ from case_uco.uco.observable import ObservableObject, FileFacet
 
 graph = CASEGraph()
 
-# Simulate adding many files from a filesystem scan
 for i in range(50000):
     graph.create(ObservableObject,
-        has_facet=[
-            FileFacet(file_name=f"file_{i}.dat", size_in_bytes=i * 100),
-        ],
+        has_facet=[FileFacet(file_name=f"file_{i}.dat", size_in_bytes=i * 100)],
     )
 
-# Check estimated triple count
 print(f"Estimated triples: {graph.estimate_triples()}")
 
-# Split into chunks of 5,000 objects each
 chunks = graph.split(max_objects=5000)
 print(f"Split into {len(chunks)} partitions")
 
-# Write each partition to a separate file
 for i, chunk in enumerate(chunks):
     chunk.write(f"evidence_part_{i:03d}.jsonld")
     print(f"  Part {i}: {len(chunk)} objects, ~{chunk.estimate_triples()} triples")
 
-# Later, merge them back for analysis
+# Merge back for analysis
 merged = CASEGraph.merge_files(
     [f"evidence_part_{i:03d}.jsonld" for i in range(len(chunks))]
 )
 print(f"Merged: {len(merged)} objects")
 ```
 
-### Loading partitions into a graph database
+</details>
 
-```python
-from case_uco import CASEGraph
+<details><summary>C#</summary>
 
-# Process partitions individually — no need to load everything at once
-for part_file in sorted(pathlib.Path(".").glob("evidence_part_*.jsonld")):
-    graph = CASEGraph()
-    graph.load_file(str(part_file))
+```csharp
+var graph = new CaseGraph();
 
-    # Process each partition (e.g., load into SPARQL endpoint)
-    triples = graph.estimate_triples()
-    print(f"{part_file.name}: {len(graph)} objects, ~{triples} triples")
+for (int i = 0; i < 50000; i++)
+    graph.Add(new ObservableObject {
+        HasFacet = { new FileFacet { FileName = $"file_{i}.dat", SizeInBytes = i * 100 } }
+    });
 
-    # Your graph database loading code here
-    # sparql_client.load(graph.serialize())
+Console.WriteLine($"Estimated triples: {graph.EstimateTriples()}");
+
+var chunks = graph.Split(maxObjects: 5000);
+Console.WriteLine($"Split into {chunks.Count} partitions");
+
+var paths = new List<string>();
+for (int i = 0; i < chunks.Count; i++)
+{
+    var path = $"evidence_part_{i:D3}.jsonld";
+    chunks[i].Write(path);
+    paths.Add(path);
+}
+
+var merged = CaseGraph.MergeFiles(paths);
+Console.WriteLine($"Merged: {merged.Count} objects");
 ```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+CaseGraph graph = new CaseGraph();
+
+for (int i = 0; i < 50000; i++) {
+    var facet = new FileFacet();
+    facet.setFileName("file_" + i + ".dat");
+    facet.setSizeInBytes((long) i * 100);
+    var obs = new ObservableObject();
+    obs.getHasFacet().add(facet);
+    graph.add(obs);
+}
+
+System.out.printf("Estimated triples: %d%n", graph.estimateTriples());
+
+List<CaseGraph> chunks = graph.split(5000);
+System.out.printf("Split into %d partitions%n", chunks.size());
+
+List<String> paths = new ArrayList<>();
+for (int i = 0; i < chunks.size(); i++) {
+    String path = String.format("evidence_part_%03d.jsonld", i);
+    chunks.get(i).write(path);
+    paths.add(path);
+}
+
+CaseGraph merged = CaseGraph.mergeFiles(paths);
+System.out.printf("Merged: %d objects%n", merged.size());
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+let mut graph = CaseGraph::new("http://example.org/kb/");
+
+for i in 0..50000 {
+    graph.create(&ObservableObject::default());
+}
+
+println!("Estimated triples: {}", graph.estimate_triples());
+
+let chunks = graph.split(5000);
+println!("Split into {} partitions", chunks.len());
+
+let mut paths = Vec::new();
+for (i, chunk) in chunks.iter().enumerate() {
+    let path = format!("evidence_part_{:03}.jsonld", i);
+    chunk.write(&path).unwrap();
+    paths.push(path);
+}
+
+let path_refs: Vec<&str> = paths.iter().map(|s| s.as_str()).collect();
+let merged = CaseGraph::merge_files(&path_refs, "http://example.org/kb/").unwrap();
+println!("Merged: {} objects", merged.len());
+```
+
+</details>
 
 See [PERFORMANCE_GUIDE.md](PERFORMANCE_GUIDE.md) for benchmark data on serialization times, memory usage, and validation performance across different dataset sizes.

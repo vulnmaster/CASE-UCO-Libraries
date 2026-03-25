@@ -322,29 +322,62 @@ case-uco-explore properties --type Tool
 
 The explorer includes extension ontologies by default. Use `--no-extensions` to browse only core CASE/UCO.
 
-### Python Runtime Introspection
+### Runtime Introspection (All Languages)
 
-Discover classes programmatically from a Python REPL or script:
+Every language in the SDK includes a runtime registry backed by the same auto-generated `_registry.json`. Search, list, and query ontology classes programmatically without leaving your IDE.
+
+**Python:**
 
 ```python
 from case_uco.registry import search, get_class, find_facets, list_modules
 
-# Search by keyword
 results = search("browser")
 for r in results:
     print(f"{r['name']:30s} {r['module']}")
 
-# Get full class details
 info = get_class("FileFacet")
-print(info["description"])
 for prop in info["properties"]:
     print(f"  {prop['name']:20s} {prop['type']:15s} required={prop['required']}")
+```
 
-# Find all Facet subclasses
-facets = find_facets()
+**C#:**
 
-# List modules
-modules = list_modules()
+```csharp
+using CaseUco;
+
+var results = OntologyRegistry.Search("browser");
+foreach (var r in results)
+    Console.WriteLine($"{r["name"],-30} {r["module"]}");
+
+var info = OntologyRegistry.GetClass("FileFacet");
+// Also: ListModules(), ListClasses(), FindFacets(), FindByPropertyType(), ListVocabs()
+```
+
+**Java:**
+
+```java
+import org.caseontology.OntologyRegistry;
+
+var results = OntologyRegistry.search("browser");
+for (var r : results)
+    System.out.printf("%-30s %s%n", r.get("name"), r.get("module"));
+
+var info = OntologyRegistry.getClass("FileFacet");
+// Also: listModules(), listClasses(), findFacets(), findByPropertyType(), listVocabs()
+```
+
+**Rust:**
+
+```rust
+use case_uco::registry;
+
+let results = registry::search("browser");
+for cls in &results {
+    println!("{:30} {}", cls.name, cls.module);
+}
+
+let info = registry::get_class("FileFacet").unwrap();
+// Also: list_modules(), list_classes(), find_facets(), find_by_property_type(), list_vocabs()
 ```
 
 ### Ontology Reference
@@ -400,7 +433,7 @@ CASE-UCO-SDK/
 | Graph partitioning | `split()` | `Split()` | `split()` | `split()` |
 | Multi-file merge | `merge_files()` | `MergeFiles()` | `mergeFiles()` | `merge_files()` |
 | Typed deserialization | `from_jsonld()` | — | — | — |
-| Runtime introspection | `case_uco.registry` | — | — | — |
+| Runtime introspection | `case_uco.registry` | `OntologyRegistry` | `OntologyRegistry` | `registry` module |
 | Provenance metadata | `UCO_VERSION` | `CaseUcoMeta` | `CaseUcoMeta` | `VERSION` |
 
 ## Ontology Versions

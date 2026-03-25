@@ -167,6 +167,8 @@ Classes for representing files, directories, file systems, and their metadata. U
 
 **Example usage:**
 
+<details><summary>Python</summary>
+
 ```python
 from case_uco.uco.observable import ObservableObject, FileFacet
 
@@ -174,6 +176,43 @@ graph.create(ObservableObject, has_facet=[
     FileFacet(file_name="evidence.dd", size_in_bytes=1073741824)
 ])
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+graph.Add(new ObservableObject {
+    HasFacet = { new FileFacet { FileName = "evidence.dd", SizeInBytes = 1073741824 } }
+});
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+var facet = new FileFacet();
+facet.setFileName("evidence.dd");
+facet.setSizeInBytes(1073741824L);
+var obs = new ObservableObject();
+obs.getHasFacet().add(facet);
+graph.add(obs);
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+let facet = FileFacet::builder()
+    .file_name("evidence.dd".into())
+    .size_in_bytes(1073741824)
+    .build();
+graph.create(&ObservableObject::default());
+```
+
+</details>
 
 ## Network Activity
 
@@ -418,6 +457,8 @@ Classes for network connections, IP addresses, DNS records, URLs, and related ar
 
 **Example usage:**
 
+<details><summary>Python</summary>
+
 ```python
 from case_uco.uco.observable import ObservableObject, IPv4AddressFacet
 
@@ -425,6 +466,41 @@ graph.create(ObservableObject, has_facet=[
     IPv4AddressFacet(address_value="192.168.1.100")
 ])
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+graph.Add(new ObservableObject {
+    HasFacet = { new IPv4AddressFacet { AddressValue = "192.168.1.100" } }
+});
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+var facet = new IPv4AddressFacet();
+facet.setAddressValue("192.168.1.100");
+var obs = new ObservableObject();
+obs.getHasFacet().add(facet);
+graph.add(obs);
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+let facet = IPv4AddressFacet::builder()
+    .address_value("192.168.1.100".into())
+    .build();
+graph.create(&ObservableObject::default());
+```
+
+</details>
 
 ## Devices and Hardware
 
@@ -597,6 +673,8 @@ Classes for physical and virtual devices, storage media, and hardware characteri
 
 **Example usage:**
 
+<details><summary>Python</summary>
+
 ```python
 from case_uco.uco.observable import ObservableObject, DeviceFacet
 
@@ -604,6 +682,43 @@ graph.create(ObservableObject, has_facet=[
     DeviceFacet(manufacturer="ExampleCorp", model="X1000")
 ])
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+graph.Add(new ObservableObject {
+    HasFacet = { new DeviceFacet { Manufacturer = "ExampleCorp", Model = "X1000" } }
+});
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+var facet = new DeviceFacet();
+facet.setManufacturer("ExampleCorp");
+facet.setModel("X1000");
+var obs = new ObservableObject();
+obs.getHasFacet().add(facet);
+graph.add(obs);
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+let facet = DeviceFacet::builder()
+    .manufacturer("ExampleCorp".into())
+    .model("X1000".into())
+    .build();
+graph.create(&ObservableObject::default());
+```
+
+</details>
 
 ## Applications and Software
 
@@ -780,6 +895,8 @@ Classes for installed applications, operating systems, software packages, and pr
 
 **Example usage:**
 
+<details><summary>Python</summary>
+
 ```python
 from case_uco.uco.observable import ObservableObject, ApplicationFacet
 
@@ -787,6 +904,41 @@ graph.create(ObservableObject, has_facet=[
     ApplicationFacet(application_identifier="com.example.app")
 ])
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+graph.Add(new ObservableObject {
+    HasFacet = { new ApplicationFacet { ApplicationIdentifier = "com.example.app" } }
+});
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+var facet = new ApplicationFacet();
+facet.setApplicationIdentifier("com.example.app");
+var obs = new ObservableObject();
+obs.getHasFacet().add(facet);
+graph.add(obs);
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+let facet = ApplicationFacet::builder()
+    .application_identifier("com.example.app".into())
+    .build();
+graph.create(&ObservableObject::default());
+```
+
+</details>
 
 ## User Accounts and Identity
 
@@ -919,6 +1071,8 @@ Classes for user accounts, identities, organizations, and authentication artifac
 
 **Example usage:**
 
+<details><summary>Python</summary>
+
 ```python
 from case_uco.uco.observable import ObservableObject, AccountFacet
 
@@ -926,6 +1080,41 @@ graph.create(ObservableObject, has_facet=[
     AccountFacet(account_identifier="user123")
 ])
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+graph.Add(new ObservableObject {
+    HasFacet = { new AccountFacet { AccountIdentifier = "user123" } }
+});
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+var facet = new AccountFacet();
+facet.setAccountIdentifier("user123");
+var obs = new ObservableObject();
+obs.getHasFacet().add(facet);
+graph.add(obs);
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+let facet = AccountFacet::builder()
+    .account_identifier("user123".into())
+    .build();
+graph.create(&ObservableObject::default());
+```
+
+</details>
 
 ## Email and Messaging
 
@@ -1003,6 +1192,8 @@ Classes for email messages, SMS/MMS, chat messages, and communication metadata. 
 
 **Example usage:**
 
+<details><summary>Python</summary>
+
 ```python
 from case_uco.uco.observable import ObservableObject, EmailMessageFacet
 
@@ -1010,6 +1201,41 @@ graph.create(ObservableObject, has_facet=[
     EmailMessageFacet(subject="Important evidence")
 ])
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+graph.Add(new ObservableObject {
+    HasFacet = { new EmailMessageFacet { Subject = "Important evidence" } }
+});
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+var facet = new EmailMessageFacet();
+facet.setSubject("Important evidence");
+var obs = new ObservableObject();
+obs.getHasFacet().add(facet);
+graph.add(obs);
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+let facet = EmailMessageFacet::builder()
+    .subject("Important evidence".into())
+    .build();
+graph.create(&ObservableObject::default());
+```
+
+</details>
 
 ## Mobile Forensics
 
@@ -1146,6 +1372,8 @@ Classes specific to mobile device forensics: SIM cards, contacts, call logs, cal
 
 **Example usage:**
 
+<details><summary>Python</summary>
+
 ```python
 from case_uco.uco.observable import ObservableObject, SIMCardFacet
 
@@ -1153,6 +1381,41 @@ graph.create(ObservableObject, has_facet=[
     SIMCardFacet(icc_id="8901260123456789012")
 ])
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+graph.Add(new ObservableObject {
+    HasFacet = { new SIMCardFacet { IccId = "8901260123456789012" } }
+});
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+var facet = new SIMCardFacet();
+facet.setIccId("8901260123456789012");
+var obs = new ObservableObject();
+obs.getHasFacet().add(facet);
+graph.add(obs);
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+let facet = SIMCardFacet::builder()
+    .icc_id("8901260123456789012".into())
+    .build();
+graph.create(&ObservableObject::default());
+```
+
+</details>
 
 ## Actions and Events
 
@@ -1265,11 +1528,46 @@ Classes for modeling actions taken during an investigation or actions performed 
 
 **Example usage:**
 
+<details><summary>Python</summary>
+
 ```python
 from case_uco.uco.action import Action
 
 graph.create(Action, name="Disk Imaging", description="Created forensic image")
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+graph.Add(new Action { Name = "Disk Imaging", Description = "Created forensic image" });
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+var action = new Action();
+action.setName("Disk Imaging");
+action.setDescription("Created forensic image");
+graph.add(action);
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+let action = Action::builder()
+    .name("Disk Imaging".into())
+    .description("Created forensic image".into())
+    .build();
+graph.create(&action);
+```
+
+</details>
 
 ## Investigation Metadata
 
@@ -1337,12 +1635,47 @@ CASE-specific classes for structuring an investigation: cases, investigative act
 
 **Example usage:**
 
+<details><summary>Python</summary>
+
 ```python
 from case_uco.case.investigation import Investigation, InvestigativeAction
 
 graph.create(Investigation, name="Case 2024-001")
 graph.create(InvestigativeAction, name="Device Acquisition")
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+graph.Add(new Investigation { Name = "Case 2024-001" });
+graph.Add(new InvestigativeAction { Name = "Device Acquisition" });
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+var inv = new Investigation();
+inv.setName("Case 2024-001");
+graph.add(inv);
+var action = new InvestigativeAction();
+action.setName("Device Acquisition");
+graph.add(action);
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+graph.create(&Investigation::builder().name("Case 2024-001".into()).build());
+graph.create(&InvestigativeAction::builder().name("Device Acquisition".into()).build());
+```
+
+</details>
 
 ## Tool Information
 
@@ -1442,11 +1775,46 @@ Classes for documenting forensic tools, their versions, build information, and c
 
 **Example usage:**
 
+<details><summary>Python</summary>
+
 ```python
 from case_uco.uco.tool import Tool
 
 graph.create(Tool, name="My Forensic Tool", version="3.0")
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+graph.Add(new Tool { Name = "My Forensic Tool", Version = "3.0" });
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+var tool = new Tool();
+tool.setName("My Forensic Tool");
+tool.setVersion("3.0");
+graph.add(tool);
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+let tool = Tool::builder()
+    .name("My Forensic Tool".into())
+    .version("3.0".into())
+    .build();
+graph.create(&tool);
+```
+
+</details>
 
 ## Time and Temporal Data
 
@@ -1505,11 +1873,39 @@ Classes for representing timestamps, time intervals, and temporal relationships 
 
 **Example usage:**
 
+<details><summary>Python</summary>
+
 ```python
 from case_uco.uco.time import Instant
 
 graph.create(Instant)
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+graph.Add(new Instant());
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+graph.add(new Instant());
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+graph.create(&Instant::default());
+```
+
+</details>
 
 ## Marking and Access Control
 
@@ -1609,11 +2005,39 @@ Classes for marking data with handling restrictions, classification levels, TLP 
 
 **Example usage:**
 
+<details><summary>Python</summary>
+
 ```python
 from case_uco.uco.marking import MarkingDefinition
 
 graph.create(MarkingDefinition)
 ```
+
+</details>
+
+<details><summary>C#</summary>
+
+```csharp
+graph.Add(new MarkingDefinition());
+```
+
+</details>
+
+<details><summary>Java</summary>
+
+```java
+graph.add(new MarkingDefinition());
+```
+
+</details>
+
+<details><summary>Rust</summary>
+
+```rust
+graph.create(&MarkingDefinition::default());
+```
+
+</details>
 
 ## Extension Ontologies
 
@@ -1636,11 +2060,31 @@ Extension ontologies add domain-specific classes beyond the core CASE/UCO specif
    case-uco-explore class BrowserBookmarkFacet
    ```
 
-3. **Use the Python registry** for programmatic discovery:
+3. **Use the runtime registry** for programmatic discovery in any language:
+
+   **Python:**
    ```python
    from case_uco.registry import search, get_class
-   search("browser")  # find classes by keyword
-   get_class("BrowserBookmarkFacet")  # get full details
+   search("browser")
+   get_class("BrowserBookmarkFacet")
+   ```
+
+   **C#:**
+   ```csharp
+   OntologyRegistry.Search("browser");
+   OntologyRegistry.GetClass("BrowserBookmarkFacet");
+   ```
+
+   **Java:**
+   ```java
+   OntologyRegistry.search("browser");
+   OntologyRegistry.getClass("BrowserBookmarkFacet");
+   ```
+
+   **Rust:**
+   ```rust
+   registry::search("browser");
+   registry::get_class("BrowserBookmarkFacet");
    ```
 
 4. **Most observable data uses `ObservableObject` + Facets.** The pattern is:

@@ -24,12 +24,32 @@ DOMAIN_CATEGORIES: list[dict] = [
             "file", "path", "directory", "content", "filesystem", "volume",
             "disk", "partition", "ntfs", "ext", "fragment",
         ],
-        "example": (
-            "from case_uco.uco.observable import ObservableObject, FileFacet\n"
-            "\n"
-            "graph.create(ObservableObject, has_facet=[\n"
+        "example_python": (
+            'from case_uco.uco.observable import ObservableObject, FileFacet\n'
+            '\n'
+            'graph.create(ObservableObject, has_facet=[\n'
             '    FileFacet(file_name="evidence.dd", size_in_bytes=1073741824)\n'
-            "])"
+            '])'
+        ),
+        "example_csharp": (
+            'graph.Add(new ObservableObject {\n'
+            '    HasFacet = { new FileFacet { FileName = "evidence.dd", SizeInBytes = 1073741824 } }\n'
+            '});'
+        ),
+        "example_java": (
+            'var facet = new FileFacet();\n'
+            'facet.setFileName("evidence.dd");\n'
+            'facet.setSizeInBytes(1073741824L);\n'
+            'var obs = new ObservableObject();\n'
+            'obs.getHasFacet().add(facet);\n'
+            'graph.add(obs);'
+        ),
+        "example_rust": (
+            'let facet = FileFacet::builder()\n'
+            '    .file_name("evidence.dd".into())\n'
+            '    .size_in_bytes(1073741824)\n'
+            '    .build();\n'
+            'graph.create(&ObservableObject::default());'
         ),
     },
     {
@@ -45,12 +65,30 @@ DOMAIN_CATEGORIES: list[dict] = [
             "connection", "socket", "tcp", "http", "port", "host", "protocol",
             "wifi", "wireless", "mac address",
         ],
-        "example": (
-            "from case_uco.uco.observable import ObservableObject, IPv4AddressFacet\n"
-            "\n"
-            "graph.create(ObservableObject, has_facet=[\n"
+        "example_python": (
+            'from case_uco.uco.observable import ObservableObject, IPv4AddressFacet\n'
+            '\n'
+            'graph.create(ObservableObject, has_facet=[\n'
             '    IPv4AddressFacet(address_value="192.168.1.100")\n'
-            "])"
+            '])'
+        ),
+        "example_csharp": (
+            'graph.Add(new ObservableObject {\n'
+            '    HasFacet = { new IPv4AddressFacet { AddressValue = "192.168.1.100" } }\n'
+            '});'
+        ),
+        "example_java": (
+            'var facet = new IPv4AddressFacet();\n'
+            'facet.setAddressValue("192.168.1.100");\n'
+            'var obs = new ObservableObject();\n'
+            'obs.getHasFacet().add(facet);\n'
+            'graph.add(obs);'
+        ),
+        "example_rust": (
+            'let facet = IPv4AddressFacet::builder()\n'
+            '    .address_value("192.168.1.100".into())\n'
+            '    .build();\n'
+            'graph.create(&ObservableObject::default());'
         ),
     },
     {
@@ -65,12 +103,32 @@ DOMAIN_CATEGORIES: list[dict] = [
             "device", "hardware", "computer", "phone", "mobile", "storage",
             "disk", "drive", "manufacturer", "model", "serial",
         ],
-        "example": (
-            "from case_uco.uco.observable import ObservableObject, DeviceFacet\n"
-            "\n"
-            "graph.create(ObservableObject, has_facet=[\n"
+        "example_python": (
+            'from case_uco.uco.observable import ObservableObject, DeviceFacet\n'
+            '\n'
+            'graph.create(ObservableObject, has_facet=[\n'
             '    DeviceFacet(manufacturer="ExampleCorp", model="X1000")\n'
-            "])"
+            '])'
+        ),
+        "example_csharp": (
+            'graph.Add(new ObservableObject {\n'
+            '    HasFacet = { new DeviceFacet { Manufacturer = "ExampleCorp", Model = "X1000" } }\n'
+            '});'
+        ),
+        "example_java": (
+            'var facet = new DeviceFacet();\n'
+            'facet.setManufacturer("ExampleCorp");\n'
+            'facet.setModel("X1000");\n'
+            'var obs = new ObservableObject();\n'
+            'obs.getHasFacet().add(facet);\n'
+            'graph.add(obs);'
+        ),
+        "example_rust": (
+            'let facet = DeviceFacet::builder()\n'
+            '    .manufacturer("ExampleCorp".into())\n'
+            '    .model("X1000".into())\n'
+            '    .build();\n'
+            'graph.create(&ObservableObject::default());'
         ),
     },
     {
@@ -85,12 +143,30 @@ DOMAIN_CATEGORIES: list[dict] = [
             "application", "software", "process", "browser", "operating system",
             "installed", "package", "program", "executable", "library",
         ],
-        "example": (
-            "from case_uco.uco.observable import ObservableObject, ApplicationFacet\n"
-            "\n"
-            "graph.create(ObservableObject, has_facet=[\n"
+        "example_python": (
+            'from case_uco.uco.observable import ObservableObject, ApplicationFacet\n'
+            '\n'
+            'graph.create(ObservableObject, has_facet=[\n'
             '    ApplicationFacet(application_identifier="com.example.app")\n'
-            "])"
+            '])'
+        ),
+        "example_csharp": (
+            'graph.Add(new ObservableObject {\n'
+            '    HasFacet = { new ApplicationFacet { ApplicationIdentifier = "com.example.app" } }\n'
+            '});'
+        ),
+        "example_java": (
+            'var facet = new ApplicationFacet();\n'
+            'facet.setApplicationIdentifier("com.example.app");\n'
+            'var obs = new ObservableObject();\n'
+            'obs.getHasFacet().add(facet);\n'
+            'graph.add(obs);'
+        ),
+        "example_rust": (
+            'let facet = ApplicationFacet::builder()\n'
+            '    .application_identifier("com.example.app".into())\n'
+            '    .build();\n'
+            'graph.create(&ObservableObject::default());'
         ),
     },
     {
@@ -105,12 +181,30 @@ DOMAIN_CATEGORIES: list[dict] = [
             "account", "user", "identity", "person", "organization", "profile",
             "credential", "authentication", "login", "password", "email address",
         ],
-        "example": (
-            "from case_uco.uco.observable import ObservableObject, AccountFacet\n"
-            "\n"
-            "graph.create(ObservableObject, has_facet=[\n"
+        "example_python": (
+            'from case_uco.uco.observable import ObservableObject, AccountFacet\n'
+            '\n'
+            'graph.create(ObservableObject, has_facet=[\n'
             '    AccountFacet(account_identifier="user123")\n'
-            "])"
+            '])'
+        ),
+        "example_csharp": (
+            'graph.Add(new ObservableObject {\n'
+            '    HasFacet = { new AccountFacet { AccountIdentifier = "user123" } }\n'
+            '});'
+        ),
+        "example_java": (
+            'var facet = new AccountFacet();\n'
+            'facet.setAccountIdentifier("user123");\n'
+            'var obs = new ObservableObject();\n'
+            'obs.getHasFacet().add(facet);\n'
+            'graph.add(obs);'
+        ),
+        "example_rust": (
+            'let facet = AccountFacet::builder()\n'
+            '    .account_identifier("user123".into())\n'
+            '    .build();\n'
+            'graph.create(&ObservableObject::default());'
         ),
     },
     {
@@ -124,12 +218,30 @@ DOMAIN_CATEGORIES: list[dict] = [
             "email", "message", "sms", "mms", "chat", "conversation",
             "attachment", "recipient", "sender", "subject", "mime",
         ],
-        "example": (
-            "from case_uco.uco.observable import ObservableObject, EmailMessageFacet\n"
-            "\n"
-            "graph.create(ObservableObject, has_facet=[\n"
+        "example_python": (
+            'from case_uco.uco.observable import ObservableObject, EmailMessageFacet\n'
+            '\n'
+            'graph.create(ObservableObject, has_facet=[\n'
             '    EmailMessageFacet(subject="Important evidence")\n'
-            "])"
+            '])'
+        ),
+        "example_csharp": (
+            'graph.Add(new ObservableObject {\n'
+            '    HasFacet = { new EmailMessageFacet { Subject = "Important evidence" } }\n'
+            '});'
+        ),
+        "example_java": (
+            'var facet = new EmailMessageFacet();\n'
+            'facet.setSubject("Important evidence");\n'
+            'var obs = new ObservableObject();\n'
+            'obs.getHasFacet().add(facet);\n'
+            'graph.add(obs);'
+        ),
+        "example_rust": (
+            'let facet = EmailMessageFacet::builder()\n'
+            '    .subject("Important evidence".into())\n'
+            '    .build();\n'
+            'graph.create(&ObservableObject::default());'
         ),
     },
     {
@@ -143,12 +255,30 @@ DOMAIN_CATEGORIES: list[dict] = [
             "sim", "cell", "mobile", "imei", "imsi", "calendar", "contact",
             "call", "phone", "bluetooth", "gps", "location",
         ],
-        "example": (
-            "from case_uco.uco.observable import ObservableObject, SIMCardFacet\n"
-            "\n"
-            "graph.create(ObservableObject, has_facet=[\n"
+        "example_python": (
+            'from case_uco.uco.observable import ObservableObject, SIMCardFacet\n'
+            '\n'
+            'graph.create(ObservableObject, has_facet=[\n'
             '    SIMCardFacet(icc_id="8901260123456789012")\n'
-            "])"
+            '])'
+        ),
+        "example_csharp": (
+            'graph.Add(new ObservableObject {\n'
+            '    HasFacet = { new SIMCardFacet { IccId = "8901260123456789012" } }\n'
+            '});'
+        ),
+        "example_java": (
+            'var facet = new SIMCardFacet();\n'
+            'facet.setIccId("8901260123456789012");\n'
+            'var obs = new ObservableObject();\n'
+            'obs.getHasFacet().add(facet);\n'
+            'graph.add(obs);'
+        ),
+        "example_rust": (
+            'let facet = SIMCardFacet::builder()\n'
+            '    .icc_id("8901260123456789012".into())\n'
+            '    .build();\n'
+            'graph.create(&ObservableObject::default());'
         ),
     },
     {
@@ -163,10 +293,26 @@ DOMAIN_CATEGORIES: list[dict] = [
             "action", "event", "perform", "execute", "lifecycle", "result",
             "instrument", "environment",
         ],
-        "example": (
-            "from case_uco.uco.action import Action\n"
-            "\n"
+        "example_python": (
+            'from case_uco.uco.action import Action\n'
+            '\n'
             'graph.create(Action, name="Disk Imaging", description="Created forensic image")'
+        ),
+        "example_csharp": (
+            'graph.Add(new Action { Name = "Disk Imaging", Description = "Created forensic image" });'
+        ),
+        "example_java": (
+            'var action = new Action();\n'
+            'action.setName("Disk Imaging");\n'
+            'action.setDescription("Created forensic image");\n'
+            'graph.add(action);'
+        ),
+        "example_rust": (
+            'let action = Action::builder()\n'
+            '    .name("Disk Imaging".into())\n'
+            '    .description("Created forensic image".into())\n'
+            '    .build();\n'
+            'graph.create(&action);'
         ),
     },
     {
@@ -180,11 +326,27 @@ DOMAIN_CATEGORIES: list[dict] = [
             "investigation", "case", "provenance", "authorization", "exhibit",
             "forensic", "examiner", "chain of custody",
         ],
-        "example": (
-            "from case_uco.case.investigation import Investigation, InvestigativeAction\n"
-            "\n"
+        "example_python": (
+            'from case_uco.case.investigation import Investigation, InvestigativeAction\n'
+            '\n'
             'graph.create(Investigation, name="Case 2024-001")\n'
             'graph.create(InvestigativeAction, name="Device Acquisition")'
+        ),
+        "example_csharp": (
+            'graph.Add(new Investigation { Name = "Case 2024-001" });\n'
+            'graph.Add(new InvestigativeAction { Name = "Device Acquisition" });'
+        ),
+        "example_java": (
+            'var inv = new Investigation();\n'
+            'inv.setName("Case 2024-001");\n'
+            'graph.add(inv);\n'
+            'var action = new InvestigativeAction();\n'
+            'action.setName("Device Acquisition");\n'
+            'graph.add(action);'
+        ),
+        "example_rust": (
+            'graph.create(&Investigation::builder().name("Case 2024-001".into()).build());\n'
+            'graph.create(&InvestigativeAction::builder().name("Device Acquisition".into()).build());'
         ),
     },
     {
@@ -198,10 +360,26 @@ DOMAIN_CATEGORIES: list[dict] = [
         "keywords": [
             "tool", "build", "version", "configuration", "software",
         ],
-        "example": (
-            "from case_uco.uco.tool import Tool\n"
-            "\n"
+        "example_python": (
+            'from case_uco.uco.tool import Tool\n'
+            '\n'
             'graph.create(Tool, name="My Forensic Tool", version="3.0")'
+        ),
+        "example_csharp": (
+            'graph.Add(new Tool { Name = "My Forensic Tool", Version = "3.0" });'
+        ),
+        "example_java": (
+            'var tool = new Tool();\n'
+            'tool.setName("My Forensic Tool");\n'
+            'tool.setVersion("3.0");\n'
+            'graph.add(tool);'
+        ),
+        "example_rust": (
+            'let tool = Tool::builder()\n'
+            '    .name("My Forensic Tool".into())\n'
+            '    .version("3.0".into())\n'
+            '    .build();\n'
+            'graph.create(&tool);'
         ),
     },
     {
@@ -215,11 +393,14 @@ DOMAIN_CATEGORIES: list[dict] = [
             "time", "instant", "interval", "temporal", "duration", "timestamp",
             "date", "period",
         ],
-        "example": (
-            "from case_uco.uco.time import Instant\n"
-            "\n"
-            "graph.create(Instant)"
+        "example_python": (
+            'from case_uco.uco.time import Instant\n'
+            '\n'
+            'graph.create(Instant)'
         ),
+        "example_csharp": 'graph.Add(new Instant());',
+        "example_java": 'graph.add(new Instant());',
+        "example_rust": 'graph.create(&Instant::default());',
     },
     {
         "title": "Marking and Access Control",
@@ -232,11 +413,14 @@ DOMAIN_CATEGORIES: list[dict] = [
             "marking", "classification", "tlp", "license", "handling",
             "restriction", "access", "granular",
         ],
-        "example": (
-            "from case_uco.uco.marking import MarkingDefinition\n"
-            "\n"
-            "graph.create(MarkingDefinition)"
+        "example_python": (
+            'from case_uco.uco.marking import MarkingDefinition\n'
+            '\n'
+            'graph.create(MarkingDefinition)'
         ),
+        "example_csharp": 'graph.Add(new MarkingDefinition());',
+        "example_java": 'graph.add(new MarkingDefinition());',
+        "example_rust": 'graph.create(&MarkingDefinition::default());',
     },
 ]
 
@@ -293,14 +477,10 @@ def generate_mapping_guide(
     lines.append("- [Tips for Finding the Right Class](#tips-for-finding-the-right-class)")
     lines.append("")
 
-    # Domain category sections
     for cat in DOMAIN_CATEGORIES:
         _render_category(lines, schema, cat)
 
-    # Extension ontologies
     _render_extensions(lines, schema)
-
-    # Tips section
     _render_tips(lines)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -335,8 +515,6 @@ def _render_category(
             lines.append(f"| **{cls.name}** | {cls.module} | {cls_type} | {desc} |")
         lines.append("")
 
-        # Key classes detail: show properties for the most commonly used classes
-        # (non-facet classes or first few facets)
         key_classes = [c for c in matched if not c.is_facet][:3]
         if not key_classes:
             key_classes = matched[:3]
@@ -358,12 +536,36 @@ def _render_category(
         lines.append("*No matching classes found for this category.*")
         lines.append("")
 
-    if category.get("example"):
-        lines.append("**Example usage:**")
+    _render_examples(lines, category)
+
+
+_LANG_LABELS = [
+    ("example_python", "python", "Python"),
+    ("example_csharp", "csharp", "C#"),
+    ("example_java", "java", "Java"),
+    ("example_rust", "rust", "Rust"),
+]
+
+
+def _render_examples(lines: list[str], category: dict) -> None:
+    has_any = any(category.get(key) for key, _, _ in _LANG_LABELS)
+    if not has_any:
+        return
+
+    lines.append("**Example usage:**")
+    lines.append("")
+
+    for key, lang_tag, label in _LANG_LABELS:
+        example = category.get(key)
+        if not example:
+            continue
+        lines.append(f"<details><summary>{label}</summary>")
         lines.append("")
-        lines.append("```python")
-        lines.append(category["example"])
+        lines.append(f"```{lang_tag}")
+        lines.append(example)
         lines.append("```")
+        lines.append("")
+        lines.append("</details>")
         lines.append("")
 
 
@@ -423,11 +625,31 @@ def _render_tips(lines: list[str]) -> None:
     )
     lines.append("")
     lines.append(
-        "3. **Use the Python registry** for programmatic discovery:\n"
+        "3. **Use the runtime registry** for programmatic discovery in any language:\n"
+        "\n"
+        "   **Python:**\n"
         "   ```python\n"
         "   from case_uco.registry import search, get_class\n"
-        '   search("browser")  # find classes by keyword\n'
-        '   get_class("BrowserBookmarkFacet")  # get full details\n'
+        '   search("browser")\n'
+        '   get_class("BrowserBookmarkFacet")\n'
+        "   ```\n"
+        "\n"
+        "   **C#:**\n"
+        "   ```csharp\n"
+        '   OntologyRegistry.Search("browser");\n'
+        '   OntologyRegistry.GetClass("BrowserBookmarkFacet");\n'
+        "   ```\n"
+        "\n"
+        "   **Java:**\n"
+        "   ```java\n"
+        '   OntologyRegistry.search("browser");\n'
+        '   OntologyRegistry.getClass("BrowserBookmarkFacet");\n'
+        "   ```\n"
+        "\n"
+        "   **Rust:**\n"
+        "   ```rust\n"
+        '   registry::search("browser");\n'
+        '   registry::get_class("BrowserBookmarkFacet");\n'
         "   ```"
     )
     lines.append("")
