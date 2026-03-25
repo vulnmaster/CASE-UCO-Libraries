@@ -202,3 +202,78 @@ def test_get_id():
     obj_id = graph.get_id(tool)
     assert obj_id is not None
     assert obj_id.startswith("kb:Tool-")
+
+
+def test_create_with_custom_id():
+    graph = CASEGraph()
+    tool = graph.create(Tool, id="kb:Tool-my-stable-id", name="Magnet AXIOM")
+    obj_id = graph.get_id(tool)
+    assert obj_id == "kb:Tool-my-stable-id"
+
+    output = json.loads(graph.serialize())
+    assert output["@graph"][0]["@id"] == "kb:Tool-my-stable-id"
+
+
+def test_add_with_custom_id():
+    graph = CASEGraph()
+    tool = Tool(name="Cellebrite PA")
+    returned_id = graph.add(tool, id="kb:Tool-cellebrite-001")
+    assert returned_id == "kb:Tool-cellebrite-001"
+    assert graph.get_id(tool) == "kb:Tool-cellebrite-001"
+
+
+def test_len():
+    graph = CASEGraph()
+    assert len(graph) == 0
+    graph.create(Tool, name="Tool A")
+    assert len(graph) == 1
+    graph.create(Tool, name="Tool B")
+    assert len(graph) == 2
+
+
+def test_load_json_ld():
+    graph = CASEGraph()
+    json_ld = json.dumps({
+        "@context": {
+            "kb": "http://example.org/kb/",
+            "uco-tool": "https://ontology.unifiedcyberontology.org/uco/tool/",
+        },
+        "@graph": [
+            {
+                "@id": "kb:Tool-existing-001",
+                "@type": "uco-tool:Tool",
+                "uco-core:name": "Pre-existing Tool",
+            }
+        ],
+    })
+    graph.load(json_ld)
+    assert len(graph) == 1
+
+    output = json.loads(graph.serialize())
+    assert output["@graph"][0]["@id"] == "kb:Tool-existing-001"
+    assert output["@graph"][0]["uco-core:name"] == "Pre-existing Tool"
+
+
+def test_load_then_add():
+    graph = CASEGraph()
+    graph.load(json.dumps({
+        "@context": {"kb": "http://example.org/kb/"},
+        "@graph": [{"@id": "kb:Tool-loaded", "@type": "uco-tool:Tool"}],
+    }))
+    graph.create(Tool, name="New Tool")
+    assert len(graph) == 2
+
+
+def test_context_parity_all_prefixes():
+    """Verify Python context has all standard UCO/CASE prefixes."""
+    graph = CASEGraph()
+    output = json.loads(graph.serialize())
+    ctx = output["@context"]
+    expected = [
+        "case-investigation", "uco-core", "uco-tool", "uco-observable",
+        "uco-action", "uco-identity", "uco-location", "uco-types",
+        "uco-vocabulary", "uco-role", "uco-victim", "uco-analysis",
+        "uco-configuration", "uco-marking", "uco-pattern", "uco-time", "xsd",
+    ]
+    for prefix in expected:
+        assert prefix in ctx, f"missing context prefix: {prefix}"

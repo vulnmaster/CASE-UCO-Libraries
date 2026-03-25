@@ -10,6 +10,8 @@ from typing import Any, TypeVar, Type
 
 T = TypeVar("T")
 
+_builtin_id = id
+
 # Standard CASE/UCO JSON-LD context prefixes
 DEFAULT_CONTEXT: dict[str, str] = {
     "case-investigation": "https://ontology.caseontology.org/case/investigation/",
@@ -66,31 +68,48 @@ class CASEGraph:
         self._objects: list[dict[str, Any]] = []
         self._id_map: dict[int, str] = {}
 
-    def create(self, cls: Type[T], **kwargs: Any) -> T:
+    def create(self, cls: Type[T], *, id: str | None = None, **kwargs: Any) -> T:
         """Create an instance of a CASE/UCO class and add it to the graph.
+
+        Args:
+            cls: The CASE/UCO class to instantiate.
+            id: Optional user-supplied @id for deterministic IRIs.
+                If not provided, a UUID-based @id is auto-generated.
+            **kwargs: Arguments passed to the class constructor.
 
         Returns the created instance so it can be referenced by other objects.
         """
         instance = cls(**kwargs)
         self._validate_instance(instance)
-        obj_id = self._mint_id(instance)
-        self._id_map[id(instance)] = obj_id
+        obj_id = id if id is not None else self._mint_id(instance)
+        self._id_map[_builtin_id(instance)] = obj_id
         json_obj = self._to_jsonld(instance, obj_id)
         self._objects.append(json_obj)
         return instance
 
-    def add(self, instance: Any) -> str:
-        """Add a pre-created instance to the graph. Returns the assigned @id."""
+    def add(self, instance: Any, *, id: str | None = None) -> str:
+        """Add a pre-created instance to the graph.
+
+        Args:
+            instance: A dataclass instance of a CASE/UCO type.
+            id: Optional user-supplied @id for deterministic IRIs.
+
+        Returns the assigned @id.
+        """
         self._validate_instance(instance)
-        obj_id = self._mint_id(instance)
-        self._id_map[id(instance)] = obj_id
+        obj_id = id if id is not None else self._mint_id(instance)
+        self._id_map[_builtin_id(instance)] = obj_id
         json_obj = self._to_jsonld(instance, obj_id)
         self._objects.append(json_obj)
         return obj_id
 
     def get_id(self, instance: Any) -> str | None:
         """Get the @id for a previously added instance."""
-        return self._id_map.get(id(instance))
+        return self._id_map.get(_builtin_id(instance))
+
+    def __len__(self) -> int:
+        """Return the number of objects in the graph."""
+        return len(self._objects)
 
     def serialize(self, format: str = "json-ld", indent: int = 4) -> str:
         """Serialize the graph to JSON-LD string."""
@@ -107,6 +126,19 @@ class CASEGraph:
         content = self.serialize(format=format, indent=indent)
         with open(path, "w", encoding="utf-8") as f:
             f.write(content)
+
+    def load(self, json_str: str) -> None:
+        """Load a JSON-LD string into this graph, merging context and appending objects."""
+        doc = json.loads(json_str)
+        if "@context" in doc and isinstance(doc["@context"], dict):
+            self._context.update(doc["@context"])
+        if "@graph" in doc and isinstance(doc["@graph"], list):
+            self._objects.extend(doc["@graph"])
+
+    def load_file(self, path: str) -> None:
+        """Read and load a JSON-LD file into this graph."""
+        with open(path, "r", encoding="utf-8") as f:
+            self.load(f.read())
 
     def _mint_id(self, instance: Any) -> str:
         """Generate a UUID-based @id for an instance."""
@@ -168,8 +200,8 @@ class CASEGraph:
         if is_dataclass(value) and not isinstance(value, type):
             # Nested object — create inline or reference
             self._validate_instance(value)
-            if id(value) in self._id_map:
-                return {"@id": self._id_map[id(value)]}
+            if _builtin_id(value) in self._id_map:
+                return {"@id": self._id_map[_builtin_id(value)]}
             # Inline as a facet-like sub-object
             inline_id = self._mint_id(value)
             return self._to_jsonld(value, inline_id)

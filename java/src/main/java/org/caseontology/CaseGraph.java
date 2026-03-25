@@ -40,10 +40,17 @@ public class CaseGraph {
     }
 
     /**
-     * Add an object to the graph and assign it an @id.
+     * Add an object to the graph with an auto-generated UUID @id.
      */
     public String add(Object instance) {
         String id = mintId(instance);
+        return addWithId(instance, id);
+    }
+
+    /**
+     * Add an object to the graph with a user-supplied @id for deterministic IRIs.
+     */
+    public String addWithId(Object instance, String id) {
         idMap.put(instance, id);
         Map<String, Object> jsonObj = toJsonLd(instance, id);
         objects.add(jsonObj);
@@ -58,6 +65,13 @@ public class CaseGraph {
     }
 
     /**
+     * Return the number of objects in the graph.
+     */
+    public int size() {
+        return objects.size();
+    }
+
+    /**
      * Serialize the graph to a JSON-LD-compatible map.
      */
     public Map<String, Object> toMap() {
@@ -68,13 +82,51 @@ public class CaseGraph {
     }
 
     /**
+     * Serialize the graph to a JSON-LD string.
+     */
+    public String serialize() {
+        return toJsonString(toMap(), 0);
+    }
+
+    /**
      * Write the graph as JSON-LD to a file.
      */
     public void write(String path) throws IOException {
-        Map<String, Object> doc = toMap();
         try (Writer writer = new FileWriter(path)) {
-            writer.write(toJsonString(doc, 0));
+            writer.write(serialize());
         }
+    }
+
+    /**
+     * Load a JSON-LD string into this graph, merging context and appending objects.
+     */
+    @SuppressWarnings("unchecked")
+    public void load(String json) {
+        Map<String, Object> doc = (Map<String, Object>) parseJsonValue(json.trim(), new int[]{0});
+        if (doc.containsKey("@context") && doc.get("@context") instanceof Map) {
+            Map<String, Object> ctx = (Map<String, Object>) doc.get("@context");
+            for (Map.Entry<String, Object> entry : ctx.entrySet()) {
+                if (entry.getValue() instanceof String) {
+                    context.put(entry.getKey(), (String) entry.getValue());
+                }
+            }
+        }
+        if (doc.containsKey("@graph") && doc.get("@graph") instanceof List) {
+            List<Object> graphList = (List<Object>) doc.get("@graph");
+            for (Object item : graphList) {
+                if (item instanceof Map) {
+                    objects.add((Map<String, Object>) item);
+                }
+            }
+        }
+    }
+
+    /**
+     * Read and load a JSON-LD file into this graph.
+     */
+    public void loadFile(String path) throws IOException {
+        String json = new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(path)));
+        load(json);
     }
 
     private String mintId(Object instance) {
@@ -216,12 +268,19 @@ public class CaseGraph {
         ctx.put("case-investigation", "https://ontology.caseontology.org/case/investigation/");
         ctx.put("kb", "http://example.org/kb/");
         ctx.put("uco-action", "https://ontology.unifiedcyberontology.org/uco/action/");
+        ctx.put("uco-analysis", "https://ontology.unifiedcyberontology.org/uco/analysis/");
+        ctx.put("uco-configuration", "https://ontology.unifiedcyberontology.org/uco/configuration/");
         ctx.put("uco-core", "https://ontology.unifiedcyberontology.org/uco/core/");
         ctx.put("uco-identity", "https://ontology.unifiedcyberontology.org/uco/identity/");
         ctx.put("uco-location", "https://ontology.unifiedcyberontology.org/uco/location/");
+        ctx.put("uco-marking", "https://ontology.unifiedcyberontology.org/uco/marking/");
         ctx.put("uco-observable", "https://ontology.unifiedcyberontology.org/uco/observable/");
+        ctx.put("uco-pattern", "https://ontology.unifiedcyberontology.org/uco/pattern/");
+        ctx.put("uco-role", "https://ontology.unifiedcyberontology.org/uco/role/");
+        ctx.put("uco-time", "https://ontology.unifiedcyberontology.org/uco/time/");
         ctx.put("uco-tool", "https://ontology.unifiedcyberontology.org/uco/tool/");
         ctx.put("uco-types", "https://ontology.unifiedcyberontology.org/uco/types/");
+        ctx.put("uco-victim", "https://ontology.unifiedcyberontology.org/uco/victim/");
         ctx.put("uco-vocabulary", "https://ontology.unifiedcyberontology.org/uco/vocabulary/");
         ctx.put("xsd", "http://www.w3.org/2001/XMLSchema#");
         return ctx;
@@ -264,5 +323,79 @@ public class CaseGraph {
         } else {
             return "\"" + obj.toString() + "\"";
         }
+    }
+
+    private static Object parseJsonValue(String json, int[] pos) {
+        skipWhitespace(json, pos);
+        char c = json.charAt(pos[0]);
+        if (c == '{') return parseJsonObject(json, pos);
+        if (c == '[') return parseJsonArray(json, pos);
+        if (c == '"') return parseJsonString(json, pos);
+        int start = pos[0];
+        while (pos[0] < json.length() && ",}] \t\r\n".indexOf(json.charAt(pos[0])) == -1) pos[0]++;
+        String token = json.substring(start, pos[0]);
+        if ("true".equals(token)) return Boolean.TRUE;
+        if ("false".equals(token)) return Boolean.FALSE;
+        if ("null".equals(token)) return null;
+        if (token.contains(".")) return Double.parseDouble(token);
+        return Long.parseLong(token);
+    }
+
+    private static Map<String, Object> parseJsonObject(String json, int[] pos) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        pos[0]++; // skip '{'
+        skipWhitespace(json, pos);
+        if (json.charAt(pos[0]) == '}') { pos[0]++; return result; }
+        while (true) {
+            skipWhitespace(json, pos);
+            String key = parseJsonString(json, pos);
+            skipWhitespace(json, pos);
+            pos[0]++; // skip ':'
+            Object value = parseJsonValue(json, pos);
+            result.put(key, value);
+            skipWhitespace(json, pos);
+            if (json.charAt(pos[0]) == '}') { pos[0]++; return result; }
+            pos[0]++; // skip ','
+        }
+    }
+
+    private static List<Object> parseJsonArray(String json, int[] pos) {
+        List<Object> result = new ArrayList<>();
+        pos[0]++; // skip '['
+        skipWhitespace(json, pos);
+        if (json.charAt(pos[0]) == ']') { pos[0]++; return result; }
+        while (true) {
+            result.add(parseJsonValue(json, pos));
+            skipWhitespace(json, pos);
+            if (json.charAt(pos[0]) == ']') { pos[0]++; return result; }
+            pos[0]++; // skip ','
+        }
+    }
+
+    private static String parseJsonString(String json, int[] pos) {
+        pos[0]++; // skip opening '"'
+        StringBuilder sb = new StringBuilder();
+        while (json.charAt(pos[0]) != '"') {
+            if (json.charAt(pos[0]) == '\\') {
+                pos[0]++;
+                switch (json.charAt(pos[0])) {
+                    case '"': sb.append('"'); break;
+                    case '\\': sb.append('\\'); break;
+                    case 'n': sb.append('\n'); break;
+                    case 'r': sb.append('\r'); break;
+                    case 't': sb.append('\t'); break;
+                    default: sb.append(json.charAt(pos[0])); break;
+                }
+            } else {
+                sb.append(json.charAt(pos[0]));
+            }
+            pos[0]++;
+        }
+        pos[0]++; // skip closing '"'
+        return sb.toString();
+    }
+
+    private static void skipWhitespace(String json, int[] pos) {
+        while (pos[0] < json.length() && Character.isWhitespace(json.charAt(pos[0]))) pos[0]++;
     }
 }

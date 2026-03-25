@@ -25,6 +25,20 @@ fn test_legacy_add_api() {
 }
 
 #[test]
+fn test_create_with_custom_id() {
+    let mut graph = CaseGraph::new("http://example.org/kb/");
+    let tool = Tool::builder()
+        .version("7.0".to_string())
+        .build();
+
+    let id = graph.create_with_id("kb:Tool-my-stable-id", &tool);
+    assert_eq!(id, "kb:Tool-my-stable-id");
+
+    let json = graph.serialize().expect("serialization should succeed");
+    assert!(json.contains("kb:Tool-my-stable-id"));
+}
+
+#[test]
 fn test_serialize_produces_valid_json() {
     let mut graph = CaseGraph::new("http://example.org/kb/");
     let tool = Tool::builder().build();
@@ -77,4 +91,56 @@ fn test_multiple_objects() {
     let parsed: serde_json::Value = serde_json::from_str(&json).unwrap();
     let graph_array = parsed.get("@graph").unwrap().as_array().unwrap();
     assert_eq!(graph_array.len(), 2);
+}
+
+#[test]
+fn test_context_has_all_prefixes() {
+    let graph = CaseGraph::new("http://example.org/kb/");
+    let json = graph.serialize().expect("serialization should succeed");
+    let parsed: serde_json::Value = serde_json::from_str(&json).unwrap();
+    let ctx = parsed.get("@context").unwrap();
+
+    let expected = vec![
+        "case-investigation", "uco-core", "uco-tool", "uco-observable",
+        "uco-action", "uco-identity", "uco-location", "uco-types",
+        "uco-vocabulary", "uco-role", "uco-victim", "uco-analysis",
+        "uco-configuration", "uco-marking", "uco-pattern", "uco-time", "xsd",
+    ];
+    for prefix in expected {
+        assert!(ctx.get(prefix).is_some(), "missing context prefix: {}", prefix);
+    }
+}
+
+#[test]
+fn test_len_and_is_empty() {
+    let mut graph = CaseGraph::new("http://example.org/kb/");
+    assert!(graph.is_empty());
+    assert_eq!(graph.len(), 0);
+
+    graph.create(&Tool::builder().build());
+    assert!(!graph.is_empty());
+    assert_eq!(graph.len(), 1);
+}
+
+#[test]
+fn test_load_json_ld() {
+    let mut graph = CaseGraph::new("http://example.org/kb/");
+    let json_ld = r#"{
+        "@context": {
+            "kb": "http://example.org/kb/",
+            "uco-tool": "https://ontology.unifiedcyberontology.org/uco/tool/"
+        },
+        "@graph": [
+            {
+                "@id": "kb:Tool-existing-001",
+                "@type": "uco-tool:Tool"
+            }
+        ]
+    }"#;
+
+    graph.load(json_ld).expect("load should succeed");
+    assert_eq!(graph.len(), 1);
+
+    let output = graph.serialize().expect("serialization should succeed");
+    assert!(output.contains("kb:Tool-existing-001"));
 }

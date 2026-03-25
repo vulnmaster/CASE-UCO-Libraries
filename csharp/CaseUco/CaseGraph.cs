@@ -31,10 +31,16 @@ namespace CaseUco
             _context[prefix] = iri;
         }
 
-        /// <summary>Add an object to the graph and assign it an @id.</summary>
+        /// <summary>Add an object to the graph with an auto-generated UUID @id.</summary>
         public string Add(object instance)
         {
             var id = MintId(instance);
+            return AddWithId(instance, id);
+        }
+
+        /// <summary>Add an object to the graph with a user-supplied @id for deterministic IRIs.</summary>
+        public string AddWithId(object instance, string id)
+        {
             _idMap[instance] = id;
             var jsonObj = ToJsonLd(instance, id);
             _objects.Add(jsonObj);
@@ -45,6 +51,29 @@ namespace CaseUco
         public string GetId(object instance)
         {
             return _idMap.TryGetValue(instance, out var id) ? id : null;
+        }
+
+        /// <summary>Return the number of objects in the graph.</summary>
+        public int Count => _objects.Count;
+
+        /// <summary>Load a JSON-LD string into this graph, merging context and appending objects.</summary>
+        public void Load(string json)
+        {
+            var doc = ParseJson(json);
+            if (doc.TryGetValue("@context", out var ctxObj) && ctxObj is Dictionary<string, object> ctx)
+            {
+                foreach (var kv in ctx.Where(kv => kv.Value is string))
+                {
+                    _context[kv.Key] = (string)kv.Value;
+                }
+            }
+            if (doc.TryGetValue("@graph", out var graphObj) && graphObj is List<object> graphList)
+            {
+                foreach (var item in graphList.OfType<Dictionary<string, object>>())
+                {
+                    _objects.Add(item);
+                }
+            }
         }
 
         /// <summary>Serialize the graph to a JSON-LD string.</summary>
@@ -171,12 +200,19 @@ namespace CaseUco
             ["case-investigation"] = "https://ontology.caseontology.org/case/investigation/",
             ["kb"] = "http://example.org/kb/",
             ["uco-action"] = "https://ontology.unifiedcyberontology.org/uco/action/",
+            ["uco-analysis"] = "https://ontology.unifiedcyberontology.org/uco/analysis/",
+            ["uco-configuration"] = "https://ontology.unifiedcyberontology.org/uco/configuration/",
             ["uco-core"] = "https://ontology.unifiedcyberontology.org/uco/core/",
             ["uco-identity"] = "https://ontology.unifiedcyberontology.org/uco/identity/",
             ["uco-location"] = "https://ontology.unifiedcyberontology.org/uco/location/",
+            ["uco-marking"] = "https://ontology.unifiedcyberontology.org/uco/marking/",
             ["uco-observable"] = "https://ontology.unifiedcyberontology.org/uco/observable/",
+            ["uco-pattern"] = "https://ontology.unifiedcyberontology.org/uco/pattern/",
+            ["uco-role"] = "https://ontology.unifiedcyberontology.org/uco/role/",
+            ["uco-time"] = "https://ontology.unifiedcyberontology.org/uco/time/",
             ["uco-tool"] = "https://ontology.unifiedcyberontology.org/uco/tool/",
             ["uco-types"] = "https://ontology.unifiedcyberontology.org/uco/types/",
+            ["uco-victim"] = "https://ontology.unifiedcyberontology.org/uco/victim/",
             ["uco-vocabulary"] = "https://ontology.unifiedcyberontology.org/uco/vocabulary/",
             ["xsd"] = "http://www.w3.org/2001/XMLSchema#",
         };
@@ -253,5 +289,104 @@ namespace CaseUco
                 .Replace("\r", "\\r")
                 .Replace("\t", "\\t");
         }
+
+        private static Dictionary<string, object> ParseJson(string json)
+        {
+            return (Dictionary<string, object>)ParseJsonValue(json.Trim(), 0, out _);
+        }
+
+        private static object ParseJsonValue(string json, int pos, out int end)
+        {
+            while (pos < json.Length && char.IsWhiteSpace(json[pos])) pos++;
+
+            if (json[pos] == '{')
+                return ParseJsonObject(json, pos, out end);
+            if (json[pos] == '[')
+                return ParseJsonArray(json, pos, out end);
+            if (json[pos] == '"')
+                return ParseJsonString(json, pos, out end);
+
+            int start = pos;
+            while (pos < json.Length && json[pos] != ',' && json[pos] != '}' && json[pos] != ']' && !char.IsWhiteSpace(json[pos]))
+                pos++;
+            end = pos;
+            var token = json.Substring(start, pos - start);
+            if (token == "true") return true;
+            if (token == "false") return false;
+            if (token == "null") return null;
+            if (token.Contains("."))
+                return double.Parse(token, CultureInfo.InvariantCulture);
+            return long.Parse(token, CultureInfo.InvariantCulture);
+        }
+
+        private static Dictionary<string, object> ParseJsonObject(string json, int pos, out int end)
+        {
+            var result = new Dictionary<string, object>();
+            pos++; // skip '{'
+            while (pos < json.Length && char.IsWhiteSpace(json[pos])) pos++;
+
+            if (json[pos] == '}') { end = pos + 1; return result; }
+
+            while (true)
+            {
+                while (pos < json.Length && char.IsWhiteSpace(json[pos])) pos++;
+                var key = (string)ParseJsonString(json, pos, out pos);
+                while (pos < json.Length && char.IsWhiteSpace(json[pos])) pos++;
+                pos++; // skip ':'
+                var value = ParseJsonValue(json, pos, out pos);
+                result[key] = value;
+                while (pos < json.Length && char.IsWhiteSpace(json[pos])) pos++;
+                if (json[pos] == '}') { end = pos + 1; return result; }
+                pos++; // skip ','
+            }
+        }
+
+        private static List<object> ParseJsonArray(string json, int pos, out int end)
+        {
+            var result = new List<object>();
+            pos++; // skip '['
+            while (pos < json.Length && char.IsWhiteSpace(json[pos])) pos++;
+
+            if (json[pos] == ']') { end = pos + 1; return result; }
+
+            while (true)
+            {
+                var value = ParseJsonValue(json, pos, out pos);
+                result.Add(value);
+                while (pos < json.Length && char.IsWhiteSpace(json[pos])) pos++;
+                if (json[pos] == ']') { end = pos + 1; return result; }
+                pos++; // skip ','
+            }
+        }
+
+        private static string ParseJsonString(string json, int pos, out int end)
+        {
+            pos++; // skip opening '"'
+            var sb = new System.Text.StringBuilder();
+            while (json[pos] != '"')
+            {
+                if (json[pos] == '\\')
+                {
+                    pos++;
+                    switch (json[pos])
+                    {
+                        case '"': sb.Append('"'); break;
+                        case '\\': sb.Append('\\'); break;
+                        case 'n': sb.Append('\n'); break;
+                        case 'r': sb.Append('\r'); break;
+                        case 't': sb.Append('\t'); break;
+                        default: sb.Append(json[pos]); break;
+                    }
+                }
+                else
+                {
+                    sb.Append(json[pos]);
+                }
+                pos++;
+            }
+            end = pos + 1; // skip closing '"'
+            return sb.ToString();
+        }
     }
 }
+
