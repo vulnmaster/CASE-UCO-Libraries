@@ -75,6 +75,8 @@ class JavaBackend(CodegenBackend):
 
         for imp in sorted(set(imports)):
             lines.append(imp)
+        lines.append("import java.util.ArrayList;")
+        lines.append("import java.util.List;")
         lines.append("import org.junit.Test;")
         lines.append("import static org.junit.Assert.*;")
         lines.append("")
@@ -82,12 +84,12 @@ class JavaBackend(CodegenBackend):
         lines.append("")
         lines.append("    @Test")
         lines.append("    public void testAllClassesCanBeInstantiated() {")
-        lines.append("        CaseGraph graph = new CaseGraph();")
+        lines.append("        List<Object> instances = new ArrayList<>();")
 
         for cls in sorted(core_classes, key=lambda c: (c.module, c.name)):
-            lines.append(f"        graph.add(new {cls.name}());")
+            lines.append(f"        instances.add(new {cls.name}());")
 
-        lines.append(f"        assertEquals({len(core_classes)}, graph.size());")
+        lines.append(f"        assertEquals({len(core_classes)}, instances.size());")
         lines.append("    }")
         lines.append("}")
 

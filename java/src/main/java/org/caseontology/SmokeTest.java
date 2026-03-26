@@ -7,7 +7,10 @@ import org.caseontology.uco.observable.ObservableObject;
 public class SmokeTest {
     public static void main(String[] args) {
         CaseGraph graph = new CaseGraph();
-        graph.add(new Tool().setName("smoke-test").setVersion("1.0"));
+        Tool tool = new Tool();
+        tool.setName("smoke-test");
+        tool.setVersion("1.0");
+        graph.add(tool);
         graph.add(new ObservableObject());
 
         String json = graph.serialize();

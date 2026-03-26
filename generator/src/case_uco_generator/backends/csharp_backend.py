@@ -48,6 +48,7 @@ class CSharpBackend(CodegenBackend):
 
         lines: list[str] = []
         lines.append("// Auto-generated — instantiates every CASE/UCO class to verify the object model.")
+        lines.append("using System.Collections.Generic;")
         lines.append("using Xunit;")
         lines.append("")
         lines.append("namespace CaseUco.Tests")
@@ -57,7 +58,7 @@ class CSharpBackend(CodegenBackend):
         lines.append("        [Fact]")
         lines.append("        public void AllClasses_CanBeInstantiated()")
         lines.append("        {")
-        lines.append("            var graph = new CaseGraph();")
+        lines.append("            var instances = new List<object>();")
 
         core_classes = [
             c for c in self.schema.classes.values()
@@ -65,9 +66,9 @@ class CSharpBackend(CodegenBackend):
         ]
         for cls in sorted(core_classes, key=lambda c: (c.module, c.name)):
             ns = self._namespace_for_module(cls.module)
-            lines.append(f"            graph.Add(new {ns}.{cls.name}());")
+            lines.append(f"            instances.Add(new {ns}.{cls.name}());")
 
-        lines.append(f"            Assert.Equal({len(core_classes)}, graph.Count);")
+        lines.append(f"            Assert.Equal({len(core_classes)}, instances.Count);")
         lines.append("        }")
         lines.append("    }")
         lines.append("}")
