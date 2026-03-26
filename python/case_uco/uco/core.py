@@ -6,11 +6,6 @@ from dataclasses import dataclass, field
 from typing import Optional
 from datetime import datetime
 
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from case_uco.uco.types import Dictionary
-
 
 @dataclass
 class UcoThing:

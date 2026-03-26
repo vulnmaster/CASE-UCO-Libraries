@@ -247,6 +247,12 @@ class PythonBackend(CodegenBackend):
 
         Cross-module property type references are forward-ref strings at runtime
         but must be importable under TYPE_CHECKING for static analysis.
+
+        Skips imports that would create a cyclic dependency (module A
+        TYPE_CHECKING-imports from module B while B runtime-imports from A).
+        With ``from __future__ import annotations`` all annotations are strings
+        at runtime, so the unresolved name is harmless; mypy's ``name-defined``
+        error code is suppressed in pyproject.toml for generated modules.
         """
         tc_imports: set[str] = set()
         local_names = {c.name for c in classes}
@@ -256,6 +262,8 @@ class PythonBackend(CodegenBackend):
             parent_name = cls.all_parent_names[0] if cls.all_parent_names else None
             if parent_name:
                 runtime_parent_names.add(parent_name)
+
+        modules_that_import_current = self._modules_with_runtime_dep_on(current_module, classes)
 
         for cls in classes:
             for prop in cls.properties:
@@ -270,12 +278,28 @@ class PythonBackend(CodegenBackend):
 
                 range_cls = self.schema.resolve_class(prop.range_iri)
                 if range_cls and range_cls.module != current_module:
+                    if range_cls.module in modules_that_import_current:
+                        continue
                     rtop, rmod = range_cls.module.split(".", 1)
                     tc_imports.add(
                         f"from case_uco.{rtop}.{rmod} import {range_cls.name}"
                     )
 
         return tc_imports
+
+    def _modules_with_runtime_dep_on(
+        self, current_module: str, current_classes: list[OntologyClass]
+    ) -> set[str]:
+        """Return modules that have a runtime (inheritance) import from current_module."""
+        current_names = {c.name for c in current_classes}
+        dependent_modules: set[str] = set()
+        for other_cls in self.schema.classes.values():
+            if other_cls.module == current_module:
+                continue
+            parent_name = other_cls.all_parent_names[0] if other_cls.all_parent_names else None
+            if parent_name and parent_name in current_names:
+                dependent_modules.add(other_cls.module)
+        return dependent_modules
 
     def _topo_sort(
         self, classes: list[OntologyClass], current_module: str
