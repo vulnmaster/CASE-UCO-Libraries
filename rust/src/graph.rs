@@ -138,13 +138,13 @@ impl CaseGraph {
 
     /// Write the graph to a file.
     pub fn write(&self, path: &str) -> std::io::Result<()> {
-        let json = self.serialize().map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?;
+        let json = self.serialize().map_err(std::io::Error::other)?;
         std::fs::write(path, json)
     }
 
     /// Estimate the number of RDF triples this graph will produce.
     pub fn estimate_triples(&self) -> usize {
-        self.objects.iter().map(|o| count_triples(o)).sum()
+        self.objects.iter().map(count_triples).sum()
     }
 
     /// Split the graph into smaller chunks of at most `max_objects` each.

@@ -4,9 +4,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Optional
+from datetime import datetime
 
 from case_uco.uco.core import Facet
 from case_uco.uco.core import IdentityAbstraction
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from case_uco.uco.location import Location
 
 
 @dataclass

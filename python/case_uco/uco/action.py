@@ -4,10 +4,16 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Optional
+from datetime import datetime
 
 from case_uco.uco.core import Facet
 from case_uco.uco.core import UcoInherentCharacterizationThing
 from case_uco.uco.core import UcoObject
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from case_uco.uco.location import Location
 
 
 @dataclass
@@ -39,8 +45,8 @@ class ActionArgumentFacet(Facet):
     CLASS_IRI: str = "https://ontology.unifiedcyberontology.org/uco/action/ActionArgumentFacet"
     NAMESPACE_PREFIX: str = "uco-action"
 
-    argument_name: str = field(default=None, metadata={'jsonld_key': 'uco-action:argumentName', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
-    value: str = field(default=None, metadata={'jsonld_key': 'uco-action:value', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
+    argument_name: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-action:argumentName', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
+    value: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-action:value', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
 
 
 @dataclass
@@ -63,10 +69,10 @@ class ActionFrequencyFacet(Facet):
     CLASS_IRI: str = "https://ontology.unifiedcyberontology.org/uco/action/ActionFrequencyFacet"
     NAMESPACE_PREFIX: str = "uco-action"
 
-    rate: float = field(default=None, metadata={'jsonld_key': 'uco-action:rate', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#decimal', 'alternate_range_iris': []})
-    scale: str = field(default=None, metadata={'jsonld_key': 'uco-action:scale', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
+    rate: Optional[float] = field(default=None, metadata={'jsonld_key': 'uco-action:rate', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#decimal', 'alternate_range_iris': []})
+    scale: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-action:scale', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
     trend: list[str] = field(default_factory=list, metadata={'jsonld_key': 'uco-action:trend', 'required': False, 'cardinality': 'zero_or_more', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
-    units: str = field(default=None, metadata={'jsonld_key': 'uco-action:units', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
+    units: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-action:units', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
 
 
 @dataclass
@@ -79,7 +85,7 @@ class ActionLifecycle(Action):
     action_count: list[int] = field(default_factory=list, metadata={'jsonld_key': 'uco-action:actionCount', 'required': False, 'cardinality': 'zero_or_more', 'range_iri': 'http://www.w3.org/2001/XMLSchema#nonNegativeInteger', 'alternate_range_iris': []})
     end_time: list[datetime] = field(default_factory=list, metadata={'jsonld_key': 'uco-action:endTime', 'required': False, 'cardinality': 'zero_or_more', 'range_iri': 'http://www.w3.org/2001/XMLSchema#dateTime', 'alternate_range_iris': []})
     error: list[UcoObject] = field(default_factory=list, metadata={'jsonld_key': 'uco-action:error', 'required': False, 'cardinality': 'zero_or_more', 'range_iri': 'https://ontology.unifiedcyberontology.org/uco/core/UcoObject', 'alternate_range_iris': []})
-    phase: ArrayOfAction = field(default=None, metadata={'jsonld_key': 'uco-action:phase', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'https://ontology.unifiedcyberontology.org/uco/action/ArrayOfAction', 'alternate_range_iris': []})
+    phase: Optional[ArrayOfAction] = field(default=None, metadata={'jsonld_key': 'uco-action:phase', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'https://ontology.unifiedcyberontology.org/uco/action/ArrayOfAction', 'alternate_range_iris': []})
     start_time: list[datetime] = field(default_factory=list, metadata={'jsonld_key': 'uco-action:startTime', 'required': False, 'cardinality': 'zero_or_more', 'range_iri': 'http://www.w3.org/2001/XMLSchema#dateTime', 'alternate_range_iris': []})
 
 

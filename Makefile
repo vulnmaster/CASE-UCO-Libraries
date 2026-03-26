@@ -1,4 +1,4 @@
-.PHONY: all generate build test clean init
+.PHONY: all generate build test clean init lint smoke check
 
 all: init generate build test
 
@@ -40,8 +40,29 @@ test-java:
 test-rust:
 	cd rust && cargo test
 
+lint: typecheck-python lint-rust
+
+typecheck-python:
+	cd python && python -m mypy case_uco/ --ignore-missing-imports
+
+lint-rust:
+	cd rust && cargo clippy -- -D warnings
+
+smoke: smoke-csharp smoke-java smoke-rust
+
+smoke-csharp:
+	cd csharp && dotnet run --project CaseUco.Smoke
+
+smoke-java:
+	cd java && mvn -q compile exec:java
+
+smoke-rust:
+	cd rust && cargo run --example smoke
+
+check: generate build test lint smoke
+
 clean:
 	rm -rf python/case_uco/uco/*.py python/case_uco/case/*.py
 	rm -rf csharp/CaseUco/Uco/*.cs csharp/CaseUco/Case/*.cs
-	find java/src/main/java/org/caseontology -name "*.java" -not -name "CaseGraph.java" -delete
+	find java/src/main/java/org/caseontology -name "*.java" -not -name "CaseGraph.java" -not -name "SmokeTest.java" -delete
 	rm -rf rust/src/uco/*.rs rust/src/case/*.rs

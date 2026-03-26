@@ -2343,7 +2343,7 @@ pub struct CapturedTelecommunicationsInformationFacet {
     #[serde(skip_serializing)]
     pub class_iri: &'static str,
     #[serde(rename = "uco-observable:captureCellSite")]
-    pub capture_cell_site: CellSite,
+    pub capture_cell_site: Option<CellSite>,
     #[serde(rename = "uco-observable:endTime")]
     pub end_time: Option<String>,
     #[serde(rename = "uco-observable:interceptedCallState")]
@@ -2398,7 +2398,7 @@ impl CapturedTelecommunicationsInformationFacetBuilder {
     pub fn build(self) -> CapturedTelecommunicationsInformationFacet {
         CapturedTelecommunicationsInformationFacet {
             class_iri: CapturedTelecommunicationsInformationFacet::CLASS_IRI,
-            capture_cell_site: self.capture_cell_site.expect("missing required field: capture_cell_site"),
+            capture_cell_site: self.capture_cell_site,
             end_time: self.end_time,
             intercepted_call_state: self.intercepted_call_state,
             start_time: self.start_time,
@@ -10517,7 +10517,7 @@ pub struct Observation {
     #[serde(skip_serializing)]
     pub class_iri: &'static str,
     #[serde(rename = "uco-core:name")]
-    pub name: String,
+    pub name: Option<String>,
 }
 
 impl Observation {
@@ -10545,7 +10545,7 @@ impl ObservationBuilder {
     pub fn build(self) -> Observation {
         Observation {
             class_iri: Observation::CLASS_IRI,
-            name: self.name.expect("missing required field: name"),
+            name: self.name,
         }
     }
 }

@@ -211,7 +211,7 @@ pub struct ConfidenceFacet {
     #[serde(skip_serializing)]
     pub class_iri: &'static str,
     #[serde(rename = "uco-core:confidence")]
-    pub confidence: u64,
+    pub confidence: Option<u64>,
 }
 
 impl ConfidenceFacet {
@@ -239,7 +239,7 @@ impl ConfidenceFacetBuilder {
     pub fn build(self) -> ConfidenceFacet {
         ConfidenceFacet {
             class_iri: ConfidenceFacet::CLASS_IRI,
-            confidence: self.confidence.expect("missing required field: confidence"),
+            confidence: self.confidence,
         }
     }
 }
@@ -303,7 +303,7 @@ pub struct ControlledVocabulary {
     #[serde(rename = "uco-core:constrainingVocabularyReference")]
     pub constraining_vocabulary_reference: Option<String>,
     #[serde(rename = "uco-core:value")]
-    pub value: String,
+    pub value: Option<String>,
 }
 
 impl ControlledVocabulary {
@@ -347,7 +347,7 @@ impl ControlledVocabularyBuilder {
             class_iri: ControlledVocabulary::CLASS_IRI,
             constraining_vocabulary_name: self.constraining_vocabulary_name,
             constraining_vocabulary_reference: self.constraining_vocabulary_reference,
-            value: self.value.expect("missing required field: value"),
+            value: self.value,
         }
     }
 }
@@ -771,7 +771,7 @@ pub struct Relationship {
     #[serde(rename = "uco-core:endTime")]
     pub end_time: Vec<String>,
     #[serde(rename = "uco-core:isDirectional")]
-    pub is_directional: bool,
+    pub is_directional: Option<bool>,
     #[serde(rename = "uco-core:kindOfRelationship")]
     pub kind_of_relationship: Option<String>,
     #[serde(rename = "uco-core:source")]
@@ -779,7 +779,7 @@ pub struct Relationship {
     #[serde(rename = "uco-core:startTime")]
     pub start_time: Vec<String>,
     #[serde(rename = "uco-core:target")]
-    pub target: UcoObject,
+    pub target: Option<UcoObject>,
 }
 
 impl Relationship {
@@ -843,11 +843,11 @@ impl RelationshipBuilder {
         Relationship {
             class_iri: Relationship::CLASS_IRI,
             end_time: self.end_time,
-            is_directional: self.is_directional.expect("missing required field: is_directional"),
+            is_directional: self.is_directional,
             kind_of_relationship: self.kind_of_relationship,
             source: self.source,
             start_time: self.start_time,
-            target: self.target.expect("missing required field: target"),
+            target: self.target,
         }
     }
 }

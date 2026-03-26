@@ -176,9 +176,9 @@ pub struct ActionArgumentFacet {
     #[serde(skip_serializing)]
     pub class_iri: &'static str,
     #[serde(rename = "uco-action:argumentName")]
-    pub argument_name: String,
+    pub argument_name: Option<String>,
     #[serde(rename = "uco-action:value")]
-    pub value: String,
+    pub value: Option<String>,
 }
 
 impl ActionArgumentFacet {
@@ -213,8 +213,8 @@ impl ActionArgumentFacetBuilder {
     pub fn build(self) -> ActionArgumentFacet {
         ActionArgumentFacet {
             class_iri: ActionArgumentFacet::CLASS_IRI,
-            argument_name: self.argument_name.expect("missing required field: argument_name"),
-            value: self.value.expect("missing required field: value"),
+            argument_name: self.argument_name,
+            value: self.value,
         }
     }
 }
@@ -304,13 +304,13 @@ pub struct ActionFrequencyFacet {
     #[serde(skip_serializing)]
     pub class_iri: &'static str,
     #[serde(rename = "uco-action:rate")]
-    pub rate: f64,
+    pub rate: Option<f64>,
     #[serde(rename = "uco-action:scale")]
-    pub scale: String,
+    pub scale: Option<String>,
     #[serde(rename = "uco-action:trend")]
     pub trend: Vec<String>,
     #[serde(rename = "uco-action:units")]
-    pub units: String,
+    pub units: Option<String>,
 }
 
 impl ActionFrequencyFacet {
@@ -359,10 +359,10 @@ impl ActionFrequencyFacetBuilder {
     pub fn build(self) -> ActionFrequencyFacet {
         ActionFrequencyFacet {
             class_iri: ActionFrequencyFacet::CLASS_IRI,
-            rate: self.rate.expect("missing required field: rate"),
-            scale: self.scale.expect("missing required field: scale"),
+            rate: self.rate,
+            scale: self.scale,
             trend: self.trend,
-            units: self.units.expect("missing required field: units"),
+            units: self.units,
         }
     }
 }
@@ -384,7 +384,7 @@ pub struct ActionLifecycle {
     #[serde(rename = "uco-action:error")]
     pub error: Vec<UcoObject>,
     #[serde(rename = "uco-action:phase")]
-    pub phase: ArrayOfAction,
+    pub phase: Option<ArrayOfAction>,
     #[serde(rename = "uco-action:startTime")]
     pub start_time: Vec<String>,
 }
@@ -445,7 +445,7 @@ impl ActionLifecycleBuilder {
             action_count: self.action_count,
             end_time: self.end_time,
             error: self.error,
-            phase: self.phase.expect("missing required field: phase"),
+            phase: self.phase,
             start_time: self.start_time,
         }
     }

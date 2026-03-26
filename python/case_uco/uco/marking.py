@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Optional
 
 from case_uco.uco.core import MarkingDefinitionAbstraction
 from case_uco.uco.core import UcoInherentCharacterizationThing
@@ -36,7 +37,7 @@ class LicenseMarking(MarkingModel):
     NAMESPACE_PREFIX: str = "uco-marking"
 
     definition_type: list[str] = field(default_factory=list, metadata={'jsonld_key': 'uco-marking:definitionType', 'required': False, 'cardinality': 'zero_or_more', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
-    license: str = field(default=None, metadata={'jsonld_key': 'uco-marking:license', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
+    license: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-marking:license', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
 
 
 @dataclass
@@ -47,7 +48,7 @@ class MarkingDefinition(MarkingDefinitionAbstraction):
     NAMESPACE_PREFIX: str = "uco-marking"
 
     definition: list[MarkingModel] = field(default_factory=list, metadata={'jsonld_key': 'uco-marking:definition', 'required': False, 'cardinality': 'zero_or_more', 'range_iri': 'https://ontology.unifiedcyberontology.org/uco/marking/MarkingModel', 'alternate_range_iris': []})
-    definition_type: str = field(default=None, metadata={'jsonld_key': 'uco-marking:definitionType', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
+    definition_type: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-marking:definitionType', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
 
 
 @dataclass
@@ -69,7 +70,7 @@ class StatementMarking(MarkingModel):
     NAMESPACE_PREFIX: str = "uco-marking"
 
     definition_type: list[str] = field(default_factory=list, metadata={'jsonld_key': 'uco-marking:definitionType', 'required': False, 'cardinality': 'zero_or_more', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
-    statement: str = field(default=None, metadata={'jsonld_key': 'uco-marking:statement', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
+    statement: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-marking:statement', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
 
 
 @dataclass
@@ -80,5 +81,5 @@ class TermsOfUseMarking(MarkingModel):
     NAMESPACE_PREFIX: str = "uco-marking"
 
     definition_type: list[str] = field(default_factory=list, metadata={'jsonld_key': 'uco-marking:definitionType', 'required': False, 'cardinality': 'zero_or_more', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
-    terms_of_use: str = field(default=None, metadata={'jsonld_key': 'uco-marking:termsOfUse', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
+    terms_of_use: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-marking:termsOfUse', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
 

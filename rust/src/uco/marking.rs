@@ -65,7 +65,7 @@ pub struct LicenseMarking {
     #[serde(rename = "uco-marking:definitionType")]
     pub definition_type: Vec<String>,
     #[serde(rename = "uco-marking:license")]
-    pub license: String,
+    pub license: Option<String>,
 }
 
 impl LicenseMarking {
@@ -101,7 +101,7 @@ impl LicenseMarkingBuilder {
         LicenseMarking {
             class_iri: LicenseMarking::CLASS_IRI,
             definition_type: self.definition_type,
-            license: self.license.expect("missing required field: license"),
+            license: self.license,
         }
     }
 }
@@ -119,7 +119,7 @@ pub struct MarkingDefinition {
     #[serde(rename = "uco-marking:definition")]
     pub definition: Vec<MarkingModel>,
     #[serde(rename = "uco-marking:definitionType")]
-    pub definition_type: String,
+    pub definition_type: Option<String>,
 }
 
 impl MarkingDefinition {
@@ -155,7 +155,7 @@ impl MarkingDefinitionBuilder {
         MarkingDefinition {
             class_iri: MarkingDefinition::CLASS_IRI,
             definition: self.definition,
-            definition_type: self.definition_type.expect("missing required field: definition_type"),
+            definition_type: self.definition_type,
         }
     }
 }
@@ -261,7 +261,7 @@ pub struct StatementMarking {
     #[serde(rename = "uco-marking:definitionType")]
     pub definition_type: Vec<String>,
     #[serde(rename = "uco-marking:statement")]
-    pub statement: String,
+    pub statement: Option<String>,
 }
 
 impl StatementMarking {
@@ -297,7 +297,7 @@ impl StatementMarkingBuilder {
         StatementMarking {
             class_iri: StatementMarking::CLASS_IRI,
             definition_type: self.definition_type,
-            statement: self.statement.expect("missing required field: statement"),
+            statement: self.statement,
         }
     }
 }
@@ -315,7 +315,7 @@ pub struct TermsOfUseMarking {
     #[serde(rename = "uco-marking:definitionType")]
     pub definition_type: Vec<String>,
     #[serde(rename = "uco-marking:termsOfUse")]
-    pub terms_of_use: String,
+    pub terms_of_use: Option<String>,
 }
 
 impl TermsOfUseMarking {
@@ -351,7 +351,7 @@ impl TermsOfUseMarkingBuilder {
         TermsOfUseMarking {
             class_iri: TermsOfUseMarking::CLASS_IRI,
             definition_type: self.definition_type,
-            terms_of_use: self.terms_of_use.expect("missing required field: terms_of_use"),
+            terms_of_use: self.terms_of_use,
         }
     }
 }

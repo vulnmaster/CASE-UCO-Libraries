@@ -35,7 +35,45 @@ class CSharpBackend(CodegenBackend):
             file_path.write_text(content, encoding="utf-8")
             created.append(file_path)
 
+        exhaust_path = self._emit_exhaustive_test()
+        created.append(exhaust_path)
+
         return created
+
+    def _emit_exhaustive_test(self) -> Path:
+        """Generate a test that instantiates every generated class."""
+        tests_dir = self.output_dir.parent / "CaseUco.Tests"
+        tests_dir.mkdir(parents=True, exist_ok=True)
+        path = tests_dir / "ExhaustiveInstantiationTests.cs"
+
+        lines: list[str] = []
+        lines.append("// Auto-generated — instantiates every CASE/UCO class to verify the object model.")
+        lines.append("using Xunit;")
+        lines.append("")
+        lines.append("namespace CaseUco.Tests")
+        lines.append("{")
+        lines.append("    public class ExhaustiveInstantiationTests")
+        lines.append("    {")
+        lines.append("        [Fact]")
+        lines.append("        public void AllClasses_CanBeInstantiated()")
+        lines.append("        {")
+        lines.append("            var graph = new CaseGraph();")
+
+        core_classes = [
+            c for c in self.schema.classes.values()
+            if not c.module.startswith("ext.")
+        ]
+        for cls in sorted(core_classes, key=lambda c: (c.module, c.name)):
+            ns = self._namespace_for_module(cls.module)
+            lines.append(f"            graph.Add(new {ns}.{cls.name}());")
+
+        lines.append(f"            Assert.Equal({len(core_classes)}, graph.Count);")
+        lines.append("        }")
+        lines.append("    }")
+        lines.append("}")
+
+        path.write_text("\n".join(lines), encoding="utf-8")
+        return path
 
     def _vocabs_for_module(self, classes: list[OntologyClass]) -> list[OntologyVocab]:
         vocab_iris: set[str] = set()

@@ -154,7 +154,7 @@ class CASEGraph:
         return sum(self._count_triples(obj) for obj in self._objects)
 
     @staticmethod
-    def _count_triples(obj: dict) -> int:
+    def _count_triples(obj: dict[str, Any]) -> int:
         count = 0
         for key, value in obj.items():
             if key == "@id":
@@ -248,7 +248,7 @@ class CASEGraph:
 
     def _property_key(self, instance: Any, field_info: Field[Any]) -> str:
         """Resolve the JSON-LD property key from generated field metadata when available."""
-        metadata_key = field_info.metadata.get("jsonld_key")
+        metadata_key: str | None = field_info.metadata.get("jsonld_key")
         if metadata_key:
             return metadata_key
 
@@ -302,7 +302,7 @@ class CASEGraph:
             if field_info.name in ("CLASS_IRI", "NAMESPACE_PREFIX"):
                 continue
 
-            metadata = field_info.metadata or {}
+            metadata: dict[str, Any] = dict(field_info.metadata) if field_info.metadata else {}
             if not metadata:
                 continue
 
@@ -455,7 +455,7 @@ def _rehydrate(
     if not is_dataclass(cls):
         return raw
 
-    jsonld_key_to_field: dict[str, tuple[str, Field]] = {}
+    jsonld_key_to_field: dict[str, tuple[str, Field[Any]]] = {}
     for f in fields(cls):
         key = f.metadata.get("jsonld_key")
         if key:
@@ -479,7 +479,7 @@ def _rehydrate(
 
 def _coerce_value(
     value: Any,
-    field_info: Field,
+    field_info: Field[Any],
     iri_to_class: dict[str, type],
     context: dict[str, str],
 ) -> Any:

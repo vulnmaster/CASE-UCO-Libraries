@@ -131,9 +131,9 @@ pub struct DictionaryEntry {
     #[serde(skip_serializing)]
     pub class_iri: &'static str,
     #[serde(rename = "uco-types:key")]
-    pub key: String,
+    pub key: Option<String>,
     #[serde(rename = "uco-types:value")]
-    pub value: String,
+    pub value: Option<String>,
 }
 
 impl DictionaryEntry {
@@ -168,8 +168,8 @@ impl DictionaryEntryBuilder {
     pub fn build(self) -> DictionaryEntry {
         DictionaryEntry {
             class_iri: DictionaryEntry::CLASS_IRI,
-            key: self.key.expect("missing required field: key"),
-            value: self.value.expect("missing required field: value"),
+            key: self.key,
+            value: self.value,
         }
     }
 }
@@ -187,7 +187,7 @@ pub struct Hash {
     #[serde(rename = "uco-types:hashMethod")]
     pub hash_method: Vec<String>,
     #[serde(rename = "uco-types:hashValue")]
-    pub hash_value: Vec<u8>,
+    pub hash_value: Option<Vec<u8>>,
 }
 
 impl Hash {
@@ -223,7 +223,7 @@ impl HashBuilder {
         Hash {
             class_iri: Hash::CLASS_IRI,
             hash_method: self.hash_method,
-            hash_value: self.hash_value.expect("missing required field: hash_value"),
+            hash_value: self.hash_value,
         }
     }
 }

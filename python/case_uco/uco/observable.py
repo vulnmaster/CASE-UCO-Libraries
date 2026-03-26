@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Any, Optional
+from datetime import datetime
 
 from case_uco.uco.action import Action
 from case_uco.uco.core import Facet
@@ -11,6 +12,18 @@ from case_uco.uco.core import Item
 from case_uco.uco.core import Relationship
 from case_uco.uco.core import UcoInherentCharacterizationThing
 from case_uco.uco.core import UcoObject
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from case_uco.uco.configuration import Configuration
+    from case_uco.uco.identity import Identity
+    from case_uco.uco.identity import Organization
+    from case_uco.uco.location import Location
+    from case_uco.uco.types import ControlledDictionary
+    from case_uco.uco.types import Dictionary
+    from case_uco.uco.types import Hash
+    from case_uco.uco.types import Thread
 
 
 class WhoisDNSSECTypeVocab:
@@ -648,7 +661,7 @@ class CapturedTelecommunicationsInformationFacet(Facet):
     CLASS_IRI: str = "https://ontology.unifiedcyberontology.org/uco/observable/CapturedTelecommunicationsInformationFacet"
     NAMESPACE_PREFIX: str = "uco-observable"
 
-    capture_cell_site: CellSite = field(default=None, metadata={'jsonld_key': 'uco-observable:captureCellSite', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'https://ontology.unifiedcyberontology.org/uco/observable/CellSite', 'alternate_range_iris': []})
+    capture_cell_site: Optional[CellSite] = field(default=None, metadata={'jsonld_key': 'uco-observable:captureCellSite', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'https://ontology.unifiedcyberontology.org/uco/observable/CellSite', 'alternate_range_iris': []})
     end_time: Optional[datetime] = field(default=None, metadata={'jsonld_key': 'uco-observable:endTime', 'required': False, 'cardinality': 'zero_or_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#dateTime', 'alternate_range_iris': []})
     intercepted_call_state: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-observable:interceptedCallState', 'required': False, 'cardinality': 'zero_or_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
     start_time: Optional[datetime] = field(default=None, metadata={'jsonld_key': 'uco-observable:startTime', 'required': False, 'cardinality': 'zero_or_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#dateTime', 'alternate_range_iris': []})
@@ -2171,7 +2184,7 @@ class Observation(Action):
     CLASS_IRI: str = "https://ontology.unifiedcyberontology.org/uco/observable/Observation"
     NAMESPACE_PREFIX: str = "uco-observable"
 
-    name: str = field(default=None, metadata={'jsonld_key': 'uco-core:name', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
+    name: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-core:name', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
 
 
 @dataclass

@@ -51,8 +51,10 @@ jobs:
           path: |
             python/case_uco/
             csharp/CaseUco/
+            csharp/CaseUco.Tests/ExhaustiveInstantiationTests.cs
             java/src/
             rust/src/
+            rust/tests/
 
   test-python:
     name: Test Python
@@ -74,10 +76,13 @@ jobs:
           path: .
 
       - name: Install dependencies
-        run: pip install rdflib jinja2 pytest
+        run: pip install rdflib jinja2 pytest mypy
 
       - name: Run tests
         run: PYTHONPATH=generator/src:python python -m pytest generator/tests python/tests -v
+
+      - name: Type check
+        run: cd python && mypy case_uco/ --ignore-missing-imports
 
   test-csharp:
     name: Test C#
@@ -102,6 +107,9 @@ jobs:
           dotnet build
           dotnet test
 
+      - name: Smoke test
+        run: cd csharp && dotnet run --project CaseUco.Smoke
+
   test-java:
     name: Test Java
     needs: generate
@@ -125,6 +133,9 @@ jobs:
           cd java
           mvn package -q
 
+      - name: Smoke test
+        run: cd java && mvn -q compile exec:java
+
   test-rust:
     name: Test Rust
     needs: generate
@@ -133,6 +144,8 @@ jobs:
       - uses: actions/checkout@v6
 
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
 
       - name: Download generated sources
         uses: actions/download-artifact@v8
@@ -140,8 +153,14 @@ jobs:
           name: generated-sources
           path: .
 
+      - name: Clippy lint
+        run: cd rust && cargo clippy -- -D warnings
+
       - name: Build and test
         run: |
           cd rust
           cargo build
           cargo test
+
+      - name: Smoke test
+        run: cd rust && cargo run --example smoke

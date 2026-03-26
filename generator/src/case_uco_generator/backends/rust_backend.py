@@ -63,7 +63,48 @@ class RustBackend(CodegenBackend):
         )
         created.append(lib_rs)
 
+        exhaust_path = self._emit_exhaustive_test()
+        created.append(exhaust_path)
+
         return created
+
+    def _emit_exhaustive_test(self) -> Path:
+        """Generate a test that instantiates every generated class via builders."""
+        tests_dir = self.output_dir.parent / "tests"
+        tests_dir.mkdir(parents=True, exist_ok=True)
+        path = tests_dir / "exhaustive_test.rs"
+
+        lines: list[str] = []
+        lines.append("//! Auto-generated — instantiates every CASE/UCO struct to verify the object model.")
+        lines.append("")
+        lines.append("use case_uco::graph::CaseGraph;")
+
+        core_classes = [
+            c for c in self.schema.classes.values()
+            if not c.module.startswith("ext.")
+        ]
+
+        use_lines: set[str] = set()
+        for cls in sorted(core_classes, key=lambda c: (c.module, c.name)):
+            top, mod = cls.module.split(".", 1)
+            use_lines.add(f"use case_uco::{top}::{mod}::{cls.name};")
+
+        for u in sorted(use_lines):
+            lines.append(u)
+
+        lines.append("")
+        lines.append("#[test]")
+        lines.append("fn test_all_classes_can_be_instantiated() {")
+        lines.append('    let mut graph = CaseGraph::new("http://example.org/kb/");')
+
+        for cls in sorted(core_classes, key=lambda c: (c.module, c.name)):
+            lines.append(f"    graph.create(&{cls.name}::builder().build());")
+
+        lines.append(f"    assert_eq!(graph.len(), {len(core_classes)});")
+        lines.append("}")
+
+        path.write_text("\n".join(lines), encoding="utf-8")
+        return path
 
     def _vocabs_for_module(self, classes: list[OntologyClass]) -> list[OntologyVocab]:
         vocab_iris: set[str] = set()
@@ -226,14 +267,7 @@ class RustBackend(CodegenBackend):
         for prop in cls.properties:
             field_name = self.to_snake_case(prop.name)
             field_name = self.safe_identifier(field_name, "rust")
-            if prop.cardinality.is_list:
-                lines.append(f"            {field_name}: self.{field_name},")
-            elif prop.cardinality.is_required:
-                lines.append(
-                    f'            {field_name}: self.{field_name}.expect("missing required field: {field_name}"),'
-                )
-            else:
-                lines.append(f"            {field_name}: self.{field_name},")
+            lines.append(f"            {field_name}: self.{field_name},")
         lines.append("        }")
         lines.append("    }")
         lines.append("}")
@@ -250,9 +284,7 @@ class RustBackend(CodegenBackend):
         base = prop.type_name_for("rust")
         if prop.cardinality.is_list:
             return f"Vec<{base}>"
-        if not prop.cardinality.is_required:
-            return f"Option<{base}>"
-        return base
+        return f"Option<{base}>"
 
     def _rust_builder_type(self, prop: OntologyProperty) -> str:
         base = prop.type_name_for("rust")

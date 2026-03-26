@@ -144,7 +144,7 @@ class PythonBackend(CodegenBackend):
 
         needs_field = any(prop for cls in classes for prop in cls.properties)
         needs_optional = any(
-            not prop.cardinality.is_list and not prop.cardinality.is_required
+            not prop.cardinality.is_list
             for cls in classes
             for prop in cls.properties
         )
@@ -154,8 +154,20 @@ class PythonBackend(CodegenBackend):
             dc_parts.append("field")
         lines.append(f"from dataclasses import {', '.join(dc_parts)}")
 
+        typing_imports: list[str] = []
         if needs_optional:
-            lines.append("from typing import Optional")
+            typing_imports.append("Optional")
+
+        needs_any = self._needs_any_type(classes)
+        if needs_any:
+            typing_imports.append("Any")
+
+        if typing_imports:
+            lines.append(f"from typing import {', '.join(sorted(typing_imports))}")
+
+        needs_datetime = self._needs_datetime(classes)
+        if needs_datetime:
+            lines.append("from datetime import datetime")
 
         lines.append("")
 
@@ -163,6 +175,15 @@ class PythonBackend(CodegenBackend):
         for imp in sorted(runtime_imports):
             lines.append(imp)
         if runtime_imports:
+            lines.append("")
+
+        tc_imports = self._collect_type_checking_imports(current_module, classes)
+        if tc_imports:
+            lines.append("from typing import TYPE_CHECKING")
+            lines.append("")
+            lines.append("if TYPE_CHECKING:")
+            for imp in sorted(tc_imports):
+                lines.append(f"    {imp}")
             lines.append("")
 
         lines.append("")
@@ -180,14 +201,27 @@ class PythonBackend(CodegenBackend):
 
         return "\n".join(lines)
 
+    def _needs_datetime(self, classes: list[OntologyClass]) -> bool:
+        for cls in classes:
+            for prop in cls.properties:
+                if prop.type_name_for("python") == "datetime":
+                    return True
+        return False
+
+    def _needs_any_type(self, classes: list[OntologyClass]) -> bool:
+        for cls in classes:
+            for prop in cls.properties:
+                if prop.type_name_for("python") == "Any":
+                    return True
+        return False
+
     def _collect_imports(
         self, current_module: str, classes: list[OntologyClass]
     ) -> set[str]:
         """Collect runtime import statements for cross-module parent classes.
 
         Only the parent class actually used as the Python base class is imported.
-        Property-type annotations are left as forward-reference strings
-        (``from __future__ import annotations`` is always present).
+        Property-type annotations use TYPE_CHECKING imports (see below).
         """
         runtime_imports: set[str] = set()
         local_names = {c.name for c in classes}
@@ -205,6 +239,43 @@ class PythonBackend(CodegenBackend):
                         break
 
         return runtime_imports
+
+    def _collect_type_checking_imports(
+        self, current_module: str, classes: list[OntologyClass]
+    ) -> set[str]:
+        """Collect imports needed only for static type checking (mypy/pyright).
+
+        Cross-module property type references are forward-ref strings at runtime
+        but must be importable under TYPE_CHECKING for static analysis.
+        """
+        tc_imports: set[str] = set()
+        local_names = {c.name for c in classes}
+        runtime_parent_names: set[str] = set()
+
+        for cls in classes:
+            parent_name = cls.all_parent_names[0] if cls.all_parent_names else None
+            if parent_name:
+                runtime_parent_names.add(parent_name)
+
+        for cls in classes:
+            for prop in cls.properties:
+                if prop.is_xsd_type or prop.is_union or prop.is_vocab_type:
+                    continue
+
+                type_name = prop.type_name_for("python")
+                if type_name in local_names or type_name in runtime_parent_names:
+                    continue
+                if type_name in ("str", "int", "float", "bool", "bytes", "datetime", "Any"):
+                    continue
+
+                range_cls = self.schema.resolve_class(prop.range_iri)
+                if range_cls and range_cls.module != current_module:
+                    rtop, rmod = range_cls.module.split(".", 1)
+                    tc_imports.add(
+                        f"from case_uco.{rtop}.{rmod} import {range_cls.name}"
+                    )
+
+        return tc_imports
 
     def _topo_sort(
         self, classes: list[OntologyClass], current_module: str
@@ -288,9 +359,7 @@ class PythonBackend(CodegenBackend):
         base_type = prop.type_name_for("python")
         if prop.cardinality.is_list:
             return f"list[{base_type}]"
-        if not prop.cardinality.is_required:
-            return f"Optional[{base_type}]"
-        return base_type
+        return f"Optional[{base_type}]"
 
     def _python_default(self, prop: OntologyProperty) -> str:
         if prop.cardinality.is_list:

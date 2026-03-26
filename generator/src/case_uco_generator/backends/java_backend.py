@@ -43,7 +43,54 @@ class JavaBackend(CodegenBackend):
                 file_path.write_text(content, encoding="utf-8")
                 created.append(file_path)
 
+        exhaust_path = self._emit_exhaustive_test()
+        created.append(exhaust_path)
+
         return created
+
+    def _emit_exhaustive_test(self) -> Path:
+        """Generate a test that instantiates every generated class."""
+        test_dir = self.output_dir.parent.parent.parent.parent / "test" / "java" / "org" / "caseontology"
+        test_dir.mkdir(parents=True, exist_ok=True)
+        path = test_dir / "ExhaustiveInstantiationTest.java"
+
+        lines: list[str] = []
+        lines.append("// Auto-generated — instantiates every CASE/UCO class to verify the object model.")
+        lines.append("package org.caseontology;")
+        lines.append("")
+
+        core_classes = [
+            c for c in self.schema.classes.values()
+            if not c.module.startswith("ext.")
+        ]
+
+        imports: list[str] = []
+        for cls in sorted(core_classes, key=lambda c: (c.module, c.name)):
+            top, mod = cls.module.split(".", 1)
+            safe_top = self.safe_identifier(top, "java")
+            safe_mod = self.safe_identifier(mod, "java")
+            imports.append(f"import org.caseontology.{safe_top}.{safe_mod}.{cls.name};")
+
+        for imp in sorted(set(imports)):
+            lines.append(imp)
+        lines.append("import org.junit.Test;")
+        lines.append("import static org.junit.Assert.*;")
+        lines.append("")
+        lines.append("public class ExhaustiveInstantiationTest {")
+        lines.append("")
+        lines.append("    @Test")
+        lines.append("    public void testAllClassesCanBeInstantiated() {")
+        lines.append("        CaseGraph graph = new CaseGraph();")
+
+        for cls in sorted(core_classes, key=lambda c: (c.module, c.name)):
+            lines.append(f"        graph.add(new {cls.name}());")
+
+        lines.append(f"        assertEquals({len(core_classes)}, graph.size());")
+        lines.append("    }")
+        lines.append("}")
+
+        path.write_text("\n".join(lines), encoding="utf-8")
+        return path
 
     def _vocabs_for_module(self, classes: list[OntologyClass]) -> list[OntologyVocab]:
         vocab_iris: set[str] = set()

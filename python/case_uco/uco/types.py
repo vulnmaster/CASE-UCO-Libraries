@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Optional
 
 from case_uco.uco.core import UcoInherentCharacterizationThing
 from case_uco.uco.core import UcoThing
@@ -35,8 +36,8 @@ class DictionaryEntry(UcoInherentCharacterizationThing):
     CLASS_IRI: str = "https://ontology.unifiedcyberontology.org/uco/types/DictionaryEntry"
     NAMESPACE_PREFIX: str = "uco-types"
 
-    key: str = field(default=None, metadata={'jsonld_key': 'uco-types:key', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
-    value: str = field(default=None, metadata={'jsonld_key': 'uco-types:value', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
+    key: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-types:key', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
+    value: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-types:value', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
 
 
 @dataclass
@@ -56,7 +57,7 @@ class Hash(UcoInherentCharacterizationThing):
     NAMESPACE_PREFIX: str = "uco-types"
 
     hash_method: list[str] = field(default_factory=list, metadata={'jsonld_key': 'uco-types:hashMethod', 'required': False, 'cardinality': 'zero_or_more', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
-    hash_value: str = field(default=None, metadata={'jsonld_key': 'uco-types:hashValue', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#hexBinary', 'alternate_range_iris': []})
+    hash_value: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-types:hashValue', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#hexBinary', 'alternate_range_iris': []})
 
 
 @dataclass

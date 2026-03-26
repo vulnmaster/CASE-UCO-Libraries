@@ -4,6 +4,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Optional
+from datetime import datetime
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from case_uco.uco.types import Dictionary
 
 
 @dataclass
@@ -118,7 +124,7 @@ class ConfidenceFacet(Facet):
     CLASS_IRI: str = "https://ontology.unifiedcyberontology.org/uco/core/ConfidenceFacet"
     NAMESPACE_PREFIX: str = "uco-core"
 
-    confidence: int = field(default=None, metadata={'jsonld_key': 'uco-core:confidence', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#nonNegativeInteger', 'alternate_range_iris': []})
+    confidence: Optional[int] = field(default=None, metadata={'jsonld_key': 'uco-core:confidence', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#nonNegativeInteger', 'alternate_range_iris': []})
 
 
 @dataclass
@@ -140,7 +146,7 @@ class ControlledVocabulary(UcoObject):
 
     constraining_vocabulary_name: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-core:constrainingVocabularyName', 'required': False, 'cardinality': 'zero_or_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
     constraining_vocabulary_reference: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-core:constrainingVocabularyReference', 'required': False, 'cardinality': 'zero_or_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#anyURI', 'alternate_range_iris': []})
-    value: str = field(default=None, metadata={'jsonld_key': 'uco-core:value', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
+    value: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-core:value', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
 
 
 @dataclass
@@ -223,9 +229,9 @@ class Relationship(UcoObject):
     NAMESPACE_PREFIX: str = "uco-core"
 
     end_time: list[datetime] = field(default_factory=list, metadata={'jsonld_key': 'uco-core:endTime', 'required': False, 'cardinality': 'zero_or_more', 'range_iri': 'http://www.w3.org/2001/XMLSchema#dateTime', 'alternate_range_iris': []})
-    is_directional: bool = field(default=None, metadata={'jsonld_key': 'uco-core:isDirectional', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#boolean', 'alternate_range_iris': []})
+    is_directional: Optional[bool] = field(default=None, metadata={'jsonld_key': 'uco-core:isDirectional', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#boolean', 'alternate_range_iris': []})
     kind_of_relationship: Optional[str] = field(default=None, metadata={'jsonld_key': 'uco-core:kindOfRelationship', 'required': False, 'cardinality': 'zero_or_one', 'range_iri': 'http://www.w3.org/2001/XMLSchema#string', 'alternate_range_iris': []})
     source: list[UcoObject] = field(default_factory=list, metadata={'jsonld_key': 'uco-core:source', 'required': True, 'cardinality': 'one_or_more', 'range_iri': 'https://ontology.unifiedcyberontology.org/uco/core/UcoObject', 'alternate_range_iris': []})
     start_time: list[datetime] = field(default_factory=list, metadata={'jsonld_key': 'uco-core:startTime', 'required': False, 'cardinality': 'zero_or_more', 'range_iri': 'http://www.w3.org/2001/XMLSchema#dateTime', 'alternate_range_iris': []})
-    target: UcoObject = field(default=None, metadata={'jsonld_key': 'uco-core:target', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'https://ontology.unifiedcyberontology.org/uco/core/UcoObject', 'alternate_range_iris': []})
+    target: Optional[UcoObject] = field(default=None, metadata={'jsonld_key': 'uco-core:target', 'required': True, 'cardinality': 'exactly_one', 'range_iri': 'https://ontology.unifiedcyberontology.org/uco/core/UcoObject', 'alternate_range_iris': []})
 
