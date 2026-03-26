@@ -1,6 +1,8 @@
+# This CASE/UCO SDK was funded by the technical charity [Project VIC International](https://www.projectvic.org) with the view that these ontologies will be used in conjuction with the [Crimes Against Children Ontology](https://site.cacontology.projectvic.org) and other technical efforts to help the entire world find and safeguard children from sexual exploitation. While this may not be your focus, if you find this CASE/UCO SDK useful and if you use it to make money, please take a minute to become a monthly financial sponsor of Project VIC International via [Our Give Lively](https://secure.givelively.org/donate/project-vic-international-inc).
+
 # CASE/UCO SDK
 
-**v1.2.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
+**v1.3.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
 
 A multi-language data modeling library for digital forensics, cyber-investigation, and cyber-observable data. If your software produces or consumes forensic evidence, this SDK gives you typed, validated builders in **Python**, **C#**, **Java**, and **Rust** — so you can model investigation data in your language and produce interoperable [CASE/UCO](https://caseontology.org/) JSON-LD output.
 
@@ -293,7 +295,7 @@ case_validate --built-version case-1.4.0 \
   path/to/myext-exemplar.ttl
 ```
 
-See the [toolcap extension](extensions/toolcap/) for a complete, validated example of this pattern, and the [CDO Community Playground Guide](https://docs.google.com/document/d/1EiXQiAeUGk-629xdKx7HZHVn927k891LGkPcQzNLLr8/edit?usp=sharing) for submission requirements.
+See the [toolcap extension](extensions/toolcap/) for a complete, validated example of this pattern — it models forensic tool capabilities, benchmark observations with completeness/accuracy metrics, structured platform specifications (including BFU acquisition), and access restrictions (licensing, classification, OPSEC, legal authority). See the [CDO Community Playground Guide](https://docs.google.com/document/d/1EiXQiAeUGk-629xdKx7HZHVn927k891LGkPcQzNLLr8/edit?usp=sharing) for submission requirements.
 
 ## Discovering Classes
 
@@ -420,7 +422,7 @@ CASE-UCO-SDK/
 │   ├── tests/              Integration + exhaustive instantiation tests
 │   └── examples/smoke.rs   Smoke test binary (import + serialize)
 ├── extensions/             Extension ontologies (included in explorer + docs)
-│   └── toolcap/            Forensic tool capability comparison extension
+│   └── toolcap/            Forensic tool capability benchmarking extension (v0.2.0)
 ├── mcp_server/             MCP server for AI-assisted development
 │   ├── server.py           FastMCP server wrapping the ontology registry
 │   └── domain_index.py     Task-to-class mappings, recipe index, and proposal triage

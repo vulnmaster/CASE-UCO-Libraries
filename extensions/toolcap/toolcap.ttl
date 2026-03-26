@@ -2,8 +2,9 @@
 #
 # This extension ontology models which digital forensic tools can parse
 # which applications, on which platforms, for which observable types.
-# It is designed for community comparison of forensic tool capabilities
-# across the digital forensics and incident response (DFIR) landscape.
+# It supports both vendor-claimed and independently benchmarked capability
+# data, with structured platform specifications, access restrictions, and
+# append-only benchmark observations over time.
 #
 # Companion files:
 #   toolcap-shapes.ttl   — SHACL property shapes for validation
@@ -13,6 +14,7 @@
 @prefix uco-core: <https://ontology.unifiedcyberontology.org/uco/core/> .
 @prefix uco-tool: <https://ontology.unifiedcyberontology.org/uco/tool/> .
 @prefix uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
+@prefix case-investigation: <https://ontology.caseontology.org/case/investigation/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -20,8 +22,9 @@
 <http://example.org/ontology/toolcap>
 	a owl:Ontology ;
 	rdfs:label "Forensic Tool Capability Extension"@en ;
-	rdfs:comment "An extension ontology for the Cyber Domain Ontology (CDO) that provides classes and properties for modeling the capabilities of digital forensic tools. This extension allows practitioners to formally assert which forensic tools can parse data from which applications, on which device platforms (e.g., Android, iOS, Windows, macOS), and for which types of observables (e.g., messages, contacts, call logs, media files, calendar events, location data). The extension is designed to support forensic lab management, tool selection, validation testing, and capability gap analysis across the DFIR community."@en ;
-	owl:versionIRI toolcap:0.1.0 ;
+	rdfs:comment "An extension ontology for the Cyber Domain Ontology (CDO) that provides classes and properties for modeling the capabilities of digital forensic tools. Practitioners can formally assert which forensic tools can parse data from which applications, on which device platforms, for which types of observables, and under what access restrictions. The extension supports both vendor-reported and independently benchmarked capability data through append-only BenchmarkObservation instances that record point-in-time test results. It is designed to support forensic lab management, tool selection, validation testing, and capability gap analysis across the DFIR community."@en ;
+	owl:versionIRI toolcap:0.2.0 ;
+	owl:priorVersion toolcap:0.1.0 ;
 	.
 
 
@@ -33,7 +36,7 @@ toolcap:ToolCapability
 	a owl:Class ;
 	rdfs:subClassOf uco-core:UcoObject ;
 	rdfs:label "ToolCapability"@en ;
-	rdfs:comment "A tool capability is a formal assertion that a specific digital forensic tool can successfully parse, extract, or decode data from a specific application on one or more device platforms. Each ToolCapability instance links exactly one forensic tool (uco-tool:Tool) to exactly one target application (uco-observable:ObservableObject with an ApplicationFacet), and may additionally specify the platforms supported, the types of observables the tool can extract, the tool version tested, whether the capability has been independently verified, and when it was last tested. ToolCapability instances are the building blocks of a capability comparison matrix used to evaluate forensic tool coverage across the application and platform landscape."@en ;
+	rdfs:comment "A tool capability is a formal assertion that a specific digital forensic tool can successfully parse, extract, or decode data from a specific application on one or more device platforms. Each ToolCapability instance links exactly one forensic tool (uco-tool:Tool) to exactly one target application (uco-observable:ObservableObject with an ApplicationFacet), and may additionally specify the platforms supported, the types of observables the tool can extract, the tool and application versions tested, data format versions, whether the capability is vendor-claimed or independently benchmarked, access restrictions, and linked benchmark observations. ToolCapability instances are the building blocks of a capability comparison matrix used to evaluate forensic tool coverage across the application and platform landscape."@en ;
 	.
 
 toolcap:CapabilityMatrix
@@ -41,6 +44,27 @@ toolcap:CapabilityMatrix
 	rdfs:subClassOf uco-core:ContextualCompilation ;
 	rdfs:label "CapabilityMatrix"@en ;
 	rdfs:comment "A capability matrix is a named, versioned collection of ToolCapability assertions that together represent a comprehensive comparison of which digital forensic tools support which applications. A CapabilityMatrix serves as the top-level container for organizing and publishing capability data, enabling forensic labs and DFIR teams to compare tool coverage, identify gaps, plan acquisitions, and track changes over time. The matrix can be serialized as a CASE/UCO-compliant JSON-LD graph and shared across organizations for interoperability."@en ;
+	.
+
+toolcap:BenchmarkObservation
+	a owl:Class ;
+	rdfs:subClassOf uco-core:UcoObject ;
+	rdfs:label "BenchmarkObservation"@en ;
+	rdfs:comment "A benchmark observation is a single point-in-time record of testing a forensic tool's capability against a specific application. Each observation captures the results of one test run, including pass/fail outcome, completeness and accuracy metrics, processing performance, which observable categories were successfully parsed or missed, the specific tool and application versions tested, the data format version, and the platform environment. BenchmarkObservation instances are append-only: new test runs produce new instances rather than updating existing ones, preserving a full audit trail of capability evidence over time."@en ;
+	.
+
+toolcap:PlatformSpecification
+	a owl:Class ;
+	rdfs:subClassOf uco-core:UcoObject ;
+	rdfs:label "PlatformSpecification"@en ;
+	rdfs:comment "A platform specification describes the operating system, OS version, device model, and extraction method(s) relevant to a forensic tool capability or benchmark observation. It replaces unstructured platform strings with a typed object that enables precise querying (e.g., 'which tools support BFU acquisition on Android 14?'). Extraction methods include logical, file-system, physical, cloud, and BFU (Before First Unlock)."@en ;
+	.
+
+toolcap:AccessRestriction
+	a owl:Class ;
+	rdfs:subClassOf uco-core:UcoObject ;
+	rdfs:label "AccessRestriction"@en ;
+	rdfs:comment "An access restriction describes a security, licensing, classification, operational security, or legal authority constraint on the use of a forensic tool capability. Forensic examiners use access restrictions to determine whether they are authorized to employ a particular tool or technique given their organizational policies, case type, clearance level, or legal authority. When a specific investigative authorization is required, the restriction can link to a case-investigation:Authorization instance."@en ;
 	.
 
 
@@ -51,7 +75,7 @@ toolcap:CapabilityMatrix
 toolcap:tool
 	a owl:ObjectProperty ;
 	rdfs:label "tool"@en ;
-	rdfs:comment "Identifies the digital forensic tool (an instance of uco-tool:Tool) that possesses this capability. For example, a ToolCapability asserting that a forensic tool can parse a messaging application would link to the Tool instance via this property."@en ;
+	rdfs:comment "Identifies the digital forensic tool (an instance of uco-tool:Tool) that possesses this capability."@en ;
 	rdfs:domain toolcap:ToolCapability ;
 	rdfs:range uco-tool:Tool ;
 	.
@@ -59,22 +83,90 @@ toolcap:tool
 toolcap:application
 	a owl:ObjectProperty ;
 	rdfs:label "application"@en ;
-	rdfs:comment "Identifies the target application (an instance of uco-observable:ObservableObject, typically with an ApplicationFacet) whose data can be parsed by the forensic tool. For example, a ToolCapability asserting that a tool can parse a specific application would link to the ObservableObject representing that application via this property."@en ;
+	rdfs:comment "Identifies the target application (an instance of uco-observable:ObservableObject, typically with an ApplicationFacet) whose data can be parsed by the forensic tool."@en ;
 	rdfs:domain toolcap:ToolCapability ;
 	rdfs:range uco-observable:ObservableObject ;
 	.
 
+toolcap:supportsPlatform
+	a owl:ObjectProperty ;
+	rdfs:label "supportsPlatform"@en ;
+	rdfs:comment "Links a ToolCapability to one or more PlatformSpecification instances describing the platforms on which the tool can parse data from the target application. Replaces the deprecated supportedPlatform datatype property."@en ;
+	rdfs:domain toolcap:ToolCapability ;
+	rdfs:range toolcap:PlatformSpecification ;
+	.
+
+toolcap:hasAccessRestriction
+	a owl:ObjectProperty ;
+	rdfs:label "hasAccessRestriction"@en ;
+	rdfs:comment "Links a ToolCapability to one or more AccessRestriction instances describing security, licensing, or legal constraints on using this capability."@en ;
+	rdfs:domain toolcap:ToolCapability ;
+	rdfs:range toolcap:AccessRestriction ;
+	.
+
+toolcap:hasObservation
+	a owl:ObjectProperty ;
+	rdfs:label "hasObservation"@en ;
+	rdfs:comment "Links a ToolCapability to one or more BenchmarkObservation instances that provide empirical evidence of the tool's parsing performance. New observations are appended over time as additional benchmarks are conducted."@en ;
+	rdfs:domain toolcap:ToolCapability ;
+	rdfs:range toolcap:BenchmarkObservation ;
+	owl:inverseOf toolcap:capability ;
+	.
+
+toolcap:capability
+	a owl:ObjectProperty ;
+	rdfs:label "capability"@en ;
+	rdfs:comment "Links a BenchmarkObservation back to the ToolCapability it provides evidence for. This is the inverse of hasObservation."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range toolcap:ToolCapability ;
+	owl:inverseOf toolcap:hasObservation ;
+	.
+
+toolcap:benchmarkedBy
+	a owl:ObjectProperty ;
+	rdfs:label "benchmarkedBy"@en ;
+	rdfs:comment "Identifies the person or organization (an instance of uco-core:IdentityAbstraction) that performed this benchmark test."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range uco-core:IdentityAbstraction ;
+	.
+
+toolcap:benchmarkPlatform
+	a owl:ObjectProperty ;
+	rdfs:label "benchmarkPlatform"@en ;
+	rdfs:comment "Links a BenchmarkObservation to the specific PlatformSpecification describing the environment in which the benchmark was conducted."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range toolcap:PlatformSpecification ;
+	.
+
+toolcap:requiredAuthorization
+	a owl:ObjectProperty ;
+	rdfs:label "requiredAuthorization"@en ;
+	rdfs:comment "Links an AccessRestriction to a case-investigation:Authorization instance when a specific investigative authorization (e.g., warrant, court order) is required to use the restricted capability."@en ;
+	rdfs:domain toolcap:AccessRestriction ;
+	rdfs:range case-investigation:Authorization ;
+	.
+
+toolcap:hasCapability
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf uco-core:object ;
+	rdfs:label "hasCapability"@en ;
+	rdfs:comment "Links a CapabilityMatrix to its member ToolCapability assertions. This is a sub-property of uco-core:object, providing semantic precision while remaining compatible with the ContextualCompilation membership pattern."@en ;
+	rdfs:domain toolcap:CapabilityMatrix ;
+	rdfs:range toolcap:ToolCapability ;
+	.
+
 
 # =============================================================================
-# Datatype Properties
+# Datatype Properties — ToolCapability
 # =============================================================================
 
 toolcap:supportedPlatform
 	a owl:DatatypeProperty ;
 	rdfs:label "supportedPlatform"@en ;
-	rdfs:comment "A device platform or operating system (e.g., 'Android', 'iOS', 'Windows', 'macOS', 'Linux') on which the forensic tool can successfully parse data from the target application. Multiple values are expected when the tool supports the same application across multiple platforms."@en ;
+	rdfs:comment "DEPRECATED in 0.2.0. Use the supportsPlatform object property with PlatformSpecification instances instead. A device platform or operating system (e.g., 'Android', 'iOS', 'Windows', 'macOS', 'Linux') on which the forensic tool can successfully parse data from the target application."@en ;
 	rdfs:domain toolcap:ToolCapability ;
 	rdfs:range xsd:string ;
+	owl:deprecated "true"^^xsd:boolean ;
 	.
 
 toolcap:parsedObservableType
@@ -88,7 +180,7 @@ toolcap:parsedObservableType
 toolcap:toolVersion
 	a owl:DatatypeProperty ;
 	rdfs:label "toolVersion"@en ;
-	rdfs:comment "The specific version string of the forensic tool that was tested or verified to support this capability. Because forensic tool capabilities change between releases (new application parsers are added, existing ones may break), recording the tested version is critical for reproducibility and auditability."@en ;
+	rdfs:comment "The specific version string of the forensic tool that was tested or verified to support this capability. Because forensic tool capabilities change between releases, recording the tested version is critical for reproducibility and auditability."@en ;
 	rdfs:domain toolcap:ToolCapability ;
 	rdfs:range xsd:string ;
 	.
@@ -96,7 +188,7 @@ toolcap:toolVersion
 toolcap:isVerified
 	a owl:DatatypeProperty ;
 	rdfs:label "isVerified"@en ;
-	rdfs:comment "A boolean flag indicating whether this tool capability has been independently verified through controlled testing (e.g., running the tool against a known test image containing the target application's data and confirming successful extraction). A value of true means the capability has been validated; false or omission means it is unverified or self-reported."@en ;
+	rdfs:comment "A boolean flag indicating whether this tool capability has been independently verified through controlled testing. A value of true means the capability has been validated; false or omission means it is unverified or self-reported. For detailed evidence, see linked BenchmarkObservation instances."@en ;
 	rdfs:domain toolcap:ToolCapability ;
 	rdfs:range xsd:boolean ;
 	.
@@ -104,10 +196,47 @@ toolcap:isVerified
 toolcap:lastTestedDate
 	a owl:DatatypeProperty ;
 	rdfs:label "lastTestedDate"@en ;
-	rdfs:comment "The date and time when this capability was most recently tested or verified. This is important for tracking currency of the capability assertion, since applications frequently update their data storage formats and forensic tools must keep pace."@en ;
+	rdfs:comment "The date and time when this capability was most recently tested or verified. This is a summary-level property; individual test dates are recorded on BenchmarkObservation instances."@en ;
 	rdfs:domain toolcap:ToolCapability ;
 	rdfs:range xsd:dateTime ;
 	.
+
+toolcap:claimedByVendor
+	a owl:DatatypeProperty ;
+	rdfs:label "claimedByVendor"@en ;
+	rdfs:comment "A boolean flag indicating whether this capability is asserted by the tool vendor (e.g., listed in the vendor's supported application matrix or marketing materials). A value of true means the vendor claims support; false or omission means the capability was discovered through independent testing."@en ;
+	rdfs:domain toolcap:ToolCapability ;
+	rdfs:range xsd:boolean ;
+	.
+
+toolcap:verifiedByBenchmark
+	a owl:DatatypeProperty ;
+	rdfs:label "verifiedByBenchmark"@en ;
+	rdfs:comment "A boolean flag indicating whether this capability has been independently verified through a controlled benchmark (as opposed to relying solely on a vendor claim). When true, one or more BenchmarkObservation instances should be linked via hasObservation."@en ;
+	rdfs:domain toolcap:ToolCapability ;
+	rdfs:range xsd:boolean ;
+	.
+
+toolcap:applicationVersion
+	a owl:DatatypeProperty ;
+	rdfs:label "applicationVersion"@en ;
+	rdfs:comment "The version of the target application that this capability applies to. Multiple values indicate the tool has been tested or verified against several application versions (e.g., 'Classic', '2024.1', '7.0.2')."@en ;
+	rdfs:domain toolcap:ToolCapability ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:dataFormatVersion
+	a owl:DatatypeProperty ;
+	rdfs:label "dataFormatVersion"@en ;
+	rdfs:comment "The data storage format version that this capability applies to. Applications may change their underlying database or file format across releases (e.g., '.pst' vs '.nst' for Outlook, 'SQLite WAL v1' vs 'v2'). Multiple values indicate the tool supports several format versions."@en ;
+	rdfs:domain toolcap:ToolCapability ;
+	rdfs:range xsd:string ;
+	.
+
+
+# =============================================================================
+# Datatype Properties — CapabilityMatrix
+# =============================================================================
 
 toolcap:matrixName
 	a owl:DatatypeProperty ;
@@ -122,5 +251,188 @@ toolcap:matrixVersion
 	rdfs:label "matrixVersion"@en ;
 	rdfs:comment "A version string for this capability matrix, allowing consumers to track updates and changes over time (e.g., '1.0', '2.1-draft')."@en ;
 	rdfs:domain toolcap:CapabilityMatrix ;
+	rdfs:range xsd:string ;
+	.
+
+
+# =============================================================================
+# Datatype Properties — BenchmarkObservation
+# =============================================================================
+
+toolcap:benchmarkDate
+	a owl:DatatypeProperty ;
+	rdfs:label "benchmarkDate"@en ;
+	rdfs:comment "The date and time when this benchmark test was conducted."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:dateTime ;
+	.
+
+toolcap:parseSuccess
+	a owl:DatatypeProperty ;
+	rdfs:label "parseSuccess"@en ;
+	rdfs:comment "A boolean indicating whether the tool successfully parsed data from the target application in this benchmark run. True means the tool produced usable output; false means it failed to parse."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:boolean ;
+	.
+
+toolcap:completenessScore
+	a owl:DatatypeProperty ;
+	rdfs:label "completenessScore"@en ;
+	rdfs:comment "The fraction of expected records or data items that the tool successfully recovered, expressed as a decimal between 0.0 and 1.0. For example, 0.85 means the tool recovered 85% of the known records in the test dataset."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:decimal ;
+	.
+
+toolcap:accuracyScore
+	a owl:DatatypeProperty ;
+	rdfs:label "accuracyScore"@en ;
+	rdfs:comment "The accuracy of the tool's output, expressed as a decimal between 0.0 and 1.0. This measures the correctness of recovered data (e.g., whether timestamps, content, and metadata are faithfully reproduced)."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:decimal ;
+	.
+
+toolcap:falsePositiveCount
+	a owl:DatatypeProperty ;
+	rdfs:label "falsePositiveCount"@en ;
+	rdfs:comment "The number of records or artifacts the tool reported that do not actually exist in the source data."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:nonNegativeInteger ;
+	.
+
+toolcap:falseNegativeCount
+	a owl:DatatypeProperty ;
+	rdfs:label "falseNegativeCount"@en ;
+	rdfs:comment "The number of records or artifacts that exist in the source data but were not recovered by the tool."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:nonNegativeInteger ;
+	.
+
+toolcap:processingDuration
+	a owl:DatatypeProperty ;
+	rdfs:label "processingDuration"@en ;
+	rdfs:comment "The wall-clock time the tool took to parse the test dataset, expressed as an xsd:duration (e.g., 'PT4M30S' for four minutes and thirty seconds)."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:duration ;
+	.
+
+toolcap:datasetSizeInBytes
+	a owl:DatatypeProperty ;
+	rdfs:label "datasetSizeInBytes"@en ;
+	rdfs:comment "The size of the test dataset in bytes, providing context for processing duration and resource requirements."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:nonNegativeInteger ;
+	.
+
+toolcap:parsedCategory
+	a owl:DatatypeProperty ;
+	rdfs:label "parsedCategory"@en ;
+	rdfs:comment "A category of observable data that the tool successfully extracted in this benchmark run (e.g., 'messages', 'contacts', 'media files'). Multiple values indicate successful extraction across several categories."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:missedCategory
+	a owl:DatatypeProperty ;
+	rdfs:label "missedCategory"@en ;
+	rdfs:comment "A category of observable data that the tool failed to extract in this benchmark run despite the data being present in the test dataset (e.g., 'voice notes', 'deleted messages'). Multiple values indicate failures across several categories."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:benchmarkNotes
+	a owl:DatatypeProperty ;
+	rdfs:label "benchmarkNotes"@en ;
+	rdfs:comment "Free-text notes about this benchmark run, such as environmental conditions, anomalies observed, or caveats about the results."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:testedToolVersion
+	a owl:DatatypeProperty ;
+	rdfs:label "testedToolVersion"@en ;
+	rdfs:comment "The exact version string of the forensic tool used in this benchmark run."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:testedApplicationVersion
+	a owl:DatatypeProperty ;
+	rdfs:label "testedApplicationVersion"@en ;
+	rdfs:comment "The version of the target application whose data was used in this benchmark run."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:testedDataFormatVersion
+	a owl:DatatypeProperty ;
+	rdfs:label "testedDataFormatVersion"@en ;
+	rdfs:comment "The data storage format version tested in this benchmark run (e.g., '.pst', '.nst', 'SQLite WAL v2')."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:string ;
+	.
+
+
+# =============================================================================
+# Datatype Properties — PlatformSpecification
+# =============================================================================
+
+toolcap:operatingSystem
+	a owl:DatatypeProperty ;
+	rdfs:label "operatingSystem"@en ;
+	rdfs:comment "The operating system name (e.g., 'Android', 'iOS', 'Windows', 'macOS', 'Linux')."@en ;
+	rdfs:domain toolcap:PlatformSpecification ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:osVersion
+	a owl:DatatypeProperty ;
+	rdfs:label "osVersion"@en ;
+	rdfs:comment "The operating system version string (e.g., '14', '17.4', '11 23H2')."@en ;
+	rdfs:domain toolcap:PlatformSpecification ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:deviceModel
+	a owl:DatatypeProperty ;
+	rdfs:label "deviceModel"@en ;
+	rdfs:comment "The device hardware model (e.g., 'Pixel 8 Pro', 'iPhone 15', 'Galaxy S24')."@en ;
+	rdfs:domain toolcap:PlatformSpecification ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:extractionMethod
+	a owl:DatatypeProperty ;
+	rdfs:label "extractionMethod"@en ;
+	rdfs:comment "A method or technique used for data acquisition (e.g., 'logical', 'file-system', 'physical', 'cloud', 'BFU'). BFU (Before First Unlock) refers to acquisition of a device that has not been unlocked since boot, which yields a limited but forensically significant subset of data. Multiple values indicate the tool supports several extraction methods on this platform."@en ;
+	rdfs:domain toolcap:PlatformSpecification ;
+	rdfs:range xsd:string ;
+	.
+
+
+# =============================================================================
+# Datatype Properties — AccessRestriction
+# =============================================================================
+
+toolcap:restrictionType
+	a owl:DatatypeProperty ;
+	rdfs:label "restrictionType"@en ;
+	rdfs:comment "The category of access restriction (e.g., 'licensing', 'classification', 'operational-security', 'legal-authority'). This indicates what kind of pre-determination an examiner must make before using the capability."@en ;
+	rdfs:domain toolcap:AccessRestriction ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:restrictionLevel
+	a owl:DatatypeProperty ;
+	rdfs:label "restrictionLevel"@en ;
+	rdfs:comment "The specific level or value of the restriction (e.g., 'commercial-license-required', 'law-enforcement-only', 'SECRET', 'requires-NDA')."@en ;
+	rdfs:domain toolcap:AccessRestriction ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:restrictionDescription
+	a owl:DatatypeProperty ;
+	rdfs:label "restrictionDescription"@en ;
+	rdfs:comment "A human-readable explanation of the restriction, providing context for examiners who need to determine whether they meet the requirements."@en ;
+	rdfs:domain toolcap:AccessRestriction ;
 	rdfs:range xsd:string ;
 	.

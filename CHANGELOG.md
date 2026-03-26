@@ -5,6 +5,63 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-03-26
+
+### Added
+
+#### Toolcap Extension v0.2.0 — Forensic Tool Benchmarking and Access Control
+
+The `extensions/toolcap/` extension ontology has been expanded from a simple
+capability matrix into a full benchmarking and access-control framework for
+forensic tool evaluation. The extension now supports vendor-claimed vs.
+independently benchmarked capability data, structured platform specifications,
+point-in-time benchmark observations, and security/licensing access restrictions.
+
+- **3 new classes:**
+  - `BenchmarkObservation` (`uco-core:UcoObject`) — a single point-in-time
+    record of testing a forensic tool against an application, with optional
+    metrics for pass/fail, completeness, accuracy, false positives/negatives,
+    processing duration, dataset size, and parsed/missed observable categories
+  - `PlatformSpecification` (`uco-core:UcoObject`) — structured replacement for
+    the deprecated `supportedPlatform` string, capturing operating system, OS
+    version, device model, and extraction method(s) including BFU (Before First
+    Unlock) acquisition
+  - `AccessRestriction` (`uco-core:UcoObject`) — security, licensing,
+    classification, operational security, or legal authority constraints on tool
+    usage, with optional link to `case-investigation:Authorization`
+- **New properties on `ToolCapability`:**
+  - `claimedByVendor` / `verifiedByBenchmark` — distinguish vendor-reported
+    capabilities from independently tested ones
+  - `applicationVersion` — target application version(s) the capability applies to
+  - `dataFormatVersion` — data storage format version(s) (e.g., `.pst` vs `.nst`)
+  - `supportsPlatform` — object property linking to `PlatformSpecification`
+    instances (replaces the deprecated `supportedPlatform` string)
+  - `hasAccessRestriction` — links to `AccessRestriction` instances
+  - `hasObservation` — links to `BenchmarkObservation` instances (append-only)
+- **Inverse property pair:** `hasObservation` / `capability` declared with
+  `owl:inverseOf` for bidirectional traversal between capabilities and their
+  benchmark evidence
+- **`hasCapability`** — new object property on `CapabilityMatrix`, declared as
+  `rdfs:subPropertyOf uco-core:object` for semantically precise matrix membership
+- **Deprecated** `supportedPlatform` datatype property with `owl:deprecated true`;
+  retained for backward compatibility with v0.1.0 data
+- **14 benchmark metric properties** (all optional): `parseSuccess`,
+  `completenessScore`, `accuracyScore`, `falsePositiveCount`,
+  `falseNegativeCount`, `processingDuration`, `datasetSizeInBytes`,
+  `parsedCategory`, `missedCategory`, `benchmarkNotes`, `benchmarkDate`,
+  `testedToolVersion`, `testedApplicationVersion`, `testedDataFormatVersion`
+- **SHACL shapes** for all new classes with value range constraints
+  (`sh:minInclusive`/`sh:maxInclusive` for score properties)
+- **Updated exemplar** (`toolcap-exemplar.ttl`) with a realistic scenario:
+  two tools, a messaging app, and Microsoft Outlook with both `.pst` (pass)
+  and `.nst` (fail) data format benchmarks, BFU acquisition, and
+  law-enforcement-only access restrictions
+- **Updated Python example** (`example_capability_matrix.py`) demonstrating all
+  new classes including benchmark observations, platform specifications, and
+  access restrictions
+- All exemplar data validated with `case_validate --built-version case-1.4.0`
+  (`Conforms: True`)
+
 ## [1.2.0] - 2026-03-26
 
 ### Added
@@ -182,6 +239,7 @@ digital forensics, cyber-investigation, and cyber-observable data.
 - GitHub Actions workflows: CI, CodeQL, dependency review, release
 - Dependabot configuration for automated dependency updates
 
+[1.3.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.3.0
 [1.2.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.2.0
 [1.1.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.1.0
 [1.0.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.0.0

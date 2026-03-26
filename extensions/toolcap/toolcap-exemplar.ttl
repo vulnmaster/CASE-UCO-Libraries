@@ -1,8 +1,14 @@
-# Forensic Tool Capability Extension — Exemplar Instances (A-Box)
+# Forensic Tool Capability Extension — Exemplar Instances (A-Box) v0.2.0
 #
 # This file contains validated example instances of the toolcap extension
-# classes, demonstrating how to model forensic tool capabilities using
-# CASE/UCO. All instances use UUID-based IRIs per CDO conventions.
+# classes, demonstrating how to model forensic tool capabilities, benchmark
+# observations, platform specifications, and access restrictions.
+#
+# The scenario models two commercial DFIR tools (Tool A and Tool B) and their
+# ability to parse two applications: a messaging app (App Alpha) and an email
+# client (Outlook). Outlook has two data format versions (.pst and .nst) to
+# demonstrate how the extension tracks format-level capability gaps and
+# benchmark observations over time.
 #
 # Validation command:
 #   case_validate --built-version case-1.4.0 \
@@ -15,8 +21,20 @@
 @prefix toolcap: <http://example.org/ontology/toolcap/> .
 @prefix uco-core: <https://ontology.unifiedcyberontology.org/uco/core/> .
 @prefix uco-tool: <https://ontology.unifiedcyberontology.org/uco/tool/> .
+@prefix uco-identity: <https://ontology.unifiedcyberontology.org/uco/identity/> .
 @prefix uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
+@prefix case-investigation: <https://ontology.caseontology.org/case/investigation/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+
+# =============================================================================
+# Identity (the benchmarking lab)
+# =============================================================================
+
+kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee
+	a uco-identity:Identity ;
+	uco-core:name "DFIR Validation Lab"^^xsd:string ;
+	.
 
 
 # =============================================================================
@@ -51,97 +69,348 @@ kb:ApplicationFacet-d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f80
 	uco-core:name "App Alpha"^^xsd:string ;
 	.
 
-kb:Application-e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091
+kb:Application-outlook-e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091
 	a uco-observable:ObservableObject ;
-	uco-core:hasFacet kb:ApplicationFacet-f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f809102 ;
+	uco-core:hasFacet kb:ApplicationFacet-outlook-f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f809102 ;
 	.
 
-kb:ApplicationFacet-f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f809102
+kb:ApplicationFacet-outlook-f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f809102
 	a uco-observable:ApplicationFacet ;
-	uco-observable:applicationIdentifier "com.example.app.beta"^^xsd:string ;
-	uco-core:name "App Beta"^^xsd:string ;
+	uco-observable:applicationIdentifier "com.microsoft.outlook"^^xsd:string ;
+	uco-core:name "Microsoft Outlook"^^xsd:string ;
 	.
 
 
 # =============================================================================
-# Tool Capabilities (instances of toolcap:ToolCapability)
+# Platform Specifications
 # =============================================================================
 
-# Tool A can parse App Alpha on Android and iOS
+kb:Platform-android14-physical-11111111-aaaa-4bbb-cccc-dddddddddddd
+	a toolcap:PlatformSpecification ;
+	uco-core:name "Android 14 — Physical"^^xsd:string ;
+	toolcap:operatingSystem "Android"^^xsd:string ;
+	toolcap:osVersion "14"^^xsd:string ;
+	toolcap:extractionMethod "physical"^^xsd:string ;
+	toolcap:extractionMethod "file-system"^^xsd:string ;
+	.
+
+kb:Platform-android14-bfu-22222222-aaaa-4bbb-cccc-dddddddddddd
+	a toolcap:PlatformSpecification ;
+	uco-core:name "Android 14 — BFU"^^xsd:string ;
+	toolcap:operatingSystem "Android"^^xsd:string ;
+	toolcap:osVersion "14"^^xsd:string ;
+	toolcap:extractionMethod "BFU"^^xsd:string ;
+	.
+
+kb:Platform-ios17-logical-33333333-aaaa-4bbb-cccc-dddddddddddd
+	a toolcap:PlatformSpecification ;
+	uco-core:name "iOS 17 — Logical"^^xsd:string ;
+	toolcap:operatingSystem "iOS"^^xsd:string ;
+	toolcap:osVersion "17.4"^^xsd:string ;
+	toolcap:deviceModel "iPhone 15"^^xsd:string ;
+	toolcap:extractionMethod "logical"^^xsd:string ;
+	.
+
+kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd
+	a toolcap:PlatformSpecification ;
+	uco-core:name "Windows 11 — Logical"^^xsd:string ;
+	toolcap:operatingSystem "Windows"^^xsd:string ;
+	toolcap:osVersion "11 23H2"^^xsd:string ;
+	toolcap:extractionMethod "logical"^^xsd:string ;
+	.
+
+
+# =============================================================================
+# Access Restrictions
+# =============================================================================
+
+kb:AccessRestriction-commercial-55555555-aaaa-4bbb-cccc-dddddddddddd
+	a toolcap:AccessRestriction ;
+	toolcap:restrictionType "licensing"^^xsd:string ;
+	toolcap:restrictionLevel "commercial-license-required"^^xsd:string ;
+	toolcap:restrictionDescription "Requires an active commercial license from the tool vendor. Annual subscription model."^^xsd:string ;
+	.
+
+kb:AccessRestriction-leo-only-66666666-aaaa-4bbb-cccc-dddddddddddd
+	a toolcap:AccessRestriction ;
+	toolcap:restrictionType "licensing"^^xsd:string ;
+	toolcap:restrictionLevel "law-enforcement-only"^^xsd:string ;
+	toolcap:restrictionDescription "This tool is only available to sworn law enforcement and authorized government agencies."^^xsd:string ;
+	.
+
+kb:AccessRestriction-opsec-77777777-aaaa-4bbb-cccc-dddddddddddd
+	a toolcap:AccessRestriction ;
+	toolcap:restrictionType "operational-security"^^xsd:string ;
+	toolcap:restrictionLevel "covert-capable"^^xsd:string ;
+	toolcap:restrictionDescription "BFU acquisition technique may be detectable by device owner. Operational security review required before deployment on live investigations."^^xsd:string ;
+	.
+
+
+# =============================================================================
+# Tool Capabilities
+# =============================================================================
+
+# --- Tool A → App Alpha (Android physical + iOS logical) ---
 kb:ToolCapability-11111111-2222-4333-a444-555555555555
 	a toolcap:ToolCapability ;
-	uco-core:description "Tool A's capability to extract and parse App Alpha messaging data from Android and iOS device images, including messages, contacts, media files, and call logs."^^xsd:string ;
+	uco-core:description "Tool A's capability to extract and parse App Alpha messaging data from Android and iOS device images."^^xsd:string ;
 	toolcap:tool kb:Tool-a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d ;
 	toolcap:application kb:Application-c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f ;
-	toolcap:supportedPlatform "Android"^^xsd:string ;
-	toolcap:supportedPlatform "iOS"^^xsd:string ;
+	toolcap:supportsPlatform
+		kb:Platform-android14-physical-11111111-aaaa-4bbb-cccc-dddddddddddd ,
+		kb:Platform-ios17-logical-33333333-aaaa-4bbb-cccc-dddddddddddd ;
 	toolcap:parsedObservableType "messages"^^xsd:string ;
 	toolcap:parsedObservableType "contacts"^^xsd:string ;
 	toolcap:parsedObservableType "media files"^^xsd:string ;
 	toolcap:parsedObservableType "call logs"^^xsd:string ;
 	toolcap:toolVersion "8.2.0"^^xsd:string ;
+	toolcap:applicationVersion "7.0.2"^^xsd:string ;
+	toolcap:claimedByVendor "true"^^xsd:boolean ;
+	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
 	toolcap:isVerified "true"^^xsd:boolean ;
 	toolcap:lastTestedDate "2026-03-01T10:00:00Z"^^xsd:dateTime ;
+	toolcap:hasAccessRestriction kb:AccessRestriction-commercial-55555555-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:hasObservation
+		kb:Benchmark-aaa11111-1111-4111-a111-111111111111 ;
 	.
 
-# Tool A can parse App Beta on Android
+# --- Tool A → Outlook (Windows, .pst and .nst formats) ---
 kb:ToolCapability-22222222-3333-4444-a555-666666666666
 	a toolcap:ToolCapability ;
-	uco-core:description "Tool A's capability to extract and parse App Beta messaging data from Android device images, including messages, contacts, and media files."^^xsd:string ;
+	uco-core:description "Tool A's capability to parse Microsoft Outlook data from Windows images. Supports the classic .pst format; the new .nst format is claimed but not yet verified."^^xsd:string ;
 	toolcap:tool kb:Tool-a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d ;
-	toolcap:application kb:Application-e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091 ;
-	toolcap:supportedPlatform "Android"^^xsd:string ;
-	toolcap:parsedObservableType "messages"^^xsd:string ;
+	toolcap:application kb:Application-outlook-e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091 ;
+	toolcap:supportsPlatform
+		kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:parsedObservableType "emails"^^xsd:string ;
 	toolcap:parsedObservableType "contacts"^^xsd:string ;
-	toolcap:parsedObservableType "media files"^^xsd:string ;
+	toolcap:parsedObservableType "calendar events"^^xsd:string ;
+	toolcap:parsedObservableType "attachments"^^xsd:string ;
 	toolcap:toolVersion "8.2.0"^^xsd:string ;
+	toolcap:applicationVersion "Classic"^^xsd:string ;
+	toolcap:applicationVersion "New (2024)"^^xsd:string ;
+	toolcap:dataFormatVersion ".pst"^^xsd:string ;
+	toolcap:dataFormatVersion ".nst"^^xsd:string ;
+	toolcap:claimedByVendor "true"^^xsd:boolean ;
+	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
 	toolcap:isVerified "true"^^xsd:boolean ;
-	toolcap:lastTestedDate "2026-03-01T10:00:00Z"^^xsd:dateTime ;
+	toolcap:lastTestedDate "2026-03-15T14:00:00Z"^^xsd:dateTime ;
+	toolcap:hasAccessRestriction kb:AccessRestriction-commercial-55555555-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:hasObservation
+		kb:Benchmark-bbb22222-2222-4222-a222-222222222222 ,
+		kb:Benchmark-ccc33333-3333-4333-a333-333333333333 ;
 	.
 
-# Tool B can parse App Alpha on Android
+# --- Tool B → App Alpha (Android BFU — law-enforcement-only) ---
 kb:ToolCapability-33333333-4444-4555-a666-777777777777
 	a toolcap:ToolCapability ;
-	uco-core:description "Tool B's capability to extract and parse App Alpha messaging data from Android device images, including messages and contacts."^^xsd:string ;
+	uco-core:description "Tool B's capability to extract App Alpha data from Android devices, including BFU acquisition. Law-enforcement-only licensing."^^xsd:string ;
 	toolcap:tool kb:Tool-b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e ;
 	toolcap:application kb:Application-c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f ;
-	toolcap:supportedPlatform "Android"^^xsd:string ;
+	toolcap:supportsPlatform
+		kb:Platform-android14-physical-11111111-aaaa-4bbb-cccc-dddddddddddd ,
+		kb:Platform-android14-bfu-22222222-aaaa-4bbb-cccc-dddddddddddd ;
 	toolcap:parsedObservableType "messages"^^xsd:string ;
 	toolcap:parsedObservableType "contacts"^^xsd:string ;
 	toolcap:toolVersion "7.70"^^xsd:string ;
-	toolcap:isVerified "false"^^xsd:boolean ;
+	toolcap:applicationVersion "7.0.2"^^xsd:string ;
+	toolcap:claimedByVendor "true"^^xsd:boolean ;
+	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
+	toolcap:isVerified "true"^^xsd:boolean ;
 	toolcap:lastTestedDate "2026-02-15T14:30:00Z"^^xsd:dateTime ;
+	toolcap:hasAccessRestriction
+		kb:AccessRestriction-leo-only-66666666-aaaa-4bbb-cccc-dddddddddddd ,
+		kb:AccessRestriction-opsec-77777777-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:hasObservation
+		kb:Benchmark-ddd44444-4444-4444-a444-444444444444 ,
+		kb:Benchmark-eee55555-5555-4555-a555-555555555555 ;
 	.
 
-# Tool B can parse App Beta on Android and iOS
+# --- Tool B → Outlook (Windows, .pst only — cannot parse .nst) ---
 kb:ToolCapability-44444444-5555-4666-a777-888888888888
 	a toolcap:ToolCapability ;
-	uco-core:description "Tool B's capability to extract and parse App Beta messaging data from Android and iOS device images, including messages, contacts, media files, and location data."^^xsd:string ;
+	uco-core:description "Tool B's capability to parse Microsoft Outlook data from Windows images. Only supports the classic .pst format; fails on the new .nst format."^^xsd:string ;
 	toolcap:tool kb:Tool-b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e ;
-	toolcap:application kb:Application-e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091 ;
-	toolcap:supportedPlatform "Android"^^xsd:string ;
-	toolcap:supportedPlatform "iOS"^^xsd:string ;
-	toolcap:parsedObservableType "messages"^^xsd:string ;
+	toolcap:application kb:Application-outlook-e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091 ;
+	toolcap:supportsPlatform
+		kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:parsedObservableType "emails"^^xsd:string ;
 	toolcap:parsedObservableType "contacts"^^xsd:string ;
-	toolcap:parsedObservableType "media files"^^xsd:string ;
-	toolcap:parsedObservableType "location data"^^xsd:string ;
+	toolcap:parsedObservableType "calendar events"^^xsd:string ;
 	toolcap:toolVersion "7.70"^^xsd:string ;
+	toolcap:applicationVersion "Classic"^^xsd:string ;
+	toolcap:dataFormatVersion ".pst"^^xsd:string ;
+	toolcap:claimedByVendor "true"^^xsd:boolean ;
+	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
 	toolcap:isVerified "true"^^xsd:boolean ;
-	toolcap:lastTestedDate "2026-02-20T09:15:00Z"^^xsd:dateTime ;
+	toolcap:lastTestedDate "2026-03-10T09:00:00Z"^^xsd:dateTime ;
+	toolcap:hasAccessRestriction kb:AccessRestriction-leo-only-66666666-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:hasObservation
+		kb:Benchmark-fff66666-6666-4666-a666-666666666666 ,
+		kb:Benchmark-ggg77777-7777-4777-a777-777777777777 ;
 	.
 
 
 # =============================================================================
-# Capability Matrix (instance of toolcap:CapabilityMatrix)
+# Benchmark Observations
+# =============================================================================
+
+# --- Tool A / App Alpha on Android 14 physical — pass ---
+kb:Benchmark-aaa11111-1111-4111-a111-111111111111
+	a toolcap:BenchmarkObservation ;
+	uco-core:description "Benchmark of Tool A parsing App Alpha on Android 14 physical extraction."^^xsd:string ;
+	toolcap:capability kb:ToolCapability-11111111-2222-4333-a444-555555555555 ;
+	toolcap:benchmarkDate "2026-03-01T10:00:00Z"^^xsd:dateTime ;
+	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
+	toolcap:benchmarkPlatform kb:Platform-android14-physical-11111111-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:parseSuccess "true"^^xsd:boolean ;
+	toolcap:completenessScore "0.95"^^xsd:decimal ;
+	toolcap:accuracyScore "0.98"^^xsd:decimal ;
+	toolcap:falsePositiveCount "2"^^xsd:nonNegativeInteger ;
+	toolcap:falseNegativeCount "12"^^xsd:nonNegativeInteger ;
+	toolcap:processingDuration "PT3M45S"^^xsd:duration ;
+	toolcap:datasetSizeInBytes "5368709120"^^xsd:nonNegativeInteger ;
+	toolcap:parsedCategory "messages"^^xsd:string ;
+	toolcap:parsedCategory "contacts"^^xsd:string ;
+	toolcap:parsedCategory "media files"^^xsd:string ;
+	toolcap:parsedCategory "call logs"^^xsd:string ;
+	toolcap:testedToolVersion "8.2.0"^^xsd:string ;
+	toolcap:testedApplicationVersion "7.0.2"^^xsd:string ;
+	toolcap:benchmarkNotes "Full physical image from Pixel 8. All major artifact categories recovered. 12 deleted messages not recovered."^^xsd:string ;
+	.
+
+# --- Tool A / Outlook .pst on Windows 11 — pass ---
+kb:Benchmark-bbb22222-2222-4222-a222-222222222222
+	a toolcap:BenchmarkObservation ;
+	uco-core:description "Benchmark of Tool A parsing Outlook .pst format on Windows 11."^^xsd:string ;
+	toolcap:capability kb:ToolCapability-22222222-3333-4444-a555-666666666666 ;
+	toolcap:benchmarkDate "2026-03-10T09:00:00Z"^^xsd:dateTime ;
+	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
+	toolcap:benchmarkPlatform kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:parseSuccess "true"^^xsd:boolean ;
+	toolcap:completenessScore "0.98"^^xsd:decimal ;
+	toolcap:accuracyScore "0.99"^^xsd:decimal ;
+	toolcap:parsedCategory "emails"^^xsd:string ;
+	toolcap:parsedCategory "contacts"^^xsd:string ;
+	toolcap:parsedCategory "calendar events"^^xsd:string ;
+	toolcap:parsedCategory "attachments"^^xsd:string ;
+	toolcap:testedToolVersion "8.2.0"^^xsd:string ;
+	toolcap:testedApplicationVersion "Classic"^^xsd:string ;
+	toolcap:testedDataFormatVersion ".pst"^^xsd:string ;
+	toolcap:benchmarkNotes "Mature parser. Near-complete recovery of all artifact types from legacy .pst format."^^xsd:string ;
+	.
+
+# --- Tool A / Outlook .nst on Windows 11 — fail ---
+kb:Benchmark-ccc33333-3333-4333-a333-333333333333
+	a toolcap:BenchmarkObservation ;
+	uco-core:description "Benchmark of Tool A parsing Outlook .nst format on Windows 11. Tool failed to parse the new database format."^^xsd:string ;
+	toolcap:capability kb:ToolCapability-22222222-3333-4444-a555-666666666666 ;
+	toolcap:benchmarkDate "2026-03-15T14:00:00Z"^^xsd:dateTime ;
+	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
+	toolcap:benchmarkPlatform kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:parseSuccess "false"^^xsd:boolean ;
+	toolcap:completenessScore "0.0"^^xsd:decimal ;
+	toolcap:missedCategory "emails"^^xsd:string ;
+	toolcap:missedCategory "contacts"^^xsd:string ;
+	toolcap:missedCategory "calendar events"^^xsd:string ;
+	toolcap:missedCategory "attachments"^^xsd:string ;
+	toolcap:testedToolVersion "8.2.0"^^xsd:string ;
+	toolcap:testedApplicationVersion "New (2024)"^^xsd:string ;
+	toolcap:testedDataFormatVersion ".nst"^^xsd:string ;
+	toolcap:benchmarkNotes "Tool A v8.2.0 cannot recognize the new Microsoft custom database format (.nst). Vendor has acknowledged the gap and indicated a parser update is planned for Q3 2026."^^xsd:string ;
+	.
+
+# --- Tool B / App Alpha on Android 14 physical — pass ---
+kb:Benchmark-ddd44444-4444-4444-a444-444444444444
+	a toolcap:BenchmarkObservation ;
+	uco-core:description "Benchmark of Tool B parsing App Alpha on Android 14 physical extraction."^^xsd:string ;
+	toolcap:capability kb:ToolCapability-33333333-4444-4555-a666-777777777777 ;
+	toolcap:benchmarkDate "2026-02-15T14:30:00Z"^^xsd:dateTime ;
+	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
+	toolcap:benchmarkPlatform kb:Platform-android14-physical-11111111-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:parseSuccess "true"^^xsd:boolean ;
+	toolcap:completenessScore "0.88"^^xsd:decimal ;
+	toolcap:accuracyScore "0.96"^^xsd:decimal ;
+	toolcap:falsePositiveCount "0"^^xsd:nonNegativeInteger ;
+	toolcap:falseNegativeCount "28"^^xsd:nonNegativeInteger ;
+	toolcap:parsedCategory "messages"^^xsd:string ;
+	toolcap:parsedCategory "contacts"^^xsd:string ;
+	toolcap:missedCategory "media files"^^xsd:string ;
+	toolcap:testedToolVersion "7.70"^^xsd:string ;
+	toolcap:testedApplicationVersion "7.0.2"^^xsd:string ;
+	toolcap:benchmarkNotes "Recovered messages and contacts but missed embedded media files. No false positives."^^xsd:string ;
+	.
+
+# --- Tool B / App Alpha on Android 14 BFU — partial ---
+kb:Benchmark-eee55555-5555-4555-a555-555555555555
+	a toolcap:BenchmarkObservation ;
+	uco-core:description "Benchmark of Tool B parsing App Alpha from a BFU acquisition on Android 14."^^xsd:string ;
+	toolcap:capability kb:ToolCapability-33333333-4444-4555-a666-777777777777 ;
+	toolcap:benchmarkDate "2026-02-20T09:00:00Z"^^xsd:dateTime ;
+	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
+	toolcap:benchmarkPlatform kb:Platform-android14-bfu-22222222-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:parseSuccess "true"^^xsd:boolean ;
+	toolcap:completenessScore "0.35"^^xsd:decimal ;
+	toolcap:accuracyScore "0.99"^^xsd:decimal ;
+	toolcap:parsedCategory "contacts"^^xsd:string ;
+	toolcap:missedCategory "messages"^^xsd:string ;
+	toolcap:missedCategory "media files"^^xsd:string ;
+	toolcap:testedToolVersion "7.70"^^xsd:string ;
+	toolcap:testedApplicationVersion "7.0.2"^^xsd:string ;
+	toolcap:benchmarkNotes "BFU extraction yielded contact database only. Message and media databases are encrypted at rest until first unlock. Completeness is low as expected for BFU state."^^xsd:string ;
+	.
+
+# --- Tool B / Outlook .pst on Windows 11 — pass ---
+kb:Benchmark-fff66666-6666-4666-a666-666666666666
+	a toolcap:BenchmarkObservation ;
+	uco-core:description "Benchmark of Tool B parsing Outlook .pst format on Windows 11."^^xsd:string ;
+	toolcap:capability kb:ToolCapability-44444444-5555-4666-a777-888888888888 ;
+	toolcap:benchmarkDate "2026-03-10T09:00:00Z"^^xsd:dateTime ;
+	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
+	toolcap:benchmarkPlatform kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:parseSuccess "true"^^xsd:boolean ;
+	toolcap:completenessScore "0.96"^^xsd:decimal ;
+	toolcap:accuracyScore "0.97"^^xsd:decimal ;
+	toolcap:parsedCategory "emails"^^xsd:string ;
+	toolcap:parsedCategory "contacts"^^xsd:string ;
+	toolcap:parsedCategory "calendar events"^^xsd:string ;
+	toolcap:testedToolVersion "7.70"^^xsd:string ;
+	toolcap:testedApplicationVersion "Classic"^^xsd:string ;
+	toolcap:testedDataFormatVersion ".pst"^^xsd:string ;
+	toolcap:benchmarkNotes "Solid .pst parser. Slightly lower completeness than Tool A due to missing some attachment metadata."^^xsd:string ;
+	.
+
+# --- Tool B / Outlook .nst on Windows 11 — fail ---
+kb:Benchmark-ggg77777-7777-4777-a777-777777777777
+	a toolcap:BenchmarkObservation ;
+	uco-core:description "Benchmark of Tool B parsing Outlook .nst format on Windows 11. Tool cannot parse the new format."^^xsd:string ;
+	toolcap:capability kb:ToolCapability-44444444-5555-4666-a777-888888888888 ;
+	toolcap:benchmarkDate "2026-03-10T11:00:00Z"^^xsd:dateTime ;
+	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
+	toolcap:benchmarkPlatform kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:parseSuccess "false"^^xsd:boolean ;
+	toolcap:completenessScore "0.0"^^xsd:decimal ;
+	toolcap:missedCategory "emails"^^xsd:string ;
+	toolcap:missedCategory "contacts"^^xsd:string ;
+	toolcap:missedCategory "calendar events"^^xsd:string ;
+	toolcap:testedToolVersion "7.70"^^xsd:string ;
+	toolcap:testedApplicationVersion "New (2024)"^^xsd:string ;
+	toolcap:testedDataFormatVersion ".nst"^^xsd:string ;
+	toolcap:benchmarkNotes "Tool B v7.70 does not recognize the .nst format at all. Returns empty results. No vendor timeline for support."^^xsd:string ;
+	.
+
+
+# =============================================================================
+# Capability Matrix
 # =============================================================================
 
 kb:CapabilityMatrix-99999999-aaaa-4bbb-accc-dddddddddddd
 	a toolcap:CapabilityMatrix ;
-	uco-core:name "Messaging App Forensic Tool Comparison Q1 2026"^^xsd:string ;
-	uco-core:description "A capability matrix comparing Tool A and Tool B support for App Alpha and App Beta across Android and iOS platforms."^^xsd:string ;
-	toolcap:matrixName "Messaging App Forensic Tool Comparison Q1 2026"^^xsd:string ;
-	toolcap:matrixVersion "1.0"^^xsd:string ;
-	uco-core:object
+	uco-core:name "DFIR Tool Comparison Q1 2026"^^xsd:string ;
+	uco-core:description "A capability matrix comparing Tool A and Tool B support for App Alpha and Microsoft Outlook across Android and Windows platforms, including BFU acquisition and the new Outlook .nst data format."^^xsd:string ;
+	toolcap:matrixName "DFIR Tool Comparison Q1 2026"^^xsd:string ;
+	toolcap:matrixVersion "2.0"^^xsd:string ;
+	toolcap:hasCapability
 		kb:ToolCapability-11111111-2222-4333-a444-555555555555 ,
 		kb:ToolCapability-22222222-3333-4444-a555-666666666666 ,
 		kb:ToolCapability-33333333-4444-4555-a666-777777777777 ,
