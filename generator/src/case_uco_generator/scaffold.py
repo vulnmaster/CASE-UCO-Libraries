@@ -11,7 +11,6 @@ import logging
 from pathlib import Path
 
 from rdflib import Graph, URIRef
-from rdflib.namespace import RDF
 
 from case_uco_generator.schema_model import (
     OntologyClass,
