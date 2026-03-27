@@ -6,6 +6,11 @@
 # data, with structured platform specifications, access restrictions, and
 # append-only benchmark observations over time.
 #
+# v0.3.0 adds support for NIST CFTT-style forensic task benchmarking
+# (string search, deleted file recovery, file carving, Windows registry
+# recovery, SQLite recovery) with standard IR metrics (precision, recall,
+# F1), benchmark provenance, and filesystem type on PlatformSpecification.
+#
 # Companion files:
 #   toolcap-shapes.ttl   — SHACL property shapes for validation
 #   toolcap-exemplar.ttl — Validated exemplar instances (A-Box)
@@ -22,9 +27,9 @@
 <http://example.org/ontology/toolcap>
 	a owl:Ontology ;
 	rdfs:label "Forensic Tool Capability Extension"@en ;
-	rdfs:comment "An extension ontology for the Cyber Domain Ontology (CDO) that provides classes and properties for modeling the capabilities of digital forensic tools. Practitioners can formally assert which forensic tools can parse data from which applications, on which device platforms, for which types of observables, and under what access restrictions. The extension supports both vendor-reported and independently benchmarked capability data through append-only BenchmarkObservation instances that record point-in-time test results. It is designed to support forensic lab management, tool selection, validation testing, and capability gap analysis across the DFIR community."@en ;
-	owl:versionIRI toolcap:0.2.0 ;
-	owl:priorVersion toolcap:0.1.0 ;
+	rdfs:comment "An extension ontology for the Cyber Domain Ontology (CDO) that provides classes and properties for modeling the capabilities of digital forensic tools. Practitioners can formally assert which forensic tools can parse data from which applications or perform fundamental forensic tasks (string search, file recovery, file carving, registry recovery, SQLite recovery), on which device platforms, for which types of observables, and under what access restrictions. The extension supports both vendor-reported and independently benchmarked capability data through append-only BenchmarkObservation instances that record point-in-time test results with standard information retrieval metrics (precision, recall, F1) aligned with the NIST CFTT programme and frameworks such as AutoDFBench. It is designed to support forensic lab management, tool selection, validation testing, and capability gap analysis across the DFIR community."@en ;
+	owl:versionIRI toolcap:0.3.0 ;
+	owl:priorVersion toolcap:0.2.0 ;
 	.
 
 
@@ -36,7 +41,7 @@ toolcap:ToolCapability
 	a owl:Class ;
 	rdfs:subClassOf uco-core:UcoObject ;
 	rdfs:label "ToolCapability"@en ;
-	rdfs:comment "A tool capability is a formal assertion that a specific digital forensic tool can successfully parse, extract, or decode data from a specific application on one or more device platforms. Each ToolCapability instance links exactly one forensic tool (uco-tool:Tool) to exactly one target application (uco-observable:ObservableObject with an ApplicationFacet), and may additionally specify the platforms supported, the types of observables the tool can extract, the tool and application versions tested, data format versions, whether the capability is vendor-claimed or independently benchmarked, access restrictions, and linked benchmark observations. ToolCapability instances are the building blocks of a capability comparison matrix used to evaluate forensic tool coverage across the application and platform landscape."@en ;
+	rdfs:comment "A tool capability is a formal assertion that a specific digital forensic tool can successfully parse, extract, or decode data from a specific application or perform a fundamental forensic task (e.g., string search, file carving, deleted file recovery). For app-level capabilities, the instance links a forensic tool to a target application via the application property. For task-level capabilities (aligned with NIST CFTT domains), the instance uses forensicTaskType instead. A ToolCapability may additionally specify the platforms supported, the types of observables the tool can extract, the tool and application versions tested, data format versions, whether the capability is vendor-claimed or independently benchmarked, access restrictions, and linked benchmark observations. ToolCapability instances are the building blocks of a capability comparison matrix used to evaluate forensic tool coverage."@en ;
 	.
 
 toolcap:CapabilityMatrix
@@ -83,7 +88,7 @@ toolcap:tool
 toolcap:application
 	a owl:ObjectProperty ;
 	rdfs:label "application"@en ;
-	rdfs:comment "Identifies the target application (an instance of uco-observable:ObservableObject, typically with an ApplicationFacet) whose data can be parsed by the forensic tool."@en ;
+	rdfs:comment "Identifies the target application (an instance of uco-observable:ObservableObject, typically with an ApplicationFacet) whose data can be parsed by the forensic tool. Optional when forensicTaskType is used for task-level capabilities (e.g., NIST CFTT domains like file carving or string search that operate on disk images rather than specific applications)."@en ;
 	rdfs:domain toolcap:ToolCapability ;
 	rdfs:range uco-observable:ObservableObject ;
 	.
@@ -233,6 +238,14 @@ toolcap:dataFormatVersion
 	rdfs:range xsd:string ;
 	.
 
+toolcap:forensicTaskType
+	a owl:DatatypeProperty ;
+	rdfs:label "forensicTaskType"@en ;
+	rdfs:comment "The category of fundamental forensic task this capability represents, aligned with NIST CFTT programme domains (e.g., 'string-search', 'deleted-file-recovery', 'file-carving', 'windows-registry-recovery', 'sqlite-recovery'). Used for task-level capabilities where the tool operates on disk images or raw data rather than parsing a specific application. Multiple values indicate the tool supports several task types."@en ;
+	rdfs:domain toolcap:ToolCapability ;
+	rdfs:range xsd:string ;
+	.
+
 
 # =============================================================================
 # Datatype Properties — CapabilityMatrix
@@ -371,6 +384,78 @@ toolcap:testedDataFormatVersion
 	rdfs:range xsd:string ;
 	.
 
+toolcap:precisionScore
+	a owl:DatatypeProperty ;
+	rdfs:label "precisionScore"@en ;
+	rdfs:comment "The precision of the tool's output in this benchmark run, expressed as a decimal between 0.0 and 1.0. Precision = TP / (TP + FP). Indicates what fraction of the tool's reported items were actually correct."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:decimal ;
+	.
+
+toolcap:recallScore
+	a owl:DatatypeProperty ;
+	rdfs:label "recallScore"@en ;
+	rdfs:comment "The recall (sensitivity) of the tool's output in this benchmark run, expressed as a decimal between 0.0 and 1.0. Recall = TP / (TP + FN). Indicates what fraction of the known items the tool successfully recovered."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:decimal ;
+	.
+
+toolcap:f1Score
+	a owl:DatatypeProperty ;
+	rdfs:label "f1Score"@en ;
+	rdfs:comment "The F1 score of the tool's output in this benchmark run, expressed as a decimal between 0.0 and 1.0. F1 = 2 * (precision * recall) / (precision + recall). Provides a single balanced measure of precision and recall."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:decimal ;
+	.
+
+toolcap:truePositiveCount
+	a owl:DatatypeProperty ;
+	rdfs:label "truePositiveCount"@en ;
+	rdfs:comment "The number of items correctly identified by the tool in this benchmark run."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:nonNegativeInteger ;
+	.
+
+toolcap:groundTruthCount
+	a owl:DatatypeProperty ;
+	rdfs:label "groundTruthCount"@en ;
+	rdfs:comment "The total number of items in the ground truth dataset for this benchmark run. Provides context for interpreting TP, FP, and FN counts."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:nonNegativeInteger ;
+	.
+
+toolcap:submittedCount
+	a owl:DatatypeProperty ;
+	rdfs:label "submittedCount"@en ;
+	rdfs:comment "The total number of items reported by the tool in this benchmark run. submittedCount = TP + FP."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:nonNegativeInteger ;
+	.
+
+toolcap:benchmarkFramework
+	a owl:DatatypeProperty ;
+	rdfs:label "benchmarkFramework"@en ;
+	rdfs:comment "The name of the benchmarking framework or programme used to conduct this test (e.g., 'AutoDFBench', 'NIST-CFTT', 'internal-lab-protocol'). Enables provenance tracking and reproducibility."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:testCaseIdentifier
+	a owl:DatatypeProperty ;
+	rdfs:label "testCaseIdentifier"@en ;
+	rdfs:comment "A unique identifier for the specific test case within the benchmark framework (e.g., 'CFTT-SS-001', 'AutoDFBench-DFR-FAT32-01'). Enables linking back to the exact test specification."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:benchmarkSuiteScore
+	a owl:DatatypeProperty ;
+	rdfs:label "benchmarkSuiteScore"@en ;
+	rdfs:comment "An overall composite score computed by the benchmark framework for this test run, expressed as a decimal between 0.0 and 1.0. For example, AutoDFBench computes a weighted AutoDFBench Score across all test cases in a suite."@en ;
+	rdfs:domain toolcap:BenchmarkObservation ;
+	rdfs:range xsd:decimal ;
+	.
+
 
 # =============================================================================
 # Datatype Properties — PlatformSpecification
@@ -404,6 +489,14 @@ toolcap:extractionMethod
 	a owl:DatatypeProperty ;
 	rdfs:label "extractionMethod"@en ;
 	rdfs:comment "A method or technique used for data acquisition (e.g., 'logical', 'file-system', 'physical', 'cloud', 'BFU'). BFU (Before First Unlock) refers to acquisition of a device that has not been unlocked since boot, which yields a limited but forensically significant subset of data. Multiple values indicate the tool supports several extraction methods on this platform."@en ;
+	rdfs:domain toolcap:PlatformSpecification ;
+	rdfs:range xsd:string ;
+	.
+
+toolcap:fileSystemType
+	a owl:DatatypeProperty ;
+	rdfs:label "fileSystemType"@en ;
+	rdfs:comment "The filesystem type on which the benchmark was conducted (e.g., 'FAT12', 'FAT16', 'FAT32', 'NTFS', 'ext2', 'ext3', 'ext4', 'HFS+'). Forensic tool performance can vary across filesystems, particularly for deleted file recovery and file carving tasks. Aligns with uco-observable:FileSystemFacet.fileSystemType but is defined here as a convenience property on PlatformSpecification."@en ;
 	rdfs:domain toolcap:PlatformSpecification ;
 	rdfs:range xsd:string ;
 	.

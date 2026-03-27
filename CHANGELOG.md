@@ -5,6 +5,59 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-03-26
+
+### Added
+
+#### Toolcap Extension v0.3.0 — NIST CFTT Task-Level Capabilities and IR Metrics
+
+The `extensions/toolcap/` extension ontology has been expanded to support NIST
+CFTT-style forensic task benchmarking. Tools can now declare task-level
+capabilities (string search, file carving, deleted file recovery, Windows
+registry recovery, SQLite recovery) in addition to app-level capabilities.
+Benchmark observations now capture standard information retrieval metrics and
+benchmark provenance for reproducibility and cross-framework comparison.
+
+- **New property on `ToolCapability`:**
+  - `forensicTaskType` — CFTT task category (e.g., `string-search`,
+    `deleted-file-recovery`, `file-carving`, `windows-registry-recovery`,
+    `sqlite-recovery`); enables task-level capabilities without a specific
+    target application
+  - `application` relaxed from required (1..1) to optional (0..1) in SHACL
+    shapes to accommodate task-level capabilities
+
+- **6 new IR metrics on `BenchmarkObservation`:**
+  - `precisionScore` — TP / (TP + FP), 0.0–1.0
+  - `recallScore` — TP / (TP + FN), 0.0–1.0
+  - `f1Score` — harmonic mean of precision and recall, 0.0–1.0
+  - `truePositiveCount` — number of correctly identified items
+  - `groundTruthCount` — total items in reference dataset
+  - `submittedCount` — total items reported by the tool (TP + FP)
+
+- **3 new provenance properties on `BenchmarkObservation`:**
+  - `benchmarkFramework` — framework name (e.g., `AutoDFBench`, `NIST-CFTT`)
+  - `testCaseIdentifier` — unique test case ID within the framework
+  - `benchmarkSuiteScore` — overall composite score, 0.0–1.0
+
+- **New property on `PlatformSpecification`:**
+  - `fileSystemType` — filesystem type (e.g., `FAT32`, `NTFS`, `ext4`, `HFS+`)
+    for forensic tasks where tool performance varies by filesystem
+
+- **SHACL shapes** updated with constraints for all new properties including
+  `sh:minInclusive`/`sh:maxInclusive` range constraints on score properties
+
+- **Updated exemplar** (`toolcap-exemplar.ttl`) with three new CFTT-style
+  scenarios: Tool A file carving on NTFS, Tool A deleted file recovery on
+  FAT32, and Tool B string search on ext4 — all with full AutoDFBench IR
+  metrics and provenance
+
+- **Updated Python example** (`example_capability_matrix.py`) demonstrating
+  task-level capabilities, filesystem-aware platforms, and AutoDFBench
+  benchmark observations with IR metrics
+
+- All exemplar data validated with `case_validate --built-version case-1.4.0`
+  (`Conforms: True`)
+
 ## [1.3.0] - 2026-03-26
 
 ### Added
@@ -239,6 +292,7 @@ digital forensics, cyber-investigation, and cyber-observable data.
 - GitHub Actions workflows: CI, CodeQL, dependency review, release
 - Dependabot configuration for automated dependency updates
 
+[1.4.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.4.0
 [1.3.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.3.0
 [1.2.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.2.0
 [1.1.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.1.0

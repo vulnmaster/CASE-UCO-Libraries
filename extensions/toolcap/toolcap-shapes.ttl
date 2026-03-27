@@ -1,6 +1,6 @@
 # Forensic Tool Capability Extension — SHACL Shapes
 #
-# Validation shapes for the toolcap extension ontology (v0.2.0).
+# Validation shapes for the toolcap extension ontology (v0.3.0).
 # Separated from the OWL definitions per CDO Ontology Committee guidance
 # to avoid redundancies during testing.
 
@@ -34,10 +34,16 @@ toolcap:ToolCapability-Shape
 			sh:path toolcap:application ;
 			sh:class uco-observable:ObservableObject ;
 			sh:nodeKind sh:IRI ;
-			sh:minCount "1"^^xsd:integer ;
 			sh:maxCount "1"^^xsd:integer ;
 			sh:name "application" ;
-			sh:description "The target application whose data the tool can parse (exactly one required)." ;
+			sh:description "The target application whose data the tool can parse (at most one; omit when forensicTaskType is used)." ;
+		] ,
+		[
+			sh:path toolcap:forensicTaskType ;
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:name "forensicTaskType" ;
+			sh:description "Forensic task category aligned with NIST CFTT domains (zero or more, e.g., 'string-search', 'file-carving')." ;
 		] ,
 		[
 			sh:path toolcap:supportsPlatform ;
@@ -313,6 +319,86 @@ toolcap:BenchmarkObservation-Shape
 			sh:maxCount "1"^^xsd:integer ;
 			sh:name "testedDataFormatVersion" ;
 			sh:description "Data storage format version tested (at most one)." ;
+		] ,
+		[
+			sh:path toolcap:precisionScore ;
+			sh:datatype xsd:decimal ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:minInclusive "0.0"^^xsd:decimal ;
+			sh:maxInclusive "1.0"^^xsd:decimal ;
+			sh:name "precisionScore" ;
+			sh:description "Precision = TP / (TP + FP), 0.0 to 1.0 (at most one)." ;
+		] ,
+		[
+			sh:path toolcap:recallScore ;
+			sh:datatype xsd:decimal ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:minInclusive "0.0"^^xsd:decimal ;
+			sh:maxInclusive "1.0"^^xsd:decimal ;
+			sh:name "recallScore" ;
+			sh:description "Recall = TP / (TP + FN), 0.0 to 1.0 (at most one)." ;
+		] ,
+		[
+			sh:path toolcap:f1Score ;
+			sh:datatype xsd:decimal ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:minInclusive "0.0"^^xsd:decimal ;
+			sh:maxInclusive "1.0"^^xsd:decimal ;
+			sh:name "f1Score" ;
+			sh:description "F1 = 2 * precision * recall / (precision + recall), 0.0 to 1.0 (at most one)." ;
+		] ,
+		[
+			sh:path toolcap:truePositiveCount ;
+			sh:datatype xsd:nonNegativeInteger ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "truePositiveCount" ;
+			sh:description "Number of true positives (at most one)." ;
+		] ,
+		[
+			sh:path toolcap:groundTruthCount ;
+			sh:datatype xsd:nonNegativeInteger ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "groundTruthCount" ;
+			sh:description "Total items in the ground truth dataset (at most one)." ;
+		] ,
+		[
+			sh:path toolcap:submittedCount ;
+			sh:datatype xsd:nonNegativeInteger ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "submittedCount" ;
+			sh:description "Total items reported by the tool, i.e. TP + FP (at most one)." ;
+		] ,
+		[
+			sh:path toolcap:benchmarkFramework ;
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "benchmarkFramework" ;
+			sh:description "Name of the benchmark framework (e.g., 'AutoDFBench', 'NIST-CFTT') (at most one)." ;
+		] ,
+		[
+			sh:path toolcap:testCaseIdentifier ;
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "testCaseIdentifier" ;
+			sh:description "Unique test case ID within the benchmark framework (at most one)." ;
+		] ,
+		[
+			sh:path toolcap:benchmarkSuiteScore ;
+			sh:datatype xsd:decimal ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:minInclusive "0.0"^^xsd:decimal ;
+			sh:maxInclusive "1.0"^^xsd:decimal ;
+			sh:name "benchmarkSuiteScore" ;
+			sh:description "Overall composite score from the benchmark framework, 0.0 to 1.0 (at most one)." ;
 		]
 		;
 	.
@@ -356,6 +442,13 @@ toolcap:PlatformSpecification-Shape
 			sh:nodeKind sh:Literal ;
 			sh:name "extractionMethod" ;
 			sh:description "Acquisition methods supported (zero or more, e.g., 'logical', 'physical', 'BFU')." ;
+		] ,
+		[
+			sh:path toolcap:fileSystemType ;
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:name "fileSystemType" ;
+			sh:description "Filesystem type (zero or more, e.g., 'FAT32', 'NTFS', 'ext4', 'HFS+')." ;
 		]
 		;
 	.

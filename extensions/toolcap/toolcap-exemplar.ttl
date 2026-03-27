@@ -1,4 +1,4 @@
-# Forensic Tool Capability Extension — Exemplar Instances (A-Box) v0.2.0
+# Forensic Tool Capability Extension — Exemplar Instances (A-Box) v0.3.0
 #
 # This file contains validated example instances of the toolcap extension
 # classes, demonstrating how to model forensic tool capabilities, benchmark
@@ -9,6 +9,11 @@
 # client (Outlook). Outlook has two data format versions (.pst and .nst) to
 # demonstrate how the extension tracks format-level capability gaps and
 # benchmark observations over time.
+#
+# v0.3.0 adds NIST CFTT-style task-level capabilities (file carving, deleted
+# file recovery, string search) with AutoDFBench IR metrics (precision,
+# recall, F1, TP, FP, FN), benchmark provenance, and filesystem-aware
+# platform specifications.
 #
 # Validation command:
 #   case_validate --built-version case-1.4.0 \
@@ -401,19 +406,205 @@ kb:Benchmark-ggg77777-7777-4777-a777-777777777777
 
 
 # =============================================================================
+# Platform Specifications — CFTT / AutoDFBench environments (v0.3.0)
+# =============================================================================
+
+kb:Platform-cftt-ntfs-aaaaaaaa-1111-4aaa-b111-111111111111
+	a toolcap:PlatformSpecification ;
+	uco-core:name "CFTT Test Environment — NTFS"^^xsd:string ;
+	toolcap:operatingSystem "Windows"^^xsd:string ;
+	toolcap:osVersion "11 23H2"^^xsd:string ;
+	toolcap:fileSystemType "NTFS"^^xsd:string ;
+	.
+
+kb:Platform-cftt-fat32-bbbbbbbb-2222-4bbb-c222-222222222222
+	a toolcap:PlatformSpecification ;
+	uco-core:name "CFTT Test Environment — FAT32"^^xsd:string ;
+	toolcap:operatingSystem "Windows"^^xsd:string ;
+	toolcap:osVersion "11 23H2"^^xsd:string ;
+	toolcap:fileSystemType "FAT32"^^xsd:string ;
+	.
+
+kb:Platform-cftt-ext4-cccccccc-3333-4ccc-d333-333333333333
+	a toolcap:PlatformSpecification ;
+	uco-core:name "CFTT Test Environment — ext4"^^xsd:string ;
+	toolcap:operatingSystem "Linux"^^xsd:string ;
+	toolcap:osVersion "6.1"^^xsd:string ;
+	toolcap:fileSystemType "ext4"^^xsd:string ;
+	.
+
+
+# =============================================================================
+# Task-Level Tool Capabilities (CFTT / AutoDFBench) — v0.3.0
+# =============================================================================
+
+# --- Tool A → File Carving on NTFS ---
+kb:ToolCapability-55555555-6666-4777-a888-999999999999
+	a toolcap:ToolCapability ;
+	uco-core:description "Tool A's file carving capability on NTFS volumes. Tested against NIST CFTT file carving reference datasets."^^xsd:string ;
+	toolcap:tool kb:Tool-a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d ;
+	toolcap:forensicTaskType "file-carving"^^xsd:string ;
+	toolcap:supportsPlatform kb:Platform-cftt-ntfs-aaaaaaaa-1111-4aaa-b111-111111111111 ;
+	toolcap:parsedObservableType "carved files"^^xsd:string ;
+	toolcap:toolVersion "8.2.0"^^xsd:string ;
+	toolcap:claimedByVendor "true"^^xsd:boolean ;
+	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
+	toolcap:isVerified "true"^^xsd:boolean ;
+	toolcap:lastTestedDate "2026-03-20T08:00:00Z"^^xsd:dateTime ;
+	toolcap:hasAccessRestriction kb:AccessRestriction-commercial-55555555-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:hasObservation kb:Benchmark-hhh88888-8888-4888-a888-888888888888 ;
+	.
+
+# --- Tool A → Deleted File Recovery on FAT32 ---
+kb:ToolCapability-66666666-7777-4888-a999-aaaaaaaaaaaa
+	a toolcap:ToolCapability ;
+	uco-core:description "Tool A's deleted file recovery capability on FAT32 volumes. Tested with AutoDFBench deleted file recovery suite."^^xsd:string ;
+	toolcap:tool kb:Tool-a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d ;
+	toolcap:forensicTaskType "deleted-file-recovery"^^xsd:string ;
+	toolcap:supportsPlatform kb:Platform-cftt-fat32-bbbbbbbb-2222-4bbb-c222-222222222222 ;
+	toolcap:parsedObservableType "recovered files"^^xsd:string ;
+	toolcap:toolVersion "8.2.0"^^xsd:string ;
+	toolcap:claimedByVendor "true"^^xsd:boolean ;
+	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
+	toolcap:isVerified "true"^^xsd:boolean ;
+	toolcap:lastTestedDate "2026-03-20T10:00:00Z"^^xsd:dateTime ;
+	toolcap:hasAccessRestriction kb:AccessRestriction-commercial-55555555-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:hasObservation kb:Benchmark-iii99999-9999-4999-a999-999999999999 ;
+	.
+
+# --- Tool B → String Search on ext4 ---
+kb:ToolCapability-77777777-8888-4999-aaaa-bbbbbbbbbbbb
+	a toolcap:ToolCapability ;
+	uco-core:description "Tool B's string search capability on ext4 volumes. Tested with AutoDFBench string search suite against NIST CFTT reference data."^^xsd:string ;
+	toolcap:tool kb:Tool-b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e ;
+	toolcap:forensicTaskType "string-search"^^xsd:string ;
+	toolcap:supportsPlatform kb:Platform-cftt-ext4-cccccccc-3333-4ccc-d333-333333333333 ;
+	toolcap:parsedObservableType "string matches"^^xsd:string ;
+	toolcap:toolVersion "7.70"^^xsd:string ;
+	toolcap:claimedByVendor "true"^^xsd:boolean ;
+	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
+	toolcap:isVerified "true"^^xsd:boolean ;
+	toolcap:lastTestedDate "2026-03-22T09:00:00Z"^^xsd:dateTime ;
+	toolcap:hasAccessRestriction kb:AccessRestriction-leo-only-66666666-aaaa-4bbb-cccc-dddddddddddd ;
+	toolcap:hasObservation kb:Benchmark-jjj00000-0000-4000-a000-000000000000 ;
+	.
+
+
+# =============================================================================
+# Benchmark Observations — CFTT / AutoDFBench (v0.3.0)
+# =============================================================================
+
+# --- Tool A / File Carving on NTFS — AutoDFBench ---
+kb:Benchmark-hhh88888-8888-4888-a888-888888888888
+	a toolcap:BenchmarkObservation ;
+	uco-core:description "AutoDFBench file carving evaluation of Tool A on NTFS. 150 files planted across JPEG, PDF, DOCX, and PNG types."^^xsd:string ;
+	toolcap:capability kb:ToolCapability-55555555-6666-4777-a888-999999999999 ;
+	toolcap:benchmarkDate "2026-03-20T08:00:00Z"^^xsd:dateTime ;
+	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
+	toolcap:benchmarkPlatform kb:Platform-cftt-ntfs-aaaaaaaa-1111-4aaa-b111-111111111111 ;
+	toolcap:benchmarkFramework "AutoDFBench"^^xsd:string ;
+	toolcap:testCaseIdentifier "AutoDFBench-FC-NTFS-01"^^xsd:string ;
+	toolcap:parseSuccess "true"^^xsd:boolean ;
+	toolcap:groundTruthCount "150"^^xsd:nonNegativeInteger ;
+	toolcap:submittedCount "142"^^xsd:nonNegativeInteger ;
+	toolcap:truePositiveCount "138"^^xsd:nonNegativeInteger ;
+	toolcap:falsePositiveCount "4"^^xsd:nonNegativeInteger ;
+	toolcap:falseNegativeCount "12"^^xsd:nonNegativeInteger ;
+	toolcap:precisionScore "0.9718"^^xsd:decimal ;
+	toolcap:recallScore "0.92"^^xsd:decimal ;
+	toolcap:f1Score "0.9452"^^xsd:decimal ;
+	toolcap:completenessScore "0.92"^^xsd:decimal ;
+	toolcap:accuracyScore "0.97"^^xsd:decimal ;
+	toolcap:benchmarkSuiteScore "0.94"^^xsd:decimal ;
+	toolcap:processingDuration "PT12M30S"^^xsd:duration ;
+	toolcap:datasetSizeInBytes "2147483648"^^xsd:nonNegativeInteger ;
+	toolcap:parsedCategory "JPEG"^^xsd:string ;
+	toolcap:parsedCategory "PDF"^^xsd:string ;
+	toolcap:parsedCategory "DOCX"^^xsd:string ;
+	toolcap:missedCategory "PNG"^^xsd:string ;
+	toolcap:testedToolVersion "8.2.0"^^xsd:string ;
+	toolcap:benchmarkNotes "Recovered 138 of 150 planted files. Missed 12 fragmented PNG files. 4 false positives from JPEG header remnants in unallocated space."^^xsd:string ;
+	.
+
+# --- Tool A / Deleted File Recovery on FAT32 — AutoDFBench ---
+kb:Benchmark-iii99999-9999-4999-a999-999999999999
+	a toolcap:BenchmarkObservation ;
+	uco-core:description "AutoDFBench deleted file recovery evaluation of Tool A on FAT32. 200 files deleted and then recovery attempted."^^xsd:string ;
+	toolcap:capability kb:ToolCapability-66666666-7777-4888-a999-aaaaaaaaaaaa ;
+	toolcap:benchmarkDate "2026-03-20T10:00:00Z"^^xsd:dateTime ;
+	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
+	toolcap:benchmarkPlatform kb:Platform-cftt-fat32-bbbbbbbb-2222-4bbb-c222-222222222222 ;
+	toolcap:benchmarkFramework "AutoDFBench"^^xsd:string ;
+	toolcap:testCaseIdentifier "AutoDFBench-DFR-FAT32-01"^^xsd:string ;
+	toolcap:parseSuccess "true"^^xsd:boolean ;
+	toolcap:groundTruthCount "200"^^xsd:nonNegativeInteger ;
+	toolcap:submittedCount "183"^^xsd:nonNegativeInteger ;
+	toolcap:truePositiveCount "178"^^xsd:nonNegativeInteger ;
+	toolcap:falsePositiveCount "5"^^xsd:nonNegativeInteger ;
+	toolcap:falseNegativeCount "22"^^xsd:nonNegativeInteger ;
+	toolcap:precisionScore "0.9727"^^xsd:decimal ;
+	toolcap:recallScore "0.89"^^xsd:decimal ;
+	toolcap:f1Score "0.9296"^^xsd:decimal ;
+	toolcap:completenessScore "0.89"^^xsd:decimal ;
+	toolcap:accuracyScore "0.97"^^xsd:decimal ;
+	toolcap:benchmarkSuiteScore "0.92"^^xsd:decimal ;
+	toolcap:processingDuration "PT8M15S"^^xsd:duration ;
+	toolcap:datasetSizeInBytes "1073741824"^^xsd:nonNegativeInteger ;
+	toolcap:parsedCategory "deleted files"^^xsd:string ;
+	toolcap:missedCategory "overwritten files"^^xsd:string ;
+	toolcap:testedToolVersion "8.2.0"^^xsd:string ;
+	toolcap:benchmarkNotes "FAT32 directory entry recovery. 178 of 200 deleted files recovered. 22 missed due to cluster reallocation. 5 false positives from stale directory entries."^^xsd:string ;
+	.
+
+# --- Tool B / String Search on ext4 — AutoDFBench ---
+kb:Benchmark-jjj00000-0000-4000-a000-000000000000
+	a toolcap:BenchmarkObservation ;
+	uco-core:description "AutoDFBench string search evaluation of Tool B on ext4. 500 planted strings across ASCII, UTF-8, and UTF-16 encodings."^^xsd:string ;
+	toolcap:capability kb:ToolCapability-77777777-8888-4999-aaaa-bbbbbbbbbbbb ;
+	toolcap:benchmarkDate "2026-03-22T09:00:00Z"^^xsd:dateTime ;
+	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
+	toolcap:benchmarkPlatform kb:Platform-cftt-ext4-cccccccc-3333-4ccc-d333-333333333333 ;
+	toolcap:benchmarkFramework "AutoDFBench"^^xsd:string ;
+	toolcap:testCaseIdentifier "AutoDFBench-SS-ext4-01"^^xsd:string ;
+	toolcap:parseSuccess "true"^^xsd:boolean ;
+	toolcap:groundTruthCount "500"^^xsd:nonNegativeInteger ;
+	toolcap:submittedCount "487"^^xsd:nonNegativeInteger ;
+	toolcap:truePositiveCount "482"^^xsd:nonNegativeInteger ;
+	toolcap:falsePositiveCount "5"^^xsd:nonNegativeInteger ;
+	toolcap:falseNegativeCount "18"^^xsd:nonNegativeInteger ;
+	toolcap:precisionScore "0.9897"^^xsd:decimal ;
+	toolcap:recallScore "0.964"^^xsd:decimal ;
+	toolcap:f1Score "0.9767"^^xsd:decimal ;
+	toolcap:completenessScore "0.964"^^xsd:decimal ;
+	toolcap:accuracyScore "0.99"^^xsd:decimal ;
+	toolcap:benchmarkSuiteScore "0.97"^^xsd:decimal ;
+	toolcap:processingDuration "PT2M10S"^^xsd:duration ;
+	toolcap:datasetSizeInBytes "536870912"^^xsd:nonNegativeInteger ;
+	toolcap:parsedCategory "ASCII strings"^^xsd:string ;
+	toolcap:parsedCategory "UTF-8 strings"^^xsd:string ;
+	toolcap:missedCategory "UTF-16 strings"^^xsd:string ;
+	toolcap:testedToolVersion "7.70"^^xsd:string ;
+	toolcap:benchmarkNotes "Strong ASCII and UTF-8 performance. Missed 18 UTF-16LE strings in unallocated space. 5 false positives from partial string matches in slack space."^^xsd:string ;
+	.
+
+
+# =============================================================================
 # Capability Matrix
 # =============================================================================
 
 kb:CapabilityMatrix-99999999-aaaa-4bbb-accc-dddddddddddd
 	a toolcap:CapabilityMatrix ;
 	uco-core:name "DFIR Tool Comparison Q1 2026"^^xsd:string ;
-	uco-core:description "A capability matrix comparing Tool A and Tool B support for App Alpha and Microsoft Outlook across Android and Windows platforms, including BFU acquisition and the new Outlook .nst data format."^^xsd:string ;
+	uco-core:description "A capability matrix comparing Tool A and Tool B support for App Alpha, Microsoft Outlook, and NIST CFTT forensic tasks (file carving, deleted file recovery, string search) across Android, Windows, and Linux platforms."^^xsd:string ;
 	toolcap:matrixName "DFIR Tool Comparison Q1 2026"^^xsd:string ;
-	toolcap:matrixVersion "2.0"^^xsd:string ;
+	toolcap:matrixVersion "3.0"^^xsd:string ;
 	toolcap:hasCapability
 		kb:ToolCapability-11111111-2222-4333-a444-555555555555 ,
 		kb:ToolCapability-22222222-3333-4444-a555-666666666666 ,
 		kb:ToolCapability-33333333-4444-4555-a666-777777777777 ,
-		kb:ToolCapability-44444444-5555-4666-a777-888888888888
+		kb:ToolCapability-44444444-5555-4666-a777-888888888888 ,
+		kb:ToolCapability-55555555-6666-4777-a888-999999999999 ,
+		kb:ToolCapability-66666666-7777-4888-a999-aaaaaaaaaaaa ,
+		kb:ToolCapability-77777777-8888-4999-aaaa-bbbbbbbbbbbb
 		;
 	.
