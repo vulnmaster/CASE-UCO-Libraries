@@ -28,8 +28,13 @@
 	a owl:Ontology ;
 	rdfs:label "Forensic Tool Capability Extension"@en ;
 	rdfs:comment "An extension ontology for the Cyber Domain Ontology (CDO) that provides classes and properties for modeling the capabilities of digital forensic tools. Practitioners can formally assert which forensic tools can parse data from which applications or perform fundamental forensic tasks (string search, file recovery, file carving, registry recovery, SQLite recovery), on which device platforms, for which types of observables, and under what access restrictions. The extension supports both vendor-reported and independently benchmarked capability data through append-only BenchmarkObservation instances that record point-in-time test results with standard information retrieval metrics (precision, recall, F1) aligned with the NIST CFTT programme and frameworks such as AutoDFBench. It is designed to support forensic lab management, tool selection, validation testing, and capability gap analysis across the DFIR community."@en ;
-	owl:versionIRI toolcap:0.3.0 ;
-	owl:priorVersion toolcap:0.2.0 ;
+	owl:versionIRI toolcap:0.3.1 ;
+	owl:priorVersion toolcap:0.3.0 ;
+	owl:imports
+		<https://ontology.unifiedcyberontology.org/uco/core> ,
+		<https://ontology.unifiedcyberontology.org/uco/tool> ,
+		<https://ontology.unifiedcyberontology.org/uco/observable> ,
+		<https://ontology.caseontology.org/case/investigation> ;
 	.
 
 
@@ -48,14 +53,14 @@ toolcap:CapabilityMatrix
 	a owl:Class ;
 	rdfs:subClassOf uco-core:ContextualCompilation ;
 	rdfs:label "CapabilityMatrix"@en ;
-	rdfs:comment "A capability matrix is a named, versioned collection of ToolCapability assertions that together represent a comprehensive comparison of which digital forensic tools support which applications. A CapabilityMatrix serves as the top-level container for organizing and publishing capability data, enabling forensic labs and DFIR teams to compare tool coverage, identify gaps, plan acquisitions, and track changes over time. The matrix can be serialized as a CASE/UCO-compliant JSON-LD graph and shared across organizations for interoperability."@en ;
+	rdfs:comment "A capability matrix is a named, versioned collection of ToolCapability assertions that together represent a comprehensive comparison of which digital forensic tools support which applications and forensic tasks. A CapabilityMatrix serves as the top-level container for organizing and publishing capability data — including both app-level parsing capabilities and NIST CFTT task-level capabilities (file carving, deleted file recovery, string search, registry recovery, SQLite recovery) — enabling forensic labs and DFIR teams to compare tool coverage, identify gaps, plan acquisitions, and track changes over time. The matrix can be serialized as a CASE/UCO-compliant JSON-LD graph and shared across organizations for interoperability."@en ;
 	.
 
 toolcap:BenchmarkObservation
 	a owl:Class ;
 	rdfs:subClassOf uco-core:UcoObject ;
 	rdfs:label "BenchmarkObservation"@en ;
-	rdfs:comment "A benchmark observation is a single point-in-time record of testing a forensic tool's capability against a specific application. Each observation captures the results of one test run, including pass/fail outcome, completeness and accuracy metrics, processing performance, which observable categories were successfully parsed or missed, the specific tool and application versions tested, the data format version, and the platform environment. BenchmarkObservation instances are append-only: new test runs produce new instances rather than updating existing ones, preserving a full audit trail of capability evidence over time."@en ;
+	rdfs:comment "A benchmark observation is a single point-in-time record of testing a forensic tool's capability against a specific application or forensic task. Each observation captures the results of one test run, including pass/fail outcome, completeness and accuracy metrics, standard information retrieval metrics (precision, recall, F1), confusion matrix counts (TP, FP, FN), processing performance, benchmark provenance (framework name, test case identifier, suite score), which observable categories were successfully parsed or missed, the specific tool and application versions tested, the data format version, and the platform environment. BenchmarkObservation instances are append-only: new test runs produce new instances rather than updating existing ones, preserving a full audit trail of capability evidence over time."@en ;
 	.
 
 toolcap:PlatformSpecification
@@ -283,7 +288,7 @@ toolcap:benchmarkDate
 toolcap:parseSuccess
 	a owl:DatatypeProperty ;
 	rdfs:label "parseSuccess"@en ;
-	rdfs:comment "A boolean indicating whether the tool successfully parsed data from the target application in this benchmark run. True means the tool produced usable output; false means it failed to parse."@en ;
+	rdfs:comment "A boolean indicating whether the tool produced any usable output from the target application or forensic task in this benchmark run. True means the tool engaged with the data and produced parseable results (even if incomplete or imperfect — see completenessScore and accuracyScore for quality). False means the tool failed entirely: it could not recognize the data format, crashed, or produced no output at all. When parseSuccess is false, metric scores such as completenessScore should be 0.0 and IR metrics (precision, recall, F1) should be omitted or zero."@en ;
 	rdfs:domain toolcap:BenchmarkObservation ;
 	rdfs:range xsd:boolean ;
 	.
@@ -291,7 +296,7 @@ toolcap:parseSuccess
 toolcap:completenessScore
 	a owl:DatatypeProperty ;
 	rdfs:label "completenessScore"@en ;
-	rdfs:comment "The fraction of expected records or data items that the tool successfully recovered, expressed as a decimal between 0.0 and 1.0. For example, 0.85 means the tool recovered 85% of the known records in the test dataset."@en ;
+	rdfs:comment "The fraction of expected records or data items that the tool successfully recovered, expressed as a decimal between 0.0 and 1.0. For example, 0.85 means the tool recovered 85% of the known records in the test dataset. Note: completenessScore is a domain-specific coverage metric that may coincide numerically with recallScore in simple item-counting benchmarks, but the two are conceptually distinct. completenessScore measures overall data recovery coverage (including partial records, structural integrity, and metadata fidelity), while recallScore is the strict IR metric TP / (TP + FN) based on binary item-level matching. Use recallScore for formal IR evaluation and completenessScore for holistic assessments where partial recovery quality matters."@en ;
 	rdfs:domain toolcap:BenchmarkObservation ;
 	rdfs:range xsd:decimal ;
 	.
@@ -299,7 +304,7 @@ toolcap:completenessScore
 toolcap:accuracyScore
 	a owl:DatatypeProperty ;
 	rdfs:label "accuracyScore"@en ;
-	rdfs:comment "The accuracy of the tool's output, expressed as a decimal between 0.0 and 1.0. This measures the correctness of recovered data (e.g., whether timestamps, content, and metadata are faithfully reproduced)."@en ;
+	rdfs:comment "The fidelity of the tool's recovered data, expressed as a decimal between 0.0 and 1.0. This measures whether the content of recovered items is faithfully reproduced (e.g., timestamps, message bodies, metadata fields are correct and uncorrupted). Note: accuracyScore is conceptually distinct from precisionScore. precisionScore is the strict IR metric TP / (TP + FP) measuring what fraction of reported items are real, while accuracyScore measures the content-level correctness of the items that were recovered. A tool can have high precisionScore (it only reports real items) but low accuracyScore (the recovered content is corrupted or truncated), or vice versa."@en ;
 	rdfs:domain toolcap:BenchmarkObservation ;
 	rdfs:range xsd:decimal ;
 	.

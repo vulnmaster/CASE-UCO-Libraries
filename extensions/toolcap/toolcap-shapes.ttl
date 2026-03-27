@@ -1,6 +1,6 @@
 # Forensic Tool Capability Extension — SHACL Shapes
 #
-# Validation shapes for the toolcap extension ontology (v0.3.0).
+# Validation shapes for the toolcap extension ontology (v0.3.1).
 # Separated from the OWL definitions per CDO Ontology Committee guidance
 # to avoid redundancies during testing.
 
@@ -10,6 +10,7 @@
 @prefix uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
 @prefix case-investigation: <https://ontology.caseontology.org/case/investigation/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 
@@ -135,6 +136,21 @@ toolcap:ToolCapability-Shape
 			sh:description "Benchmark observations linked to this capability (zero or more)." ;
 		]
 		;
+	sh:or (
+		[
+			sh:property [
+				sh:path toolcap:application ;
+				sh:minCount "1"^^xsd:integer ;
+			]
+		]
+		[
+			sh:property [
+				sh:path toolcap:forensicTaskType ;
+				sh:minCount "1"^^xsd:integer ;
+			]
+		]
+	) ;
+	sh:message "A ToolCapability must have at least one of toolcap:application (for app-level capabilities) or toolcap:forensicTaskType (for CFTT task-level capabilities)."@en ;
 	.
 
 
@@ -401,6 +417,21 @@ toolcap:BenchmarkObservation-Shape
 			sh:description "Overall composite score from the benchmark framework, 0.0 to 1.0 (at most one)." ;
 		]
 		;
+	sh:sparql [
+		a sh:SPARQLConstraint ;
+		sh:message "submittedCount ({?submitted}) must equal truePositiveCount ({?tp}) + falsePositiveCount ({?fp}) = {?expected} when all three are present."@en ;
+		sh:select """
+			PREFIX toolcap: <http://example.org/ontology/toolcap/>
+			SELECT $this ?submitted ?tp ?fp ?expected
+			WHERE {
+				$this toolcap:submittedCount ?submitted .
+				$this toolcap:truePositiveCount ?tp .
+				$this toolcap:falsePositiveCount ?fp .
+				BIND ((?tp + ?fp) AS ?expected)
+				FILTER (?submitted != ?expected)
+			}
+		""" ;
+	] ;
 	.
 
 

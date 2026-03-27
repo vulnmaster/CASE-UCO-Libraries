@@ -5,6 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2026-03-26
+
+### Changed
+
+#### Toolcap Extension v0.3.1 — Semantic Tightening
+
+A cleanup pass focused on semantic precision and validation constraints,
+informed by peer review feedback.
+
+- **`owl:imports`** — explicit imports added for `uco-core`, `uco-tool`,
+  `uco-observable`, and `case-investigation` modules to improve reasoning,
+  validation, and reuse reliability
+- **SHACL `sh:or` constraint** on `ToolCapability-Shape` — every
+  `ToolCapability` must now declare at least one of `application` (for
+  app-level capabilities) or `forensicTaskType` (for CFTT task-level
+  capabilities). Prevents underspecified instances with neither property.
+- **SHACL SPARQL constraint** on `BenchmarkObservation-Shape` — when
+  `submittedCount`, `truePositiveCount`, and `falsePositiveCount` are all
+  present, validates that `submittedCount == TP + FP`
+- **Clarified metric semantics** in `rdfs:comment` for three properties:
+  - `parseSuccess` — now explicitly defines "true = produced usable output"
+    vs "false = total failure"; documents expected relationship with other
+    metrics when false
+  - `completenessScore` — distinguished from `recallScore`: completeness is
+    a holistic data recovery measure (including partial records, structural
+    integrity), while recall is the strict IR metric `TP / (TP + FN)` based
+    on binary item-level matching
+  - `accuracyScore` — distinguished from `precisionScore`: accuracy measures
+    content-level fidelity of recovered items (timestamps, metadata correct),
+    while precision is the strict IR metric `TP / (TP + FP)` measuring what
+    fraction of reported items are real
+- **Refreshed class comments** on `CapabilityMatrix` and
+  `BenchmarkObservation` to reflect the v0.3.0+ scope (forensic tasks, IR
+  metrics, benchmark provenance) rather than app-parsing only
+- **Version bumped** to `owl:versionIRI toolcap:0.3.1` with
+  `owl:priorVersion toolcap:0.3.0`
+- All exemplar data validated with `case_validate --built-version case-1.4.0`
+  (`Conforms: True`)
+
 ## [1.4.0] - 2026-03-26
 
 ### Added
@@ -292,6 +331,7 @@ digital forensics, cyber-investigation, and cyber-observable data.
 - GitHub Actions workflows: CI, CodeQL, dependency review, release
 - Dependabot configuration for automated dependency updates
 
+[1.4.1]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.4.1
 [1.4.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.4.0
 [1.3.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.3.0
 [1.2.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.2.0

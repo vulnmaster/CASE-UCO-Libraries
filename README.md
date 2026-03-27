@@ -2,7 +2,7 @@
 
 # CASE/UCO SDK
 
-**v1.4.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
+**v1.4.1** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
 
 A multi-language data modeling library for digital forensics, cyber-investigation, and cyber-observable data. If your software produces or consumes forensic evidence, this SDK gives you typed, validated builders in **Python**, **C#**, **Java**, and **Rust** — so you can model investigation data in your language and produce interoperable [CASE/UCO](https://caseontology.org/) JSON-LD output.
 
@@ -422,7 +422,7 @@ CASE-UCO-SDK/
 │   ├── tests/              Integration + exhaustive instantiation tests
 │   └── examples/smoke.rs   Smoke test binary (import + serialize)
 ├── extensions/             Extension ontologies (included in explorer + docs)
-│   └── toolcap/            Forensic tool capability benchmarking extension (v0.3.0)
+│   └── toolcap/            Forensic tool capability benchmarking extension (v0.3.1)
 ├── mcp_server/             MCP server for AI-assisted development
 │   ├── server.py           FastMCP server wrapping the ontology registry
 │   └── domain_index.py     Task-to-class mappings, recipe index, and proposal triage
