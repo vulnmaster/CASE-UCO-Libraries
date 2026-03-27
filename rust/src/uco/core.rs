@@ -47,6 +47,12 @@ impl AnnotationBuilder {
 impl CaseObject for Annotation {
     fn class_iri() -> &'static str { Annotation::CLASS_IRI }
     fn type_name() -> &'static str { "Annotation" }
+    fn validate(&self) -> Result<(), String> {
+        if self.object.is_empty() {
+            return Err("Annotation.object requires at least one value.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// An assertion is a statement declared to be true.
@@ -247,6 +253,12 @@ impl ConfidenceFacetBuilder {
 impl CaseObject for ConfidenceFacet {
     fn class_iri() -> &'static str { ConfidenceFacet::CLASS_IRI }
     fn type_name() -> &'static str { "ConfidenceFacet" }
+    fn validate(&self) -> Result<(), String> {
+        if self.confidence.is_none() {
+            return Err("ConfidenceFacet.confidence is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// A contextual compilation is a grouping of things sharing some context (e.g., a set of network connections observed on a given day, all accounts associated with a given person).
@@ -355,6 +367,12 @@ impl ControlledVocabularyBuilder {
 impl CaseObject for ControlledVocabulary {
     fn class_iri() -> &'static str { ControlledVocabulary::CLASS_IRI }
     fn type_name() -> &'static str { "ControlledVocabulary" }
+    fn validate(&self) -> Result<(), String> {
+        if self.value.is_none() {
+            return Err("ControlledVocabulary.value is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// An enclosing compilation is a container for a grouping of things.
@@ -399,6 +417,12 @@ impl EnclosingCompilationBuilder {
 impl CaseObject for EnclosingCompilation {
     fn class_iri() -> &'static str { EnclosingCompilation::CLASS_IRI }
     fn type_name() -> &'static str { "EnclosingCompilation" }
+    fn validate(&self) -> Result<(), String> {
+        if self.object.is_empty() {
+            return Err("EnclosingCompilation.object requires at least one value.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// An Event is a noteworthy occurrence (something that happens or might happen).
@@ -855,6 +879,18 @@ impl RelationshipBuilder {
 impl CaseObject for Relationship {
     fn class_iri() -> &'static str { Relationship::CLASS_IRI }
     fn type_name() -> &'static str { "Relationship" }
+    fn validate(&self) -> Result<(), String> {
+        if self.is_directional.is_none() {
+            return Err("Relationship.is_directional is required but was not provided.".to_string());
+        }
+        if self.source.is_empty() {
+            return Err("Relationship.source requires at least one value.".to_string());
+        }
+        if self.target.is_none() {
+            return Err("Relationship.target is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// A UCO inherent characterization thing is a grouping of characteristics unique to a particular inherent aspect of a UCO domain object.

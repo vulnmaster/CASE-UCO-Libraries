@@ -10,6 +10,12 @@ use uuid::Uuid;
 pub trait CaseObject {
     fn class_iri() -> &'static str;
     fn type_name() -> &'static str;
+    /// Validate ontology-required fields. Returns `Ok(())` if all required
+    /// fields are present, or `Err` with a message identifying the first
+    /// missing field.
+    fn validate(&self) -> Result<(), String> {
+        Ok(())
+    }
 }
 
 /// Build a CASE/UCO JSON-LD graph with typed objects.
@@ -38,7 +44,12 @@ impl CaseGraph {
     /// This is the preferred API — the type name and class IRI are read from
     /// the [`CaseObject`] trait that the code generator implements on every
     /// generated struct. Returns the assigned @id.
+    ///
+    /// Panics if any ontology-required field is missing.
     pub fn create<T: CaseObject + Serialize>(&mut self, instance: &T) -> String {
+        if let Err(msg) = instance.validate() {
+            panic!("{}", msg);
+        }
         let id = format!("kb:{}-{}", T::type_name(), Uuid::new_v4());
         self.add_with_id(&id, T::class_iri(), instance)
     }
@@ -47,7 +58,12 @@ impl CaseGraph {
     ///
     /// Use this when you need deterministic or externally-controlled IRIs
     /// instead of auto-generated UUIDs.
+    ///
+    /// Panics if any ontology-required field is missing.
     pub fn create_with_id<T: CaseObject + Serialize>(&mut self, id: &str, instance: &T) -> String {
+        if let Err(msg) = instance.validate() {
+            panic!("{}", msg);
+        }
         self.add_with_id(id, T::class_iri(), instance)
     }
 

@@ -5,6 +5,53 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-03-27
+
+### Added
+
+#### Rust — Required-Field Validation
+
+The Rust library now validates ontology-required fields when adding objects
+to a graph via `create()` and `create_with_id()`, matching the existing
+behavior in Python, C#, and Java.
+
+- Added `validate()` method to the `CaseObject` trait with a default no-op
+  implementation
+- Generated structs with required properties now implement `validate()`,
+  checking that `Option` fields are `Some` and required `Vec` fields are
+  non-empty
+- `CaseGraph::create()` and `CaseGraph::create_with_id()` call `validate()`
+  before insertion, panicking with a descriptive error if a required field
+  is missing
+- Updated the Rust code generator (`rust_backend.py`) to emit `validate()`
+  implementations based on `prop.cardinality.is_required`
+- Updated the Rust exhaustive test to instantiate without adding to graph
+  (matching the C# and Java exhaustive test pattern)
+
+#### C# — Static Analysis (Warnings-as-Errors)
+
+- Enabled `<TreatWarningsAsErrors>true</TreatWarningsAsErrors>` and
+  `<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>` in
+  `CaseUco.csproj`, so all Roslyn compiler warnings are treated as
+  build-breaking errors
+- Added `lint-csharp` Makefile target (`dotnet build /p:TreatWarningsAsErrors=true`)
+- Fixed pre-existing CS0108 warning in `ReferenceEqualityComparer.Equals()`
+  (missing `new` modifier)
+
+#### Java — Static Analysis (javac -Xlint + -Werror)
+
+- Added `maven-compiler-plugin` configuration with `-Xlint:all,-options`
+  and `-Werror`, so all javac warnings (unused imports, unchecked casts,
+  deprecations, etc.) are treated as compilation errors
+- Added `lint-java` Makefile target (`mvn compile`)
+- Updated `pom.xml` to use `maven-compiler-plugin` 3.12.1
+
+### Changed
+
+- The `make lint` target now runs all four linters: mypy (Python),
+  dotnet warnings-as-errors (C#), javac -Xlint -Werror (Java), and
+  clippy (Rust)
+
 ## [1.5.0] - 2026-03-27
 
 ### Changed

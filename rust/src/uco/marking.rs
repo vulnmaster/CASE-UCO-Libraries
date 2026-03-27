@@ -109,6 +109,12 @@ impl LicenseMarkingBuilder {
 impl CaseObject for LicenseMarking {
     fn class_iri() -> &'static str { LicenseMarking::CLASS_IRI }
     fn type_name() -> &'static str { "LicenseMarking" }
+    fn validate(&self) -> Result<(), String> {
+        if self.license.is_none() {
+            return Err("LicenseMarking.license is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// A marking definition is a grouping of characteristics unique to the expression of a specific data marking conveying restrictions, permissions, and other guidance for how marked data can be used and sh
@@ -163,6 +169,12 @@ impl MarkingDefinitionBuilder {
 impl CaseObject for MarkingDefinition {
     fn class_iri() -> &'static str { MarkingDefinition::CLASS_IRI }
     fn type_name() -> &'static str { "MarkingDefinition" }
+    fn validate(&self) -> Result<(), String> {
+        if self.definition_type.is_none() {
+            return Err("MarkingDefinition.definition_type is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// A marking model is a grouping of characteristics unique to the expression of a particular form of data marking definitions (restrictions, permissions, and other guidance for how data can be used and s
@@ -251,6 +263,12 @@ impl ReleaseToMarkingBuilder {
 impl CaseObject for ReleaseToMarking {
     fn class_iri() -> &'static str { ReleaseToMarking::CLASS_IRI }
     fn type_name() -> &'static str { "ReleaseToMarking" }
+    fn validate(&self) -> Result<(), String> {
+        if self.authorized_identities.is_empty() {
+            return Err("ReleaseToMarking.authorized_identities requires at least one value.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// A statement marking is a grouping of characteristics unique to the expression of data marking definitions (restrictions, permissions, and other guidance for how data can be used and shared) to convey 
@@ -305,6 +323,12 @@ impl StatementMarkingBuilder {
 impl CaseObject for StatementMarking {
     fn class_iri() -> &'static str { StatementMarking::CLASS_IRI }
     fn type_name() -> &'static str { "StatementMarking" }
+    fn validate(&self) -> Result<(), String> {
+        if self.statement.is_none() {
+            return Err("StatementMarking.statement is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// A terms of use marking is a grouping of characteristics unique to the expression of data marking definitions (restrictions, permissions, and other guidance for how data can be used and shared) to conv
@@ -359,4 +383,10 @@ impl TermsOfUseMarkingBuilder {
 impl CaseObject for TermsOfUseMarking {
     fn class_iri() -> &'static str { TermsOfUseMarking::CLASS_IRI }
     fn type_name() -> &'static str { "TermsOfUseMarking" }
+    fn validate(&self) -> Result<(), String> {
+        if self.terms_of_use.is_none() {
+            return Err("TermsOfUseMarking.terms_of_use is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }

@@ -2,7 +2,7 @@
 
 # CASE/UCO SDK
 
-**v1.5.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
+**v1.6.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
 
 A multi-language data modeling library for digital forensics, cyber-investigation, and cyber-observable data. If your software produces or consumes forensic evidence, this SDK gives you typed, validated builders in **Python**, **C#**, **Java**, and **Rust** — so you can model investigation data in your language and produce interoperable [CASE/UCO](https://caseontology.org/) JSON-LD output.
 
@@ -21,12 +21,20 @@ The SDK is auto-generated from the official CASE 1.4.0 and UCO 1.4.0 ontology so
 
 ## Installation
 
-### Python
+### Quick Start (Python)
 
 ```bash
 git clone --recurse-submodules https://github.com/vulnmaster/CASE-UCO-SDK.git
 cd CASE-UCO-SDK
-pip install -e python/
+make init      # creates .venv, installs all Python deps, generator, and SDK
+```
+
+This creates a `.venv` virtual environment, installs everything from `requirements.txt`, and sets up the generator and Python SDK in editable mode. All Makefile targets automatically use the virtual environment — no need to activate it manually.
+
+If you prefer to activate the venv yourself (e.g. for interactive use):
+
+```bash
+source .venv/bin/activate
 ```
 
 ### All Languages (via Makefile)
@@ -34,11 +42,11 @@ pip install -e python/
 ```bash
 git clone --recurse-submodules https://github.com/vulnmaster/CASE-UCO-SDK.git
 cd CASE-UCO-SDK
-make init      # install generator + fetch submodules
+make init      # create .venv, install Python deps, generator + SDK
 make generate  # regenerate all libraries from ontology sources
 make build     # build Python, C#, Java, Rust
 make test      # run all test suites
-make lint      # mypy (Python) + clippy (Rust)
+make lint      # mypy (Python) + dotnet warnings-as-errors (C#) + javac -Xlint (Java) + clippy (Rust)
 make smoke     # run smoke test binaries (C#, Java, Rust)
 make check     # all of the above in one command
 ```
@@ -49,7 +57,7 @@ Only install what you need for your language:
 
 | Language | Requirement |
 |----------|-------------|
-| Python | Python 3.9+ |
+| Python | Python 3.9+ (venv created automatically by `make init`) |
 | C# | .NET SDK 8.0+ |
 | Java | JDK 11+ and Maven |
 | Rust | Rust toolchain (cargo) |
@@ -454,8 +462,8 @@ CASE-UCO-SDK/
 | JSON-LD serialization | Yes | Yes | Yes | Yes |
 | Custom / deterministic IDs | `create(id=)` | `AddWithId()` | `addWithId()` | `create_with_id()` |
 | Load existing JSON-LD | `load()` / `load_file()` | `Load()` | `load()` / `loadFile()` | `load()` / `load_file()` |
-| Required-field validation | Yes | Yes | Yes | — |
-| Static type checking / linting | mypy (strict) | — | — | clippy |
+| Required-field validation | Yes | Yes | Yes | Yes |
+| Static type checking / linting | mypy (strict) | warnings-as-errors | javac -Xlint -Werror | clippy |
 | Exhaustive instantiation tests | Yes | Yes | Yes | Yes |
 | Smoke test binary | — | `CaseUco.Smoke` | `SmokeTest` | `examples/smoke` |
 | Object count | `len(graph)` | `Count` | `size()` | `len()` |

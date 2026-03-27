@@ -89,6 +89,12 @@ impl ArtifactClassificationBuilder {
 impl CaseObject for ArtifactClassification {
     fn class_iri() -> &'static str { ArtifactClassification::CLASS_IRI }
     fn type_name() -> &'static str { "ArtifactClassification" }
+    fn validate(&self) -> Result<(), String> {
+        if self.class.is_empty() {
+            return Err("ArtifactClassification.class requires at least one value.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// An artifact classification result facet is a grouping of characteristics unique to the results of an artifact classification analysis action.

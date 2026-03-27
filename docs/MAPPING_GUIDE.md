@@ -34,6 +34,7 @@ Classes for representing files, directories, file systems, and their metadata. U
 | **BlockDeviceNode** | uco.observable | Class | A block device node is a UNIX filesystem special file that serves as a conduit to communicate wit... |
 | **BotConfiguration** | uco.observable | Class | A bot configuration is a set of contextual settings for a software application that runs automate... |
 | **Bundle** | uco.core | Class | A bundle is a container for a grouping of UCO content with no presumption of shared context. |
+| **CapabilityMatrix** | ext.toolcap | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
 | **CharacterDeviceNode** | uco.observable | Class | A character device node is a UNIX filesystem special file that serves as a conduit to communicate... |
 | **CompressedStreamFacet** | uco.observable | Facet | A compressed stream facet is a grouping of characteristics unique to the application of a size-re... |
 | **ContactProfile** | uco.observable | Class | A contact profile is a grouping of characteristics unique to details for contacting a contact ent... |
@@ -86,6 +87,7 @@ Classes for representing files, directories, file systems, and their metadata. U
 | **PDFFileFacet** | uco.observable | Facet | A PDF file facet is a grouping of characteristics unique to a PDF (Portable Document Format) file. |
 | **PathRelationFacet** | uco.observable | Facet | A path relation facet is a grouping of characteristics unique to the location of one object withi... |
 | **Pipe** | uco.observable | Class | A pipe is a mechanism for one-way inter-process communication using message passing where data wr... |
+| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
 | **Profile** | uco.observable | Class | A profile is an explicit digital representation of identity and characteristics of the owner of a... |
 | **ProfileFacet** | uco.observable | Facet | A profile facet is a grouping of characteristics unique to an explicit digital representation of ... |
 | **RecoveredObjectFacet** | uco.observable | Facet | Recoverability status of name, metadata, and content. |
@@ -223,6 +225,7 @@ Classes for network connections, IP addresses, DNS records, URLs, and related ar
 | **API** | uco.observable | Class | An API (application programming interface) is a computing interface that defines interactions bet... |
 | **ARPCache** | uco.observable | Class | An ARP cache is a collection of Address Resolution Protocol (ARP) entries (mostly dynamic) that a... |
 | **ARPCacheEntry** | uco.observable | Class | An ARP cache entry is a single Address Resolution Protocol (ARP) response record that is created ... |
+| **AccessRestriction** | ext.toolcap | Class | An access restriction describes a security, licensing, classification, operational security, or l... |
 | **ActionLifecycle** | uco.action | Class | An action lifecycle is an action pattern consisting of an ordered set of multiple actions or subo... |
 | **Adaptor** | uco.observable | Class | An adaptor is a device that physically converts the pin outputs but does not alter the underlying... |
 | **AndroidDevice** | uco.observable | Class | An Android device is a device running the Android operating system. [based on https://en.wikipedi... |
@@ -328,6 +331,7 @@ Classes for network connections, IP addresses, DNS records, URLs, and related ar
 | **PaymentCard** | uco.observable | Class | A payment card is a physical token that is part of a payment system issued by financial instituti... |
 | **Person** | uco.identity | Class | A person is a grouping of identifying characteristics unique to a human being regarded as an indi... |
 | **Pipe** | uco.observable | Class | A pipe is a mechanism for one-way inter-process communication using message passing where data wr... |
+| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
 | **ProcessThread** | uco.observable | Class | A process thread is the smallest sequence of programmed instructions that can be managed independ... |
 | **Profile** | uco.observable | Class | A profile is an explicit digital representation of identity and characteristics of the owner of a... |
 | **ProfileFacet** | uco.observable | Facet | A profile facet is a grouping of characteristics unique to an explicit digital representation of ... |
@@ -587,6 +591,7 @@ Classes for physical and virtual devices, storage media, and hardware characteri
 | **OperatingSystemFacet** | uco.observable | Facet | An operating system facet is a grouping of characteristics unique to the software that manages co... |
 | **PhoneAccount** | uco.observable | Class | A phone account is an arrangement with an entity to enable and control the provision of a telepho... |
 | **PhoneAccountFacet** | uco.observable | Facet | A phone account facet is a grouping of characteristics unique to an arrangement with an entity to... |
+| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
 | **Process** | uco.observable | Class | A process is an instance of a computer program executed on an operating system. |
 | **ProcessFacet** | uco.observable | Facet | A process facet is a grouping of characteristics unique to an instance of a computer program exec... |
 | **ProcessThread** | uco.observable | Class | A process thread is the smallest sequence of programmed instructions that can be managed independ... |
@@ -605,7 +610,6 @@ Classes for physical and virtual devices, storage media, and hardware characteri
 | **StorageMediumFacet** | uco.observable | Facet | A storage medium facet is a grouping of characteristics unique to a the storage capabilities of a... |
 | **Tablet** | uco.observable | Class | A tablet is a mobile computer that is primarily operated by touching the screen. (Devices categor... |
 | **Tool** | uco.tool | Class | A tool is an element of hardware and/or software utilized to carry out a particular function. |
-| **ToolCapability** | ext.toolcap | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
 | **UNIXProcess** | uco.observable | Class | A UNIX process is an instance of a computer program executed on a UNIX operating system. |
 | **UNIXProcessFacet** | uco.observable | Facet | A UNIX process facet is a grouping of characteristics unique to an instance of a computer program... |
 | **UNIXVolumeFacet** | uco.observable | Facet | A UNIX volume facet is a grouping of characteristics unique to a single accessible storage area (... |
@@ -737,6 +741,7 @@ Classes for installed applications, operating systems, software packages, and pr
 | **ApplicationAccountFacet** | uco.observable | Facet | An application account facet is a grouping of characteristics unique to an account within a parti... |
 | **ApplicationFacet** | uco.observable | Facet | An application facet is a grouping of characteristics unique to a particular software program des... |
 | **ApplicationVersion** | uco.observable | Class | An application version is a grouping of characteristics unique to a particular software program v... |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
 | **BlackberryPhone** | uco.observable | Class | A blackberry phone is a smart phone that applies the Blackberry OS mobile operating system. (Blac... |
 | **BotConfiguration** | uco.observable | Class | A bot configuration is a set of contextual settings for a software application that runs automate... |
 | **BrowserBookmark** | uco.observable | Class | A browser bookmark is a saved shortcut that directs a WWW (World Wide Web) browser software progr... |
@@ -786,6 +791,7 @@ Classes for installed applications, operating systems, software packages, and pr
 | **OperatingSystem** | uco.observable | Class | An operating system is the software that manages computer hardware, software resources, and provi... |
 | **OperatingSystemFacet** | uco.observable | Facet | An operating system facet is a grouping of characteristics unique to the software that manages co... |
 | **Pipe** | uco.observable | Class | A pipe is a mechanism for one-way inter-process communication using message passing where data wr... |
+| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
 | **Process** | uco.observable | Class | A process is an instance of a computer program executed on an operating system. |
 | **ProcessFacet** | uco.observable | Facet | A process facet is a grouping of characteristics unique to an instance of a computer program exec... |
 | **ProcessThread** | uco.observable | Class | A process thread is the smallest sequence of programmed instructions that can be managed independ... |
@@ -946,6 +952,7 @@ Classes for user accounts, identities, organizations, and authentication artifac
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
+| **AccessRestriction** | ext.toolcap | Class | An access restriction describes a security, licensing, classification, operational security, or l... |
 | **Account** | uco.observable | Class | An account is an arrangement with an entity to enable and control the provision of some capabilit... |
 | **AccountAuthenticationFacet** | uco.observable | Facet | An account authentication facet is a grouping of characteristics unique to the mechanism of acces... |
 | **AccountFacet** | uco.observable | Facet | An account facet is a grouping of characteristics unique to an arrangement with an entity to enab... |
@@ -1027,6 +1034,20 @@ Classes for user accounts, identities, organizations, and authentication artifac
 | **X509V3Certificate** | uco.observable | Class | An X.509 v3 certificate is a public key digital identity certificate conformant to the X.509 v3 P... |
 | **X509V3ExtensionsFacet** | uco.observable | Facet | An X.509 v3 certificate extensions facet is a grouping of characteristics unique to a public key ... |
 
+**AccessRestriction** key properties:
+
+| Property | Type | Required |
+|----------|------|----------|
+| createdBy | IdentityAbstraction | No |
+| description | string | No |
+| externalReference | ExternalReference | No |
+| hasFacet | Facet | No |
+| modifiedTime | dateTime | No |
+| name | string | No |
+| objectCreatedTime | dateTime | No |
+| objectMarking | MarkingDefinitionAbstraction | No |
+| *... 7 more* | | |
+
 **Account** key properties:
 
 | Property | Type | Required |
@@ -1042,20 +1063,6 @@ Classes for user accounts, identities, organizations, and authentication artifac
 | *... 5 more* | | |
 
 **Application** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
-
-**ApplicationAccount** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
@@ -1248,6 +1255,7 @@ Classes specific to mobile device forensics: SIM cards, contacts, call logs, cal
 | **AddressFacet** | uco.identity | Facet | An address facet is a grouping of characteristics unique to an administrative identifier for a ge... |
 | **AndroidPhone** | uco.observable | Class | An android phone is a smart phone that applies the Android mobile operating system. |
 | **AntennaFacet** | uco.observable | Facet | An antenna alignment facet contains the metadata surrounding the cell tower's antenna position. |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
 | **BlackberryPhone** | uco.observable | Class | A blackberry phone is a smart phone that applies the Blackberry OS mobile operating system. (Blac... |
 | **BluetoothAddress** | uco.observable | Class | A Bluetooth address is a Bluetooth standard conformant identifier assigned to a Bluetooth device ... |
 | **BluetoothAddressFacet** | uco.observable | Facet | A Bluetooth address facet is a grouping of characteristics unique to a Bluetooth standard conform... |
@@ -1434,6 +1442,7 @@ Classes for modeling actions taken during an investigation or actions performed 
 | **ArrayOfAction** | uco.action | Class | An array of action is an ordered list of references to things that may be done or performed. |
 | **ArtifactClassificationResultFacet** | uco.analysis | Facet | An artifact classification result facet is a grouping of characteristics unique to the results of... |
 | **Authorization** | case.investigation | Class | An authorization is a grouping of characteristics unique to some form of authoritative permission... |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
 | **Calendar** | uco.observable | Class | A calendar is a collection of appointments, meetings, and events. |
 | **CalendarEntry** | uco.observable | Class | A calendar entry is an appointment, meeting or event within a collection of appointments, meeting... |
 | **CalendarEntryFacet** | uco.observable | Facet | A calendar entry facet is a grouping of characteristics unique to an appointment, meeting, or eve... |
@@ -1460,6 +1469,7 @@ Classes for modeling actions taken during an investigation or actions performed 
 | **Observable** | uco.observable | Class | An observable is a characterizable item or action within the digital domain. |
 | **ObservableAction** | uco.observable | Class | An observable action is a grouping of characteristics unique to something that may be done or per... |
 | **ObservablePattern** | uco.observable | Class | An observable pattern is a grouping of characteristics unique to a logical pattern composed of ob... |
+| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
 | **Process** | uco.observable | Class | A process is an instance of a computer program executed on an operating system. |
 | **ProcessFacet** | uco.observable | Facet | A process facet is a grouping of characteristics unique to an instance of a computer program exec... |
 | **PropertiesEnumeratedEffectFacet** | uco.observable | Facet | A properties enumerated effect facet is a grouping of characteristics unique to the effects of ac... |
@@ -1471,6 +1481,7 @@ Classes for modeling actions taken during an investigation or actions performed 
 | **StorageMediumFacet** | uco.observable | Facet | A storage medium facet is a grouping of characteristics unique to a the storage capabilities of a... |
 | **SubjectActionLifecycle** | case.investigation | Class | A subject action lifecycle is an action pattern consisting of an ordered set of multiple actions ... |
 | **TaskActionType** | uco.observable | Class | A task action type is a grouping of characteristics for a scheduled action to be completed. |
+| **ToolCapability** | ext.toolcap | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
 | **UNIXFilePermissionsFacet** | uco.observable | Facet | A UNIX file permissions facet is a grouping of characteristics unique to the access rights (e.g.,... |
 | **UNIXProcess** | uco.observable | Class | A UNIX process is an instance of a computer program executed on a UNIX operating system. |
 | **UNIXProcessFacet** | uco.observable | Facet | A UNIX process facet is a grouping of characteristics unique to an instance of a computer program... |
@@ -1575,8 +1586,10 @@ CASE-specific classes for structuring an investigation: cases, investigative act
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
+| **AccessRestriction** | ext.toolcap | Class | An access restriction describes a security, licensing, classification, operational security, or l... |
 | **Attorney** | case.investigation | Class | Attorney is a role involved in preparing, interpreting, and applying law. |
 | **Authorization** | case.investigation | Class | An authorization is a grouping of characteristics unique to some form of authoritative permission... |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
 | **CapabilityMatrix** | ext.toolcap | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
 | **Credential** | uco.observable | Class | A credential is a single specific login and password combination for authorization of access to a... |
 | **CredentialDump** | uco.observable | Class | A credential dump is a collection (typically forcibly extracted from a system) of specific login ... |
@@ -1585,11 +1598,26 @@ CASE-specific classes for structuring an investigation: cases, investigative act
 | **Investigation** | case.investigation | Class | An investigation is a grouping of characteristics unique to an exploration of the facts involved ... |
 | **InvestigativeAction** | case.investigation | Class | An investigative action is something that may be done or performed within the context of an inves... |
 | **Investigator** | case.investigation | Class | Investigator is a role involved in coordinating an investigation. |
+| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
 | **ProvenanceRecord** | case.investigation | Class | A provenance record is a grouping of characteristics unique to the provenantial (chronology of th... |
 | **Subject** | case.investigation | Class | Subject is a role whose conduct is within the scope of an investigation. |
 | **SubjectActionLifecycle** | case.investigation | Class | A subject action lifecycle is an action pattern consisting of an ordered set of multiple actions ... |
 | **ToolCapability** | ext.toolcap | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
 | **VictimActionLifecycle** | case.investigation | Class | A victim action lifecycle is an action pattern consisting of an ordered set of multiple actions o... |
+
+**AccessRestriction** key properties:
+
+| Property | Type | Required |
+|----------|------|----------|
+| createdBy | IdentityAbstraction | No |
+| description | string | No |
+| externalReference | ExternalReference | No |
+| hasFacet | Facet | No |
+| modifiedTime | dateTime | No |
+| name | string | No |
+| objectCreatedTime | dateTime | No |
+| objectMarking | MarkingDefinitionAbstraction | No |
+| *... 7 more* | | |
 
 **Attorney** key properties:
 
@@ -1618,20 +1646,6 @@ CASE-specific classes for structuring an investigation: cases, investigative act
 | objectCreatedTime | dateTime | No |
 | objectMarking | MarkingDefinitionAbstraction | No |
 | *... 7 more* | | |
-
-**CapabilityMatrix** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 6 more* | | |
 
 **Example usage:**
 
@@ -1684,6 +1698,7 @@ Classes for documenting forensic tools, their versions, build information, and c
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
 | **API** | uco.observable | Class | An API (application programming interface) is a computing interface that defines interactions bet... |
+| **AccessRestriction** | ext.toolcap | Class | An access restriction describes a security, licensing, classification, operational security, or l... |
 | **AnalyticTool** | uco.tool | Class | An analytic tool is an artifact of hardware and/or software utilized to accomplish a task or purp... |
 | **Appliance** | uco.observable | Class | An appliance is a purpose-built computer with software or firmware that is designed to provide a ... |
 | **Application** | uco.observable | Class | An application is a particular software program designed for end users. |
@@ -1691,6 +1706,7 @@ Classes for documenting forensic tools, their versions, build information, and c
 | **ApplicationAccountFacet** | uco.observable | Facet | An application account facet is a grouping of characteristics unique to an account within a parti... |
 | **ApplicationFacet** | uco.observable | Facet | An application facet is a grouping of characteristics unique to a particular software program des... |
 | **ApplicationVersion** | uco.observable | Class | An application version is a grouping of characteristics unique to a particular software program v... |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
 | **BotConfiguration** | uco.observable | Class | A bot configuration is a set of contextual settings for a software application that runs automate... |
 | **BrowserBookmark** | uco.observable | Class | A browser bookmark is a saved shortcut that directs a WWW (World Wide Web) browser software progr... |
 | **BrowserBookmarkFacet** | uco.observable | Facet | A browser bookmark facet is a grouping of characteristics unique to a saved shortcut that directs... |
@@ -1723,6 +1739,7 @@ Classes for documenting forensic tools, their versions, build information, and c
 | **NetworkInterfaceFacet** | uco.observable | Facet | A network interface facet is a grouping of characteristics unique to a software or hardware inter... |
 | **OperatingSystem** | uco.observable | Class | An operating system is the software that manages computer hardware, software resources, and provi... |
 | **OperatingSystemFacet** | uco.observable | Facet | An operating system facet is a grouping of characteristics unique to the software that manages co... |
+| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
 | **SecurityAppliance** | uco.observable | Class | A security appliance is a purpose-built computer with software or firmware that is designed to pr... |
 | **Software** | uco.observable | Class | Software is a definitely scoped instance of a collection of data or computer instructions that te... |
 | **SoftwareFacet** | uco.observable | Facet | A software facet is a grouping of characteristics unique to a software program (a definitively sc... |
@@ -1745,6 +1762,20 @@ Classes for documenting forensic tools, their versions, build information, and c
 | objectMarking | MarkingDefinitionAbstraction | No |
 | *... 5 more* | | |
 
+**AccessRestriction** key properties:
+
+| Property | Type | Required |
+|----------|------|----------|
+| createdBy | IdentityAbstraction | No |
+| description | string | No |
+| externalReference | ExternalReference | No |
+| hasFacet | Facet | No |
+| modifiedTime | dateTime | No |
+| name | string | No |
+| objectCreatedTime | dateTime | No |
+| objectMarking | MarkingDefinitionAbstraction | No |
+| *... 7 more* | | |
+
 **AnalyticTool** key properties:
 
 | Property | Type | Required |
@@ -1758,20 +1789,6 @@ Classes for documenting forensic tools, their versions, build information, and c
 | objectCreatedTime | dateTime | No |
 | objectMarking | MarkingDefinitionAbstraction | No |
 | *... 8 more* | | |
-
-**Appliance** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
 
 **Example usage:**
 
@@ -1822,6 +1839,7 @@ Classes for representing timestamps, time intervals, and temporal relationships 
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
 | **Call** | uco.observable | Class | A call is a connection as part of a realtime cyber communication between one or more parties. |
 | **CallFacet** | uco.observable | Facet | A call facet is a grouping of characteristics unique to a connection as part of a realtime cyber ... |
 | **CapabilityMatrix** | ext.toolcap | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
@@ -1836,6 +1854,20 @@ Classes for representing timestamps, time intervals, and temporal relationships 
 | **WindowsCriticalSection** | uco.observable | Class | A Windows critical section is a Windows object that provides synchronization similar to that prov... |
 | **WindowsSystemRestore** | uco.observable | Class | A Windows system restore is a capture of a Windows computer's state (including system files, inst... |
 | **WindowsWaitableTime** | uco.observable | Class | A Windows waitable timer is a synchronization object within the Windows operating system whose st... |
+
+**BenchmarkObservation** key properties:
+
+| Property | Type | Required |
+|----------|------|----------|
+| createdBy | IdentityAbstraction | No |
+| description | string | No |
+| externalReference | ExternalReference | No |
+| hasFacet | Facet | No |
+| modifiedTime | dateTime | No |
+| name | string | No |
+| objectCreatedTime | dateTime | No |
+| objectMarking | MarkingDefinitionAbstraction | No |
+| *... 29 more* | | |
 
 **Call** key properties:
 
@@ -1863,13 +1895,7 @@ Classes for representing timestamps, time intervals, and temporal relationships 
 | name | string | No |
 | objectCreatedTime | dateTime | No |
 | objectMarking | MarkingDefinitionAbstraction | No |
-| *... 6 more* | | |
-
-**Dictionary** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| entry | DictionaryEntry | No |
+| *... 7 more* | | |
 
 **Example usage:**
 
@@ -1913,6 +1939,7 @@ Classes for marking data with handling restrictions, classification levels, TLP 
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
+| **AccessRestriction** | ext.toolcap | Class | An access restriction describes a security, licensing, classification, operational security, or l... |
 | **AccountAuthenticationFacet** | uco.observable | Facet | An account authentication facet is a grouping of characteristics unique to the mechanism of acces... |
 | **AlternateDataStream** | uco.observable | Class | An alternate data stream is data content stored within an NTFS file that is independent of the st... |
 | **AlternateDataStreamFacet** | uco.observable | Facet | An alternate data stream facet is a grouping of characteristics unique to data content stored wit... |
@@ -1951,6 +1978,7 @@ Classes for marking data with handling restrictions, classification levels, TLP 
 | **Semaphore** | uco.observable | Class | A semaphore is a variable or abstract data type used to control access to a common resource by mu... |
 | **StatementMarking** | uco.marking | Class | A statement marking is a grouping of characteristics unique to the expression of data marking def... |
 | **TermsOfUseMarking** | uco.marking | Class | A terms of use marking is a grouping of characteristics unique to the expression of data marking ... |
+| **ToolCapability** | ext.toolcap | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
 | **UNIXFilePermissionsFacet** | uco.observable | Facet | A UNIX file permissions facet is a grouping of characteristics unique to the access rights (e.g.,... |
 | **UNIXVolumeFacet** | uco.observable | Facet | A UNIX volume facet is a grouping of characteristics unique to a single accessible storage area (... |
 | **URL** | uco.observable | Class | A URL is a uniform resource locator (URL) acting as a resolvable address to a particular WWW (Wor... |
@@ -1967,6 +1995,20 @@ Classes for marking data with handling restrictions, classification levels, TLP 
 | **WindowsNetworkShare** | uco.observable | Class | A Windows network share is a Windows computer resource made available from one host to other host... |
 | **WindowsVolumeFacet** | uco.observable | Facet | A Windows volume facet is a grouping of characteristics unique to a single accessible storage are... |
 | **WriteBlocker** | uco.observable | Class | A write blocker is a device that allows read-only access to storage mediums in order to preserve ... |
+
+**AccessRestriction** key properties:
+
+| Property | Type | Required |
+|----------|------|----------|
+| createdBy | IdentityAbstraction | No |
+| description | string | No |
+| externalReference | ExternalReference | No |
+| hasFacet | Facet | No |
+| modifiedTime | dateTime | No |
+| name | string | No |
+| objectCreatedTime | dateTime | No |
+| objectMarking | MarkingDefinitionAbstraction | No |
+| *... 7 more* | | |
 
 **AlternateDataStream** key properties:
 
@@ -1988,20 +2030,6 @@ Classes for marking data with handling restrictions, classification levels, TLP 
 |----------|------|----------|
 | class | string | Yes |
 | classificationConfidence | decimal | No |
-
-**BlockDeviceNode** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
 
 **Example usage:**
 
@@ -2047,7 +2075,10 @@ Extension ontologies add domain-specific classes beyond the core CASE/UCO specif
 
 | Class | Type | Description |
 |-------|------|-------------|
+| **AccessRestriction** | Class | An access restriction describes a security, licensing, classification, operational security, or l... |
+| **BenchmarkObservation** | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
 | **CapabilityMatrix** | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
+| **PlatformSpecification** | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
 | **ToolCapability** | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
 
 ## Tips for Finding the Right Class

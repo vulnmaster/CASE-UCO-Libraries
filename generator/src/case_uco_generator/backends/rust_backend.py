@@ -77,7 +77,6 @@ class RustBackend(CodegenBackend):
         lines: list[str] = []
         lines.append("//! Auto-generated — instantiates every CASE/UCO struct to verify the object model.")
         lines.append("")
-        lines.append("use case_uco::graph::CaseGraph;")
 
         core_classes = [
             c for c in self.schema.classes.values()
@@ -95,12 +94,12 @@ class RustBackend(CodegenBackend):
         lines.append("")
         lines.append("#[test]")
         lines.append("fn test_all_classes_can_be_instantiated() {")
-        lines.append('    let mut graph = CaseGraph::new("http://example.org/kb/");')
+        lines.append("    let mut instances: Vec<Box<dyn std::fmt::Debug>> = Vec::new();")
 
         for cls in sorted(core_classes, key=lambda c: (c.module, c.name)):
-            lines.append(f"    graph.create(&{cls.name}::builder().build());")
+            lines.append(f"    instances.push(Box::new({cls.name}::builder().build()));")
 
-        lines.append(f"    assert_eq!(graph.len(), {len(core_classes)});")
+        lines.append(f"    assert_eq!(instances.len(), {len(core_classes)});")
         lines.append("}")
 
         path.write_text("\n".join(lines), encoding="utf-8")
@@ -276,6 +275,23 @@ class RustBackend(CodegenBackend):
         lines.append(f"impl CaseObject for {cls.name} {{")
         lines.append(f'    fn class_iri() -> &\'static str {{ {cls.name}::CLASS_IRI }}')
         lines.append(f'    fn type_name() -> &\'static str {{ "{cls.name}" }}')
+
+        required_props = [p for p in cls.properties if p.cardinality.is_required]
+        if required_props:
+            lines.append("    fn validate(&self) -> Result<(), String> {")
+            for prop in required_props:
+                field_name = self.to_snake_case(prop.name)
+                field_name = self.safe_identifier(field_name, "rust")
+                if prop.cardinality.is_list:
+                    lines.append(f"        if self.{field_name}.is_empty() {{")
+                    lines.append(f'            return Err("{cls.name}.{field_name} requires at least one value.".to_string());')
+                else:
+                    lines.append(f"        if self.{field_name}.is_none() {{")
+                    lines.append(f'            return Err("{cls.name}.{field_name} is required but was not provided.".to_string());')
+                lines.append("        }")
+            lines.append("        Ok(())")
+            lines.append("    }")
+
         lines.append("}")
 
         return lines

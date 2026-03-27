@@ -177,6 +177,15 @@ impl DictionaryEntryBuilder {
 impl CaseObject for DictionaryEntry {
     fn class_iri() -> &'static str { DictionaryEntry::CLASS_IRI }
     fn type_name() -> &'static str { "DictionaryEntry" }
+    fn validate(&self) -> Result<(), String> {
+        if self.key.is_none() {
+            return Err("DictionaryEntry.key is required but was not provided.".to_string());
+        }
+        if self.value.is_none() {
+            return Err("DictionaryEntry.value is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// A hash is a grouping of characteristics unique to the result of applying a mathematical algorithm that maps data of arbitrary size to a bit string (the 'hash') and is a one-way function, that is, a fu
@@ -231,6 +240,12 @@ impl HashBuilder {
 impl CaseObject for Hash {
     fn class_iri() -> &'static str { Hash::CLASS_IRI }
     fn type_name() -> &'static str { "Hash" }
+    fn validate(&self) -> Result<(), String> {
+        if self.hash_value.is_none() {
+            return Err("Hash.hash_value is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// ImproperDictionary

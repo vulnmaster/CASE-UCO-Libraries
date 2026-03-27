@@ -5,7 +5,7 @@ namespace CaseUco
 {
     internal sealed class ReferenceEqualityComparer : IEqualityComparer<object>
     {
-        public bool Equals(object x, object y)
+        public new bool Equals(object x, object y)
         {
             return ReferenceEquals(x, y);
         }

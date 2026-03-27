@@ -1,0 +1,17 @@
+# Core SDK dependencies
+rdflib>=7.0.0
+cdo-local-uuid>=0.5.0
+
+# Code generator
+setuptools>=68.0
+wheel
+
+# Validation (case_validate CLI)
+case-utils>=0.15.0
+
+# MCP server
+fastmcp
+
+# Dev / testing
+pytest>=7.0.0
+mypy>=1.0

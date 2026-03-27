@@ -1,18 +1,30 @@
-.PHONY: all generate build test clean init lint smoke check
+.PHONY: all generate build test clean init lint smoke check venv
+
+VENV := .venv
+PYTHON := $(VENV)/bin/python
+PIP := $(VENV)/bin/pip
 
 all: init generate build test
 
-init:
+venv: $(VENV)/bin/activate
+
+$(VENV)/bin/activate:
+	python3 -m venv $(VENV)
+	$(PIP) install --upgrade pip
+	$(PIP) install -r requirements.txt
+
+init: venv
 	git submodule update --init --recursive
-	pip install -e generator/
+	$(PIP) install -e generator/
+	$(PIP) install -e python/
 
 generate:
-	python -m case_uco_generator generate --lang all
+	$(PYTHON) -m case_uco_generator generate --lang all
 
 build: build-python build-csharp build-java build-rust
 
 build-python:
-	cd python && pip install -e .
+	$(PIP) install -e python/
 
 build-csharp:
 	cd csharp && dotnet build
@@ -26,10 +38,10 @@ build-rust:
 test: test-generator test-python test-csharp test-java test-rust
 
 test-generator:
-	PYTHONPATH=generator/src python -m pytest generator/tests/ -v
+	PYTHONPATH=generator/src $(PYTHON) -m pytest generator/tests/ -v
 
 test-python:
-	cd python && python -m pytest tests/ -v
+	cd python && $(abspath $(PYTHON)) -m pytest tests/ -v
 
 test-csharp:
 	cd csharp && dotnet test
@@ -40,10 +52,16 @@ test-java:
 test-rust:
 	cd rust && cargo test
 
-lint: typecheck-python lint-rust
+lint: typecheck-python lint-csharp lint-java lint-rust
 
 typecheck-python:
-	cd python && python -m mypy case_uco/ --ignore-missing-imports
+	cd python && $(abspath $(PYTHON)) -m mypy case_uco/ --ignore-missing-imports
+
+lint-csharp:
+	cd csharp && dotnet build --no-restore /p:TreatWarningsAsErrors=true
+
+lint-java:
+	cd java && mvn compile -q
 
 lint-rust:
 	cd rust && cargo clippy -- -D warnings
@@ -66,3 +84,6 @@ clean:
 	rm -rf csharp/CaseUco/Uco/*.cs csharp/CaseUco/Case/*.cs
 	find java/src/main/java/org/caseontology -name "*.java" -not -name "CaseGraph.java" -not -name "SmokeTest.java" -delete
 	rm -rf rust/src/uco/*.rs rust/src/case/*.rs
+
+clean-venv:
+	rm -rf $(VENV)

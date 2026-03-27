@@ -2409,6 +2409,12 @@ impl CapturedTelecommunicationsInformationFacetBuilder {
 impl CaseObject for CapturedTelecommunicationsInformationFacet {
     fn class_iri() -> &'static str { CapturedTelecommunicationsInformationFacet::CLASS_IRI }
     fn type_name() -> &'static str { "CapturedTelecommunicationsInformationFacet" }
+    fn validate(&self) -> Result<(), String> {
+        if self.capture_cell_site.is_none() {
+            return Err("CapturedTelecommunicationsInformationFacet.capture_cell_site is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// CellSite
@@ -10553,6 +10559,12 @@ impl ObservationBuilder {
 impl CaseObject for Observation {
     fn class_iri() -> &'static str { Observation::CLASS_IRI }
     fn type_name() -> &'static str { "Observation" }
+    fn validate(&self) -> Result<(), String> {
+        if self.name.is_none() {
+            return Err("Observation.name is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// An online service is a particular provision mechanism of information access, distribution or manipulation over the Internet.

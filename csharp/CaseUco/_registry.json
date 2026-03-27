@@ -362,6 +362,137 @@
         }
       ]
     },
+    "AccessRestriction": {
+      "iri": "http://example.org/ontology/toolcap/AccessRestriction",
+      "module": "ext.toolcap",
+      "description": "An access restriction describes a security, licensing, classification, operational security, or legal authority constraint on the use of a forensic tool capability. Forensic examiners use access restrictions to determine whether they are authorized to employ a particular tool or technique given their organizational policies, case type, clearance level, or legal authority. When a specific investigative authorization is required, the restriction can link to a case-investigation:Authorization instance.",
+      "parents": [
+        "UcoObject"
+      ],
+      "is_facet": false,
+      "properties": [
+        {
+          "name": "createdBy",
+          "type": "IdentityAbstraction",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/IdentityAbstraction",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The identity that created a characterization of a concept."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "A description of a particular concept characterization."
+        },
+        {
+          "name": "externalReference",
+          "type": "ExternalReference",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/ExternalReference",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Specifies a reference to a resource outside of the UCO."
+        },
+        {
+          "name": "hasFacet",
+          "type": "Facet",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/Facet",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Further sets of properties characterizing a concept based on the particular context of the class and of the particular instance of the concept being characterized."
+        },
+        {
+          "name": "modifiedTime",
+          "type": "dateTime",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#dateTime",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Specifies the time that this particular version of the object was modified. The object creator can use the time it deems most appropriate as the time this version of the object was modified. The value of the modified property for a given object version MUST be later than or equal to the value of the created property. Object creators MUST update the modified property when creating a new version of an object. The modified timestamp MUST be precise to the nearest millisecond (exactly three digits after the decimal place in seconds)."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The name of a particular concept characterization."
+        },
+        {
+          "name": "objectCreatedTime",
+          "type": "dateTime",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#dateTime",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The time at which a characterization of a concept is created. This time pertains to the time of creating the record object, and is not an intrinsic characteristic of the concept."
+        },
+        {
+          "name": "objectMarking",
+          "type": "MarkingDefinitionAbstraction",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/MarkingDefinitionAbstraction",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Marking definitions to be applied to a particular concept characterization in its entirety."
+        },
+        {
+          "name": "objectStatus",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The current state of formality and acceptance for a UCO object."
+        },
+        {
+          "name": "specVersion",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The version of UCO ontology or subontology specification used to characterize a concept."
+        },
+        {
+          "name": "tag",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "A generic tag/label."
+        },
+        {
+          "name": "requiredAuthorization",
+          "type": "Authorization",
+          "type_iri": "https://ontology.caseontology.org/case/investigation/Authorization",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "Links an AccessRestriction to a case-investigation:Authorization instance when a specific investigative authorization (e.g., warrant, court order) is required to use the restricted capability."
+        },
+        {
+          "name": "restrictionDescription",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "A human-readable explanation of the restriction, providing context for examiners who need to determine whether they meet the requirements."
+        },
+        {
+          "name": "restrictionLevel",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The specific level or value of the restriction (e.g., 'commercial-license-required', 'law-enforcement-only', 'SECRET', 'requires-NDA')."
+        },
+        {
+          "name": "restrictionType",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "exactly_one",
+          "required": true,
+          "description": "The category of access restriction (e.g., 'licensing', 'classification', 'operational-security', 'legal-authority'). This indicates what kind of pre-determination an examiner must make before using the capability."
+        }
+      ]
+    },
     "Account": {
       "iri": "https://ontology.unifiedcyberontology.org/uco/observable/Account",
       "module": "uco.observable",
@@ -3864,6 +3995,313 @@
         }
       ]
     },
+    "BenchmarkObservation": {
+      "iri": "http://example.org/ontology/toolcap/BenchmarkObservation",
+      "module": "ext.toolcap",
+      "description": "A benchmark observation is a single point-in-time record of testing a forensic tool's capability against a specific application or forensic task. Each observation captures the results of one test run, including pass/fail outcome, completeness and accuracy metrics, standard information retrieval metrics (precision, recall, F1), confusion matrix counts (TP, FP, FN), processing performance, benchmark provenance (framework name, test case identifier, suite score), which observable categories were successfully parsed or missed, the specific tool and application versions tested, the data format version, and the platform environment. BenchmarkObservation instances are append-only: new test runs produce new instances rather than updating existing ones, preserving a full audit trail of capability evidence over time.",
+      "parents": [
+        "UcoObject"
+      ],
+      "is_facet": false,
+      "properties": [
+        {
+          "name": "createdBy",
+          "type": "IdentityAbstraction",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/IdentityAbstraction",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The identity that created a characterization of a concept."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "A description of a particular concept characterization."
+        },
+        {
+          "name": "externalReference",
+          "type": "ExternalReference",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/ExternalReference",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Specifies a reference to a resource outside of the UCO."
+        },
+        {
+          "name": "hasFacet",
+          "type": "Facet",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/Facet",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Further sets of properties characterizing a concept based on the particular context of the class and of the particular instance of the concept being characterized."
+        },
+        {
+          "name": "modifiedTime",
+          "type": "dateTime",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#dateTime",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Specifies the time that this particular version of the object was modified. The object creator can use the time it deems most appropriate as the time this version of the object was modified. The value of the modified property for a given object version MUST be later than or equal to the value of the created property. Object creators MUST update the modified property when creating a new version of an object. The modified timestamp MUST be precise to the nearest millisecond (exactly three digits after the decimal place in seconds)."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The name of a particular concept characterization."
+        },
+        {
+          "name": "objectCreatedTime",
+          "type": "dateTime",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#dateTime",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The time at which a characterization of a concept is created. This time pertains to the time of creating the record object, and is not an intrinsic characteristic of the concept."
+        },
+        {
+          "name": "objectMarking",
+          "type": "MarkingDefinitionAbstraction",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/MarkingDefinitionAbstraction",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Marking definitions to be applied to a particular concept characterization in its entirety."
+        },
+        {
+          "name": "objectStatus",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The current state of formality and acceptance for a UCO object."
+        },
+        {
+          "name": "specVersion",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The version of UCO ontology or subontology specification used to characterize a concept."
+        },
+        {
+          "name": "tag",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "A generic tag/label."
+        },
+        {
+          "name": "accuracyScore",
+          "type": "decimal",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#decimal",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The fidelity of the tool's recovered data, expressed as a decimal between 0.0 and 1.0. This measures whether the content of recovered items is faithfully reproduced (e.g., timestamps, message bodies, metadata fields are correct and uncorrupted). Note: accuracyScore is conceptually distinct from precisionScore. precisionScore is the strict IR metric TP / (TP + FP) measuring what fraction of reported items are real, while accuracyScore measures the content-level correctness of the items that were recovered. A tool can have high precisionScore (it only reports real items) but low accuracyScore (the recovered content is corrupted or truncated), or vice versa."
+        },
+        {
+          "name": "benchmarkDate",
+          "type": "dateTime",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#dateTime",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The date and time when this benchmark test was conducted."
+        },
+        {
+          "name": "benchmarkFramework",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The name of the benchmarking framework or programme used to conduct this test (e.g., 'AutoDFBench', 'NIST-CFTT', 'internal-lab-protocol'). Enables provenance tracking and reproducibility."
+        },
+        {
+          "name": "benchmarkNotes",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "Free-text notes about this benchmark run, such as environmental conditions, anomalies observed, or caveats about the results."
+        },
+        {
+          "name": "benchmarkPlatform",
+          "type": "PlatformSpecification",
+          "type_iri": "http://example.org/ontology/toolcap/PlatformSpecification",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "Links a BenchmarkObservation to the specific PlatformSpecification describing the environment in which the benchmark was conducted."
+        },
+        {
+          "name": "benchmarkSuiteScore",
+          "type": "decimal",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#decimal",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "An overall composite score computed by the benchmark framework for this test run, expressed as a decimal between 0.0 and 1.0. For example, AutoDFBench computes a weighted AutoDFBench Score across all test cases in a suite."
+        },
+        {
+          "name": "benchmarkedBy",
+          "type": "IdentityAbstraction",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/IdentityAbstraction",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "Identifies the person or organization (an instance of uco-core:IdentityAbstraction) that performed this benchmark test."
+        },
+        {
+          "name": "capability",
+          "type": "ToolCapability",
+          "type_iri": "http://example.org/ontology/toolcap/ToolCapability",
+          "cardinality": "exactly_one",
+          "required": true,
+          "description": "Links a BenchmarkObservation back to the ToolCapability it provides evidence for. This is the inverse of hasObservation."
+        },
+        {
+          "name": "completenessScore",
+          "type": "decimal",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#decimal",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The fraction of expected records or data items that the tool successfully recovered, expressed as a decimal between 0.0 and 1.0. For example, 0.85 means the tool recovered 85% of the known records in the test dataset. Note: completenessScore is a domain-specific coverage metric that may coincide numerically with recallScore in simple item-counting benchmarks, but the two are conceptually distinct. completenessScore measures overall data recovery coverage (including partial records, structural integrity, and metadata fidelity), while recallScore is the strict IR metric TP / (TP + FN) based on binary item-level matching. Use recallScore for formal IR evaluation and completenessScore for holistic assessments where partial recovery quality matters."
+        },
+        {
+          "name": "datasetSizeInBytes",
+          "type": "nonNegativeInteger",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The size of the test dataset in bytes, providing context for processing duration and resource requirements."
+        },
+        {
+          "name": "f1Score",
+          "type": "decimal",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#decimal",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The F1 score of the tool's output in this benchmark run, expressed as a decimal between 0.0 and 1.0. F1 = 2 * (precision * recall) / (precision + recall). Provides a single balanced measure of precision and recall."
+        },
+        {
+          "name": "falseNegativeCount",
+          "type": "nonNegativeInteger",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The number of records or artifacts that exist in the source data but were not recovered by the tool."
+        },
+        {
+          "name": "falsePositiveCount",
+          "type": "nonNegativeInteger",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The number of records or artifacts the tool reported that do not actually exist in the source data."
+        },
+        {
+          "name": "groundTruthCount",
+          "type": "nonNegativeInteger",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The total number of items in the ground truth dataset for this benchmark run. Provides context for interpreting TP, FP, and FN counts."
+        },
+        {
+          "name": "missedCategory",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "A category of observable data that the tool failed to extract in this benchmark run despite the data being present in the test dataset (e.g., 'voice notes', 'deleted messages'). Multiple values indicate failures across several categories."
+        },
+        {
+          "name": "parseSuccess",
+          "type": "boolean",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#boolean",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "A boolean indicating whether the tool produced any usable output from the target application or forensic task in this benchmark run. True means the tool engaged with the data and produced parseable results (even if incomplete or imperfect — see completenessScore and accuracyScore for quality). False means the tool failed entirely: it could not recognize the data format, crashed, or produced no output at all. When parseSuccess is false, metric scores such as completenessScore should be 0.0 and IR metrics (precision, recall, F1) should be omitted or zero."
+        },
+        {
+          "name": "parsedCategory",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "A category of observable data that the tool successfully extracted in this benchmark run (e.g., 'messages', 'contacts', 'media files'). Multiple values indicate successful extraction across several categories."
+        },
+        {
+          "name": "precisionScore",
+          "type": "decimal",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#decimal",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The precision of the tool's output in this benchmark run, expressed as a decimal between 0.0 and 1.0. Precision = TP / (TP + FP). Indicates what fraction of the tool's reported items were actually correct."
+        },
+        {
+          "name": "processingDuration",
+          "type": "duration",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#duration",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The wall-clock time the tool took to parse the test dataset, expressed as an xsd:duration (e.g., 'PT4M30S' for four minutes and thirty seconds)."
+        },
+        {
+          "name": "recallScore",
+          "type": "decimal",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#decimal",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The recall (sensitivity) of the tool's output in this benchmark run, expressed as a decimal between 0.0 and 1.0. Recall = TP / (TP + FN). Indicates what fraction of the known items the tool successfully recovered."
+        },
+        {
+          "name": "submittedCount",
+          "type": "nonNegativeInteger",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The total number of items reported by the tool in this benchmark run. submittedCount = TP + FP."
+        },
+        {
+          "name": "testCaseIdentifier",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "A unique identifier for the specific test case within the benchmark framework (e.g., 'CFTT-SS-001', 'AutoDFBench-DFR-FAT32-01'). Enables linking back to the exact test specification."
+        },
+        {
+          "name": "testedApplicationVersion",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The version of the target application whose data was used in this benchmark run."
+        },
+        {
+          "name": "testedDataFormatVersion",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The data storage format version tested in this benchmark run (e.g., '.pst', '.nst', 'SQLite WAL v2')."
+        },
+        {
+          "name": "testedToolVersion",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The exact version string of the forensic tool used in this benchmark run."
+        },
+        {
+          "name": "truePositiveCount",
+          "type": "nonNegativeInteger",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The number of items correctly identified by the tool in this benchmark run."
+        }
+      ]
+    },
     "BenevolentRole": {
       "iri": "https://ontology.unifiedcyberontology.org/uco/role/BenevolentRole",
       "module": "uco.role",
@@ -5682,7 +6120,7 @@
     "CapabilityMatrix": {
       "iri": "http://example.org/ontology/toolcap/CapabilityMatrix",
       "module": "ext.toolcap",
-      "description": "A capability matrix is a named, versioned collection of ToolCapability assertions that together represent a comprehensive comparison of which digital forensic tools support which applications. A CapabilityMatrix serves as the top-level container for organizing and publishing capability data, enabling forensic labs and DFIR teams to compare tool coverage, identify gaps, plan acquisitions, and track changes over time. The matrix can be serialized as a CASE/UCO-compliant JSON-LD graph and shared across organizations for interoperability.",
+      "description": "A capability matrix is a named, versioned collection of ToolCapability assertions that together represent a comprehensive comparison of which digital forensic tools support which applications and forensic tasks. A CapabilityMatrix serves as the top-level container for organizing and publishing capability data — including both app-level parsing capabilities and NIST CFTT task-level capabilities (file carving, deleted file recovery, string search, registry recovery, SQLite recovery) — enabling forensic labs and DFIR teams to compare tool coverage, identify gaps, plan acquisitions, and track changes over time. The matrix can be serialized as a CASE/UCO-compliant JSON-LD graph and shared across organizations for interoperability.",
       "parents": [
         "ContextualCompilation"
       ],
@@ -5783,6 +6221,14 @@
           "cardinality": "zero_or_more",
           "required": false,
           "description": "Specifies one or more UcoObjects."
+        },
+        {
+          "name": "hasCapability",
+          "type": "ToolCapability",
+          "type_iri": "http://example.org/ontology/toolcap/ToolCapability",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Links a CapabilityMatrix to its member ToolCapability assertions. This is a sub-property of uco-core:object, providing semantic precision while remaining compatible with the ContextualCompilation membership pattern."
         },
         {
           "name": "matrixName",
@@ -23076,6 +23522,145 @@
         }
       ]
     },
+    "PlatformSpecification": {
+      "iri": "http://example.org/ontology/toolcap/PlatformSpecification",
+      "module": "ext.toolcap",
+      "description": "A platform specification describes the operating system, OS version, device model, and extraction method(s) relevant to a forensic tool capability or benchmark observation. It replaces unstructured platform strings with a typed object that enables precise querying (e.g., 'which tools support BFU acquisition on Android 14?'). Extraction methods include logical, file-system, physical, cloud, and BFU (Before First Unlock).",
+      "parents": [
+        "UcoObject"
+      ],
+      "is_facet": false,
+      "properties": [
+        {
+          "name": "createdBy",
+          "type": "IdentityAbstraction",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/IdentityAbstraction",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The identity that created a characterization of a concept."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "A description of a particular concept characterization."
+        },
+        {
+          "name": "externalReference",
+          "type": "ExternalReference",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/ExternalReference",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Specifies a reference to a resource outside of the UCO."
+        },
+        {
+          "name": "hasFacet",
+          "type": "Facet",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/Facet",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Further sets of properties characterizing a concept based on the particular context of the class and of the particular instance of the concept being characterized."
+        },
+        {
+          "name": "modifiedTime",
+          "type": "dateTime",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#dateTime",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Specifies the time that this particular version of the object was modified. The object creator can use the time it deems most appropriate as the time this version of the object was modified. The value of the modified property for a given object version MUST be later than or equal to the value of the created property. Object creators MUST update the modified property when creating a new version of an object. The modified timestamp MUST be precise to the nearest millisecond (exactly three digits after the decimal place in seconds)."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The name of a particular concept characterization."
+        },
+        {
+          "name": "objectCreatedTime",
+          "type": "dateTime",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#dateTime",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The time at which a characterization of a concept is created. This time pertains to the time of creating the record object, and is not an intrinsic characteristic of the concept."
+        },
+        {
+          "name": "objectMarking",
+          "type": "MarkingDefinitionAbstraction",
+          "type_iri": "https://ontology.unifiedcyberontology.org/uco/core/MarkingDefinitionAbstraction",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Marking definitions to be applied to a particular concept characterization in its entirety."
+        },
+        {
+          "name": "objectStatus",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The current state of formality and acceptance for a UCO object."
+        },
+        {
+          "name": "specVersion",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The version of UCO ontology or subontology specification used to characterize a concept."
+        },
+        {
+          "name": "tag",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "A generic tag/label."
+        },
+        {
+          "name": "deviceModel",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The device hardware model (e.g., 'Pixel 8 Pro', 'iPhone 15', 'Galaxy S24')."
+        },
+        {
+          "name": "extractionMethod",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "A method or technique used for data acquisition (e.g., 'logical', 'file-system', 'physical', 'cloud', 'BFU'). BFU (Before First Unlock) refers to acquisition of a device that has not been unlocked since boot, which yields a limited but forensically significant subset of data. Multiple values indicate the tool supports several extraction methods on this platform."
+        },
+        {
+          "name": "fileSystemType",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "The filesystem type on which the benchmark was conducted (e.g., 'FAT12', 'FAT16', 'FAT32', 'NTFS', 'ext2', 'ext3', 'ext4', 'HFS+'). Forensic tool performance can vary across filesystems, particularly for deleted file recovery and file carving tasks. Aligns with uco-observable:FileSystemFacet.fileSystemType but is defined here as a convenience property on PlatformSpecification."
+        },
+        {
+          "name": "operatingSystem",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The operating system name (e.g., 'Android', 'iOS', 'Windows', 'macOS', 'Linux')."
+        },
+        {
+          "name": "osVersion",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "The operating system version string (e.g., '14', '17.4', '11 23H2')."
+        }
+      ]
+    },
     "Post": {
       "iri": "https://ontology.unifiedcyberontology.org/uco/observable/Post",
       "module": "uco.observable",
@@ -28055,7 +28640,7 @@
     "ToolCapability": {
       "iri": "http://example.org/ontology/toolcap/ToolCapability",
       "module": "ext.toolcap",
-      "description": "A tool capability is a formal assertion that a specific digital forensic tool can successfully parse, extract, or decode data from a specific application on one or more device platforms. Each ToolCapability instance links exactly one forensic tool (uco-tool:Tool) to exactly one target application (uco-observable:ObservableObject with an ApplicationFacet), and may additionally specify the platforms supported, the types of observables the tool can extract, the tool version tested, whether the capability has been independently verified, and when it was last tested. ToolCapability instances are the building blocks of a capability comparison matrix used to evaluate forensic tool coverage across the application and platform landscape.",
+      "description": "A tool capability is a formal assertion that a specific digital forensic tool can successfully parse, extract, or decode data from a specific application or perform a fundamental forensic task (e.g., string search, file carving, deleted file recovery). For app-level capabilities, the instance links a forensic tool to a target application via the application property. For task-level capabilities (aligned with NIST CFTT domains), the instance uses forensicTaskType instead. A ToolCapability may additionally specify the platforms supported, the types of observables the tool can extract, the tool and application versions tested, data format versions, whether the capability is vendor-claimed or independently benchmarked, access restrictions, and linked benchmark observations. ToolCapability instances are the building blocks of a capability comparison matrix used to evaluate forensic tool coverage.",
       "parents": [
         "UcoObject"
       ],
@@ -28153,9 +28738,57 @@
           "name": "application",
           "type": "ObservableObject",
           "type_iri": "https://ontology.unifiedcyberontology.org/uco/observable/ObservableObject",
-          "cardinality": "exactly_one",
-          "required": true,
-          "description": "Identifies the target application (an instance of uco-observable:ObservableObject, typically with an ApplicationFacet) whose data can be parsed by the forensic tool. For example, a ToolCapability asserting that a tool can parse a specific application would link to the ObservableObject representing that application via this property."
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "Identifies the target application (an instance of uco-observable:ObservableObject, typically with an ApplicationFacet) whose data can be parsed by the forensic tool. Optional when forensicTaskType is used for task-level capabilities (e.g., NIST CFTT domains like file carving or string search that operate on disk images rather than specific applications)."
+        },
+        {
+          "name": "applicationVersion",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "The version of the target application that this capability applies to. Multiple values indicate the tool has been tested or verified against several application versions (e.g., 'Classic', '2024.1', '7.0.2')."
+        },
+        {
+          "name": "claimedByVendor",
+          "type": "boolean",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#boolean",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "A boolean flag indicating whether this capability is asserted by the tool vendor (e.g., listed in the vendor's supported application matrix or marketing materials). A value of true means the vendor claims support; false or omission means the capability was discovered through independent testing."
+        },
+        {
+          "name": "dataFormatVersion",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "The data storage format version that this capability applies to. Applications may change their underlying database or file format across releases (e.g., '.pst' vs '.nst' for Outlook, 'SQLite WAL v1' vs 'v2'). Multiple values indicate the tool supports several format versions."
+        },
+        {
+          "name": "forensicTaskType",
+          "type": "string",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#string",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "The category of fundamental forensic task this capability represents, aligned with NIST CFTT programme domains (e.g., 'string-search', 'deleted-file-recovery', 'file-carving', 'windows-registry-recovery', 'sqlite-recovery'). Used for task-level capabilities where the tool operates on disk images or raw data rather than parsing a specific application. Multiple values indicate the tool supports several task types."
+        },
+        {
+          "name": "hasAccessRestriction",
+          "type": "AccessRestriction",
+          "type_iri": "http://example.org/ontology/toolcap/AccessRestriction",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Links a ToolCapability to one or more AccessRestriction instances describing security, licensing, or legal constraints on using this capability."
+        },
+        {
+          "name": "hasObservation",
+          "type": "BenchmarkObservation",
+          "type_iri": "http://example.org/ontology/toolcap/BenchmarkObservation",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Links a ToolCapability to one or more BenchmarkObservation instances that provide empirical evidence of the tool's parsing performance. New observations are appended over time as additional benchmarks are conducted."
         },
         {
           "name": "isVerified",
@@ -28163,7 +28796,7 @@
           "type_iri": "http://www.w3.org/2001/XMLSchema#boolean",
           "cardinality": "zero_or_one",
           "required": false,
-          "description": "A boolean flag indicating whether this tool capability has been independently verified through controlled testing (e.g., running the tool against a known test image containing the target application's data and confirming successful extraction). A value of true means the capability has been validated; false or omission means it is unverified or self-reported."
+          "description": "A boolean flag indicating whether this tool capability has been independently verified through controlled testing. A value of true means the capability has been validated; false or omission means it is unverified or self-reported. For detailed evidence, see linked BenchmarkObservation instances."
         },
         {
           "name": "lastTestedDate",
@@ -28171,7 +28804,7 @@
           "type_iri": "http://www.w3.org/2001/XMLSchema#dateTime",
           "cardinality": "zero_or_one",
           "required": false,
-          "description": "The date and time when this capability was most recently tested or verified. This is important for tracking currency of the capability assertion, since applications frequently update their data storage formats and forensic tools must keep pace."
+          "description": "The date and time when this capability was most recently tested or verified. This is a summary-level property; individual test dates are recorded on BenchmarkObservation instances."
         },
         {
           "name": "parsedObservableType",
@@ -28187,7 +28820,15 @@
           "type_iri": "http://www.w3.org/2001/XMLSchema#string",
           "cardinality": "zero_or_more",
           "required": false,
-          "description": "A device platform or operating system (e.g., 'Android', 'iOS', 'Windows', 'macOS', 'Linux') on which the forensic tool can successfully parse data from the target application. Multiple values are expected when the tool supports the same application across multiple platforms."
+          "description": "DEPRECATED in 0.2.0. Use the supportsPlatform object property with PlatformSpecification instances instead. A device platform or operating system (e.g., 'Android', 'iOS', 'Windows', 'macOS', 'Linux') on which the forensic tool can successfully parse data from the target application."
+        },
+        {
+          "name": "supportsPlatform",
+          "type": "PlatformSpecification",
+          "type_iri": "http://example.org/ontology/toolcap/PlatformSpecification",
+          "cardinality": "zero_or_more",
+          "required": false,
+          "description": "Links a ToolCapability to one or more PlatformSpecification instances describing the platforms on which the tool can parse data from the target application. Replaces the deprecated supportedPlatform datatype property."
         },
         {
           "name": "tool",
@@ -28195,7 +28836,7 @@
           "type_iri": "https://ontology.unifiedcyberontology.org/uco/tool/Tool",
           "cardinality": "exactly_one",
           "required": true,
-          "description": "Identifies the digital forensic tool (an instance of uco-tool:Tool) that possesses this capability. For example, a ToolCapability asserting that a forensic tool can parse a messaging application would link to the Tool instance via this property."
+          "description": "Identifies the digital forensic tool (an instance of uco-tool:Tool) that possesses this capability."
         },
         {
           "name": "toolVersion",
@@ -28203,7 +28844,15 @@
           "type_iri": "http://www.w3.org/2001/XMLSchema#string",
           "cardinality": "zero_or_one",
           "required": false,
-          "description": "The specific version string of the forensic tool that was tested or verified to support this capability. Because forensic tool capabilities change between releases (new application parsers are added, existing ones may break), recording the tested version is critical for reproducibility and auditability."
+          "description": "The specific version string of the forensic tool that was tested or verified to support this capability. Because forensic tool capabilities change between releases, recording the tested version is critical for reproducibility and auditability."
+        },
+        {
+          "name": "verifiedByBenchmark",
+          "type": "boolean",
+          "type_iri": "http://www.w3.org/2001/XMLSchema#boolean",
+          "cardinality": "zero_or_one",
+          "required": false,
+          "description": "A boolean flag indicating whether this capability has been independently verified through a controlled benchmark (as opposed to relying solely on a vendor claim). When true, one or more BenchmarkObservation instances should be linked via hasObservation."
         }
       ]
     },

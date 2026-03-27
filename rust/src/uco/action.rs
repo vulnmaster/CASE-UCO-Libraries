@@ -222,6 +222,15 @@ impl ActionArgumentFacetBuilder {
 impl CaseObject for ActionArgumentFacet {
     fn class_iri() -> &'static str { ActionArgumentFacet::CLASS_IRI }
     fn type_name() -> &'static str { "ActionArgumentFacet" }
+    fn validate(&self) -> Result<(), String> {
+        if self.argument_name.is_none() {
+            return Err("ActionArgumentFacet.argument_name is required but was not provided.".to_string());
+        }
+        if self.value.is_none() {
+            return Err("ActionArgumentFacet.value is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// An action estimation facet is a grouping of characteristics unique to decision-focused approximation aspects for an action that may potentially be performed.
@@ -370,6 +379,18 @@ impl ActionFrequencyFacetBuilder {
 impl CaseObject for ActionFrequencyFacet {
     fn class_iri() -> &'static str { ActionFrequencyFacet::CLASS_IRI }
     fn type_name() -> &'static str { "ActionFrequencyFacet" }
+    fn validate(&self) -> Result<(), String> {
+        if self.rate.is_none() {
+            return Err("ActionFrequencyFacet.rate is required but was not provided.".to_string());
+        }
+        if self.scale.is_none() {
+            return Err("ActionFrequencyFacet.scale is required but was not provided.".to_string());
+        }
+        if self.units.is_none() {
+            return Err("ActionFrequencyFacet.units is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// An action lifecycle is an action pattern consisting of an ordered set of multiple actions or subordinate action lifecycles.
@@ -454,6 +475,12 @@ impl ActionLifecycleBuilder {
 impl CaseObject for ActionLifecycle {
     fn class_iri() -> &'static str { ActionLifecycle::CLASS_IRI }
     fn type_name() -> &'static str { "ActionLifecycle" }
+    fn validate(&self) -> Result<(), String> {
+        if self.phase.is_none() {
+            return Err("ActionLifecycle.phase is required but was not provided.".to_string());
+        }
+        Ok(())
+    }
 }
 
 /// An action pattern is a grouping of characteristics unique to a combination of actions forming a consistent or characteristic arrangement.
@@ -532,4 +559,10 @@ impl ArrayOfActionBuilder {
 impl CaseObject for ArrayOfAction {
     fn class_iri() -> &'static str { ArrayOfAction::CLASS_IRI }
     fn type_name() -> &'static str { "ArrayOfAction" }
+    fn validate(&self) -> Result<(), String> {
+        if self.action.is_empty() {
+            return Err("ArrayOfAction.action requires at least one value.".to_string());
+        }
+        Ok(())
+    }
 }

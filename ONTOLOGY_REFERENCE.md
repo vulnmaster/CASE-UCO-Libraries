@@ -4,15 +4,15 @@ Auto-generated reference for all classes, properties, and vocabulary types in th
 
 | Metric | Count |
 |--------|-------|
-| Classes | 428 |
-| Direct properties | 923 |
+| Classes | 431 |
+| Direct properties | 967 |
 | Modules | 15 |
 | Vocabulary types | 54 |
 
 ## Table of Contents
 
 - [case.investigation](#caseinvestigation) (10 classes)
-- [ext.toolcap](#exttoolcap) (2 classes)
+- [ext.toolcap](#exttoolcap) (5 classes)
 - [uco.action](#ucoaction) (7 classes)
 - [uco.analysis](#ucoanalysis) (3 classes)
 - [uco.configuration](#ucoconfiguration) (3 classes)
@@ -288,9 +288,79 @@ Auto-generated reference for all classes, properties, and vocabulary types in th
 
 ## ext.toolcap
 
+### AccessRestriction
+
+*An access restriction describes a security, licensing, classification, operational security, or legal authority constraint on the use of a forensic tool capability. Forensic examiners use access restrictions to determine whether they are authorized to employ a particular tool or technique given their organizational policies, case type, clearance level, or legal authority. When a specific investigative authorization is required, the restriction can link to a case-investigation:Authorization instance.*
+
+**Parents:** UcoObject | **IRI:** `http://example.org/ontology/toolcap/AccessRestriction`
+
+| Property | Type | Cardinality | Required | Description |
+|----------|------|-------------|----------|-------------|
+| createdBy | IdentityAbstraction | zero_or_one | No | The identity that created a characterization of a concept. |
+| description | string | zero_or_more | No | A description of a particular concept characterization. |
+| externalReference | ExternalReference | zero_or_more | No | Specifies a reference to a resource outside of the UCO. |
+| hasFacet | Facet | zero_or_more | No | Further sets of properties characterizing a concept based on the particular context of the class and of the particula... |
+| modifiedTime | dateTime | zero_or_more | No | Specifies the time that this particular version of the object was modified. The object creator can use the time it de... |
+| name | string | zero_or_one | No | The name of a particular concept characterization. |
+| objectCreatedTime | dateTime | zero_or_one | No | The time at which a characterization of a concept is created. This time pertains to the time of creating the record o... |
+| objectMarking | MarkingDefinitionAbstraction | zero_or_more | No | Marking definitions to be applied to a particular concept characterization in its entirety. |
+| objectStatus | string | zero_or_one | No | The current state of formality and acceptance for a UCO object. |
+| specVersion | string | zero_or_one | No | The version of UCO ontology or subontology specification used to characterize a concept. |
+| tag | string | zero_or_more | No | A generic tag/label. |
+| requiredAuthorization | Authorization | zero_or_one | No | Links an AccessRestriction to a case-investigation:Authorization instance when a specific investigative authorization... |
+| restrictionDescription | string | zero_or_one | No | A human-readable explanation of the restriction, providing context for examiners who need to determine whether they m... |
+| restrictionLevel | string | zero_or_one | No | The specific level or value of the restriction (e.g., 'commercial-license-required', 'law-enforcement-only', 'SECRET'... |
+| restrictionType | string | exactly_one | Yes | The category of access restriction (e.g., 'licensing', 'classification', 'operational-security', 'legal-authority'). ... |
+
+### BenchmarkObservation
+
+*A benchmark observation is a single point-in-time record of testing a forensic tool's capability against a specific application or forensic task. Each observation captures the results of one test run, including pass/fail outcome, completeness and accuracy metrics, standard information retrieval metrics (precision, recall, F1), confusion matrix counts (TP, FP, FN), processing performance, benchmark provenance (framework name, test case identifier, suite score), which observable categories were successfully parsed or missed, the specific tool and application versions tested, the data format version, and the platform environment. BenchmarkObservation instances are append-only: new test runs produce new instances rather than updating existing ones, preserving a full audit trail of capability evidence over time.*
+
+**Parents:** UcoObject | **IRI:** `http://example.org/ontology/toolcap/BenchmarkObservation`
+
+| Property | Type | Cardinality | Required | Description |
+|----------|------|-------------|----------|-------------|
+| createdBy | IdentityAbstraction | zero_or_one | No | The identity that created a characterization of a concept. |
+| description | string | zero_or_more | No | A description of a particular concept characterization. |
+| externalReference | ExternalReference | zero_or_more | No | Specifies a reference to a resource outside of the UCO. |
+| hasFacet | Facet | zero_or_more | No | Further sets of properties characterizing a concept based on the particular context of the class and of the particula... |
+| modifiedTime | dateTime | zero_or_more | No | Specifies the time that this particular version of the object was modified. The object creator can use the time it de... |
+| name | string | zero_or_one | No | The name of a particular concept characterization. |
+| objectCreatedTime | dateTime | zero_or_one | No | The time at which a characterization of a concept is created. This time pertains to the time of creating the record o... |
+| objectMarking | MarkingDefinitionAbstraction | zero_or_more | No | Marking definitions to be applied to a particular concept characterization in its entirety. |
+| objectStatus | string | zero_or_one | No | The current state of formality and acceptance for a UCO object. |
+| specVersion | string | zero_or_one | No | The version of UCO ontology or subontology specification used to characterize a concept. |
+| tag | string | zero_or_more | No | A generic tag/label. |
+| accuracyScore | decimal | zero_or_one | No | The fidelity of the tool's recovered data, expressed as a decimal between 0.0 and 1.0. This measures whether the cont... |
+| benchmarkDate | dateTime | zero_or_one | No | The date and time when this benchmark test was conducted. |
+| benchmarkFramework | string | zero_or_one | No | The name of the benchmarking framework or programme used to conduct this test (e.g., 'AutoDFBench', 'NIST-CFTT', 'int... |
+| benchmarkNotes | string | zero_or_one | No | Free-text notes about this benchmark run, such as environmental conditions, anomalies observed, or caveats about the ... |
+| benchmarkPlatform | PlatformSpecification | zero_or_one | No | Links a BenchmarkObservation to the specific PlatformSpecification describing the environment in which the benchmark ... |
+| benchmarkSuiteScore | decimal | zero_or_one | No | An overall composite score computed by the benchmark framework for this test run, expressed as a decimal between 0.0 ... |
+| benchmarkedBy | IdentityAbstraction | zero_or_one | No | Identifies the person or organization (an instance of uco-core:IdentityAbstraction) that performed this benchmark test. |
+| capability | ToolCapability | exactly_one | Yes | Links a BenchmarkObservation back to the ToolCapability it provides evidence for. This is the inverse of hasObservation. |
+| completenessScore | decimal | zero_or_one | No | The fraction of expected records or data items that the tool successfully recovered, expressed as a decimal between 0... |
+| datasetSizeInBytes | nonNegativeInteger | zero_or_one | No | The size of the test dataset in bytes, providing context for processing duration and resource requirements. |
+| f1Score | decimal | zero_or_one | No | The F1 score of the tool's output in this benchmark run, expressed as a decimal between 0.0 and 1.0. F1 = 2 * (precis... |
+| falseNegativeCount | nonNegativeInteger | zero_or_one | No | The number of records or artifacts that exist in the source data but were not recovered by the tool. |
+| falsePositiveCount | nonNegativeInteger | zero_or_one | No | The number of records or artifacts the tool reported that do not actually exist in the source data. |
+| groundTruthCount | nonNegativeInteger | zero_or_one | No | The total number of items in the ground truth dataset for this benchmark run. Provides context for interpreting TP, F... |
+| missedCategory | string | zero_or_more | No | A category of observable data that the tool failed to extract in this benchmark run despite the data being present in... |
+| parseSuccess | boolean | zero_or_one | No | A boolean indicating whether the tool produced any usable output from the target application or forensic task in this... |
+| parsedCategory | string | zero_or_more | No | A category of observable data that the tool successfully extracted in this benchmark run (e.g., 'messages', 'contacts... |
+| precisionScore | decimal | zero_or_one | No | The precision of the tool's output in this benchmark run, expressed as a decimal between 0.0 and 1.0. Precision = TP ... |
+| processingDuration | duration | zero_or_one | No | The wall-clock time the tool took to parse the test dataset, expressed as an xsd:duration (e.g., 'PT4M30S' for four m... |
+| recallScore | decimal | zero_or_one | No | The recall (sensitivity) of the tool's output in this benchmark run, expressed as a decimal between 0.0 and 1.0. Reca... |
+| submittedCount | nonNegativeInteger | zero_or_one | No | The total number of items reported by the tool in this benchmark run. submittedCount = TP + FP. |
+| testCaseIdentifier | string | zero_or_one | No | A unique identifier for the specific test case within the benchmark framework (e.g., 'CFTT-SS-001', 'AutoDFBench-DFR-... |
+| testedApplicationVersion | string | zero_or_one | No | The version of the target application whose data was used in this benchmark run. |
+| testedDataFormatVersion | string | zero_or_one | No | The data storage format version tested in this benchmark run (e.g., '.pst', '.nst', 'SQLite WAL v2'). |
+| testedToolVersion | string | zero_or_one | No | The exact version string of the forensic tool used in this benchmark run. |
+| truePositiveCount | nonNegativeInteger | zero_or_one | No | The number of items correctly identified by the tool in this benchmark run. |
+
 ### CapabilityMatrix
 
-*A capability matrix is a named, versioned collection of ToolCapability assertions that together represent a comprehensive comparison of which digital forensic tools support which applications. A CapabilityMatrix serves as the top-level container for organizing and publishing capability data, enabling forensic labs and DFIR teams to compare tool coverage, identify gaps, plan acquisitions, and track changes over time. The matrix can be serialized as a CASE/UCO-compliant JSON-LD graph and shared across organizations for interoperability.*
+*A capability matrix is a named, versioned collection of ToolCapability assertions that together represent a comprehensive comparison of which digital forensic tools support which applications and forensic tasks. A CapabilityMatrix serves as the top-level container for organizing and publishing capability data — including both app-level parsing capabilities and NIST CFTT task-level capabilities (file carving, deleted file recovery, string search, registry recovery, SQLite recovery) — enabling forensic labs and DFIR teams to compare tool coverage, identify gaps, plan acquisitions, and track changes over time. The matrix can be serialized as a CASE/UCO-compliant JSON-LD graph and shared across organizations for interoperability.*
 
 **Parents:** ContextualCompilation | **IRI:** `http://example.org/ontology/toolcap/CapabilityMatrix`
 
@@ -308,12 +378,38 @@ Auto-generated reference for all classes, properties, and vocabulary types in th
 | specVersion | string | zero_or_one | No | The version of UCO ontology or subontology specification used to characterize a concept. |
 | tag | string | zero_or_more | No | A generic tag/label. |
 | object | UcoObject | zero_or_more | No | Specifies one or more UcoObjects. |
+| hasCapability | ToolCapability | zero_or_more | No | Links a CapabilityMatrix to its member ToolCapability assertions. This is a sub-property of uco-core:object, providin... |
 | matrixName | string | zero_or_one | No | A human-readable name for this capability matrix, used to distinguish it from other matrices (e.g., 'ICAC Messaging A... |
 | matrixVersion | string | zero_or_one | No | A version string for this capability matrix, allowing consumers to track updates and changes over time (e.g., '1.0', ... |
 
+### PlatformSpecification
+
+*A platform specification describes the operating system, OS version, device model, and extraction method(s) relevant to a forensic tool capability or benchmark observation. It replaces unstructured platform strings with a typed object that enables precise querying (e.g., 'which tools support BFU acquisition on Android 14?'). Extraction methods include logical, file-system, physical, cloud, and BFU (Before First Unlock).*
+
+**Parents:** UcoObject | **IRI:** `http://example.org/ontology/toolcap/PlatformSpecification`
+
+| Property | Type | Cardinality | Required | Description |
+|----------|------|-------------|----------|-------------|
+| createdBy | IdentityAbstraction | zero_or_one | No | The identity that created a characterization of a concept. |
+| description | string | zero_or_more | No | A description of a particular concept characterization. |
+| externalReference | ExternalReference | zero_or_more | No | Specifies a reference to a resource outside of the UCO. |
+| hasFacet | Facet | zero_or_more | No | Further sets of properties characterizing a concept based on the particular context of the class and of the particula... |
+| modifiedTime | dateTime | zero_or_more | No | Specifies the time that this particular version of the object was modified. The object creator can use the time it de... |
+| name | string | zero_or_one | No | The name of a particular concept characterization. |
+| objectCreatedTime | dateTime | zero_or_one | No | The time at which a characterization of a concept is created. This time pertains to the time of creating the record o... |
+| objectMarking | MarkingDefinitionAbstraction | zero_or_more | No | Marking definitions to be applied to a particular concept characterization in its entirety. |
+| objectStatus | string | zero_or_one | No | The current state of formality and acceptance for a UCO object. |
+| specVersion | string | zero_or_one | No | The version of UCO ontology or subontology specification used to characterize a concept. |
+| tag | string | zero_or_more | No | A generic tag/label. |
+| deviceModel | string | zero_or_one | No | The device hardware model (e.g., 'Pixel 8 Pro', 'iPhone 15', 'Galaxy S24'). |
+| extractionMethod | string | zero_or_more | No | A method or technique used for data acquisition (e.g., 'logical', 'file-system', 'physical', 'cloud', 'BFU'). BFU (Be... |
+| fileSystemType | string | zero_or_more | No | The filesystem type on which the benchmark was conducted (e.g., 'FAT12', 'FAT16', 'FAT32', 'NTFS', 'ext2', 'ext3', 'e... |
+| operatingSystem | string | zero_or_one | No | The operating system name (e.g., 'Android', 'iOS', 'Windows', 'macOS', 'Linux'). |
+| osVersion | string | zero_or_one | No | The operating system version string (e.g., '14', '17.4', '11 23H2'). |
+
 ### ToolCapability
 
-*A tool capability is a formal assertion that a specific digital forensic tool can successfully parse, extract, or decode data from a specific application on one or more device platforms. Each ToolCapability instance links exactly one forensic tool (uco-tool:Tool) to exactly one target application (uco-observable:ObservableObject with an ApplicationFacet), and may additionally specify the platforms supported, the types of observables the tool can extract, the tool version tested, whether the capability has been independently verified, and when it was last tested. ToolCapability instances are the building blocks of a capability comparison matrix used to evaluate forensic tool coverage across the application and platform landscape.*
+*A tool capability is a formal assertion that a specific digital forensic tool can successfully parse, extract, or decode data from a specific application or perform a fundamental forensic task (e.g., string search, file carving, deleted file recovery). For app-level capabilities, the instance links a forensic tool to a target application via the application property. For task-level capabilities (aligned with NIST CFTT domains), the instance uses forensicTaskType instead. A ToolCapability may additionally specify the platforms supported, the types of observables the tool can extract, the tool and application versions tested, data format versions, whether the capability is vendor-claimed or independently benchmarked, access restrictions, and linked benchmark observations. ToolCapability instances are the building blocks of a capability comparison matrix used to evaluate forensic tool coverage.*
 
 **Parents:** UcoObject | **IRI:** `http://example.org/ontology/toolcap/ToolCapability`
 
@@ -330,13 +426,21 @@ Auto-generated reference for all classes, properties, and vocabulary types in th
 | objectStatus | string | zero_or_one | No | The current state of formality and acceptance for a UCO object. |
 | specVersion | string | zero_or_one | No | The version of UCO ontology or subontology specification used to characterize a concept. |
 | tag | string | zero_or_more | No | A generic tag/label. |
-| application | ObservableObject | exactly_one | Yes | Identifies the target application (an instance of uco-observable:ObservableObject, typically with an ApplicationFacet... |
-| isVerified | boolean | zero_or_one | No | A boolean flag indicating whether this tool capability has been independently verified through controlled testing (e.... |
-| lastTestedDate | dateTime | zero_or_one | No | The date and time when this capability was most recently tested or verified. This is important for tracking currency ... |
+| application | ObservableObject | zero_or_one | No | Identifies the target application (an instance of uco-observable:ObservableObject, typically with an ApplicationFacet... |
+| applicationVersion | string | zero_or_more | No | The version of the target application that this capability applies to. Multiple values indicate the tool has been tes... |
+| claimedByVendor | boolean | zero_or_one | No | A boolean flag indicating whether this capability is asserted by the tool vendor (e.g., listed in the vendor's suppor... |
+| dataFormatVersion | string | zero_or_more | No | The data storage format version that this capability applies to. Applications may change their underlying database or... |
+| forensicTaskType | string | zero_or_more | No | The category of fundamental forensic task this capability represents, aligned with NIST CFTT programme domains (e.g.,... |
+| hasAccessRestriction | AccessRestriction | zero_or_more | No | Links a ToolCapability to one or more AccessRestriction instances describing security, licensing, or legal constraint... |
+| hasObservation | BenchmarkObservation | zero_or_more | No | Links a ToolCapability to one or more BenchmarkObservation instances that provide empirical evidence of the tool's pa... |
+| isVerified | boolean | zero_or_one | No | A boolean flag indicating whether this tool capability has been independently verified through controlled testing. A ... |
+| lastTestedDate | dateTime | zero_or_one | No | The date and time when this capability was most recently tested or verified. This is a summary-level property; indivi... |
 | parsedObservableType | string | zero_or_more | No | A category of observable data (e.g., 'messages', 'contacts', 'call logs', 'media files', 'calendar events', 'location... |
-| supportedPlatform | string | zero_or_more | No | A device platform or operating system (e.g., 'Android', 'iOS', 'Windows', 'macOS', 'Linux') on which the forensic too... |
-| tool | Tool | exactly_one | Yes | Identifies the digital forensic tool (an instance of uco-tool:Tool) that possesses this capability. For example, a To... |
+| supportedPlatform | string | zero_or_more | No | DEPRECATED in 0.2.0. Use the supportsPlatform object property with PlatformSpecification instances instead. A device ... |
+| supportsPlatform | PlatformSpecification | zero_or_more | No | Links a ToolCapability to one or more PlatformSpecification instances describing the platforms on which the tool can ... |
+| tool | Tool | exactly_one | Yes | Identifies the digital forensic tool (an instance of uco-tool:Tool) that possesses this capability. |
 | toolVersion | string | zero_or_one | No | The specific version string of the forensic tool that was tested or verified to support this capability. Because fore... |
+| verifiedByBenchmark | boolean | zero_or_one | No | A boolean flag indicating whether this capability has been independently verified through a controlled benchmark (as ... |
 
 ## uco.action
 
