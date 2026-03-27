@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import shutil
+import textwrap
 
 from case_uco_generator.schema_model import (
     OntologyClass,
@@ -14,6 +15,16 @@ from case_uco_generator.schema_model import (
 def _terminal_width() -> int:
     """Return the current terminal width, defaulting to 80 if undetermined."""
     return shutil.get_terminal_size((80, 24)).columns
+
+
+def _wrap_lines(text: str, width: int, indent: str) -> list[str]:
+    """Wrap *text* to *width* chars; continuation lines are prefixed with *indent*."""
+    if not text or width <= 0:
+        return [text]
+    wrapped = textwrap.wrap(text, width=width)
+    if not wrapped:
+        return [""]
+    return [wrapped[0]] + [f"{indent}{line}" for line in wrapped[1:]]
 
 
 def search(schema: OntologySchema, query: str) -> list[OntologyClass]:
@@ -106,8 +117,9 @@ def find_by_property_type(schema: OntologySchema, type_name: str) -> list[Ontolo
 def format_class_list(classes: list[OntologyClass], max_desc: int | None = None) -> str:
     """Format a list of classes as an aligned table.
 
-    When *max_desc* is ``None`` (the default) the description column expands
-    to fill the remaining terminal width.
+    Descriptions wrap across multiple lines to fit the terminal width.
+    When *max_desc* is ``None`` (the default) the description column
+    expands to fill the remaining terminal width.
     """
     if not classes:
         return "  (no results)"
@@ -117,23 +129,18 @@ def format_class_list(classes: list[OntologyClass], max_desc: int | None = None)
     col1 = max(col1, len("Module"))
     col2 = max(col2, len("Class"))
 
+    # 2 leading spaces + 2-space gaps between three columns
+    fixed = 2 + col1 + 2 + col2 + 2
     if max_desc is None:
-        # 2 leading spaces + 2‑space gaps between three columns
-        fixed = 2 + col1 + 2 + col2 + 2
         max_desc = max(20, _terminal_width() - fixed)
-
-    rows: list[tuple[str, str, str]] = []
-    for cls in classes:
-        if len(cls.description) > max_desc:
-            desc = cls.description[:max_desc - 3] + "..."
-        else:
-            desc = cls.description
-        rows.append((cls.module, cls.name, desc))
+    continuation_indent = " " * fixed
 
     lines = [f"  {'Module':<{col1}}  {'Class':<{col2}}  Description"]
     lines.append(f"  {'-' * col1}  {'-' * col2}  {'-' * max_desc}")
-    for mod, name, desc in rows:
-        lines.append(f"  {mod:<{col1}}  {name:<{col2}}  {desc}")
+    for cls in classes:
+        desc_lines = _wrap_lines(cls.description, max_desc, continuation_indent)
+        lines.append(f"  {cls.module:<{col1}}  {cls.name:<{col2}}  {desc_lines[0]}")
+        lines.extend(desc_lines[1:])
     return "\n".join(lines)
 
 
@@ -189,17 +196,16 @@ def format_class_detail(schema: OntologySchema, cls: OntologyClass) -> str:
             f"  {'-' * name_w}  {'-' * type_w}  "
             f"{'-' * card_w}  ---  {'-' * max_desc}"
         )
+        continuation_indent = " " * fixed
         for prop in all_props:
             type_name = iri_local_name(prop.range_iri)
             req = "Yes" if prop.cardinality.is_required else " No"
-            if len(prop.description) > max_desc:
-                desc = prop.description[:max_desc - 3] + "..."
-            else:
-                desc = prop.description
+            desc_lines = _wrap_lines(prop.description, max_desc, continuation_indent)
             lines.append(
                 f"  {prop.name:<{name_w}}  {type_name:<{type_w}}  "
-                f"{prop.cardinality.value:<{card_w}}  {req}  {desc}"
+                f"{prop.cardinality.value:<{card_w}}  {req}  {desc_lines[0]}"
             )
+            lines.extend(desc_lines[1:])
     else:
         lines.append("Properties: (none)")
 
