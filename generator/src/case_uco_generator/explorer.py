@@ -124,9 +124,10 @@ def format_class_list(classes: list[OntologyClass], max_desc: int | None = None)
 
     rows: list[tuple[str, str, str]] = []
     for cls in classes:
-        desc = cls.description[:max_desc]
         if len(cls.description) > max_desc:
-            desc += "..."
+            desc = cls.description[:max_desc - 3] + "..."
+        else:
+            desc = cls.description
         rows.append((cls.module, cls.name, desc))
 
     lines = [f"  {'Module':<{col1}}  {'Class':<{col2}}  Description"]
@@ -191,9 +192,10 @@ def format_class_detail(schema: OntologySchema, cls: OntologyClass) -> str:
         for prop in all_props:
             type_name = iri_local_name(prop.range_iri)
             req = "Yes" if prop.cardinality.is_required else " No"
-            desc = prop.description[:max_desc]
             if len(prop.description) > max_desc:
-                desc += "..."
+                desc = prop.description[:max_desc - 3] + "..."
+            else:
+                desc = prop.description
             lines.append(
                 f"  {prop.name:<{name_w}}  {type_name:<{type_w}}  "
                 f"{prop.cardinality.value:<{card_w}}  {req}  {desc}"
