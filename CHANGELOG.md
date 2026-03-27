@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-03-27
+
+### Changed
+
+#### CLI Ontology Explorer — Terminal-Width-Adaptive Output
+
+The `case-uco-explore` CLI now dynamically adjusts table output to fit the
+current terminal width, instead of truncating descriptions at a fixed character
+limit regardless of available space.
+
+- **`format_class_detail`** property table — the Description column now expands
+  to fill remaining terminal width after the Name, Type, Cardinality, and Req
+  columns, replacing the previous hard-coded 50-character truncation
+- **`format_class_list`** (used by `search`, `module`, and `properties`
+  commands) — the Description column similarly expands to fill remaining width
+  after the Module and Class columns, replacing the previous 60-character limit
+- Both formatters enforce a minimum description width of 20 characters for
+  narrow terminals and fall back to 80 columns when terminal size cannot be
+  detected (e.g., piped output)
+- The `max_desc` parameter remains available for callers who need to override
+  automatic width detection
+
 ## [1.4.1] - 2026-03-26
 
 ### Changed
@@ -331,6 +353,7 @@ digital forensics, cyber-investigation, and cyber-observable data.
 - GitHub Actions workflows: CI, CodeQL, dependency review, release
 - Dependabot configuration for automated dependency updates
 
+[1.5.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.5.0
 [1.4.1]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.4.1
 [1.4.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.4.0
 [1.3.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.3.0
