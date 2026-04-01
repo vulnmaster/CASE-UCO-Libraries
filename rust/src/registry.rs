@@ -98,8 +98,10 @@ struct Registry {
 fn load() -> &'static Registry {
     REGISTRY.get_or_init(|| {
         let json = load_json();
-        let raw: RawRegistry = serde_json::from_str(&json)
-            .expect("Failed to parse _registry.json");
+        let raw: RawRegistry = match serde_json::from_str(&json) {
+            Ok(v) => v,
+            Err(e) => panic!("Failed to parse _registry.json: {e}"),
+        };
 
         let classes_lower: HashMap<String, String> = raw
             .classes

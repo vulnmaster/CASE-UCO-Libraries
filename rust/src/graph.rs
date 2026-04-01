@@ -78,8 +78,10 @@ impl CaseGraph {
     pub fn add_with_id<T: Serialize>(&mut self, id: &str, class_iri: &str, instance: &T) -> String {
         let compact_type = self.compact_iri(class_iri);
 
-        let mut obj_value = serde_json::to_value(instance)
-            .expect("failed to serialize object into JSON-LD value");
+        let mut obj_value = match serde_json::to_value(instance) {
+            Ok(v) => v,
+            Err(e) => panic!("failed to serialize object into JSON-LD value: {e}"),
+        };
         obj_value = self.convert_value(obj_value);
         if let Value::Object(ref mut map) = obj_value {
             map.insert("@id".to_string(), Value::String(id.to_string()));
