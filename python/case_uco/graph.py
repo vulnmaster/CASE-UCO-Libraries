@@ -144,6 +144,43 @@ class CASEGraph:
         with open(path, "r", encoding="utf-8") as f:
             self.load(f.read())
 
+    def validate(self, *, case_version: str = "case-1.4.0") -> str:
+        """Validate this graph against CASE/UCO SHACL constraints.
+
+        Requires ``case-utils`` to be installed::
+
+            pip install case-uco[validation]
+
+        Returns the validation output on success.
+        Raises ``RuntimeError`` if validation fails or ``case_validate``
+        is not available on PATH.
+        """
+        import os
+        import shutil
+        import subprocess
+        import tempfile
+
+        if not shutil.which("case_validate"):
+            raise RuntimeError(
+                "case_validate not found on PATH. "
+                "Install with: pip install case-uco[validation]"
+            )
+        fd, tmp = tempfile.mkstemp(suffix=".jsonld")
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
+                f.write(self.serialize())
+            result = subprocess.run(
+                ["case_validate", "--built-version", case_version, tmp],
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode != 0:
+                msg = result.stderr.strip() or result.stdout.strip()
+                raise RuntimeError(f"Validation failed:\n{msg}")
+            return result.stdout
+        finally:
+            os.unlink(tmp)
+
     def estimate_triples(self) -> int:
         """Estimate the number of RDF triples this graph will produce.
 

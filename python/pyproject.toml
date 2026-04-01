@@ -4,10 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "case-uco"
-version = "1.7.0"
+version = "1.8.0"
 description = "Standard library for constructing CASE/UCO ontology graphs"
 requires-python = ">=3.9"
 license = {text = "Apache-2.0"}
+readme = "README.md"
+keywords = ["case", "uco", "forensics", "json-ld", "ontology", "digital-forensics"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Security",
+]
 dependencies = [
     "rdflib>=7.0.0",
     "cdo-local-uuid>=0.5.0",
@@ -16,6 +25,12 @@ dependencies = [
 [project.optional-dependencies]
 validation = ["case-utils>=0.15.0"]
 dev = ["pytest>=7.0.0", "mypy>=1.0"]
+
+[project.urls]
+Homepage = "https://github.com/vulnmaster/CASE-UCO-SDK"
+Repository = "https://github.com/vulnmaster/CASE-UCO-SDK"
+Documentation = "https://github.com/vulnmaster/CASE-UCO-SDK#readme"
+Changelog = "https://github.com/vulnmaster/CASE-UCO-SDK/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 include = ["case_uco*"]

@@ -85,6 +85,9 @@ graph.write("existence_intervals.jsonld")
 For projects using the Unified Foundational Ontology (used by the CAC Ontology):
 
 ```python
+from case_uco import CASEGraph
+import json
+
 graph = CASEGraph(extra_context={
     "gufo": "http://purl.org/nemo/gufo#",
     "ex": "http://example.org/ontology/",

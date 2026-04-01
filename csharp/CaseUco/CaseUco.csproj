@@ -3,9 +3,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>CaseUco</RootNamespace>
     <PackageId>CaseUco</PackageId>
-    <Version>1.7.0</Version>
+    <Version>1.8.0</Version>
     <Description>Standard library for constructing CASE/UCO ontology graphs</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/vulnmaster/CASE-UCO-SDK</RepositoryUrl>
+    <ProjectUrl>https://caseontology.org</ProjectUrl>
+    <PackageTags>case;uco;forensics;json-ld;ontology;digital-forensics</PackageTags>
+    <Authors>CASE/UCO SDK Contributors</Authors>
     <LangVersion>latest</LangVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>

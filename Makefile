@@ -1,7 +1,7 @@
 .PHONY: all generate build test clean init lint smoke check venv \
        test-proposal validate-proposal sparql-test-proposal \
        test-extension-compat test-extension-main test-extension-develop test-extension-develop2 \
-       playground-test
+       playground-test test-docs
 
 VENV := .venv
 PYTHON := $(VENV)/bin/python
@@ -54,6 +54,9 @@ test-java:
 
 test-rust:
 	cd rust && cargo test
+
+test-docs:
+	$(PYTHON) scripts/test_doc_snippets.py
 
 lint: typecheck-python lint-csharp lint-java lint-rust
 

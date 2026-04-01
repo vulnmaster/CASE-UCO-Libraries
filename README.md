@@ -2,7 +2,7 @@
 
 # CASE/UCO SDK
 
-**v1.7.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
+**v1.8.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
 
 A multi-language data modeling library for digital forensics, cyber-investigation, and cyber-observable data. If your software produces or consumes forensic evidence, this SDK gives you typed, validated builders in **Python**, **C#**, **Java**, and **Rust** — so you can model investigation data in your language and produce interoperable [CASE/UCO](https://caseontology.org/) JSON-LD output.
 
@@ -25,25 +25,29 @@ The SDK is auto-generated from the official CASE 1.4.0 and UCO 1.4.0 ontology so
 
 Install the SDK package for your language. No need to clone the repo or run the generator.
 
-<!-- Package registry install lines (coming soon — currently install from GitHub release artifacts):
-
 ```bash
-pip install case-uco                          # Python
-dotnet add package CaseUco                    # C#
-mvn dependency:get -Dartifact=org.caseontology:case-uco:1.7.0  # Java
-cargo add case-uco                            # Rust
-```
--->
-
-**From the latest [GitHub Release](https://github.com/vulnmaster/CASE-UCO-SDK/releases):**
-
-```bash
-# Python — download the .whl from the release, then:
-pip install case_uco-1.7.0-py3-none-any.whl
-pip install case-utils    # recommended: enables graph.validate()
+pip install case-uco                          # Python (PyPI)
+dotnet add package CaseUco                    # C# (NuGet)
+cargo add case-uco                            # Rust (crates.io)
 ```
 
-For C#, Java, and Rust install instructions from release artifacts, see the release notes.
+For Java, add to your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>org.caseontology</groupId>
+    <artifactId>case-uco</artifactId>
+    <version>1.8.0</version>
+</dependency>
+```
+
+For graph validation, also install `case-utils`:
+
+```bash
+pip install case-utils    # enables graph.validate() across all languages
+```
+
+**Alternatively**, install from [GitHub Release](https://github.com/vulnmaster/CASE-UCO-SDK/releases) artifacts — see the release notes for per-language instructions.
 
 ### Prerequisites
 
@@ -429,7 +433,7 @@ Switching between languages? The parity contract documents what is identical vs.
 
 ### Recipes
 
-Step-by-step patterns for common forensic workflows — disk imaging, file system analysis, network artifacts, chain of custody, mobile forensics, round-trip serialization, and managing large datasets:
+Step-by-step patterns for common forensic workflows — disk imaging, file system analysis, network artifacts, chain of custody, mobile forensics, round-trip serialization, large datasets, and end-to-end mapping starter kits:
 
 - **[docs/recipes/](docs/recipes/INDEX.md)** — practical cookbook with copy-paste examples (one file per recipe)
 
@@ -469,7 +473,8 @@ CASE-UCO-SDK/
 │       ├── chain-of-custody.md
 │       ├── change-proposal.md
 │       ├── forensic-tool.md
-│       └── ...              (11 recipe files total)
+│       ├── starter-*.md     End-to-end mapping starter kits (4 recipes)
+│       └── ...              (15 recipe files total)
 ├── ONTOLOGY_REFERENCE.md   Complete class reference (auto-generated)
 ├── SECURITY.md             Vulnerability reporting policy
 ├── .github/workflows/      CI, CodeQL, Rust security, dependency review, release workflows
@@ -492,7 +497,8 @@ CASE-UCO-SDK/
 | Triple estimation | `estimate_triples()` | `EstimateTriples()` | `estimateTriples()` | `estimate_triples()` |
 | Graph split (catalog data only) | `split()` | `Split()` | `split()` | `split()` |
 | Multi-file merge | `merge_files()` | `MergeFiles()` | `mergeFiles()` | `merge_files()` |
-| Typed deserialization | `from_jsonld()` | — | — | — |
+| Typed deserialization | `from_jsonld()` | `FromJsonLd()` | `fromJsonLd()` | `from_jsonld()` |
+| Graph validation (SHACL) | `validate()` | `ValidateGraph()` | `validate()` | `validate()` |
 | Runtime introspection | `case_uco.registry` | `OntologyRegistry` | `OntologyRegistry` | `registry` module |
 | Provenance metadata | `UCO_VERSION` | `CaseUcoMeta` | `CaseUcoMeta` | `VERSION` |
 
@@ -502,6 +508,7 @@ All four language packages are released in lockstep from the same ontology sourc
 
 | SDK Version | UCO | CASE | Python `case-uco` | C# `CaseUco` | Java `case-uco` | Rust `case-uco` |
 |-------------|-----|------|-------------------|--------------|-----------------|-----------------|
+| 1.8.0 | 1.4.0 | 1.4.0 | 1.8.0 | 1.8.0 | 1.8.0 | 1.8.0 |
 | 1.7.0 | 1.4.0 | 1.4.0 | 1.7.0 | 1.7.0 | 1.7.0 | 1.7.0 |
 
 To check at runtime:
@@ -536,16 +543,18 @@ Then restart Cursor — the `.cursor/mcp.json` configuration will be detected an
 
 ### MCP Tools Reference
 
-The MCP server exposes eight tools and three resources that the AI agent calls behind the scenes:
+The MCP server exposes ten tools and three resources that the AI agent calls behind the scenes:
 
 | Tool | What it does |
 |------|-------------|
 | `search_classes` | Find classes by keyword match on name or description |
 | `get_class_details` | Full property table for a class (types, cardinalities, required flags) |
-| `find_classes_for_domain` | Map a natural-language forensic task to the right classes |
+| `find_classes_for_domain` | Map a natural-language forensic task to the right classes, with related recipes and starter kits |
 | `list_all_facets` | All Facet classes for the ObservableObject + Facet pattern |
-| `get_recipe` | Find a code recipe matching a forensic workflow scenario |
+| `get_recipe` | Retrieve a code recipe with full content inline (up to 8000 chars) |
 | `list_all_vocabs` | All vocabulary/enum types with their valid members |
+| `suggest_classes_for_input` | Prescriptive class suggestions with modeling warnings for a concept |
+| `guide_mapping` | Step-by-step mapping guidance for an evidence source with code skeleton |
 | `check_existing_proposals` | Search open UCO/CASE GitHub issues for prior change proposals |
 | `draft_change_proposal` | Generate a filled-in change proposal from concept, scenario, and proposed classes |
 

@@ -14,6 +14,10 @@ from case_uco.registry import (
     find_by_property_type,
     find_facets,
     list_vocabs,
+    suggest_for_concept,
+    suggest_facets,
+    did_you_mean,
+    modeling_warnings,
 )
 
 
@@ -118,3 +122,65 @@ def test_class_properties_structure():
         assert "cardinality" in prop
         assert "required" in prop
         assert "description" in prop
+
+
+# --- suggest_for_concept ---
+
+def test_suggest_for_concept_file():
+    results = suggest_for_concept("file")
+    assert len(results) > 0
+    names = [r["name"] for r in results]
+    assert "FileFacet" in names
+    assert "ObservableObject" in names
+    for r in results:
+        assert "pattern" in r
+        assert "usage_note" in r
+
+
+def test_suggest_for_concept_unknown():
+    results = suggest_for_concept("zzz_nonexistent_concept_zzz")
+    assert results == []
+
+
+# --- suggest_facets ---
+
+def test_suggest_facets():
+    results = suggest_facets("ObservableObject")
+    assert isinstance(results, list)
+
+
+def test_suggest_facets_for_facet_class():
+    results = suggest_facets("FileFacet")
+    assert len(results) > 0
+    assert "Facet" in results[0]["note"]
+
+
+# --- did_you_mean ---
+
+def test_did_you_mean():
+    results = did_you_mean("FilFacet")
+    assert isinstance(results, list)
+    assert len(results) > 0
+    assert any("File" in r for r in results)
+
+
+def test_did_you_mean_deprecated():
+    results = did_you_mean("Trace")
+    assert len(results) == 1
+    assert "ObservableObject" in results[0]
+    assert "deprecated" in results[0].lower()
+
+
+# --- modeling_warnings ---
+
+def test_modeling_warnings_facet():
+    warnings = modeling_warnings("FileFacet")
+    assert len(warnings) > 0
+    assert any("Facet" in w for w in warnings)
+    assert any("has_facet" in w for w in warnings)
+
+
+def test_modeling_warnings_tool():
+    warnings = modeling_warnings("Tool")
+    assert len(warnings) > 0
+    assert any("instrument" in w.lower() or "evidence" in w.lower() for w in warnings)

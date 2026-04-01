@@ -25,6 +25,27 @@ on:
       - "Makefile"
 
 jobs:
+  version-sync:
+    name: Version Consistency Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Verify __version__ matches pyproject.toml
+        run: |
+          PYPROJECT_VER=$(python -c "import tomllib; print(tomllib.load(open('python/pyproject.toml','rb'))['project']['version'])")
+          INIT_VER=$(python -c "import re, pathlib; m=re.search(r'__version__\s*=\s*\"([^\"]+)\"', pathlib.Path('python/case_uco/__init__.py').read_text()); print(m.group(1))")
+          echo "pyproject.toml: $PYPROJECT_VER"
+          echo "__init__.py:    $INIT_VER"
+          if [ "$PYPROJECT_VER" != "$INIT_VER" ]; then
+            echo "::error::Version mismatch: pyproject.toml=$PYPROJECT_VER vs __init__.py=$INIT_VER"
+            exit 1
+          fi
+
   generate:
     name: Generate Libraries
     runs-on: ubuntu-latest
@@ -164,3 +185,26 @@ jobs:
 
       - name: Smoke test
         run: cd rust && cargo run --example smoke
+
+  test-docs:
+    name: Test Doc Snippets
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Download generated sources
+        uses: actions/download-artifact@v8
+        with:
+          name: generated-sources
+          path: .
+
+      - name: Install Python SDK
+        run: pip install -e python/
+
+      - name: Test documentation snippets
+        run: python scripts/test_doc_snippets.py

@@ -689,4 +689,135 @@ RECIPE_INDEX: list[dict[str, str]] = [
         "keywords": "change proposal gap missing concept extension contribute upstream issue ontology committee",
         "file": "docs/recipes/change-proposal.md",
     },
+    {
+        "title": "Starter Kit: Filesystem Report Mapping",
+        "description": "End-to-end mapping of a filesystem report to CASE/UCO.",
+        "keywords": "starter kit filesystem file report triage mapping end-to-end hash",
+        "file": "docs/recipes/starter-filesystem-report.md",
+        "is_starter_kit": True,
+    },
+    {
+        "title": "Starter Kit: Mobile Extraction Mapping",
+        "description": "End-to-end mapping of a mobile device extraction to CASE/UCO.",
+        "keywords": "starter kit mobile phone extraction cellebrite graykey mapping end-to-end",
+        "file": "docs/recipes/starter-mobile-extraction.md",
+        "is_starter_kit": True,
+    },
+    {
+        "title": "Starter Kit: Email Export Mapping",
+        "description": "End-to-end mapping of an email export to CASE/UCO.",
+        "keywords": "starter kit email export pst mbox mapping end-to-end",
+        "file": "docs/recipes/starter-email-export.md",
+        "is_starter_kit": True,
+    },
+    {
+        "title": "Starter Kit: Tool Run Mapping",
+        "description": "End-to-end mapping of a forensic tool run to CASE/UCO.",
+        "keywords": "starter kit tool run action autopsy encase mapping end-to-end",
+        "file": "docs/recipes/starter-tool-run.md",
+        "is_starter_kit": True,
+    },
+]
+
+# ---------------------------------------------------------------------------
+# Mapping guide index — step-by-step guidance for common evidence sources
+# ---------------------------------------------------------------------------
+
+MAPPING_GUIDE_INDEX: list[dict] = [
+    {
+        "source": "filesystem report",
+        "keywords": ["file", "directory", "triage", "listing", "report", "csv", "hash", "filesystem"],
+        "pattern": "ObservableObject + FileFacet + ContentDataFacet",
+        "classes": ["ObservableObject", "FileFacet", "ContentDataFacet", "InvestigativeAction", "Tool"],
+        "anti_patterns": [
+            "Don't create a separate ObservableObject for each facet — one object can have multiple facets",
+            "Don't use Tool as a top-level evidence item — it describes the instrument, not the evidence",
+        ],
+        "starter_kit": "docs/recipes/starter-filesystem-report.md",
+        "code_skeleton": "graph.create(ObservableObject, has_facet=[FileFacet(file_name=...), ContentDataFacet(hash_method=..., hash_value=...)])",
+    },
+    {
+        "source": "mobile device extraction",
+        "keywords": ["mobile", "phone", "cellebrite", "graykey", "ufed", "extraction", "android", "ios", "smartphone"],
+        "pattern": "ObservableObject + DeviceFacet + ApplicationFacet + MessageFacet",
+        "classes": ["ObservableObject", "DeviceFacet", "ApplicationFacet", "MessageFacet", "ContactFacet", "InvestigativeAction", "Tool"],
+        "anti_patterns": [
+            "Don't model the phone as an InvestigativeAction — the phone is an ObservableObject, the extraction is the action",
+            "Don't flatten app data into one facet — use separate facets for messages, contacts, call logs",
+        ],
+        "starter_kit": "docs/recipes/starter-mobile-extraction.md",
+        "code_skeleton": "device = graph.create(ObservableObject, has_facet=[DeviceFacet(manufacturer=..., model=...)])",
+    },
+    {
+        "source": "email export",
+        "keywords": ["email", "pst", "mbox", "eml", "outlook", "thunderbird", "gmail", "exchange", "mail"],
+        "pattern": "ObservableObject + EmailMessageFacet + EmailAddressFacet",
+        "classes": ["ObservableObject", "EmailMessageFacet", "EmailAddressFacet", "EmailAccountFacet", "ContentDataFacet"],
+        "anti_patterns": [
+            "Don't model sender and recipient as the same ObservableObject — use separate EmailAddressFacet instances",
+            "Don't skip the EmailAccountFacet when account-level metadata is available",
+        ],
+        "starter_kit": "docs/recipes/starter-email-export.md",
+        "code_skeleton": "graph.create(ObservableObject, has_facet=[EmailMessageFacet(subject=..., sent_time=...)])",
+    },
+    {
+        "source": "forensic tool run",
+        "keywords": ["tool", "autopsy", "encase", "ftk", "volatility", "sleuthkit", "run", "execution", "scan"],
+        "pattern": "Investigation + InvestigativeAction + Tool + ObservableObject",
+        "classes": ["Investigation", "InvestigativeAction", "Tool", "ObservableObject", "ProvenanceRecord"],
+        "anti_patterns": [
+            "Don't omit the Tool object — always record which tool (and version) performed the action",
+            "Don't model tool output without linking it to the InvestigativeAction that produced it",
+        ],
+        "starter_kit": "docs/recipes/starter-tool-run.md",
+        "code_skeleton": "tool = graph.create(Tool, name=..., version=...)\naction = graph.create(InvestigativeAction, name=..., instrument=tool)",
+    },
+    {
+        "source": "pcap network capture",
+        "keywords": ["pcap", "packet", "capture", "wireshark", "tcpdump", "network", "traffic", "sniff"],
+        "pattern": "ObservableObject + NetworkConnectionFacet + IPAddressFacet",
+        "classes": ["ObservableObject", "NetworkConnectionFacet", "IPAddressFacet", "DomainNameFacet", "URLFacet", "InvestigativeAction", "Tool"],
+        "anti_patterns": [
+            "Don't model each packet as a separate ObservableObject — group by connection or flow",
+            "Don't put IP addresses in NetworkConnectionFacet text fields — use separate IPAddressFacet objects",
+        ],
+        "starter_kit": None,
+        "code_skeleton": "graph.create(ObservableObject, has_facet=[NetworkConnectionFacet(src_ip=..., dst_ip=..., dst_port=...)])",
+    },
+    {
+        "source": "disk image",
+        "keywords": ["disk", "image", "dd", "e01", "raw", "ewf", "forensic", "acquisition", "clone"],
+        "pattern": "ObservableObject + ImageFacet + ContentDataFacet + FileFacet",
+        "classes": ["ObservableObject", "ImageFacet", "FileFacet", "ContentDataFacet", "InvestigativeAction", "Tool"],
+        "anti_patterns": [
+            "Don't confuse ImageFacet (disk image metadata) with picture/photo image data",
+            "Don't skip ContentDataFacet — hash values are critical for disk image integrity",
+        ],
+        "starter_kit": None,
+        "code_skeleton": "graph.create(ObservableObject, has_facet=[ImageFacet(image_type=...), ContentDataFacet(hash_method='SHA-256', hash_value=...)])",
+    },
+    {
+        "source": "browser history",
+        "keywords": ["browser", "history", "bookmark", "cookie", "chrome", "firefox", "safari", "edge", "url", "web"],
+        "pattern": "ObservableObject + URLHistoryFacet + BrowserBookmarkFacet + CookieFacet",
+        "classes": ["ObservableObject", "URLHistoryFacet", "BrowserBookmarkFacet", "CookieFacet", "URLFacet", "ApplicationFacet"],
+        "anti_patterns": [
+            "Don't model each URL visit as a separate ObservableObject — use URLHistoryFacet entries",
+            "Don't forget ApplicationFacet to identify which browser produced the history",
+        ],
+        "starter_kit": None,
+        "code_skeleton": "graph.create(ObservableObject, has_facet=[URLHistoryFacet(browser_info=..., url=..., last_visited=...)])",
+    },
+    {
+        "source": "registry artifacts",
+        "keywords": ["registry", "windows", "hive", "regedit", "sam", "ntuser", "system", "software", "key", "value"],
+        "pattern": "ObservableObject + WindowsRegistryKeyFacet + WindowsRegistryValueFacet",
+        "classes": ["ObservableObject", "WindowsRegistryKeyFacet", "WindowsRegistryValueFacet", "FileFacet"],
+        "anti_patterns": [
+            "Don't model registry values without their parent key — always include the key path",
+            "Don't use generic FileFacet for registry hive content — use the specific registry facets",
+        ],
+        "starter_kit": None,
+        "code_skeleton": "graph.create(ObservableObject, has_facet=[WindowsRegistryKeyFacet(key=...)])",
+    },
 ]

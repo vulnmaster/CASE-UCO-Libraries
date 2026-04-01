@@ -27,6 +27,8 @@ from case_uco.registry import (
     find_facets,
     list_modules,
     list_vocabs,
+    suggest_for_concept,
+    modeling_warnings,
 )
 from domain_index import (
     TASK_TO_CLASSES,
@@ -35,6 +37,7 @@ from domain_index import (
     RECIPE_INDEX,
     CHANGE_PROPOSAL_SECTIONS,
     UCO_PROFILES,
+    MAPPING_GUIDE_INDEX,
     suggest_target_repo,
 )
 
@@ -52,7 +55,11 @@ mcp = FastMCP(
         "draft_change_proposal to generate a filled-in change proposal. "
         "Use get_uco_profiles to find UCO Profile ontologies that align UCO "
         "with external ontologies like BFO, PROV-O, GeoSPARQL, OWL-Time, "
-        "gUFO, and FOAF for cross-ontology interoperability."
+        "gUFO, and FOAF for cross-ontology interoperability. "
+        "Use guide_mapping to get step-by-step mapping guidance for a "
+        "specific evidence source (e.g., filesystem report, mobile "
+        "extraction, email export, pcap). Use get_recipe to retrieve "
+        "full recipe content including code examples and JSON-LD output."
     ),
 )
 
@@ -162,16 +169,34 @@ def find_classes_for_domain(domain: str) -> dict:
                 "profile_type": profile["profile_type"],
             })
 
+    matching_recipes = []
+    for recipe in RECIPE_INDEX:
+        text = f"{recipe['title']} {recipe['description']} {recipe['keywords']}".lower()
+        if any(word in text for word in q.split()):
+            matching_recipes.append({
+                "title": recipe["title"],
+                "file": recipe["file"],
+                "is_starter_kit": recipe.get("is_starter_kit", False),
+            })
+
     result: dict = {
         "query": domain,
         "task_templates": matching_tasks,
         "related_domains": matching_categories,
+        "related_recipes": matching_recipes,
         "tip": (
             "Use get_class_details(name) on any class above to see its full "
             "property table. The most common pattern is ObservableObject + "
             "Facets — create an ObservableObject and attach Facets to describe it."
         ),
     }
+
+    has_starter = any(r["is_starter_kit"] for r in matching_recipes)
+    if has_starter:
+        result["starter_kit_tip"] = (
+            "A starter kit is available for this domain. Use get_recipe() with "
+            "the starter kit title for a complete end-to-end mapping example."
+        )
 
     if matching_profiles:
         result["related_profiles"] = matching_profiles
@@ -261,6 +286,47 @@ def list_all_facets() -> list[dict]:
 
 
 @mcp.tool
+def suggest_classes_for_input(concept: str) -> dict:
+    """Suggest CASE/UCO classes for a natural-language concept with modeling warnings.
+
+    Given a forensic concept like "file", "email", or "network connection",
+    returns recommended classes, the standard modeling pattern, usage notes,
+    and any warnings about common modeling mistakes.
+
+    Examples: suggest_classes_for_input("file"),
+              suggest_classes_for_input("mobile device"),
+              suggest_classes_for_input("malware sample")
+    """
+    suggestions = suggest_for_concept(concept)
+    warnings_by_class: dict[str, list[str]] = {}
+    for s in suggestions:
+        w = modeling_warnings(s["name"])
+        if w:
+            warnings_by_class[s["name"]] = w
+
+    return {
+        "query": concept,
+        "suggestions": [
+            {
+                "name": s["name"],
+                "module": s["module"],
+                "pattern": s["pattern"],
+                "usage_note": s["usage_note"],
+            }
+            for s in suggestions
+        ],
+        "warnings": warnings_by_class if warnings_by_class else None,
+        "tip": (
+            "Use get_class_details(name) on any suggested class to see its "
+            "full property table."
+        ) if suggestions else (
+            "No concept match found. Try search_classes() with related "
+            "keywords, or find_classes_for_domain() for broader discovery."
+        ),
+    }
+
+
+@mcp.tool
 def get_recipe(scenario: str) -> dict | None:
     """Find a code recipe for a common forensic workflow.
 
@@ -287,12 +353,85 @@ def get_recipe(scenario: str) -> dict | None:
     if best_match is None or best_score == 0:
         return None
 
+    content = None
+    try:
+        content = (PROJECT_ROOT / best_match["file"]).read_text(encoding="utf-8")
+    except OSError:
+        pass
+
     return {
         "title": best_match["title"],
         "description": best_match["description"],
         "file": best_match["file"],
+        "content": content[:8000] if content else None,
+        "truncated": len(content) > 8000 if content else False,
+        "tip": "This recipe contains complete code examples and JSON-LD output.",
+    }
+
+
+@mcp.tool
+def guide_mapping(evidence_source: str) -> dict:
+    """Get step-by-step mapping guidance for a specific evidence source type.
+
+    Provides the recommended CASE/UCO pattern, classes to use, common
+    anti-patterns to avoid, a Python code skeleton, and a link to a
+    starter kit when available.
+
+    Examples: guide_mapping("filesystem report"), guide_mapping("email"),
+              guide_mapping("mobile extraction"), guide_mapping("pcap")
+    """
+    q = evidence_source.lower()
+
+    best_match = None
+    best_score = 0
+    for entry in MAPPING_GUIDE_INDEX:
+        score = sum(1 for kw in entry["keywords"] if kw in q)
+        if entry["source"].lower() in q or q in entry["source"].lower():
+            score += 3
+        if score > best_score:
+            best_score = score
+            best_match = entry
+
+    if best_match is None or best_score == 0:
+        return {
+            "query": evidence_source,
+            "found": False,
+            "tip": (
+                "No mapping guide found for this evidence source. "
+                "Try find_classes_for_domain() for broader discovery, "
+                "or search_classes() with related keywords."
+            ),
+        }
+
+    starter_content = None
+    if best_match["starter_kit"]:
+        try:
+            starter_content = (PROJECT_ROOT / best_match["starter_kit"]).read_text(
+                encoding="utf-8"
+            )[:4000]
+        except OSError:
+            pass
+
+    return {
+        "query": evidence_source,
+        "found": True,
+        "source_type": best_match["source"],
+        "recommended_pattern": best_match["pattern"],
+        "classes": best_match["classes"],
+        "anti_patterns": best_match["anti_patterns"],
+        "code_skeleton": best_match["code_skeleton"],
+        "starter_kit": best_match["starter_kit"],
+        "starter_kit_preview": starter_content,
+        "steps": [
+            f"1. Create a CASEGraph and import the needed classes: {', '.join(best_match['classes'][:4])}",
+            f"2. Follow the '{best_match['pattern']}' pattern",
+            "3. Attach multiple facets to a single ObservableObject when describing different aspects of the same item",
+            "4. Use get_class_details(name) to check required properties before creating objects",
+            "5. Write the graph with graph.write('output.jsonld') and validate with case_validate",
+        ],
         "tip": (
-            f"Read {best_match['file']} for complete code examples."
+            "Use get_class_details(name) on any class to see its full property table. "
+            "Avoid the listed anti-patterns — they are the most common mistakes."
         ),
     }
 

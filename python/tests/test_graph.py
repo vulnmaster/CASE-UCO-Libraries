@@ -501,3 +501,18 @@ def test_from_jsonld_roundtrip_context():
     graph2, _ = CASEGraph.from_jsonld(json_str, kb_prefix="http://mylab.example.org/kb/")
     output = json.loads(graph2.serialize())
     assert "myext" in output["@context"]
+
+
+# --- validate tests ---
+
+def test_validate_raises_when_case_validate_missing(monkeypatch):
+    import shutil
+    monkeypatch.setattr(shutil, "which", lambda _name: None)
+
+    graph = CASEGraph()
+    graph.create(Tool, name="Tool A")
+    try:
+        graph.validate()
+        assert False, "Expected RuntimeError"
+    except RuntimeError as exc:
+        assert "case_validate not found" in str(exc)

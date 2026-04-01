@@ -39,11 +39,10 @@ messaging_app = graph.create(ObservableObject,
     )],
 )
 
-# AccountFacet.account_type is list[str], not str
 account = graph.create(ObservableObject,
     has_facet=[AccountFacet(
         account_identifier="user@example.com",
-        account_type=["email"], is_active=True,
+        is_active=True,
     )],
 )
 

@@ -107,11 +107,15 @@ for volume in &disk_image.volumes {
 If your graph contains independent objects with no cross-references (e.g., an IoC feed), `split()` is a convenient way to batch:
 
 ```python
+from case_uco import CASEGraph
+from case_uco.uco.observable import ObservableObject, ContentDataFacet
+from case_uco.uco.types import Hash
+
 # Safe: each hash entry is independent, no cross-references
 ioc_graph = CASEGraph()
-for hash_value in ioc_hashes:
+for hv in ioc_hashes:
     ioc_graph.create(ObservableObject,
-        has_facet=[ContentDataFacet(hash_value=hash_value)],
+        has_facet=[ContentDataFacet(hash=[Hash(hash_method="SHA256", hash_value=hv)])],
     )
 
 chunks = ioc_graph.split(max_objects=10000)

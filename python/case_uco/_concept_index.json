@@ -1,0 +1,93 @@
+{
+  "concepts": {
+    "file": {
+      "pattern": "ObservableObject + FileFacet",
+      "classes": ["ObservableObject", "FileFacet", "ContentDataFacet"],
+      "usage_note": "Create an ObservableObject with FileFacet for metadata and ContentDataFacet for hash values"
+    },
+    "email": {
+      "pattern": "ObservableObject + EmailMessageFacet",
+      "classes": ["ObservableObject", "EmailMessageFacet", "EmailAddressFacet"],
+      "usage_note": "Model each email as an ObservableObject with EmailMessageFacet. Use separate ObservableObjects with EmailAddressFacet for sender/recipients"
+    },
+    "network": {
+      "pattern": "ObservableObject + NetworkConnectionFacet",
+      "classes": ["ObservableObject", "NetworkConnectionFacet", "NetworkInterfaceFacet", "IPv4AddressFacet", "IPv6AddressFacet"],
+      "usage_note": "Model network connections as ObservableObjects with NetworkConnectionFacet. Use separate ObservableObjects with IP address facets for endpoints"
+    },
+    "mobile": {
+      "pattern": "ObservableObject + MobileDeviceFacet",
+      "classes": ["ObservableObject", "MobileDeviceFacet", "DeviceFacet", "OperatingSystemFacet", "SIMCardFacet"],
+      "usage_note": "Model a mobile device as an ObservableObject with MobileDeviceFacet and DeviceFacet. Add SIMCardFacet for SIM-specific data"
+    },
+    "device": {
+      "pattern": "ObservableObject + DeviceFacet",
+      "classes": ["ObservableObject", "DeviceFacet", "OperatingSystemFacet"],
+      "usage_note": "Model hardware devices as ObservableObjects with DeviceFacet for manufacturer/model and OperatingSystemFacet for OS details"
+    },
+    "account": {
+      "pattern": "ObservableObject + AccountFacet",
+      "classes": ["ObservableObject", "AccountFacet", "DigitalAccountFacet", "ApplicationAccountFacet"],
+      "usage_note": "Model user accounts as ObservableObjects with AccountFacet. Use DigitalAccountFacet or ApplicationAccountFacet for more specific account types"
+    },
+    "tool": {
+      "pattern": "Tool (standalone)",
+      "classes": ["Tool", "BuildFacet"],
+      "usage_note": "Tool represents the software/hardware instrument used in an action (e.g., Autopsy, EnCase). Do NOT use Tool for evidence items — use ObservableObject instead"
+    },
+    "message": {
+      "pattern": "ObservableObject + MessageFacet",
+      "classes": ["ObservableObject", "MessageFacet", "SMSMessageFacet"],
+      "usage_note": "Model messages (SMS, chat) as ObservableObjects with MessageFacet or SMSMessageFacet. Link sender/recipient via separate ObservableObjects"
+    },
+    "browser": {
+      "pattern": "ObservableObject + BrowserBookmarkFacet / BrowserCookieFacet",
+      "classes": ["ObservableObject", "BrowserBookmarkFacet", "BrowserCookieFacet", "URLFacet", "URLHistoryFacet"],
+      "usage_note": "Model browser artifacts as ObservableObjects with the appropriate facet: BrowserBookmarkFacet, BrowserCookieFacet, URLFacet, or URLHistoryFacet"
+    },
+    "location": {
+      "pattern": "Location (standalone)",
+      "classes": ["Location", "LatLongCoordinatesFacet", "SimpleAddressFacet"],
+      "usage_note": "Model physical locations with Location and LatLongCoordinatesFacet for GPS coordinates or SimpleAddressFacet for street addresses"
+    },
+    "malware": {
+      "pattern": "ObservableObject + ContentDataFacet + CallingConventionFacet",
+      "classes": ["ObservableObject", "ContentDataFacet", "FileFacet", "HashFacet"],
+      "usage_note": "Model malware samples as ObservableObjects with FileFacet, ContentDataFacet for hashes, and additional facets for behavioral indicators"
+    },
+    "image": {
+      "pattern": "ObservableObject + RasterPictureFacet",
+      "classes": ["ObservableObject", "RasterPictureFacet", "FileFacet", "ContentDataFacet", "EXIFFacet"],
+      "usage_note": "Model image files as ObservableObjects with RasterPictureFacet for dimensions, FileFacet for file metadata, and EXIFFacet for camera/GPS data"
+    },
+    "disk": {
+      "pattern": "ObservableObject + DiskFacet",
+      "classes": ["ObservableObject", "DiskFacet", "DiskPartitionFacet", "FileSystemFacet"],
+      "usage_note": "Model disk images as ObservableObjects with DiskFacet and DiskPartitionFacet. Use FileSystemFacet for file system metadata"
+    },
+    "process": {
+      "pattern": "ObservableObject + ProcessFacet",
+      "classes": ["ObservableObject", "ProcessFacet"],
+      "usage_note": "Model running processes as ObservableObjects with ProcessFacet for PID, name, creation time, and parent process references"
+    },
+    "investigation": {
+      "pattern": "Investigation + InvestigativeAction",
+      "classes": ["Investigation", "InvestigativeAction", "ProvenanceRecord", "Authorization"],
+      "usage_note": "Model the investigation itself with Investigation. Use InvestigativeAction for each forensic step (acquisition, analysis). Link tools and evidence via the action's properties"
+    },
+    "hash": {
+      "pattern": "ObservableObject + ContentDataFacet",
+      "classes": ["ObservableObject", "ContentDataFacet", "HashFacet"],
+      "usage_note": "Store hash values using ContentDataFacet on an ObservableObject. HashFacet contains the method (SHA-256, MD5) and value"
+    }
+  },
+  "deprecated_terms": {
+    "trace": "ObservableObject",
+    "forensicaction": "InvestigativeAction",
+    "cyberobject": "ObservableObject",
+    "digitalobject": "ObservableObject",
+    "cyberaction": "Action",
+    "cyberitem": "ObservableObject",
+    "evidenceitem": "ObservableObject"
+  }
+}

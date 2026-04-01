@@ -1,13 +1,19 @@
 [package]
 name = "case-uco"
-version = "1.7.0"
+version = "1.8.0"
 edition = "2021"
 description = "Standard library for constructing CASE/UCO ontology graphs"
 license = "Apache-2.0"
+repository = "https://github.com/vulnmaster/CASE-UCO-SDK"
+homepage = "https://caseontology.org"
+readme = "../README.md"
+keywords = ["case", "uco", "forensics", "json-ld"]
+categories = ["data-structures", "encoding"]
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 uuid = { version = "1", features = ["v4"] }
+tempfile = "3"
 
 [dev-dependencies]

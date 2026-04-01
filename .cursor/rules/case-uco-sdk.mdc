@@ -37,12 +37,14 @@ graph.create(ObservableObject, has_facet=[
 
 ## Finding the Right Class
 
-Use the MCP server tools (search_classes, get_class_details, find_classes_for_domain) to discover classes programmatically. Use get_uco_profiles() when the developer needs interoperability with external ontologies (BFO, PROV-O, GeoSPARQL, OWL-Time, gUFO, FOAF). In Python you can also use:
+Use the MCP server tools (search_classes, get_class_details, find_classes_for_domain, guide_mapping) to discover classes programmatically. Use get_uco_profiles() when the developer needs interoperability with external ontologies (BFO, PROV-O, GeoSPARQL, OWL-Time, gUFO, FOAF). In Python you can also use the prescriptive registry functions:
 
 ```python
-from case_uco.registry import search, get_class
-search("browser")       # find classes by keyword
-get_class("FileFacet")  # get full property details
+from case_uco.registry import search, get_class, find_facets, find_by_property_type
+search("browser")              # find classes by keyword
+get_class("FileFacet")         # get full property details
+find_facets()                  # all Facet classes for the ObservableObject pattern
+find_by_property_type("Tool")  # classes with properties referencing a given type
 ```
 
 Do NOT manually browse ONTOLOGY_REFERENCE.md — use the registry or MCP tools instead.

@@ -10,7 +10,7 @@ If you just want to **build CASE/UCO graphs** in your application, you do not ne
 
 ```bash
 # Python (from GitHub release artifacts — PyPI coming soon)
-pip install case_uco-1.7.0-py3-none-any.whl
+pip install case_uco-1.8.0-py3-none-any.whl
 pip install case-utils  # recommended: enables graph.validate()
 ```
 

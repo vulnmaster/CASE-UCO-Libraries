@@ -253,8 +253,10 @@ This file is **not optional** — it is required for any proposal that introduce
 from case_uco import CASEGraph
 from case_uco.case.investigation import Investigation, InvestigativeAction
 from case_uco.uco.tool import Tool
+from case_uco.uco.identity import Identity
 from case_uco.uco.observable import ObservableObject, DeviceFacet, FileFacet
 from case_uco.uco.core import Relationship
+import json
 
 graph = CASEGraph(extra_context={
     "proposed": "http://example.org/ontology/proposed/",
@@ -263,17 +265,21 @@ graph = CASEGraph(extra_context={
 investigation = graph.create(Investigation, name="Drone Surveillance Case 2025-042")
 tool = graph.create(Tool, name="DJI Assistant", version="2.1.2")
 
+dji = graph.create(Identity, name="DJI")
+
 drone = graph.create(ObservableObject, has_facet=[
     DeviceFacet(
         device_type="UAV",
-        manufacturer="DJI",
+        manufacturer=dji,
         model="Mavic 3 Pro",
-        serial="1ZNBJ...",
+        serial_number="1ZNBJ...",
     ),
 ])
 
 # The telemetry facet doesn't exist yet — model it as raw JSON-LD
+# and load it into the graph via graph.load()
 telemetry_data = {
+    "@id": "kb:drone-1-telemetry",
     "@type": "proposed:DroneTelemetryFacet",
     "proposed:altitude": 120.5,
     "proposed:groundSpeed": 15.2,
@@ -283,6 +289,10 @@ telemetry_data = {
     "proposed:homeLatitude": 38.8977,
     "proposed:homeLongitude": -77.0365,
 }
+graph.load(json.dumps({
+    "@context": dict(graph._context, proposed="http://example.org/ontology/proposed/"),
+    "@graph": [telemetry_data],
+}))
 
 graph.write("change_proposals/drone-telemetry-facet.jsonld")
 ```

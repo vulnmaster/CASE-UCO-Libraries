@@ -28,6 +28,17 @@ For the full class reference, see [ONTOLOGY_REFERENCE.md](../../ONTOLOGY_REFEREN
 
 ## Recipes
 
+### Starter kits
+
+End-to-end mapping recipes that walk through source input, modeling choices, anti-patterns, and complete runnable code. Start here if you are new to the SDK.
+
+| Recipe | File | Description |
+|---|---|---|
+| Filesystem Triage Report | [starter-filesystem-report.md](starter-filesystem-report.md) | Map a file listing (names, paths, sizes, hashes) into ObservableObjects with FileFacet + ContentDataFacet |
+| Mobile Device Extraction | [starter-mobile-extraction.md](starter-mobile-extraction.md) | Map a mobile extraction (device, apps, messages) with DeviceFacet, MobileDeviceFacet, and SIMCardFacet |
+| Email Export | [starter-email-export.md](starter-email-export.md) | Map an email (headers, body, attachments) with EmailMessageFacet and EmailAddressFacet |
+| Forensic Tool Run with Provenance | [starter-tool-run.md](starter-tool-run.md) | Map a tool execution with InvestigativeAction, input/output linking, and ProvenanceRecord |
+
 ### Forensic workflows
 
 | Recipe | File | Description | CASE-Example |

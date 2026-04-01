@@ -120,6 +120,46 @@ public class CaseGraph {
     }
 
     /**
+     * Validate this graph against CASE/UCO SHACL constraints using case_validate.
+     * Requires case-utils ({@code pip install case-utils}) on PATH.
+     *
+     * @param caseVersion the CASE built-version to validate against (e.g. "case-1.4.0")
+     * @return the validation output on success
+     * @throws IOException if the process cannot be started or temp file fails
+     * @throws RuntimeException if validation fails or case_validate is not found
+     */
+    public String validate(String caseVersion) throws IOException {
+        java.io.File tmp = java.io.File.createTempFile("case-uco-", ".jsonld");
+        try {
+            write(tmp.getAbsolutePath());
+            ProcessBuilder pb = new ProcessBuilder(
+                "case_validate", "--built-version", caseVersion, tmp.getAbsolutePath());
+            pb.redirectErrorStream(false);
+            Process proc = pb.start();
+            String stdout = new String(proc.getInputStream().readAllBytes());
+            String stderr = new String(proc.getErrorStream().readAllBytes());
+            int exitCode = proc.waitFor();
+            if (exitCode != 0) {
+                String msg = stderr.isBlank() ? stdout : stderr;
+                throw new RuntimeException("Validation failed:\n" + msg.trim());
+            }
+            return stdout;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Validation interrupted", e);
+        } finally {
+            tmp.delete();
+        }
+    }
+
+    /**
+     * Validate this graph using the default CASE version (case-1.4.0).
+     */
+    public String validate() throws IOException {
+        return validate("case-1.4.0");
+    }
+
+    /**
      * Load a JSON-LD string into this graph, merging context and appending objects.
      */
     @SuppressWarnings("unchecked")
@@ -149,6 +189,158 @@ public class CaseGraph {
     public void loadFile(String path) throws IOException {
         String json = new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(path)));
         load(json);
+    }
+
+    /**
+     * Result of parsing a JSON-LD string into typed objects.
+     */
+    public static class FromJsonLdResult {
+        private final CaseGraph graph;
+        private final List<Object> objects;
+
+        public FromJsonLdResult(CaseGraph graph, List<Object> objects) {
+            this.graph = graph;
+            this.objects = objects;
+        }
+
+        public CaseGraph getGraph() { return graph; }
+        public List<Object> getObjects() { return objects; }
+    }
+
+    /**
+     * Parse a JSON-LD string into typed objects where possible.
+     * Types are matched by scanning for classes with CLASS_IRI static fields
+     * in the org.caseontology packages.
+     */
+    @SuppressWarnings("unchecked")
+    public static FromJsonLdResult fromJsonLd(String json) {
+        Map<String, Object> doc = (Map<String, Object>) parseJsonValue(json.trim(), new int[]{0});
+        CaseGraph graph = new CaseGraph();
+
+        if (doc.containsKey("@context") && doc.get("@context") instanceof Map) {
+            Map<String, Object> ctx = (Map<String, Object>) doc.get("@context");
+            for (Map.Entry<String, Object> entry : ctx.entrySet()) {
+                if (entry.getValue() instanceof String) {
+                    graph.context.put(entry.getKey(), (String) entry.getValue());
+                }
+            }
+        }
+
+        List<Object> typedObjects = new ArrayList<>();
+
+        if (doc.containsKey("@graph") && doc.get("@graph") instanceof List) {
+            List<Object> graphList = (List<Object>) doc.get("@graph");
+            for (Object item : graphList) {
+                if (item instanceof Map) {
+                    Map<String, Object> mapItem = (Map<String, Object>) item;
+                    graph.objects.add(mapItem);
+                    Object typed = tryInstantiate(mapItem, graph.context);
+                    typedObjects.add(typed != null ? typed : mapItem);
+                }
+            }
+        }
+
+        return new FromJsonLdResult(graph, typedObjects);
+    }
+
+    private static String expandIri(String value, Map<String, String> context) {
+        if (value == null) return null;
+        int colonIdx = value.indexOf(':');
+        if (colonIdx > 0) {
+            String prefix = value.substring(0, colonIdx);
+            String ns = context.get(prefix);
+            if (ns != null) return ns + value.substring(colonIdx + 1);
+        }
+        return value;
+    }
+
+    private static Object tryInstantiate(Map<String, Object> obj, Map<String, String> context) {
+        Object typeObj = obj.get("@type");
+        if (!(typeObj instanceof String)) return null;
+
+        String expandedIri = expandIri((String) typeObj, context);
+        String localName = expandedIri.substring(expandedIri.lastIndexOf('/') + 1);
+
+        List<String> candidates = new ArrayList<>();
+        candidates.add("org.caseontology." + localName);
+        int orgIdx = expandedIri.indexOf(".org/");
+        if (orgIdx > 0) {
+            String path = expandedIri.substring(orgIdx + 5);
+            int lastSlash = path.lastIndexOf('/');
+            if (lastSlash > 0) {
+                String pkg = path.substring(0, lastSlash).replace('/', '.').replace('-', '_');
+                candidates.add("org.caseontology." + pkg + "." + localName);
+            }
+        }
+
+        for (String className : candidates) {
+            try {
+                Class<?> cls = Class.forName(className);
+                Field classIriField = cls.getDeclaredField("CLASS_IRI");
+                if (!expandedIri.equals(classIriField.get(null))) continue;
+
+                Object instance = cls.getDeclaredConstructor().newInstance();
+                setFieldsFromJsonLd(instance, obj, context);
+                return instance;
+            } catch (Exception ignored) {}
+        }
+
+        return null;
+    }
+
+    private static void setFieldsFromJsonLd(Object instance, Map<String, Object> obj, Map<String, String> context) {
+        Class<?> current = instance.getClass();
+        while (current != null && current != Object.class) {
+            for (Field field : current.getDeclaredFields()) {
+                if (Modifier.isStatic(field.getModifiers())) continue;
+
+                String nsPrefix = "uco-core";
+                try {
+                    Field nsPrefixField = field.getDeclaringClass().getDeclaredField("NAMESPACE_PREFIX");
+                    nsPrefix = (String) nsPrefixField.get(null);
+                } catch (Exception ignored) {}
+
+                String propKey = nsPrefix + ":" + field.getName();
+                if (!obj.containsKey(propKey)) continue;
+
+                field.setAccessible(true);
+                try {
+                    Object value = convertFromJsonLd(obj.get(propKey), field.getType());
+                    field.set(instance, value);
+                } catch (Exception ignored) {}
+            }
+            current = current.getSuperclass();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Object convertFromJsonLd(Object value, Class<?> target) {
+        if (value == null) return null;
+
+        if (value instanceof Map) {
+            Map<String, Object> map = (Map<String, Object>) value;
+            if (map.containsKey("@value")) {
+                Object raw = map.get("@value");
+                if (raw instanceof String) {
+                    String s = (String) raw;
+                    if (target == String.class) return s;
+                    if (target == int.class || target == Integer.class) return Integer.parseInt(s);
+                    if (target == long.class || target == Long.class) return Long.parseLong(s);
+                    if (target == double.class || target == Double.class) return Double.parseDouble(s);
+                    if (target == boolean.class || target == Boolean.class) return "true".equals(s);
+                }
+                return raw;
+            }
+        }
+
+        if (target == String.class && value instanceof String) return value;
+        if ((target == long.class || target == Long.class) && value instanceof Long) return value;
+        if ((target == int.class || target == Integer.class) && value instanceof Long)
+            return ((Long) value).intValue();
+        if ((target == double.class || target == Double.class) && value instanceof Double) return value;
+        if ((target == boolean.class || target == Boolean.class) && value instanceof Boolean) return value;
+
+        return value;
     }
 
     /**

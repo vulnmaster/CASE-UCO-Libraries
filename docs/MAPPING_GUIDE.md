@@ -221,7 +221,8 @@ let facet = FileFacet::builder()
     .file_name("evidence.dd".into())
     .size_in_bytes(1073741824)
     .build();
-graph.create(&ObservableObject::default());
+let obs = ObservableObject::builder().has_facet(vec![facet]).build();
+graph.create(&obs);
 ```
 
 </details>
@@ -511,7 +512,8 @@ graph.add(obs);
 let facet = IPv4AddressFacet::builder()
     .address_value("192.168.1.100".into())
     .build();
-graph.create(&ObservableObject::default());
+let obs = ObservableObject::builder().has_facet(vec![facet]).build();
+graph.create(&obs);
 ```
 
 </details>
@@ -729,7 +731,8 @@ let facet = DeviceFacet::builder()
     .manufacturer("ExampleCorp".into())
     .model("X1000".into())
     .build();
-graph.create(&ObservableObject::default());
+let obs = ObservableObject::builder().has_facet(vec![facet]).build();
+graph.create(&obs);
 ```
 
 </details>
@@ -951,7 +954,8 @@ graph.add(obs);
 let facet = ApplicationFacet::builder()
     .application_identifier("com.example.app".into())
     .build();
-graph.create(&ObservableObject::default());
+let obs = ObservableObject::builder().has_facet(vec![facet]).build();
+graph.create(&obs);
 ```
 
 </details>
@@ -1128,7 +1132,8 @@ graph.add(obs);
 let facet = AccountFacet::builder()
     .account_identifier("user123".into())
     .build();
-graph.create(&ObservableObject::default());
+let obs = ObservableObject::builder().has_facet(vec![facet]).build();
+graph.create(&obs);
 ```
 
 </details>
@@ -1249,7 +1254,8 @@ graph.add(obs);
 let facet = EmailMessageFacet::builder()
     .subject("Important evidence".into())
     .build();
-graph.create(&ObservableObject::default());
+let obs = ObservableObject::builder().has_facet(vec![facet]).build();
+graph.create(&obs);
 ```
 
 </details>
@@ -1430,7 +1436,8 @@ graph.add(obs);
 let facet = SIMCardFacet::builder()
     .icc_id("8901260123456789012".into())
     .build();
-graph.create(&ObservableObject::default());
+let obs = ObservableObject::builder().has_facet(vec![facet]).build();
+graph.create(&obs);
 ```
 
 </details>

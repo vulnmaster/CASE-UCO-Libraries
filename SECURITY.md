@@ -4,8 +4,8 @@
 
 | Version | Supported |
 |---------|-----------|
-| 1.6.x   | Yes       |
-| < 1.6.0 | No        |
+| 1.8.x   | Yes       |
+| < 1.7.0 | No        |
 
 This project tracks the CASE 1.4.0 and UCO 1.4.0 ontology releases. Only the latest SDK version receives security updates.
 

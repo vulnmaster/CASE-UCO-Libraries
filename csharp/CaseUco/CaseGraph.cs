@@ -95,6 +95,138 @@ namespace CaseUco
             }
         }
 
+        /// <summary>Parse a JSON-LD string into typed objects where possible.
+        /// Types are matched by scanning loaded assemblies for classes with a static ClassIri field.</summary>
+        public static FromJsonLdResult FromJsonLd(string json)
+        {
+            var doc = ParseJson(json);
+            var graph = new CaseGraph();
+
+            if (doc.TryGetValue("@context", out var ctxObj) && ctxObj is Dictionary<string, object> ctx)
+            {
+                foreach (var kv in ctx.Where(kv => kv.Value is string))
+                    graph._context[kv.Key] = (string)kv.Value;
+            }
+
+            var objects = new List<object>();
+
+            if (doc.TryGetValue("@graph", out var graphObj) && graphObj is List<object> graphList)
+            {
+                foreach (var item in graphList.OfType<Dictionary<string, object>>())
+                {
+                    graph._objects.Add(item);
+                    var typed = TryInstantiate(item, graph._context);
+                    objects.Add(typed ?? (object)item);
+                }
+            }
+
+            return new FromJsonLdResult { Graph = graph, Objects = objects };
+        }
+
+        private static string ExpandIri(string value, Dictionary<string, string> context)
+        {
+            if (value == null) return null;
+            var colonIdx = value.IndexOf(':');
+            if (colonIdx > 0)
+            {
+                var prefix = value.Substring(0, colonIdx);
+                if (context.TryGetValue(prefix, out var ns))
+                    return ns + value.Substring(colonIdx + 1);
+            }
+            return value;
+        }
+
+        private static object TryInstantiate(Dictionary<string, object> obj, Dictionary<string, string> context)
+        {
+            if (!obj.TryGetValue("@type", out var typeObj) || !(typeObj is string typeStr))
+                return null;
+
+            var expandedIri = ExpandIri(typeStr, context);
+
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                Type[] types;
+                try { types = asm.GetTypes(); }
+                catch (ReflectionTypeLoadException ex) { types = ex.Types.Where(t => t != null).ToArray(); }
+
+                foreach (var type in types.Where(t =>
+                    t.IsClass && !t.IsAbstract && t.Namespace != null &&
+                    t.Namespace.StartsWith("CaseUco")))
+                {
+                    var field = type.GetField("ClassIri", BindingFlags.Public | BindingFlags.Static);
+                    if (field == null || (string)field.GetValue(null) != expandedIri)
+                        continue;
+
+                    try
+                    {
+                        var instance = Activator.CreateInstance(type);
+                        SetPropertiesFromJsonLd(instance, obj, context);
+                        return instance;
+                    }
+                    catch { return null; }
+                }
+            }
+
+            return null;
+        }
+
+        private static void SetPropertiesFromJsonLd(object instance, Dictionary<string, object> obj, Dictionary<string, string> context)
+        {
+            var type = instance.GetType();
+            foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(p => p.CanWrite))
+            {
+                string matchKey = null;
+
+                var attr = prop.GetCustomAttribute<JsonLdPropertyAttribute>(inherit: true);
+                if (attr != null && obj.ContainsKey(attr.Key))
+                    matchKey = attr.Key;
+
+                if (matchKey == null)
+                {
+                    var nsField = (prop.DeclaringType ?? type).GetField("NamespacePrefix");
+                    var ns = nsField != null ? (string)nsField.GetValue(null) : "uco-core";
+                    var camelName = char.ToLower(prop.Name[0]) + prop.Name.Substring(1);
+                    var candidate = ns + ":" + camelName;
+                    if (obj.ContainsKey(candidate))
+                        matchKey = candidate;
+                }
+
+                if (matchKey == null) continue;
+
+                try { prop.SetValue(instance, ConvertToClrType(obj[matchKey], prop.PropertyType)); }
+                catch { /* best effort */ }
+            }
+        }
+
+        private static object ConvertToClrType(object value, Type target)
+        {
+            if (value == null) return null;
+
+            if (value is Dictionary<string, object> dict && dict.ContainsKey("@value"))
+            {
+                var raw = dict["@value"];
+                if (raw is string rawStr)
+                {
+                    if (target == typeof(string)) return rawStr;
+                    if (target == typeof(int)) return int.Parse(rawStr, CultureInfo.InvariantCulture);
+                    if (target == typeof(long)) return long.Parse(rawStr, CultureInfo.InvariantCulture);
+                    if (target == typeof(double)) return double.Parse(rawStr, CultureInfo.InvariantCulture);
+                    if (target == typeof(bool)) return rawStr == "true";
+                    if (target == typeof(DateTime)) return DateTime.Parse(rawStr, CultureInfo.InvariantCulture);
+                }
+                return raw;
+            }
+
+            if (target == typeof(string) && value is string s) return s;
+            if (target == typeof(long) && value is long l) return l;
+            if (target == typeof(int) && value is long li) return (int)li;
+            if (target == typeof(double) && value is double d) return d;
+            if (target == typeof(bool) && value is bool b) return b;
+
+            return value;
+        }
+
         /// <summary>Serialize the graph to a JSON-LD string.</summary>
         public string Serialize(bool indented = true)
         {
@@ -110,6 +242,53 @@ namespace CaseUco
         public void Write(string path)
         {
             System.IO.File.WriteAllText(path, Serialize());
+        }
+
+        /// <summary>Validate this graph against CASE/UCO SHACL constraints using case_validate.
+        /// Requires case-utils (pip install case-utils) to be installed and case_validate on PATH.</summary>
+        /// <param name="caseVersion">The CASE built-version to validate against (default "case-1.4.0").</param>
+        /// <returns>The validation output on success.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if validation fails or case_validate is not found.</exception>
+        public string ValidateGraph(string caseVersion = "case-1.4.0")
+        {
+            var tmpPath = System.IO.Path.GetTempFileName() + ".jsonld";
+            try
+            {
+                System.IO.File.WriteAllText(tmpPath, Serialize());
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "case_validate",
+                    Arguments = $"--built-version {caseVersion} \"{tmpPath}\"",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                };
+                System.Diagnostics.Process process;
+                try
+                {
+                    process = System.Diagnostics.Process.Start(psi);
+                }
+                catch (System.ComponentModel.Win32Exception)
+                {
+                    throw new InvalidOperationException(
+                        "case_validate not found on PATH. Install with: pip install case-utils");
+                }
+                var stdout = process.StandardOutput.ReadToEnd();
+                var stderr = process.StandardError.ReadToEnd();
+                process.WaitForExit();
+                if (process.ExitCode != 0)
+                {
+                    var msg = string.IsNullOrWhiteSpace(stderr) ? stdout : stderr;
+                    throw new InvalidOperationException($"Validation failed:\n{msg.Trim()}");
+                }
+                return stdout;
+            }
+            finally
+            {
+                if (System.IO.File.Exists(tmpPath))
+                    System.IO.File.Delete(tmpPath);
+            }
         }
 
         /// <summary>Estimate the number of RDF triples this graph will produce.</summary>
@@ -474,6 +653,13 @@ namespace CaseUco
             end = pos + 1; // skip closing '"'
             return sb.ToString();
         }
+    }
+
+    /// <summary>Result type returned by <see cref="CaseGraph.FromJsonLd"/>.</summary>
+    public class FromJsonLdResult
+    {
+        public CaseGraph Graph { get; set; }
+        public List<object> Objects { get; set; }
     }
 }
 

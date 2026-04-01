@@ -5,6 +5,185 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2026-04-01
+
+### Added
+
+#### Graph Validation Across All Languages
+
+- **`graph.validate()`** (Python), **`graph.ValidateGraph()`** (C#),
+  **`graph.validate()`** (Java), **`graph.validate()`** (Rust) — all four
+  languages can now validate graphs against CASE/UCO SHACL constraints by
+  wrapping `case_validate`. Requires `case-utils` on PATH. The Python
+  README documented `graph.validate()` since v1.7.0 but the method was
+  never implemented — it now exists and works.
+
+#### Typed Deserialization Parity
+
+- **`CaseGraph.FromJsonLd()`** (C#), **`CaseGraph.fromJsonLd()`** (Java),
+  **`CaseGraph::from_jsonld()`** (Rust) — all three languages can now
+  deserialize JSON-LD strings back into typed objects, matching the
+  existing Python `from_jsonld()`. C# and Java use reflection to match
+  `@type` IRIs to generated classes. Rust returns `serde_json::Value`
+  objects since it lacks runtime reflection.
+
+#### Prescriptive Registry Guidance
+
+- **`suggest_for_concept()`** — given a natural-language concept (e.g.,
+  "file", "email"), returns recommended classes with usage patterns and
+  notes. Powered by a curated `_concept_index.json`.
+- **`suggest_facets()`** — given a class name, returns commonly paired
+  Facet classes for the ObservableObject + Facet pattern.
+- **`did_you_mean()`** — fuzzy matching for misspelled or deprecated class
+  names (e.g., "Trace" → "ObservableObject").
+- **`modeling_warnings()`** — returns modeling warnings for a class (e.g.,
+  "This is a Facet — attach it to an ObservableObject, don't use it as a
+  top-level graph object").
+
+#### End-to-End Mapping Starter Kits
+
+Four new recipes with complete input-to-output mapping workflows:
+
+- **`starter-filesystem-report.md`** — map a file listing/triage report
+  with hashes into ObservableObject + FileFacet + ContentDataFacet
+- **`starter-mobile-extraction.md`** — map a mobile extraction with
+  device, SIM, app data, and messages
+- **`starter-email-export.md`** — map an email export with headers,
+  sender/recipient addresses, and attachments
+- **`starter-tool-run.md`** — map a forensic tool execution with
+  provenance, input/output linkage, and investigation context
+
+Each includes: source input shape, modeling choices, anti-patterns,
+complete Python code, expected JSON-LD output, and validation step.
+
+#### MCP Server Mapping Enhancements
+
+- **`guide_mapping`** tool — provides step-by-step mapping guidance for
+  a given evidence source (e.g., "UFED CSV export", "Wireshark pcap"),
+  returning recommended classes, anti-patterns, a code skeleton, and
+  a link to the relevant starter kit recipe
+- **`suggest_classes_for_input`** tool — wraps the new prescriptive
+  registry functions, returning concept suggestions with per-class
+  modeling warnings
+- **`get_recipe`** now returns full recipe content (up to 8000 chars)
+  inline, so AI agents get code examples in a single tool call instead
+  of needing a separate file read
+- **`find_classes_for_domain`** now also returns related recipes and
+  starter kits alongside class matches, with tips when starter kits
+  are available
+- Added `MAPPING_GUIDE_INDEX` — 8-entry evidence source → mapping
+  strategy index used by `guide_mapping`
+
+#### Docs-as-Tests Infrastructure
+
+- **`scripts/test_doc_snippets.py`** — extracts Python code blocks from
+  README.md, MAPPING_GUIDE.md, and all recipe files, compiles them for
+  syntax correctness, and reports pass/fail/skip per file
+- **`test-docs`** CI job in `ci.yml` — runs the snippet test harness on
+  every push and PR, failing if any documented code example has invalid
+  syntax
+- **`make test-docs`** Makefile target
+
+#### Trusted Publisher Workflows (Pre-Publishing)
+
+- **`publish-pypi`** job — PyPI Trusted Publisher via OIDC (no API keys),
+  gated behind a `publish` environment with manual approval
+- **`publish-nuget`** job — NuGet push via API key
+- **`publish-maven`** job — Maven Central via Central Publishing Portal
+  with GPG signing, source/javadoc JARs
+- **`publish-crates`** job — crates.io publish via registry token
+- All four publish jobs require the `publish` GitHub environment to be
+  configured with appropriate secrets before they will run
+
+#### Package Manifest Enrichment
+
+- **Python `pyproject.toml`** — added `readme`, `keywords`, `classifiers`,
+  and `[project.urls]` (Homepage, Repository, Documentation, Changelog)
+- **Rust `Cargo.toml`** — added `repository`, `homepage`, `readme`,
+  `keywords`, `categories`
+- **C# `CaseUco.csproj`** — added `RepositoryUrl`, `ProjectUrl`,
+  `PackageTags`, `Authors`
+- **Java `pom.xml`** — added `<url>`, `<scm>`, `<developers>`, and a
+  `release` profile with `maven-source-plugin`, `maven-javadoc-plugin`,
+  `maven-gpg-plugin`, and `central-publishing-maven-plugin`
+
+#### CI Improvements
+
+- **Version consistency check** — new `version-sync` CI job verifies
+  `python/case_uco/__init__.py __version__` matches `pyproject.toml`
+  version on every push and PR, preventing version drift
+
+### Changed
+
+#### Version Bump to 1.8.0
+
+- All four package manifests bumped from 1.7.0 to 1.8.0
+- README header, install instructions, and version matrix updated
+- CONTRIBUTING.md wheel filename updated
+- SECURITY.md supported versions updated to 1.8.x
+
+#### README Install Section
+
+- Package registry install lines (`pip install case-uco`, `dotnet add
+  package CaseUco`, `cargo add case-uco`) are now the primary install
+  path, no longer hidden behind an HTML comment
+- GitHub Release install is now secondary ("Alternatively, install from
+  GitHub Release artifacts")
+- Version matrix now includes both 1.8.0 and 1.7.0 rows for history
+
+#### Updated Feature Matrix and Parity Contract
+
+- Feature Matrix now shows `FromJsonLd()` / `fromJsonLd()` / `from_jsonld()`
+  for C#, Java, and Rust (previously marked "—")
+- New "Graph validation (SHACL)" row in Feature Matrix
+- `docs/CROSS_LANGUAGE_PARITY.md` updated: Validate row shows all four
+  languages; asymmetric features section shows full parity for both
+  typed deserialization and graph validation
+
+#### MCP Server Instructions
+
+- Updated FastMCP instructions to mention `guide_mapping` and enhanced
+  `get_recipe` behavior
+- Updated `.cursor/rules/case-uco-sdk.mdc` to reference `guide_mapping`
+  and prescriptive registry functions
+
+### Fixed
+
+- **`__version__` mismatch** — `python/case_uco/__init__.py` was stuck at
+  `"0.1.0"` while `pyproject.toml` was at `1.7.0`. Now both are `1.8.0`,
+  and a CI check prevents future drift.
+- **Rust examples in MAPPING_GUIDE.md** — all 7 Rust code examples built
+  a Facet but then called `graph.create(&ObservableObject::default())`
+  without attaching the facet. Fixed to use the builder pattern with
+  `has_facet(vec![facet])`.
+- **SECURITY.md supported versions** — updated from `1.6.x` to `1.8.0`
+  (was stale since the 1.6.0 release).
+
+#### Recipe Validation Fixes
+
+All recipe code examples now produce `Conforms: True` from
+`case_validate --built-version case-1.4.0`.
+
+- **`starter-filesystem-report.md`**, **`starter-email-export.md`**,
+  **`starter-tool-run.md`** — changed `hash_method="SHA-256"` to
+  `"SHA256"` per `HashNameVocab` controlled vocabulary
+- **`file-system.md`** — three fixes:
+  - `ContentDataFacet(hash_method=..., hash_value=...)` replaced with
+    `ContentDataFacet(hash=[Hash(...)])` (correct API)
+  - `created_time` replaced with `observable_created_time` on `FileFacet`
+  - `"SHA-256"` changed to `"SHA256"` per `HashNameVocab`
+  - C# and Java code blocks updated to match
+- **`change-proposal.md`** — `serial` renamed to `serial_number` on
+  `DeviceFacet`; `manufacturer` changed from bare string to `Identity`
+  object; `telemetry_data` dict now loaded into graph via `graph.load()`
+- **`large-datasets.md`** — second code block fixed: added missing
+  imports, replaced `ContentDataFacet(hash_value=...)` with
+  `ContentDataFacet(hash=[Hash(...)])`
+- **`existence-intervals.md`** — added missing `CASEGraph` and `json`
+  imports to gUFO pattern block
+- **`mobile-device.md`** — removed `account_type=["email"]` (not in
+  `AccountTypeVocab`)
+
 ## [1.7.0] - 2026-04-01
 
 ### Added
@@ -637,6 +816,7 @@ digital forensics, cyber-investigation, and cyber-observable data.
 - GitHub Actions workflows: CI, CodeQL, dependency review, release
 - Dependabot configuration for automated dependency updates
 
+[1.8.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.8.0
 [1.7.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.7.0
 [1.6.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.6.0
 [1.5.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.5.0

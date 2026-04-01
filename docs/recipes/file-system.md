@@ -9,6 +9,7 @@ Model files, directories, and their metadata extracted from a disk image.
 ```python
 from case_uco import CASEGraph
 from case_uco.uco.observable import ObservableObject, FileFacet, ContentDataFacet
+from case_uco.uco.types import Hash
 from datetime import datetime
 
 graph = CASEGraph()
@@ -21,11 +22,13 @@ evidence_file = graph.create(ObservableObject,
             size_in_bytes=245760,
             accessed_time=datetime(2024, 3, 15, 9, 30, 0),
             modified_time=datetime(2024, 3, 14, 16, 45, 0),
-            created_time=datetime(2024, 1, 10, 8, 0, 0),
+            observable_created_time=datetime(2024, 1, 10, 8, 0, 0),
         ),
         ContentDataFacet(
-            hash_method="SHA-256",
-            hash_value="a7ffc6f8bf1ed76651c14756a061d662...",
+            hash=[Hash(
+                hash_method="SHA256",
+                hash_value="a7ffc6f8bf1ed76651c14756a061d662",
+            )],
             size_in_bytes=245760,
             mime_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         ),
@@ -50,11 +53,10 @@ graph.Add(new ObservableObject {
             SizeInBytes = 245760,
             AccessedTime = new DateTime(2024, 3, 15, 9, 30, 0),
             ModifiedTime = new DateTime(2024, 3, 14, 16, 45, 0),
-            CreatedTime = new DateTime(2024, 1, 10, 8, 0, 0),
+            ObservableCreatedTime = new DateTime(2024, 1, 10, 8, 0, 0),
         },
         new ContentDataFacet {
-            HashMethod = "SHA-256",
-            HashValue = "a7ffc6f8bf1ed76651c14756a061d662...",
+            Hash = { new Hash { HashMethod = "SHA256", HashValue = "a7ffc6f8bf1ed76651c14756a061d662" } },
             SizeInBytes = 245760,
         }
     }
@@ -75,14 +77,17 @@ fileFacet.setFileName("quarterly_report.xlsx");
 fileFacet.setFilePath("/Users/suspect/Documents/quarterly_report.xlsx");
 fileFacet.setSizeInBytes(245760L);
 
-var hashFacet = new ContentDataFacet();
-hashFacet.setHashMethod("SHA-256");
-hashFacet.setHashValue("a7ffc6f8bf1ed76651c14756a061d662...");
-hashFacet.setSizeInBytes(245760L);
+var hash = new Hash();
+hash.setHashMethod("SHA256");
+hash.setHashValue("a7ffc6f8bf1ed76651c14756a061d662");
+
+var contentFacet = new ContentDataFacet();
+contentFacet.getHash().add(hash);
+contentFacet.setSizeInBytes(245760L);
 
 var obs = new ObservableObject();
 obs.getHasFacet().add(fileFacet);
-obs.getHasFacet().add(hashFacet);
+obs.getHasFacet().add(contentFacet);
 graph.add(obs);
 
 System.out.println(graph.serialize());

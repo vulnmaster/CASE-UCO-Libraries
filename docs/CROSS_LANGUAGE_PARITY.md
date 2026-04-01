@@ -29,7 +29,7 @@ These operations exist in every language with parallel naming (adjusted only for
 | Estimate triples | `graph.estimate_triples()` | `graph.EstimateTriples()` | `graph.estimateTriples()` | `graph.estimate_triples()` |
 | Split graph | `graph.split(n)` | `graph.Split(n)` | `graph.split(n)` | `graph.split(n)` |
 | Merge files | `CASEGraph.merge_files(paths)` | `CaseGraph.MergeFiles(paths)` | `CaseGraph.mergeFiles(paths)` | `CaseGraph::merge_files(paths)` |
-| Validate | `graph.validate()` | — | — | — |
+| Validate | `graph.validate()` | `graph.ValidateGraph()` | `graph.validate()` | `graph.validate()` |
 
 ### Registry / Discovery
 
@@ -91,8 +91,8 @@ These differences follow each language's conventions and are not bugs:
 
 | Feature | Python | C# | Java | Rust | Notes |
 |---------|--------|----|------|------|-------|
-| Typed deserialization | `from_jsonld()` | — | — | — | Python-only; others load raw JSON-LD |
-| Graph validation wrapper | `graph.validate()` | — | — | — | Wraps `case_validate`; planned for other languages |
+| Typed deserialization | `from_jsonld()` | `FromJsonLd()` | `fromJsonLd()` | `from_jsonld()` | Python returns typed objects; C#/Java use reflection; Rust returns serde_json::Value |
+| Graph validation wrapper | `graph.validate()` | `graph.ValidateGraph()` | `graph.validate()` | `graph.validate()` | Wraps case_validate; requires case-utils on PATH |
 | Smoke test binary | — | `CaseUco.Smoke` | `SmokeTest` | `examples/smoke` | Python uses pytest instead |
 
 ### Why `create()` vs `Add()`

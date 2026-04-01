@@ -135,6 +135,36 @@ impl CaseGraph {
         Ok(())
     }
 
+    /// Parse a JSON-LD string and return the graph with its objects.
+    ///
+    /// Since Rust lacks runtime reflection, objects are returned as raw
+    /// `serde_json::Value` items rather than typed structs. Consumers can
+    /// match on `@type` fields manually to downcast.
+    pub fn from_jsonld(json: &str) -> Result<(CaseGraph, Vec<Value>), String> {
+        let doc: Value =
+            serde_json::from_str(json).map_err(|e| format!("Failed to parse JSON: {e}"))?;
+
+        let mut graph = CaseGraph::new("http://example.org/kb/");
+
+        if let Some(ctx) = doc.get("@context").and_then(|c| c.as_object()) {
+            for (k, v) in ctx {
+                if let Some(s) = v.as_str() {
+                    graph.context.insert(k.clone(), s.to_string());
+                }
+            }
+        }
+
+        let mut objects = Vec::new();
+        if let Some(arr) = doc.get("@graph").and_then(|g| g.as_array()) {
+            for obj in arr {
+                graph.objects.push(obj.clone());
+                objects.push(obj.clone());
+            }
+        }
+
+        Ok((graph, objects))
+    }
+
     /// Serialize the graph to a JSON-LD string.
     ///
     /// Returns `Err` if the internal structure cannot be serialized
@@ -158,6 +188,32 @@ impl CaseGraph {
     pub fn write(&self, path: &str) -> std::io::Result<()> {
         let json = self.serialize().map_err(std::io::Error::other)?;
         std::fs::write(path, json)
+    }
+
+    /// Validate this graph against CASE/UCO SHACL constraints using `case_validate`.
+    ///
+    /// Requires `case-utils` (`pip install case-utils`) and `case_validate` on PATH.
+    /// Returns the validation output on success, or an error message on failure.
+    pub fn validate(&self, case_version: &str) -> Result<String, String> {
+        use std::io::Write;
+        let json = self.serialize().map_err(|e| format!("Serialization failed: {e}"))?;
+        let mut tmp = tempfile::NamedTempFile::new()
+            .map_err(|e| format!("Failed to create temp file: {e}"))?;
+        tmp.write_all(json.as_bytes())
+            .map_err(|e| format!("Failed to write temp file: {e}"))?;
+        let output = std::process::Command::new("case_validate")
+            .arg("--built-version")
+            .arg(case_version)
+            .arg(tmp.path())
+            .output()
+            .map_err(|e| format!("case_validate not found on PATH (pip install case-utils): {e}"))?;
+        if !output.status.success() {
+            let stderr = String::from_utf8_lossy(&output.stderr);
+            let stdout = String::from_utf8_lossy(&output.stdout);
+            let msg = if stderr.is_empty() { stdout } else { stderr };
+            return Err(format!("Validation failed:\n{}", msg.trim()));
+        }
+        Ok(String::from_utf8_lossy(&output.stdout).to_string())
     }
 
     /// Estimate the number of RDF triples this graph will produce.
