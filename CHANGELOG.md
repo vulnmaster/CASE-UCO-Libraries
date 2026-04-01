@@ -76,6 +76,45 @@ proposal workflow now includes:
 - File convention documentation for proposal artifacts: `.md`, `.jsonld`,
   `.sparql`, `.ttl`, `-shapes.ttl`
 
+#### Change Proposal Workflow Hardening
+
+Lessons learned from the first real change proposal
+(`change_proposals/cryptocurrency-address-and-sanctions-designation.md`)
+drove several improvements to ensure proposals are fully tested before
+submission:
+
+- **Testing is now a hard gate** — the recipe and template make clear
+  that a proposal is not finished until `make test-proposal` passes and
+  the Pre-submission testing section contains actual results (not
+  placeholders)
+- **`scripts/sparql_test.py`** — extracted SPARQL testing into a
+  standalone script, replacing the inline Python in the Makefile that
+  broke due to Make tab/space indentation issues. Displays query titles,
+  warns on zero-result queries, and exits non-zero on failures
+- **`validate-proposal` now passes `--inference rdfs --allow-info`** —
+  required for proposals introducing new Facet/UcoObject subclasses
+  where SHACL needs to infer class hierarchy, and to allow informational
+  UUID IRI suggestions without causing validation failure
+- **Extension `.ttl` documented as required (not optional)** for any
+  proposal that introduces new Facet or UcoObject subclasses. Without
+  it, `case_validate` cannot verify the proposed class satisfies
+  `sh:class core:Facet` constraints
+- **Facet IRI requirement documented** — SHACL requires
+  `sh:nodeKind sh:IRI` for facet objects; blank nodes cause validation
+  failure. Recipe now includes the `@id` naming convention
+  (`kb:<parent>-facet`)
+- **Common validation failures table** added to the recipe covering the
+  four most frequent issues: blank-node facets, missing extension `.ttl`,
+  missing `--inference rdfs`, and missing `--allow-info`
+- **"Related proposals and references"** section added to both the
+  template and recipe, ensuring proposals cite related GitHub issues,
+  prior proposals, and evaluated external ontologies
+- **JSON-LD sync requirement** — recipe now requires the embedded
+  JSON-LD in the `.md` to match the tested `.jsonld` file
+- **`.cursor/rules/case-uco-sdk.mdc`** updated with expanded change
+  proposal steps (6–9): create extension `.ttl`, ensure facet IRIs,
+  run `make test-proposal` as a hard gate, and sync `.md` with results
+
 #### UCO Profile Ontology Integration
 
 UCO maintains [Profile repositories](https://cyberdomainontology.org/ontology/development/#profiles)

@@ -110,6 +110,18 @@ If the example graph is provided as a separate file (e.g., in a change_proposals
 I am fine with my examples being transcribed and credited.
 
 
+# Related proposals and references
+
+<!--
+List any related GitHub issues, prior proposals, external ontologies, or specifications that informed this proposal's design. This helps reviewers understand the broader context, dependencies, and design decisions.
+
+Examples:
+- UCO Issue #535 — "Add Qualities to UCO" (prerequisite for time-varying properties)
+- CASE Issue #87 — related prior proposal that was partially superseded
+- QUDT ontology (https://qudt.org) — evaluated and rejected due to SHACL complexity
+-->
+
+
 # Solution suggestion
 
 <!--
@@ -130,35 +142,54 @@ If example snippets of instance data are provided, please note if you provide pe
 # Pre-submission testing
 
 <!--
-Before submitting this proposal for ontologist review, the following tests should be run and their results reported here. Use `make test-proposal PROPOSAL=<slug>` to run all tests automatically.
+IMPORTANT: This section must contain ACTUAL test results, not placeholders.
+A proposal is not ready for submission until `make test-proposal PROPOSAL=<slug>` passes
+and this section is populated with real output. Do not leave Yes/No placeholders.
+
+Run: make test-proposal PROPOSAL=<slug>
+
+This validates the graph and tests SPARQL queries. If the proposal introduces new Facet or
+UcoObject subclasses, a <slug>.ttl extension file is REQUIRED for validation to pass.
+
+See docs/recipes/change-proposal.md Step 5 and Step 6 for details.
 -->
 
 ## SPARQL query testing
 
 <!--
-Report whether each SPARQL query in the Competencies section was tested against the example instance data. List the query, whether it returned the expected results, and any issues encountered.
+Report whether each SPARQL query in the Competencies section was tested against the example
+instance data. Replace the placeholder rows below with actual results. Include the number of
+results returned and whether they match the expected output described in the Competencies section.
 -->
 
-| Query | Tested | Expected results match | Notes |
-|-------|--------|----------------------|-------|
-| CQ 1.1 | Yes/No | Yes/No | |
-| CQ 1.2 | Yes/No | Yes/No | |
+| Query | Tested | Results returned | Expected results match | Notes |
+|-------|--------|-----------------|----------------------|-------|
+| CQ 1.1 | | | | |
+| CQ 1.2 | | | | |
 
 ## Graph validation
 
 <!--
-Report the results of validating the example instance data. At minimum, validate against the current CASE/UCO release. If a local extension ontology is provided, include it in validation.
+Report the ACTUAL output of case_validate. Include the command used (with all flags) and the
+conformance result. If informational warnings were reported, list them and explain their disposition.
+
+Note: Proposals introducing new Facet/UcoObject subclasses require:
+- A <slug>.ttl file declaring rdfs:subClassOf relationships
+- The --inference rdfs flag (to infer class hierarchy)
+- The --allow-info flag (to allow informational results without failure)
+- All facet objects must have @id properties (not blank nodes)
 -->
 
 ```
-$ case_validate --built-version case-1.4.0 example-data.jsonld
-Validation result: [Conforms/Does not conform]
+$ make validate-proposal PROPOSAL=<slug>
+[paste actual output here]
 ```
 
 ## Unresolved issues
 
 <!--
-List any test failures, validation warnings, or known issues that remain unresolved at submission time. If all tests pass, state "No unresolved issues."
+List any test failures, validation warnings, or known issues that remain unresolved at
+submission time. If all tests pass, state "No unresolved issues."
 -->
 
 No unresolved issues.

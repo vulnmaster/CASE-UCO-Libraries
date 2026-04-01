@@ -99,9 +99,12 @@ If the developer agrees, follow the change-proposal recipe (`docs/recipes/change
 3. Determine whether the concept belongs in UCO (general cyber-domain) or CASE (investigation-specific) — ask the developer if unsure
 4. Ask which release to target (1.5.0 for backward-compatible additions, 2.0.0 for breaking changes; default to 1.5.0 if unsure)
 5. Draft the proposal with `draft_change_proposal(...)`, which writes the proposal markdown, example `.jsonld` graph, and `.sparql` queries to `change_proposals/`
-6. Run `make test-proposal PROPOSAL=<slug>` to validate the example graph and test SPARQL queries — update the Pre-submission testing section with results
-7. If a local extension ontology is created, test it against multiple CASE/UCO branches with `make test-extension-compat`
-8. Optionally guide the developer through creating a local extension to unblock immediate work (see `docs/recipes/extensions.md`)
+6. If the proposal introduces new Facet or UcoObject subclasses, create a `<slug>.ttl` extension file declaring `rdfs:subClassOf` relationships — this is **required** for validation
+7. Ensure all facet objects in the `.jsonld` have explicit `@id` properties (not blank nodes) — SHACL requires `sh:nodeKind sh:IRI`
+8. Run `make test-proposal PROPOSAL=<slug>` to validate the example graph and test SPARQL queries — a proposal is **not finished** until this passes
+9. Update the Pre-submission testing section in the `.md` with actual test results, and ensure the embedded JSON-LD matches the tested `.jsonld`
+10. If a local extension ontology is created, test it against multiple CASE/UCO branches with `make test-extension-compat`
+11. Optionally guide the developer through creating a local extension to unblock immediate work (see `docs/recipes/extensions.md`)
 
 ## Important Constraints
 

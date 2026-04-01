@@ -1,0 +1,17 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix uco-core: <https://ontology.unifiedcyberontology.org/uco/core/> .
+@prefix uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
+@prefix proposed: <http://example.org/ontology/proposed/> .
+
+proposed:CryptocurrencyAddressFacet
+    a owl:Class ;
+    rdfs:subClassOf uco-observable:Facet ;
+    rdfs:label "CryptocurrencyAddressFacet"@en ;
+    rdfs:comment "A cryptocurrency address facet is a grouping of characteristics unique to a blockchain address used to send and receive cryptocurrency on a distributed ledger network."@en .
+
+proposed:CryptocurrencyTransactionFacet
+    a owl:Class ;
+    rdfs:subClassOf uco-observable:Facet ;
+    rdfs:label "CryptocurrencyTransactionFacet"@en ;
+    rdfs:comment "A cryptocurrency transaction facet is a grouping of characteristics unique to a transfer of value recorded on a blockchain distributed ledger."@en .

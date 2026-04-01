@@ -74,7 +74,7 @@ The gap is confirmed: no existing class models UAV/drone-specific telemetry data
 
 ## Step 2: Check existing proposals
 
-Before drafting a new proposal, search the open issues in both the UCO and CASE repositories. Someone may have already proposed the concept, or a related proposal may be in progress.
+**This step is critical for proposal quality.** Before drafting a new proposal, search the open issues in both the UCO and CASE repositories. Someone may have already proposed the concept, or a related proposal may be in progress. Finding related issues provides essential context — for example, discovering a prerequisite proposal (like UCO #535 "Add Qualities") can change the entire design of your proposal.
 
 <details open><summary>MCP — checking existing proposals</summary>
 
@@ -195,11 +195,13 @@ This generates three files in `change_proposals/`:
 
 **Example instance data**: A concrete JSON-LD graph showing the proposed concept in use. This is what the submitter eventually wants to build and share with others. It must be complete enough to support the SPARQL queries in the Competencies section.
 
+**Related proposals and references**: List any related GitHub issues, prior proposals, external ontologies, or specifications that informed the design. This helps reviewers understand the broader context and dependencies. Include links found during Step 2.
+
 **Solution suggestion**: Enumerate the concrete OWL changes (new class, new properties, new shapes) and any test additions.
 
 ---
 
-## Step 5: Create example data
+## Step 5: Create example data and extension ontology
 
 The `draft_change_proposal` tool auto-generates a starter example graph at `change_proposals/<slug>.jsonld`. Expand this with realistic data that:
 
@@ -207,6 +209,43 @@ The `draft_change_proposal` tool auto-generates a starter example graph at `chan
 - Supports the SPARQL queries in the Competencies section
 - Includes both positive and negative ground truth where applicable
 - Represents the kind of graph the submitter eventually wants to build and share
+
+### JSON-LD requirements for validation
+
+Two requirements are commonly missed and will cause `case_validate` to report `Conforms: False`:
+
+1. **Facets MUST have IRIs (not blank nodes).** The `hasFacet` SHACL shape requires `sh:nodeKind sh:IRI`. Every facet object inside a `uco-core:hasFacet` array must include an `@id` property. Convention: use the parent's `@id` with a `-facet` suffix (e.g., `kb:addr-1` → `kb:addr-1-facet`).
+
+   ```json
+   "uco-core:hasFacet": [
+     {
+       "@id": "kb:observable-1-facet",
+       "@type": "proposed:MyNewFacet",
+       "proposed:someProperty": "value"
+     }
+   ]
+   ```
+
+2. **The `.jsonld` and the JSON-LD block embedded in the `.md` must stay in sync.** After fixing validation issues in the `.jsonld`, update the embedded example in the proposal markdown to match. Reviewers read the `.md`; automated tests run against the `.jsonld`.
+
+### Extension ontology (`.ttl`) — required for new Facet subclasses
+
+If the proposal introduces new classes that are subclasses of existing UCO/CASE classes (e.g., a new Facet), you **must** create a `<slug>.ttl` file declaring the `rdfs:subClassOf` relationship. Without this, `case_validate` cannot infer that your proposed type satisfies the `sh:class core:Facet` constraint, and validation will fail.
+
+```turtle
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
+@prefix proposed: <http://example.org/ontology/proposed/> .
+
+proposed:MyNewFacet
+    a owl:Class ;
+    rdfs:subClassOf uco-observable:Facet ;
+    rdfs:label "MyNewFacet"@en ;
+    rdfs:comment "Description of the facet."@en .
+```
+
+This file is **not optional** — it is required for any proposal that introduces Facet or UcoObject subclasses. The Makefile `validate-proposal` target automatically includes it when present.
 
 <details open><summary>Python — building a richer example graph</summary>
 
@@ -254,7 +293,7 @@ graph.write("change_proposals/drone-telemetry-facet.jsonld")
 
 ## Step 6: Test before submission
 
-**This step is required.** The ontology committee expects proposals to include evidence that the SPARQL queries and example data have been tested prior to submission.
+**This step is required — a proposal is not finished until all tests pass.** The ontology committee expects proposals to include evidence that the SPARQL queries and example data have been tested prior to submission. Do not present a proposal as complete if testing has not been run or has failures.
 
 ### Run all proposal tests
 
@@ -264,8 +303,18 @@ make test-proposal PROPOSAL=drone-telemetry-facet
 
 This runs two checks:
 
-1. **Graph validation** — validates the example `.jsonld` against the current CASE/UCO release using `case_validate`. If a local extension `.ttl` and shapes file exist, they are included.
+1. **Graph validation** — validates the example `.jsonld` against the current CASE/UCO release using `case_validate` with `--inference rdfs --allow-info`. If a local extension `.ttl` and shapes file exist, they are automatically included via `--ontology-graph`.
 2. **SPARQL query testing** — executes each query in the `.sparql` file against the example graph and reports whether results were returned.
+
+Both checks must pass. If either fails, fix the issues and re-run.
+
+### Understanding validation flags
+
+The `validate-proposal` Makefile target uses these flags automatically:
+
+- **`--inference rdfs`** — Required when proposed classes are `rdfs:subClassOf` existing UCO/CASE classes (e.g., Facet, UcoObject). Without this, SHACL cannot infer that `proposed:MyFacet` satisfies the `sh:class core:Facet` constraint.
+- **`--allow-info`** — Allows informational results (UUID IRI suggestions, vocabulary hints) without causing a non-zero exit code. These are advisory, not errors.
+- **`--ontology-graph <slug>.ttl`** — Automatically included when the file exists. Declares your proposed classes so the validator knows their type hierarchy.
 
 ### Run tests individually
 
@@ -276,6 +325,15 @@ make validate-proposal PROPOSAL=drone-telemetry-facet
 # Test SPARQL queries
 make sparql-test-proposal PROPOSAL=drone-telemetry-facet
 ```
+
+### Common validation failures and fixes
+
+| Failure | Cause | Fix |
+|---------|-------|-----|
+| `NodeKindConstraintComponent: Value is not of Node Kind sh:IRI` | Facet objects are blank nodes (missing `@id`) | Add `"@id": "kb:<parent>-facet"` to each facet object |
+| `ClassConstraintComponent: Value does not have class core:Facet` | No `.ttl` declaring `rdfs:subClassOf` | Create `<slug>.ttl` with the class hierarchy (see Step 5) |
+| `ClassConstraintComponent` despite `.ttl` present | Missing `--inference rdfs` flag | Ensure the Makefile target passes `--inference rdfs` |
+| Exit code 1 with only informational results | Missing `--allow-info` flag | Ensure the Makefile target passes `--allow-info` |
 
 ### Test extensions against multiple CASE/UCO branches
 
@@ -300,7 +358,8 @@ After running tests, update the **Pre-submission testing** section of the propos
 
 1. Whether each SPARQL query was tested and returned expected results
 2. The `case_validate` output (Conforms: True/False)
-3. Any unresolved issues or known failures
+3. Any informational warnings and their disposition
+4. Any unresolved issues or known failures
 
 The proposal should state that tests have been run. If all tests pass, write "No unresolved issues." If issues remain, document them — this transparency helps the committee.
 
@@ -325,12 +384,13 @@ When the concept is officially added to CASE/UCO in a future release, retire the
 
 ## Submitting the proposal
 
-Once the draft in `change_proposals/` is reviewed, tested, and refined:
+A proposal is **not ready for submission** until `make test-proposal PROPOSAL=<slug>` passes and the Pre-submission testing section documents the results. Once the draft is reviewed, tested, and refined:
 
-1. Ensure `make test-proposal PROPOSAL=<slug>` passes (or document unresolved issues)
-2. Update the Pre-submission testing section with actual test results
-3. Determine the target repository (UCO or CASE) — see Step 3
-4. Open a new issue in the appropriate GitHub repository:
+1. Verify `make test-proposal PROPOSAL=<slug>` exits cleanly (graph validation conforms, all SPARQL queries return expected results)
+2. Confirm the Pre-submission testing section in the `.md` reflects the actual test output — do not leave placeholder Yes/No values
+3. Verify the JSON-LD block in the `.md` matches the tested `.jsonld` file
+4. Determine the target repository (UCO or CASE) — see Step 3
+5. Open a new issue in the appropriate GitHub repository:
    - **UCO**: https://github.com/ucoProject/UCO/issues/new
    - **CASE**: https://github.com/casework/CASE/issues/new
 5. Copy the proposal markdown into the issue body

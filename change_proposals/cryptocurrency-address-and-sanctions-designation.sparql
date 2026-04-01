@@ -1,0 +1,139 @@
+# CQ 1.1 — Which cryptocurrency addresses appear in the case?
+PREFIX uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/>
+PREFIX uco-core: <https://ontology.unifiedcyberontology.org/uco/core/>
+PREFIX proposed: <http://example.org/ontology/proposed/>
+
+SELECT ?address ?cryptoType ?network
+WHERE {
+    ?obj a uco-observable:ObservableObject ;
+         uco-core:hasFacet ?cryptoFacet .
+    ?cryptoFacet a proposed:CryptocurrencyAddressFacet ;
+                 proposed:addressValue ?address ;
+                 proposed:cryptocurrencyType ?cryptoType .
+    OPTIONAL { ?cryptoFacet proposed:blockchainNetwork ?network }
+}
+ORDER BY ?address
+# ---
+# CQ 1.2 — What transactions connect addresses, and what amounts were transferred?
+PREFIX uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/>
+PREFIX uco-core: <https://ontology.unifiedcyberontology.org/uco/core/>
+PREFIX proposed: <http://example.org/ontology/proposed/>
+
+SELECT ?txHash ?fromAddress ?toAddress ?amount ?txType
+WHERE {
+    ?tx a uco-observable:ObservableObject ;
+        uco-core:hasFacet ?txFacet .
+    ?txFacet a proposed:CryptocurrencyTransactionFacet ;
+             proposed:transactionHash ?txHash .
+    OPTIONAL { ?txFacet proposed:transactionType ?txType }
+
+    ?inputRel a uco-observable:ObservableRelationship ;
+              uco-core:source ?fromObj ;
+              uco-core:target ?tx ;
+              uco-core:kindOfRelationship "Transaction_Input" .
+    ?fromObj uco-core:hasFacet ?fromFacet .
+    ?fromFacet a proposed:CryptocurrencyAddressFacet ;
+               proposed:addressValue ?fromAddress .
+
+    ?outputRel a uco-observable:ObservableRelationship ;
+               uco-core:source ?tx ;
+               uco-core:target ?toObj ;
+               uco-core:kindOfRelationship "Transaction_Output" .
+    OPTIONAL { ?outputRel proposed:transferAmount ?amount }
+    ?toObj uco-core:hasFacet ?toFacet .
+    ?toFacet a proposed:CryptocurrencyAddressFacet ;
+             proposed:addressValue ?toAddress .
+}
+ORDER BY ?txHash
+# ---
+# CQ 1.3 — Which cryptocurrency addresses are associated with a known organization?
+PREFIX uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/>
+PREFIX uco-core: <https://ontology.unifiedcyberontology.org/uco/core/>
+PREFIX uco-identity: <https://ontology.unifiedcyberontology.org/uco/identity/>
+PREFIX proposed: <http://example.org/ontology/proposed/>
+
+SELECT ?address ?orgName
+WHERE {
+    ?rel a uco-core:Relationship ;
+         uco-core:source ?addrObj ;
+         uco-core:target ?org ;
+         uco-core:kindOfRelationship "Controlled_By" ;
+         uco-core:isDirectional true .
+    ?addrObj uco-core:hasFacet ?cryptoFacet .
+    ?cryptoFacet a proposed:CryptocurrencyAddressFacet ;
+                 proposed:addressValue ?address .
+    ?org a uco-identity:Organization ;
+         uco-core:name ?orgName .
+}
+# ---
+# CQ 2.1 — What transactions are associated with the mixing service?
+PREFIX uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/>
+PREFIX uco-core: <https://ontology.unifiedcyberontology.org/uco/core/>
+PREFIX proposed: <http://example.org/ontology/proposed/>
+
+SELECT ?txHash ?txType ?fromAddress ?toAddress ?amount
+WHERE {
+    ?tx a uco-observable:ObservableObject ;
+        uco-core:hasFacet ?txFacet .
+    ?txFacet a proposed:CryptocurrencyTransactionFacet ;
+             proposed:transactionHash ?txHash ;
+             proposed:transactionType "Mixing" .
+    OPTIONAL { ?txFacet proposed:transactionType ?txType }
+
+    ?inputRel a uco-observable:ObservableRelationship ;
+              uco-core:source ?fromObj ;
+              uco-core:target ?tx ;
+              uco-core:kindOfRelationship "Transaction_Input" .
+    ?fromObj uco-core:hasFacet ?fromFacet .
+    ?fromFacet a proposed:CryptocurrencyAddressFacet ;
+               proposed:addressValue ?fromAddress .
+
+    ?outputRel a uco-observable:ObservableRelationship ;
+               uco-core:source ?tx ;
+               uco-core:target ?toObj ;
+               uco-core:kindOfRelationship "Transaction_Output" .
+    OPTIONAL { ?outputRel proposed:transferAmount ?amount }
+    ?toObj uco-core:hasFacet ?toFacet .
+    ?toFacet a proposed:CryptocurrencyAddressFacet ;
+             proposed:addressValue ?toAddress .
+}
+ORDER BY ?txHash
+# ---
+# CQ 2.2 — Trace funds from suspect through mixer to exchange
+PREFIX uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/>
+PREFIX uco-core: <https://ontology.unifiedcyberontology.org/uco/core/>
+PREFIX proposed: <http://example.org/ontology/proposed/>
+
+SELECT ?fromAddress ?toAddress ?amount ?txType
+WHERE {
+    {
+        SELECT ?tx ?fromAddress ?toAddress ?amount ?txType
+        WHERE {
+            ?tx a uco-observable:ObservableObject ;
+                uco-core:hasFacet ?txFacet .
+            ?txFacet a proposed:CryptocurrencyTransactionFacet .
+            OPTIONAL { ?txFacet proposed:transactionType ?txType }
+
+            ?inputRel a uco-observable:ObservableRelationship ;
+                      uco-core:source ?fromObj ;
+                      uco-core:target ?tx ;
+                      uco-core:kindOfRelationship "Transaction_Input" .
+            ?fromObj uco-core:hasFacet ?fromFacet .
+            ?fromFacet a proposed:CryptocurrencyAddressFacet ;
+                       proposed:addressValue ?fromAddress .
+
+            ?outputRel a uco-observable:ObservableRelationship ;
+                       uco-core:source ?tx ;
+                       uco-core:target ?toObj ;
+                       uco-core:kindOfRelationship "Transaction_Output" .
+            OPTIONAL { ?outputRel proposed:transferAmount ?amount }
+            ?toObj uco-core:hasFacet ?toFacet .
+            ?toFacet a proposed:CryptocurrencyAddressFacet ;
+                     proposed:addressValue ?toAddress .
+        }
+    }
+    FILTER (?fromAddress = "bc1q-suspect-addr" ||
+            ?fromAddress = "bc1q-mixer-pool" ||
+            ?fromAddress = "bc1q-mixer-out-1")
+}
+ORDER BY ?fromAddress

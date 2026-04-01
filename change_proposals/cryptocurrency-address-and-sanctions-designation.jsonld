@@ -1,0 +1,525 @@
+{
+  "@context": {
+    "@vocab": "http://example.org/kb/",
+    "kb": "http://example.org/kb/",
+    "case-investigation": "https://ontology.caseontology.org/case/investigation/",
+    "uco-action": "https://ontology.unifiedcyberontology.org/uco/action/",
+    "uco-core": "https://ontology.unifiedcyberontology.org/uco/core/",
+    "uco-identity": "https://ontology.unifiedcyberontology.org/uco/identity/",
+    "uco-observable": "https://ontology.unifiedcyberontology.org/uco/observable/",
+    "uco-tool": "https://ontology.unifiedcyberontology.org/uco/tool/",
+    "proposed": "http://example.org/ontology/proposed/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "kb:investigation-1",
+      "@type": "case-investigation:Investigation",
+      "uco-core:name": "Ransomware Payment Tracing & Mixing Analysis 2025-RC-0042"
+    },
+    {
+      "@id": "kb:tool-chainalysis",
+      "@type": "uco-tool:Tool",
+      "uco-core:name": "Chainalysis Reactor",
+      "uco-tool:version": "2025.3"
+    },
+    {
+      "@id": "kb:org-binance",
+      "@type": "uco-identity:Organization",
+      "uco-core:name": "Binance"
+    },
+    {
+      "@id": "kb:org-tornado-mixer",
+      "@type": "uco-identity:Organization",
+      "uco-core:name": "TornadoMixer"
+    },
+
+    {
+      "@id": "kb:addr-ransom",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:addr-ransom-facet",
+          "@type": "proposed:CryptocurrencyAddressFacet",
+          "proposed:addressValue": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+          "proposed:cryptocurrencyType": "BTC",
+          "proposed:blockchainNetwork": "Bitcoin Mainnet",
+          "proposed:addressFormat": "Bech32"
+        }
+      ]
+    },
+    {
+      "@id": "kb:addr-intermediate-1",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:addr-intermediate-1-facet",
+          "@type": "proposed:CryptocurrencyAddressFacet",
+          "proposed:addressValue": "bc1q9intermediateaddress1",
+          "proposed:cryptocurrencyType": "BTC",
+          "proposed:blockchainNetwork": "Bitcoin Mainnet",
+          "proposed:addressFormat": "Bech32"
+        }
+      ]
+    },
+    {
+      "@id": "kb:addr-intermediate-2",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:addr-intermediate-2-facet",
+          "@type": "proposed:CryptocurrencyAddressFacet",
+          "proposed:addressValue": "bc1q9intermediateaddress2",
+          "proposed:cryptocurrencyType": "BTC",
+          "proposed:blockchainNetwork": "Bitcoin Mainnet",
+          "proposed:addressFormat": "Bech32"
+        }
+      ]
+    },
+    {
+      "@id": "kb:addr-exchange-deposit",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:addr-exchange-deposit-facet",
+          "@type": "proposed:CryptocurrencyAddressFacet",
+          "proposed:addressValue": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+          "proposed:cryptocurrencyType": "BTC",
+          "proposed:blockchainNetwork": "Bitcoin Mainnet",
+          "proposed:addressFormat": "Base58Check"
+        }
+      ]
+    },
+    {
+      "@id": "kb:rel-exchange-owns-addr",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": { "@id": "kb:addr-exchange-deposit" },
+      "uco-core:target": { "@id": "kb:org-binance" },
+      "uco-core:kindOfRelationship": "Controlled_By",
+      "uco-core:isDirectional": true
+    },
+
+    {
+      "@id": "kb:tx-1",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:tx-1-facet",
+          "@type": "proposed:CryptocurrencyTransactionFacet",
+          "proposed:transactionHash": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2",
+          "proposed:blockHash": "00000000000000000003a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2",
+          "proposed:blockNumber": { "@type": "xsd:integer", "@value": "850001" },
+          "proposed:transactionFee": { "@type": "xsd:decimal", "@value": "0.0001" },
+          "proposed:confirmationCount": { "@type": "xsd:integer", "@value": "144" },
+          "proposed:transactionStatus": "Confirmed",
+          "proposed:transactionType": "Transfer"
+        }
+      ]
+    },
+    {
+      "@id": "kb:tx-1-input",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:addr-ransom" },
+      "uco-core:target": { "@id": "kb:tx-1" },
+      "uco-core:kindOfRelationship": "Transaction_Input",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "2.5" }
+    },
+    {
+      "@id": "kb:tx-1-output",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:tx-1" },
+      "uco-core:target": { "@id": "kb:addr-intermediate-1" },
+      "uco-core:kindOfRelationship": "Transaction_Output",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "2.4999" }
+    },
+
+    {
+      "@id": "kb:tx-2",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:tx-2-facet",
+          "@type": "proposed:CryptocurrencyTransactionFacet",
+          "proposed:transactionHash": "e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4i5j6",
+          "proposed:blockNumber": { "@type": "xsd:integer", "@value": "850050" },
+          "proposed:transactionFee": { "@type": "xsd:decimal", "@value": "0.00012" },
+          "proposed:confirmationCount": { "@type": "xsd:integer", "@value": "95" },
+          "proposed:transactionStatus": "Confirmed",
+          "proposed:transactionType": "Transfer"
+        }
+      ]
+    },
+    {
+      "@id": "kb:tx-2-input",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:addr-intermediate-1" },
+      "uco-core:target": { "@id": "kb:tx-2" },
+      "uco-core:kindOfRelationship": "Transaction_Input",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "2.4999" }
+    },
+    {
+      "@id": "kb:tx-2-output",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:tx-2" },
+      "uco-core:target": { "@id": "kb:addr-intermediate-2" },
+      "uco-core:kindOfRelationship": "Transaction_Output",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "2.49" }
+    },
+
+    {
+      "@id": "kb:tx-3",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:tx-3-facet",
+          "@type": "proposed:CryptocurrencyTransactionFacet",
+          "proposed:transactionHash": "i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4i5j6k7l8m9n0",
+          "proposed:blockNumber": { "@type": "xsd:integer", "@value": "850100" },
+          "proposed:transactionFee": { "@type": "xsd:decimal", "@value": "0.0001" },
+          "proposed:confirmationCount": { "@type": "xsd:integer", "@value": "45" },
+          "proposed:transactionStatus": "Confirmed",
+          "proposed:transactionType": "Deposit"
+        }
+      ]
+    },
+    {
+      "@id": "kb:tx-3-input",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:addr-intermediate-2" },
+      "uco-core:target": { "@id": "kb:tx-3" },
+      "uco-core:kindOfRelationship": "Transaction_Input",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "2.49" }
+    },
+    {
+      "@id": "kb:tx-3-output",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:tx-3" },
+      "uco-core:target": { "@id": "kb:addr-exchange-deposit" },
+      "uco-core:kindOfRelationship": "Transaction_Output",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "2.48" }
+    },
+
+    {
+      "@id": "kb:addr-suspect",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:addr-suspect-facet",
+          "@type": "proposed:CryptocurrencyAddressFacet",
+          "proposed:addressValue": "bc1q-suspect-addr",
+          "proposed:cryptocurrencyType": "BTC",
+          "proposed:blockchainNetwork": "Bitcoin Mainnet",
+          "proposed:addressFormat": "Bech32"
+        }
+      ]
+    },
+    {
+      "@id": "kb:addr-mixer-pool",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:addr-mixer-pool-facet",
+          "@type": "proposed:CryptocurrencyAddressFacet",
+          "proposed:addressValue": "bc1q-mixer-pool",
+          "proposed:cryptocurrencyType": "BTC",
+          "proposed:blockchainNetwork": "Bitcoin Mainnet",
+          "proposed:addressFormat": "Bech32"
+        }
+      ]
+    },
+    {
+      "@id": "kb:rel-mixer-owns-pool",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": { "@id": "kb:addr-mixer-pool" },
+      "uco-core:target": { "@id": "kb:org-tornado-mixer" },
+      "uco-core:kindOfRelationship": "Controlled_By",
+      "uco-core:isDirectional": true
+    },
+    {
+      "@id": "kb:addr-mixer-out-1",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:addr-mixer-out-1-facet",
+          "@type": "proposed:CryptocurrencyAddressFacet",
+          "proposed:addressValue": "bc1q-mixer-out-1",
+          "proposed:cryptocurrencyType": "BTC",
+          "proposed:blockchainNetwork": "Bitcoin Mainnet",
+          "proposed:addressFormat": "Bech32"
+        }
+      ]
+    },
+    {
+      "@id": "kb:addr-mixer-out-2",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:addr-mixer-out-2-facet",
+          "@type": "proposed:CryptocurrencyAddressFacet",
+          "proposed:addressValue": "bc1q-mixer-out-2",
+          "proposed:cryptocurrencyType": "BTC",
+          "proposed:blockchainNetwork": "Bitcoin Mainnet",
+          "proposed:addressFormat": "Bech32"
+        }
+      ]
+    },
+    {
+      "@id": "kb:addr-mixer-out-3",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:addr-mixer-out-3-facet",
+          "@type": "proposed:CryptocurrencyAddressFacet",
+          "proposed:addressValue": "bc1q-mixer-out-3",
+          "proposed:cryptocurrencyType": "BTC",
+          "proposed:blockchainNetwork": "Bitcoin Mainnet",
+          "proposed:addressFormat": "Bech32"
+        }
+      ]
+    },
+    {
+      "@id": "kb:addr-mixer-exchange-deposit",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:addr-mixer-exchange-deposit-facet",
+          "@type": "proposed:CryptocurrencyAddressFacet",
+          "proposed:addressValue": "bc1q-exchange-deposit",
+          "proposed:cryptocurrencyType": "BTC",
+          "proposed:blockchainNetwork": "Bitcoin Mainnet",
+          "proposed:addressFormat": "Bech32"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:mix-tx-deposit",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:mix-tx-deposit-facet",
+          "@type": "proposed:CryptocurrencyTransactionFacet",
+          "proposed:transactionHash": "mix-deposit-001",
+          "proposed:blockNumber": { "@type": "xsd:integer", "@value": "849900" },
+          "proposed:transactionFee": { "@type": "xsd:decimal", "@value": "0.0002" },
+          "proposed:transactionStatus": "Confirmed",
+          "proposed:transactionType": "Mixing"
+        }
+      ]
+    },
+    {
+      "@id": "kb:mix-tx-deposit-input",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:addr-suspect" },
+      "uco-core:target": { "@id": "kb:mix-tx-deposit" },
+      "uco-core:kindOfRelationship": "Transaction_Input",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "10.0" }
+    },
+    {
+      "@id": "kb:mix-tx-deposit-output",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:mix-tx-deposit" },
+      "uco-core:target": { "@id": "kb:addr-mixer-pool" },
+      "uco-core:kindOfRelationship": "Transaction_Output",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "9.9998" }
+    },
+
+    {
+      "@id": "kb:mix-tx-out-1",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:mix-tx-out-1-facet",
+          "@type": "proposed:CryptocurrencyTransactionFacet",
+          "proposed:transactionHash": "mix-output-001",
+          "proposed:blockNumber": { "@type": "xsd:integer", "@value": "849950" },
+          "proposed:transactionFee": { "@type": "xsd:decimal", "@value": "0.0001" },
+          "proposed:transactionStatus": "Confirmed",
+          "proposed:transactionType": "Mixing"
+        }
+      ]
+    },
+    {
+      "@id": "kb:mix-tx-out-1-input",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:addr-mixer-pool" },
+      "uco-core:target": { "@id": "kb:mix-tx-out-1" },
+      "uco-core:kindOfRelationship": "Transaction_Input",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "3.3" }
+    },
+    {
+      "@id": "kb:mix-tx-out-1-output",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:mix-tx-out-1" },
+      "uco-core:target": { "@id": "kb:addr-mixer-out-1" },
+      "uco-core:kindOfRelationship": "Transaction_Output",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "3.3" }
+    },
+
+    {
+      "@id": "kb:mix-tx-out-2",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:mix-tx-out-2-facet",
+          "@type": "proposed:CryptocurrencyTransactionFacet",
+          "proposed:transactionHash": "mix-output-002",
+          "proposed:blockNumber": { "@type": "xsd:integer", "@value": "849951" },
+          "proposed:transactionFee": { "@type": "xsd:decimal", "@value": "0.0001" },
+          "proposed:transactionStatus": "Confirmed",
+          "proposed:transactionType": "Mixing"
+        }
+      ]
+    },
+    {
+      "@id": "kb:mix-tx-out-2-input",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:addr-mixer-pool" },
+      "uco-core:target": { "@id": "kb:mix-tx-out-2" },
+      "uco-core:kindOfRelationship": "Transaction_Input",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "3.3" }
+    },
+    {
+      "@id": "kb:mix-tx-out-2-output",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:mix-tx-out-2" },
+      "uco-core:target": { "@id": "kb:addr-mixer-out-2" },
+      "uco-core:kindOfRelationship": "Transaction_Output",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "3.3" }
+    },
+
+    {
+      "@id": "kb:mix-tx-out-3",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:mix-tx-out-3-facet",
+          "@type": "proposed:CryptocurrencyTransactionFacet",
+          "proposed:transactionHash": "mix-output-003",
+          "proposed:blockNumber": { "@type": "xsd:integer", "@value": "849952" },
+          "proposed:transactionFee": { "@type": "xsd:decimal", "@value": "0.0001" },
+          "proposed:transactionStatus": "Confirmed",
+          "proposed:transactionType": "Mixing"
+        }
+      ]
+    },
+    {
+      "@id": "kb:mix-tx-out-3-input",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:addr-mixer-pool" },
+      "uco-core:target": { "@id": "kb:mix-tx-out-3" },
+      "uco-core:kindOfRelationship": "Transaction_Input",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "3.39" }
+    },
+    {
+      "@id": "kb:mix-tx-out-3-output",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:mix-tx-out-3" },
+      "uco-core:target": { "@id": "kb:addr-mixer-out-3" },
+      "uco-core:kindOfRelationship": "Transaction_Output",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "3.39" }
+    },
+
+    {
+      "@id": "kb:mix-tx-withdraw",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:mix-tx-withdraw-facet",
+          "@type": "proposed:CryptocurrencyTransactionFacet",
+          "proposed:transactionHash": "mix-withdraw-001",
+          "proposed:blockNumber": { "@type": "xsd:integer", "@value": "850200" },
+          "proposed:transactionFee": { "@type": "xsd:decimal", "@value": "0.0001" },
+          "proposed:transactionStatus": "Confirmed",
+          "proposed:transactionType": "Deposit"
+        }
+      ]
+    },
+    {
+      "@id": "kb:mix-tx-withdraw-input",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:addr-mixer-out-1" },
+      "uco-core:target": { "@id": "kb:mix-tx-withdraw" },
+      "uco-core:kindOfRelationship": "Transaction_Input",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "3.3" }
+    },
+    {
+      "@id": "kb:mix-tx-withdraw-output",
+      "@type": "uco-observable:ObservableRelationship",
+      "uco-core:source": { "@id": "kb:mix-tx-withdraw" },
+      "uco-core:target": { "@id": "kb:addr-mixer-exchange-deposit" },
+      "uco-core:kindOfRelationship": "Transaction_Output",
+      "uco-core:isDirectional": true,
+      "proposed:transferAmount": { "@type": "xsd:decimal", "@value": "3.29" }
+    },
+
+    {
+      "@id": "kb:tracing-action-1",
+      "@type": "case-investigation:InvestigativeAction",
+      "uco-core:name": "Blockchain transaction tracing of ransom payment flow",
+      "uco-action:instrument": { "@id": "kb:tool-chainalysis" },
+      "uco-action:object": [
+        { "@id": "kb:addr-ransom" },
+        { "@id": "kb:addr-intermediate-1" },
+        { "@id": "kb:addr-intermediate-2" },
+        { "@id": "kb:addr-exchange-deposit" }
+      ],
+      "uco-action:result": [
+        { "@id": "kb:tx-1" },
+        { "@id": "kb:tx-2" },
+        { "@id": "kb:tx-3" }
+      ],
+      "uco-action:startTime": { "@type": "xsd:dateTime", "@value": "2025-03-26T14:30:00Z" },
+      "uco-action:endTime": { "@type": "xsd:dateTime", "@value": "2025-03-26T14:35:00Z" }
+    },
+    {
+      "@id": "kb:mixing-analysis-action",
+      "@type": "case-investigation:InvestigativeAction",
+      "uco-core:name": "Cryptocurrency mixing service analysis",
+      "uco-action:instrument": { "@id": "kb:tool-chainalysis" },
+      "uco-action:object": [
+        { "@id": "kb:addr-suspect" }
+      ],
+      "uco-action:result": [
+        { "@id": "kb:mix-tx-deposit" },
+        { "@id": "kb:mix-tx-out-1" },
+        { "@id": "kb:mix-tx-out-2" },
+        { "@id": "kb:mix-tx-out-3" },
+        { "@id": "kb:mix-tx-withdraw" }
+      ],
+      "uco-action:startTime": { "@type": "xsd:dateTime", "@value": "2025-03-27T09:00:00Z" },
+      "uco-action:endTime": { "@type": "xsd:dateTime", "@value": "2025-03-27T09:15:00Z" }
+    },
+    {
+      "@id": "kb:rel-tracing-to-investigation",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": { "@id": "kb:tracing-action-1" },
+      "uco-core:target": { "@id": "kb:investigation-1" },
+      "uco-core:kindOfRelationship": "part_of",
+      "uco-core:isDirectional": true
+    },
+    {
+      "@id": "kb:rel-mixing-to-investigation",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": { "@id": "kb:mixing-analysis-action" },
+      "uco-core:target": { "@id": "kb:investigation-1" },
+      "uco-core:kindOfRelationship": "part_of",
+      "uco-core:isDirectional": true
+    }
+  ]
+}

@@ -114,7 +114,7 @@ PROPOSAL_SHAPES := $(PROPOSAL_DIR)/$(PROPOSAL)-shapes.ttl
 validate-proposal:
 	@echo "=== Validating proposal graph: $(PROPOSAL_JSONLD) ==="
 	@if [ -f "$(PROPOSAL_JSONLD)" ]; then \
-		VALIDATE_ARGS="--built-version case-1.4.0"; \
+		VALIDATE_ARGS="--built-version case-1.4.0 --inference rdfs --allow-info"; \
 		if [ -f "$(PROPOSAL_TTL)" ]; then \
 			VALIDATE_ARGS="$$VALIDATE_ARGS --ontology-graph $(PROPOSAL_TTL)"; \
 		fi; \
@@ -129,30 +129,7 @@ validate-proposal:
 sparql-test-proposal:
 	@echo "=== Testing SPARQL queries for proposal: $(PROPOSAL) ==="
 	@if [ -f "$(PROPOSAL_SPARQL)" ] && [ -f "$(PROPOSAL_JSONLD)" ]; then \
-		echo "Running SPARQL queries from $(PROPOSAL_SPARQL) against $(PROPOSAL_JSONLD)"; \
-		$(PYTHON) -c " \
-import rdflib, sys; \
-g = rdflib.Graph(); \
-g.parse('$(PROPOSAL_JSONLD)', format='json-ld'); \
-print(f'Loaded {len(g)} triples from $(PROPOSAL_JSONLD)'); \
-sparql_text = open('$(PROPOSAL_SPARQL)').read(); \
-queries = [q.strip() for q in sparql_text.split('# ---') if q.strip()]; \
-if len(queries) <= 1: queries = [sparql_text]; \
-passed = 0; failed = 0; \
-for i, q in enumerate(queries, 1): \
-    lines = [l for l in q.strip().splitlines() if not l.startswith('#')]; \
-    query = '\n'.join(lines); \
-    if not query.strip(): continue; \
-    try: \
-        results = list(g.query(query)); \
-        print(f'  Query {i}: {len(results)} result(s) — OK'); \
-        passed += 1; \
-    except Exception as e: \
-        print(f'  Query {i}: FAILED — {e}'); \
-        failed += 1; \
-print(f'\nSPARQL test summary: {passed} passed, {failed} failed'); \
-sys.exit(1 if failed > 0 else 0); \
-		"; \
+		$(PYTHON) scripts/sparql_test.py $(PROPOSAL_JSONLD) $(PROPOSAL_SPARQL); \
 	else \
 		echo "No .sparql or .jsonld file found for proposal $(PROPOSAL) — skipping SPARQL tests"; \
 	fi
