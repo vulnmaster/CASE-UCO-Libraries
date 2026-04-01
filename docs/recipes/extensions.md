@@ -20,7 +20,7 @@ Separating OWL and SHACL avoids redundancies during testing.
 
 1. **Use `owl:Class`, never `owl:NamedIndividual`** for schema concepts. This is the most common AI mistake — `owl:NamedIndividual` is not instantiable.
 2. **Every class must subclass** an existing UCO, CASE, or community extension class via `rdfs:subClassOf`.
-3. **Include `rdfs:label` and a descriptive `rdfs:comment`** (`@en`) for every class and property. Err on the side of longer, more detailed descriptions.
+3. **Include `rdfs:label` and a descriptive `rdfs:comment`** (`@en`) for every class and property. Err on the side of longer, more detailed descriptions. Descriptions should include citations to a canonical source that is web accessible (e.g., an RFC, W3C spec, NIST publication, or authoritative reference URL).
 4. **Multiple superclasses are allowed**, as long as class disjointedness is respected.
 5. **Reference [CASE-Examples](https://github.com/casework/CASE-Examples)** for validated patterns to emulate.
 

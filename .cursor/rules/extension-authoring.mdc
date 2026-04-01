@@ -12,7 +12,7 @@ Follow these patterns when creating CASE/UCO extension ontologies. These rules a
 
 - **T-Box vs. A-Box:** When defining new ontology concepts, you MUST use `owl:Class`, `owl:ObjectProperty`, or `owl:DatatypeProperty`. NEVER use `owl:NamedIndividual` to define a new concept category or schema element. This is the most common AI mistake.
 - **Mandatory Subclassing:** Every new `owl:Class` MUST be `rdfs:subClassOf` an existing UCO, CASE, or established community extension class. Classes may have multiple superclasses, but must respect class disjointedness (if A and B are disjoint, C cannot subclass both).
-- **Documentation:** ALWAYS include `rdfs:label` and a highly descriptive `rdfs:comment` in English (`@en`) for every class and property. Err on the side of longer, more detailed descriptions.
+- **Documentation:** ALWAYS include `rdfs:label` and a highly descriptive `rdfs:comment` in English (`@en`) for every class and property. Err on the side of longer, more detailed descriptions. Descriptions should include citations to a canonical source that is web accessible (e.g., an RFC, W3C spec, NIST publication, or authoritative reference URL).
 - **Reference Validated Examples:** Prioritize patterns from [CASE-Examples](https://github.com/casework/CASE-Examples).
 
 ## File Structure
@@ -29,7 +29,7 @@ myext:MyClass
     a owl:Class ;
     rdfs:subClassOf uco-core:UcoObject ;
     rdfs:label "MyClass"@en ;
-    rdfs:comment "A detailed description of what this class represents, written so that cyber domain practitioners can broadly understand it."@en .
+    rdfs:comment "A detailed description of what this class represents, written so that cyber domain practitioners can broadly understand it. See https://example.org/spec for the canonical definition."@en .
 ```
 
 ## SHACL Shape Pattern

@@ -83,7 +83,7 @@ When creating extension ontologies, follow the [CDO Community Playground Guide](
 
 - **NEVER** use `owl:NamedIndividual` to define a new concept — always use `owl:Class`. This is the most common AI mistake.
 - **Every** new class MUST be `rdfs:subClassOf` an existing UCO, CASE, or community extension class.
-- **ALWAYS** include `rdfs:label` and a descriptive `rdfs:comment` (`@en`) for every class and property.
+- **ALWAYS** include `rdfs:label` and a descriptive `rdfs:comment` (`@en`) for every class and property. Descriptions should cite a canonical web-accessible source (RFC, W3C spec, NIST publication, etc.).
 - **Separate** OWL definitions and SHACL shapes into different files.
 - **Reference** [CASE-Examples](https://github.com/casework/CASE-Examples) for validated patterns.
 - **Test** with `make playground-test EXT_OWL=... EXT_SHAPES=...` before submission.
