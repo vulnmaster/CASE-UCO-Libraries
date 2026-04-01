@@ -1,6 +1,7 @@
 .PHONY: all generate build test clean init lint smoke check venv \
        test-proposal validate-proposal sparql-test-proposal \
-       test-extension-compat test-extension-main test-extension-develop test-extension-develop2
+       test-extension-compat test-extension-main test-extension-develop test-extension-develop2 \
+       playground-test
 
 VENV := .venv
 PYTHON := $(VENV)/bin/python
@@ -216,3 +217,39 @@ test-extension-compat: test-extension-main test-extension-develop test-extension
 	@echo "=== Extension compatibility testing complete ==="
 	@echo "Tested: $(EXT_TTL)"
 	@echo "Against: main, develop (v1.5.0), develop-2.0.0 (v2.0.0)"
+
+# ---------------------------------------------------------------------------
+# CDO Community Playground testing
+# ---------------------------------------------------------------------------
+# Usage: make playground-test EXT_OWL=path/to/ext.ttl EXT_SHAPES=path/to/ext-shapes.ttl
+#
+# Clones CASE-Profile-Example, injects the extension ontology and shapes,
+# then runs `make -j check` per the CDO Community Playground Guide.
+
+PLAYGROUND_DIR := .playground-test
+EXT_OWL ?=
+EXT_SHAPES ?=
+
+playground-test:
+ifndef EXT_OWL
+	$(error EXT_OWL is required. Usage: make playground-test EXT_OWL=path/to/ext.ttl EXT_SHAPES=path/to/ext-shapes.ttl)
+endif
+	@echo "=== CDO Community Playground Testing ==="
+	@echo "Extension OWL:    $(EXT_OWL)"
+	@echo "Extension SHAPES: $(EXT_SHAPES)"
+	@echo ""
+	@rm -rf $(PLAYGROUND_DIR)
+	git clone --quiet https://github.com/casework/CASE-Profile-Example $(PLAYGROUND_DIR)
+	@echo "--- Injecting extension ontology ---"
+	cp $(EXT_OWL) $(PLAYGROUND_DIR)/ontology/case-example.ttl
+	@if [ -n "$(EXT_SHAPES)" ] && [ -f "$(EXT_SHAPES)" ]; then \
+		echo "--- Injecting SHACL shapes ---"; \
+		cp $(EXT_SHAPES) $(PLAYGROUND_DIR)/shapes/sh-case-example.ttl; \
+	fi
+	@echo "--- Running make -j check ---"
+	cd $(PLAYGROUND_DIR) && make -j check
+	@echo ""
+	@echo "=== Playground testing PASSED ==="
+	@echo "Your extension is ready for CDO Community Playground submission."
+	@echo "Place it in a public GitHub repo and notify the Ontology Committee."
+	@rm -rf $(PLAYGROUND_DIR)

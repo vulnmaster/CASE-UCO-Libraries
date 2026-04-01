@@ -1,35 +1,38 @@
 ---
-description: Guidance for authoring CASE/UCO extension ontologies in Turtle format
+description: Guidance for authoring CASE/UCO extension ontologies per the CDO Community Playground Guide
 globs: extensions/**/*.ttl
 alwaysApply: false
 ---
 
 # Extension Ontology Authoring
 
-When working on extension ontology TTL files, follow these patterns.
+Follow these patterns when creating CASE/UCO extension ontologies. These rules are derived from the [CDO Community Playground Guide](https://docs.google.com/document/d/1EiXQiAeUGk-629xdKx7HZHVn927k891LGkPcQzNLLr8/edit?usp=sharing).
+
+## Critical Constraints
+
+- **T-Box vs. A-Box:** When defining new ontology concepts, you MUST use `owl:Class`, `owl:ObjectProperty`, or `owl:DatatypeProperty`. NEVER use `owl:NamedIndividual` to define a new concept category or schema element. This is the most common AI mistake.
+- **Mandatory Subclassing:** Every new `owl:Class` MUST be `rdfs:subClassOf` an existing UCO, CASE, or established community extension class. Classes may have multiple superclasses, but must respect class disjointedness (if A and B are disjoint, C cannot subclass both).
+- **Documentation:** ALWAYS include `rdfs:label` and a highly descriptive `rdfs:comment` in English (`@en`) for every class and property. Err on the side of longer, more detailed descriptions.
+- **Reference Validated Examples:** Prioritize patterns from [CASE-Examples](https://github.com/casework/CASE-Examples).
 
 ## File Structure
 
-Each extension should have separate OWL and SHACL files:
-- `myext.ttl` — OWL class and property definitions
+Each extension MUST have separate OWL and SHACL files:
+- `myext.ttl` — OWL class and property definitions (T-Box)
 - `myext-shapes.ttl` — SHACL NodeShape constraints
-- `myext-exemplar.ttl` — example instance data for validation testing
+- `myext-exemplar.ttl` — example instance data (A-Box) for validation testing
 
 ## Class Definition Pattern
-
-Every extension class must subclass an existing UCO/CASE class:
 
 ```turtle
 myext:MyClass
     a owl:Class ;
     rdfs:subClassOf uco-core:UcoObject ;
     rdfs:label "MyClass"@en ;
-    rdfs:comment "Description of what this class represents."@en .
+    rdfs:comment "A detailed description of what this class represents, written so that cyber domain practitioners can broadly understand it."@en .
 ```
 
 ## SHACL Shape Pattern
-
-Each class needs a corresponding NodeShape:
 
 ```turtle
 myext:MyClass-shape
@@ -43,6 +46,58 @@ myext:MyClass-shape
     ] .
 ```
 
+## Validation (mandatory)
+
+Extensions and exemplars MUST validate with `case_validate` before presenting them as complete.
+
+```bash
+# Basic validation
+case_validate --built-version case-1.4.0 \
+  --ontology-graph myext.ttl \
+  --ontology-graph myext-shapes.ttl \
+  myext-exemplar.ttl
+
+# For extensions that subclass UCO/CASE classes (e.g., Facet, UcoObject):
+# --inference rdfs infers the property hierarchy
+# --allow-info permits informational results (UUID IRI hints, vocab suggestions)
+case_validate --built-version case-1.4.0 \
+  --ontology-graph myext.ttl \
+  --ontology-graph myext-shapes.ttl \
+  --inference rdfs --allow-info \
+  myext-exemplar.ttl
+```
+
+For extensions with multiple namespaces, pass each ontology file with a separate `--ontology-graph`. The report MUST show **Conforms: True**. Fix violations (use `^^xsd:string` for string literals where shapes expect it, satisfy property cardinalities) and re-validate until it passes.
+
+## CDO Community Playground Testing
+
+To submit an extension to the CDO Community Playground:
+
+```bash
+# 1. Clone the testing infrastructure
+git clone https://github.com/casework/CASE-Profile-Example
+
+# 2. Replace the template files
+cp myext.ttl CASE-Profile-Example/ontology/case-example.ttl
+cp myext-shapes.ttl CASE-Profile-Example/shapes/sh-case-example.ttl
+
+# 3. Run the full test suite
+cd CASE-Profile-Example && make -j check
+```
+
+Or use the SDK shortcut: `make playground-test EXT_OWL=myext.ttl EXT_SHAPES=myext-shapes.ttl`
+
+## Chain of Thought for Generating Extensions
+
+When asked to create a new extension:
+
+1. **Analyze & Align** — Identify the cyber domain concept. Find the closest existing parent class in UCO/CASE. Reference CASE-Examples for similar implementations.
+2. **Generate T-Box** — Create OWL classes and properties. Self-check: did I accidentally use `owl:NamedIndividual`? Correct to `owl:Class`.
+3. **Generate SHACL** — Create shapes in a separate file from the OWL definitions.
+4. **Generate A-Box** — Create exemplar instances using UUID-based IRIs (`kb:Concept-UUID`).
+5. **Validate** — Run `case_validate` with `--ontology-graph`, `--inference rdfs`, and `--allow-info`. Fix until `Conforms: True`.
+6. **Scaffold** — Optionally generate typed classes for SDK languages.
+
 ## Scaffolding Typed Classes
 
 After defining the TTL, generate starter code for any language:
@@ -54,15 +109,4 @@ case-uco-generate scaffold \
   --output-dir ./generated/
 ```
 
-## Validation
-
-Validate exemplar data against the extension shapes:
-
-```bash
-case_validate --built-version case-1.4.0 \
-  --ontology-graph myext.ttl \
-  --ontology-graph myext-shapes.ttl \
-  myext-exemplar.ttl
-```
-
-See the `extensions/toolcap/` directory for a complete validated example.
+See `extensions/toolcap/` for a complete validated example.

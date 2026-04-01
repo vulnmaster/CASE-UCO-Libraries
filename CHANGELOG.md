@@ -105,6 +105,39 @@ surfaces all six profiles to developers:
 - **`docs/MAPPING_GUIDE.md`** — new Tip #8 connecting domain mappings
   to relevant profile ontologies with concrete examples
 
+#### CDO Community Playground Guide Integration
+
+Aligned the SDK's extension authoring workflow with the updated
+[CDO Community Playground Guide](https://docs.google.com/document/d/1EiXQiAeUGk-629xdKx7HZHVn927k891LGkPcQzNLLr8/edit?usp=sharing):
+
+- **`.cursor/rules/extension-authoring.mdc`** rewritten with Playground
+  Guide constraints: T-Box vs. A-Box rules (never `owl:NamedIndividual`
+  for schema elements), mandatory subclassing, descriptive documentation,
+  `case_validate` flags (`--inference rdfs`, `--allow-info`,
+  `--ontology-graph`), CASE-Profile-Example testing workflow, and
+  recommended chain of thought for AI agents generating extensions
+- **`.cursor/rules/case-uco-sdk.mdc`** updated validation section with
+  extension-specific `case_validate` flags and new "Extension Ontology
+  Authoring" section summarizing Playground Guide rules
+- **`docs/recipes/extensions.md`** expanded with extension file structure
+  guidance, critical rules for extension classes, validation examples
+  (basic, subclass inference, multiple namespaces), CDO Community
+  Playground testing workflow (manual and via `make playground-test`),
+  and links to existing community playground extensions
+- **`docs/ECOSYSTEM.md`** — new "CDO Community Playground Extensions"
+  subsection listing AI-generated CASE and UCO extensions from
+  Project VIC International's ICAC taskforce work
+- **`make playground-test`** — new Makefile target that clones
+  [CASE-Profile-Example](https://github.com/casework/CASE-Profile-Example),
+  injects the extension ontology and shapes, and runs `make -j check`
+  per the Playground Guide submission requirements
+
+#### Rust Security Lint Fix
+
+- Replaced `.expect()` calls in `rust/src/graph.rs` and
+  `rust/src/registry.rs` with `match` + `panic!` to satisfy
+  `clippy::expect_used` security lint in the `rust-security` CI workflow
+
 #### Cross-Language Parity Contract
 
 - **`docs/CROSS_LANGUAGE_PARITY.md`** — formal specification of what is

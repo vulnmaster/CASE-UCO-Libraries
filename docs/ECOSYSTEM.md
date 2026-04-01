@@ -86,6 +86,15 @@ case-uco-generate scaffold \
 
 The SDK ships with the **[toolcap extension](../extensions/toolcap/)** as a worked example of extension ontology authoring. It defines classes for comparing digital forensics tool capabilities across artifact types, operating systems, and file systems.
 
+### CDO Community Playground Extensions
+
+The [CDO Community Playground](https://docs.google.com/document/d/1EiXQiAeUGk-629xdKx7HZHVn927k891LGkPcQzNLLr8/edit?usp=sharing) accepts validated extension ontology submissions from the community. These extensions may be AI-generated or human-authored, and are not part of the official published specification. All submissions must validate with `case_validate` and pass the [CASE-Profile-Example](https://github.com/casework/CASE-Profile-Example) test suite.
+
+- **[CASE Ontology Extensions (AI-Generated)](https://github.com/vulnmaster/CASE-Ontology-Extensions-AI-Generated)** — CASE extensions derived from Project VIC International's work implementing CASE/UCO into Autopsy (Rust) for Internet Crimes Against Children (ICAC) taskforce workflows
+- **[UCO Extensions (AI-Generated)](https://github.com/vulnmaster/Unified-Cyber-Ontology-Extensions-AI-Generated)** — UCO extensions for the same project
+
+See the [extensions recipe](recipes/extensions.md#cdo-community-playground-testing) for how to test and submit your own extensions to the Playground.
+
 ## UCO Profiles — Interoperability with Other Ontologies
 
 UCO is designed as a "mid-level" domain ontology — it deliberately avoids committing to a single top-level (foundational) ontology so that it can interoperate with multiple external ontologies. To explore and formalize these alignments, the UCO community maintains a set of **Profile** repositories that map UCO concepts to other established ontologies.

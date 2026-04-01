@@ -55,7 +55,7 @@ Do NOT manually browse ONTOLOGY_REFERENCE.md — use the registry or MCP tools i
 
 ## Validation (mandatory)
 
-**Every** generated `.jsonld` file MUST be validated with `case_validate` before presenting results to the user. This is not optional — run it as the final step after `graph.write()`.
+**Every** generated `.jsonld` or `.ttl` file MUST be validated with `case_validate` before presenting results to the user. This is not optional — run it as the final step after `graph.write()`.
 
 ```bash
 # Install once (if not already installed)
@@ -65,7 +65,28 @@ pip install case-utils
 case_validate --built-version case-1.4.0 output.jsonld
 ```
 
+When validating **extension ontology exemplars** (files that instantiate extension classes), you MUST pass the extension ontology via `--ontology-graph` so extension terms are recognized, use `--inference rdfs` when exemplars instantiate subclasses of UCO/CASE classes (e.g., Facet, UcoObject), and use `--allow-info` so informational results (UUID IRI suggestions, vocabulary hints) don't cause failure:
+
+```bash
+case_validate --built-version case-1.4.0 \
+  --ontology-graph path/to/extension.ttl \
+  --ontology-graph path/to/extension-shapes.ttl \
+  --inference rdfs --allow-info \
+  path/to/exemplar.ttl
+```
+
 If validation fails, fix the errors and re-validate before reporting success. Do NOT tell the user the graph is complete until `case_validate` reports `Conforms: True`.
+
+## Extension Ontology Authoring
+
+When creating extension ontologies, follow the [CDO Community Playground Guide](https://docs.google.com/document/d/1EiXQiAeUGk-629xdKx7HZHVn927k891LGkPcQzNLLr8/edit?usp=sharing):
+
+- **NEVER** use `owl:NamedIndividual` to define a new concept — always use `owl:Class`. This is the most common AI mistake.
+- **Every** new class MUST be `rdfs:subClassOf` an existing UCO, CASE, or community extension class.
+- **ALWAYS** include `rdfs:label` and a descriptive `rdfs:comment` (`@en`) for every class and property.
+- **Separate** OWL definitions and SHACL shapes into different files.
+- **Reference** [CASE-Examples](https://github.com/casework/CASE-Examples) for validated patterns.
+- **Test** with `make playground-test EXT_OWL=... EXT_SHAPES=...` before submission.
 
 ## Gap Detection and Change Proposals
 
