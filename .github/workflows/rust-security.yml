@@ -1,0 +1,52 @@
+name: Rust Security
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "rust/**"
+      - ".github/workflows/rust-security.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "rust/**"
+      - ".github/workflows/rust-security.yml"
+  schedule:
+    - cron: "30 6 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Install cargo-audit
+        run: cargo install cargo-audit
+
+      - name: Run cargo audit
+        working-directory: rust
+        run: cargo audit
+
+  clippy-security:
+    name: Clippy security lints
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+
+      - name: Run clippy with security-focused lints
+        working-directory: rust
+        run: |
+          cargo clippy -- \
+            -D warnings \
+            -W clippy::unwrap_used \
+            -W clippy::expect_used

@@ -326,6 +326,117 @@ DOMAIN_CATEGORIES: list[dict[str, str | list[str]]] = [
     },
 ]
 
+UCO_PROFILES: list[dict[str, str | list[str]]] = [
+    {
+        "id": "bfo",
+        "name": "UCO-Profile-BFO",
+        "full_name": "Basic Formal Ontology (BFO 2020)",
+        "ontology_url": "https://github.com/BFO-ontology/BFO-2020",
+        "repo_url": "https://github.com/ucoProject/UCO-Profile-BFO",
+        "profile_type": "top-level",
+        "ontology_file": "uco-bfo.ttl",
+        "status": "exploratory",
+        "description": (
+            "Grounds UCO in BFO's Endurant/Perdurant distinction. "
+            "Useful for formal reasoning, biomedical and scientific ontology interop."
+        ),
+        "keywords": ["bfo", "foundational", "upper", "top-level", "endurant",
+                      "perdurant", "formal", "reasoning", "biomedical", "scientific"],
+        "related_domains": ["actions_and_events", "time_and_temporal"],
+        "related_recipes": ["docs/recipes/existence-intervals.md"],
+    },
+    {
+        "id": "gufo",
+        "name": "UCO-Profile-gufo",
+        "full_name": "gentle Unified Foundational Ontology (gUFO)",
+        "ontology_url": "https://github.com/nemo-ufes/gufo",
+        "repo_url": "https://github.com/ucoProject/UCO-Profile-gufo",
+        "profile_type": "top-level",
+        "ontology_file": "uco-gufo.ttl",
+        "status": "exploratory",
+        "description": (
+            "Grounds UCO in gUFO types and relators (OntoUML-based). "
+            "The CAC Ontology extends both UCO/CASE and gUFO."
+        ),
+        "keywords": ["gufo", "ontouml", "foundational", "upper", "top-level",
+                      "relator", "cac", "children", "project vic"],
+        "related_domains": ["actions_and_events", "time_and_temporal"],
+        "related_recipes": ["docs/recipes/existence-intervals.md"],
+    },
+    {
+        "id": "prov-o",
+        "name": "UCO-Profile-PROV-O",
+        "full_name": "W3C PROV-O (Provenance Ontology)",
+        "ontology_url": "https://www.w3.org/TR/prov-o/",
+        "repo_url": "https://github.com/ucoProject/UCO-Profile-PROV-O",
+        "profile_type": "adopting",
+        "ontology_file": "uco-prov-o.ttl",
+        "status": "exploratory",
+        "description": (
+            "Aligns UCO actions and provenance concepts with PROV-O Activities, "
+            "Entities, and Agents for W3C provenance tooling interop."
+        ),
+        "keywords": ["provenance", "prov-o", "prov", "w3c", "activity", "entity",
+                      "agent", "custody", "chain", "lineage", "derivation"],
+        "related_domains": ["investigation_metadata", "actions_and_events"],
+        "related_recipes": ["docs/recipes/chain-of-custody.md"],
+    },
+    {
+        "id": "time",
+        "name": "UCO-Profile-Time",
+        "full_name": "W3C OWL-Time",
+        "ontology_url": "https://www.w3.org/TR/owl-time/",
+        "repo_url": "https://github.com/ucoProject/UCO-Profile-Time",
+        "profile_type": "adopting",
+        "ontology_file": "uco-time.ttl",
+        "status": "exploratory",
+        "description": (
+            "Aligns UCO temporal concepts with OWL-Time instants and intervals "
+            "for temporal reasoning, calendar/clock time modeling."
+        ),
+        "keywords": ["time", "temporal", "owl-time", "w3c", "instant", "interval",
+                      "duration", "calendar", "clock", "period"],
+        "related_domains": ["time_and_temporal"],
+        "related_recipes": ["docs/recipes/existence-intervals.md"],
+    },
+    {
+        "id": "geosparql",
+        "name": "UCO-Profile-GeoSPARQL",
+        "full_name": "OGC GeoSPARQL 1.1",
+        "ontology_url": "https://github.com/opengeospatial/ogc-geosparql",
+        "repo_url": "https://github.com/ucoProject/UCO-Profile-GeoSPARQL",
+        "profile_type": "adopting",
+        "ontology_file": "uco-geo.ttl",
+        "status": "exploratory",
+        "description": (
+            "Aligns UCO locations with GeoSPARQL Features and Geometries "
+            "for geospatial queries, CRS, and spatial reasoning."
+        ),
+        "keywords": ["geosparql", "geospatial", "geo", "spatial", "gps",
+                      "location", "coordinate", "geometry", "feature", "ogc", "gis"],
+        "related_domains": ["mobile_forensics"],
+        "related_recipes": ["docs/recipes/location.md", "docs/recipes/cell-site.md"],
+    },
+    {
+        "id": "foaf",
+        "name": "UCO-Profile-FOAF",
+        "full_name": "Friend-of-a-Friend (FOAF)",
+        "ontology_url": "http://xmlns.com/foaf/0.1/",
+        "repo_url": "https://github.com/ucoProject/UCO-Profile-FOAF",
+        "profile_type": "adopting",
+        "ontology_file": "uco-foaf.ttl",
+        "status": "exploratory",
+        "description": (
+            "Aligns UCO identities with FOAF Persons, Organizations, and Agents "
+            "for social network data and Linked Data interop."
+        ),
+        "keywords": ["foaf", "friend", "social", "identity", "person",
+                      "organization", "agent", "linked data", "social network"],
+        "related_domains": ["user_accounts_and_identity"],
+        "related_recipes": ["docs/recipes/accounts.md"],
+    },
+]
+
 CORE_PATTERNS: list[dict[str, str]] = [
     {
         "name": "ObservableObject + Facets",

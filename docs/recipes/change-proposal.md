@@ -4,7 +4,7 @@
 
 When the CASE/UCO ontology doesn't have a class, facet, or property for the concept you need to model, you can draft a **change proposal** — a structured request for the ontology committees to consider adding or modifying a concept in a future specification release.
 
-This recipe covers the full workflow: confirming the gap, checking for existing proposals, determining the right target repository, drafting the proposal, and creating a local extension to unblock your work.
+This recipe covers the full workflow: confirming the gap, checking for existing proposals, determining the right target repository and release, drafting the proposal with testable example data, validating and testing before submission, and creating a local extension to unblock your work.
 
 ## When to use this recipe
 
@@ -20,7 +20,7 @@ This recipe covers the full workflow: confirming the gap, checking for existing 
 | `get_class_details` | Inspect near-matches to confirm they don't cover the concept |
 | `find_classes_for_domain` | Check if the concept is already mapped under a different name |
 | `check_existing_proposals` | Search open GitHub issues in UCO and CASE for prior proposals |
-| `draft_change_proposal` | Generate the filled-in proposal markdown file |
+| `draft_change_proposal` | Generate the filled-in proposal markdown, example graph, and SPARQL queries |
 
 ---
 
@@ -93,7 +93,9 @@ Possible outcomes:
 
 ---
 
-## Step 3: Determine UCO vs. CASE
+## Step 3: Determine UCO vs. CASE and target release
+
+### Target repository
 
 The concept's scope determines which repository receives the proposal:
 
@@ -110,18 +112,26 @@ The concept's scope determines which repository receives the proposal:
    - **Yes** → **UCO**
 3. **Unsure?** → Ask the developer. Explain the distinction and let them decide.
 
-**Examples:**
+### Target release
 
-- "A facet for drone telemetry data (altitude, flight mode, GPS)" → **UCO** — it describes an observable device's data, useful beyond investigations
-- "A role class for forensic lab technicians" → **CASE** — it's specific to the investigation process
-- "A facet for cryptocurrency wallet data" → **UCO** — it describes observable financial data
-- "A class for keyword search configuration used during examination" → **CASE** — it's part of investigative methodology
+Every change proposal must specify which CASE/UCO release it targets. Check the current state of the ontology branches:
+
+| Branch | Version | When to target |
+|--------|---------|----------------|
+| `develop` | 1.5.0 | Default for most proposals. Changes that are backward-compatible additions. |
+| `develop-2.0.0` | 2.0.0 | For proposals that require breaking changes or major restructuring. |
+
+If unsure, target the current `develop` branch version (1.5.0). The ontology committee may reassign the proposal to a different milestone during review.
 
 ---
 
 ## Step 4: Draft the proposal
 
-Use the `draft_change_proposal` MCP tool or manually fill in the [change proposal template](../templates/change-proposal-template.md).
+Use the `draft_change_proposal` MCP tool or manually fill in the [change proposal template](../templates/change-proposal-template.md). The tool generates three files:
+
+1. **`<slug>.md`** — the filled-in proposal markdown
+2. **`<slug>.jsonld`** — an example JSON-LD graph for validation and SPARQL testing
+3. **`<slug>.sparql`** — SPARQL queries matching the competency questions
 
 <details open><summary>MCP — drafting a proposal</summary>
 
@@ -154,14 +164,20 @@ draft_change_proposal(
         }
     ],
     target_repo="UCO",
+    target_release="1.5.0",
 )
 ```
 
-This generates a file at `change_proposals/drone-telemetry-facet.md` with the filled-in template.
+This generates three files in `change_proposals/`:
+- `drone-telemetry-facet.md` — the proposal
+- `drone-telemetry-facet.jsonld` — example instance data
+- `drone-telemetry-facet.sparql` — SPARQL competency queries
 
 </details>
 
 ### Writing each section
+
+**Target release**: Specify the CASE/UCO version this proposal targets (e.g., 1.5.0, 2.0.0). The ontology committee uses this to assign the proposal to the correct milestone.
 
 **Background**: Explain what you were trying to model, why current classes are insufficient, and who benefits from the addition. Answer: "What do we achieve for whom and why does that matter?"
 
@@ -175,7 +191,9 @@ This generates a file at `change_proposals/drone-telemetry-facet.md` with the fi
 1. A concrete scenario with enough detail to construct ground truth
 2. At least one competency question the ontology can answer after the change that it couldn't before
 3. The expected result
-4. Optionally, a draft SPARQL query
+4. A draft SPARQL query (will be tested in Step 6)
+
+**Example instance data**: A concrete JSON-LD graph showing the proposed concept in use. This is what the submitter eventually wants to build and share with others. It must be complete enough to support the SPARQL queries in the Competencies section.
 
 **Solution suggestion**: Enumerate the concrete OWL changes (new class, new properties, new shapes) and any test additions.
 
@@ -183,9 +201,14 @@ This generates a file at `change_proposals/drone-telemetry-facet.md` with the fi
 
 ## Step 5: Create example data
 
-Create example JSON-LD showing what the proposed concept would look like in use. This serves two purposes: it unblocks your immediate work via a local extension, and it provides concrete instance data for the proposal.
+The `draft_change_proposal` tool auto-generates a starter example graph at `change_proposals/<slug>.jsonld`. Expand this with realistic data that:
 
-<details open><summary>Python — example with local extension context</summary>
+- Exercises all proposed classes and properties
+- Supports the SPARQL queries in the Competencies section
+- Includes both positive and negative ground truth where applicable
+- Represents the kind of graph the submitter eventually wants to build and share
+
+<details open><summary>Python — building a richer example graph</summary>
 
 ```python
 from case_uco import CASEGraph
@@ -211,7 +234,6 @@ drone = graph.create(ObservableObject, has_facet=[
 ])
 
 # The telemetry facet doesn't exist yet — model it as raw JSON-LD
-# to demonstrate the proposed class
 telemetry_data = {
     "@type": "proposed:DroneTelemetryFacet",
     "proposed:altitude": 120.5,
@@ -223,49 +245,68 @@ telemetry_data = {
     "proposed:homeLongitude": -77.0365,
 }
 
-graph.write("drone_evidence.jsonld")
-```
-
-</details>
-
-<details><summary>Draft SPARQL — competency query</summary>
-
-```sparql
-PREFIX uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/>
-PREFIX uco-core: <https://ontology.unifiedcyberontology.org/uco/core/>
-PREFIX proposed: <http://example.org/ontology/proposed/>
-
-# CQ 1.1: What was the drone's altitude and flight mode at each telemetry point?
-SELECT ?drone ?altitude ?flightMode ?timestamp
-WHERE {
-    ?drone a uco-observable:ObservableObject ;
-           uco-core:hasFacet ?telemetry .
-    ?telemetry a proposed:DroneTelemetryFacet ;
-               proposed:altitude ?altitude ;
-               proposed:flightMode ?flightMode .
-    OPTIONAL { ?telemetry uco-core:objectCreatedTime ?timestamp }
-}
-ORDER BY ?timestamp
-
-# CQ 1.2: Which drones flew above 400 feet (121.92m) — the FAA regulatory limit?
-SELECT ?drone ?maxAltitude
-WHERE {
-    ?drone a uco-observable:ObservableObject ;
-           uco-core:hasFacet ?devFacet ;
-           uco-core:hasFacet ?telemetry .
-    ?devFacet a uco-observable:DeviceFacet ;
-              uco-observable:deviceType "UAV" .
-    ?telemetry a proposed:DroneTelemetryFacet ;
-               proposed:altitude ?maxAltitude .
-    FILTER(?maxAltitude > 121.92)
-}
+graph.write("change_proposals/drone-telemetry-facet.jsonld")
 ```
 
 </details>
 
 ---
 
-## Step 6: Create a local extension (optional)
+## Step 6: Test before submission
+
+**This step is required.** The ontology committee expects proposals to include evidence that the SPARQL queries and example data have been tested prior to submission.
+
+### Run all proposal tests
+
+```bash
+make test-proposal PROPOSAL=drone-telemetry-facet
+```
+
+This runs two checks:
+
+1. **Graph validation** — validates the example `.jsonld` against the current CASE/UCO release using `case_validate`. If a local extension `.ttl` and shapes file exist, they are included.
+2. **SPARQL query testing** — executes each query in the `.sparql` file against the example graph and reports whether results were returned.
+
+### Run tests individually
+
+```bash
+# Validate the example graph
+make validate-proposal PROPOSAL=drone-telemetry-facet
+
+# Test SPARQL queries
+make sparql-test-proposal PROPOSAL=drone-telemetry-facet
+```
+
+### Test extensions against multiple CASE/UCO branches
+
+If you've created a local extension ontology (`.ttl` + shapes), test it against multiple CASE/UCO branches to help the ontology committee assess compatibility:
+
+```bash
+# Test against all three branches: main, develop (v1.5.0), develop-2.0.0 (v2.0.0)
+make test-extension-compat \
+  EXT_TTL=change_proposals/drone-telemetry.ttl \
+  EXT_SHAPES=change_proposals/drone-telemetry-shapes.ttl \
+  EXT_DATA=change_proposals/drone-telemetry-facet.jsonld
+
+# Or test against individual branches
+make test-extension-main EXT_TTL=... EXT_DATA=...
+make test-extension-develop EXT_TTL=... EXT_DATA=...
+make test-extension-develop2 EXT_TTL=... EXT_DATA=...
+```
+
+### Update the proposal with test results
+
+After running tests, update the **Pre-submission testing** section of the proposal markdown with:
+
+1. Whether each SPARQL query was tested and returned expected results
+2. The `case_validate` output (Conforms: True/False)
+3. Any unresolved issues or known failures
+
+The proposal should state that tests have been run. If all tests pass, write "No unresolved issues." If issues remain, document them — this transparency helps the committee.
+
+---
+
+## Step 7: Create a local extension (optional)
 
 If you need typed classes immediately rather than raw JSON-LD, create a local extension ontology and scaffold typed classes. See the [Working with Extensions](extensions.md) recipe for the full workflow.
 
@@ -284,14 +325,32 @@ When the concept is officially added to CASE/UCO in a future release, retire the
 
 ## Submitting the proposal
 
-Once the draft in `change_proposals/` is reviewed and refined:
+Once the draft in `change_proposals/` is reviewed, tested, and refined:
 
-1. Determine the target repository (UCO or CASE) — see Step 3
-2. Open a new issue in the appropriate GitHub repository:
+1. Ensure `make test-proposal PROPOSAL=<slug>` passes (or document unresolved issues)
+2. Update the Pre-submission testing section with actual test results
+3. Determine the target repository (UCO or CASE) — see Step 3
+4. Open a new issue in the appropriate GitHub repository:
    - **UCO**: https://github.com/ucoProject/UCO/issues/new
    - **CASE**: https://github.com/casework/CASE/issues/new
-3. Copy the proposal markdown into the issue body
-4. Add the label "Change Proposal" if available
-5. If you included example JSON-LD, add the permission statement: "I am fine with my examples being transcribed and credited"
+5. Copy the proposal markdown into the issue body
+6. Attach or link the example `.jsonld` file
+7. Add the label "Change Proposal" if available
+8. If you included example JSON-LD, add the permission statement: "I am fine with my examples being transcribed and credited"
 
 The ontology committee will review the proposal, assign it to a milestone, and coordinate implementation.
+
+## Proposal file conventions
+
+When `draft_change_proposal` generates a proposal, it creates files following this naming convention:
+
+```
+change_proposals/
+├── <slug>.md              # The proposal markdown
+├── <slug>.jsonld           # Example instance data (JSON-LD graph)
+├── <slug>.sparql           # SPARQL competency queries
+├── <slug>.ttl              # Extension ontology (optional, hand-written)
+└── <slug>-shapes.ttl       # SHACL shapes (optional, hand-written)
+```
+
+The Makefile `test-proposal` target looks for all of these by convention. Only the `.md` is required; the others enable automated testing.

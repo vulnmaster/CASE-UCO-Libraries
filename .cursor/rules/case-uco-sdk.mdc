@@ -37,7 +37,7 @@ graph.create(ObservableObject, has_facet=[
 
 ## Finding the Right Class
 
-Use the MCP server tools (search_classes, get_class_details, find_classes_for_domain) to discover classes programmatically. In Python you can also use:
+Use the MCP server tools (search_classes, get_class_details, find_classes_for_domain) to discover classes programmatically. Use get_uco_profiles() when the developer needs interoperability with external ontologies (BFO, PROV-O, GeoSPARQL, OWL-Time, gUFO, FOAF). In Python you can also use:
 
 ```python
 from case_uco.registry import search, get_class
@@ -51,7 +51,7 @@ Do NOT manually browse ONTOLOGY_REFERENCE.md — use the registry or MCP tools i
 
 - `docs/recipes/INDEX.md` — recipe catalog; individual recipes in `docs/recipes/*.md`
 - `docs/MAPPING_GUIDE.md` — maps forensic domains (files, network, mobile, email) to the right classes
-- `docs/ECOSYSTEM.md` — companion tools (case-utils for validation, Fuseki for SPARQL)
+- `docs/ECOSYSTEM.md` — companion tools, UCO profiles for external ontology interop, community resources
 
 ## Validation (mandatory)
 
@@ -76,8 +76,11 @@ If the developer agrees, follow the change-proposal recipe (`docs/recipes/change
 1. Confirm the gap by searching multiple related keywords
 2. Check existing proposals with `check_existing_proposals(concept)`
 3. Determine whether the concept belongs in UCO (general cyber-domain) or CASE (investigation-specific) — ask the developer if unsure
-4. Draft the proposal with `draft_change_proposal(...)`, which writes a filled-in template to `change_proposals/`
-5. Optionally guide the developer through creating a local extension to unblock immediate work (see `docs/recipes/extensions.md`)
+4. Ask which release to target (1.5.0 for backward-compatible additions, 2.0.0 for breaking changes; default to 1.5.0 if unsure)
+5. Draft the proposal with `draft_change_proposal(...)`, which writes the proposal markdown, example `.jsonld` graph, and `.sparql` queries to `change_proposals/`
+6. Run `make test-proposal PROPOSAL=<slug>` to validate the example graph and test SPARQL queries — update the Pre-submission testing section with results
+7. If a local extension ontology is created, test it against multiple CASE/UCO branches with `make test-extension-compat`
+8. Optionally guide the developer through creating a local extension to unblock immediate work (see `docs/recipes/extensions.md`)
 
 ## Important Constraints
 

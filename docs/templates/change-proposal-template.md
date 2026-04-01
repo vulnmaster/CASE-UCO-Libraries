@@ -5,6 +5,15 @@ Also, the Description box of the Issue you file will be edited at one or more po
 https://docs.github.com/en/communities/moderating-comments-and-conversations/tracking-changes-in-a-comment
 -->
 
+# Target release
+
+<!--
+Specify which CASE/UCO release this proposal targets (e.g., 1.5.0, 2.0.0).
+If unsure, state the current develop branch version and note that the committee may reassign.
+-->
+
+**Target**: CASE/UCO X.Y.0
+
 # Background
 
 <!--
@@ -74,6 +83,33 @@ One scenario setup can fuel multiple questions.  To help with linking on Github,
 #### Result 1.2
 
 
+# Example instance data
+
+<!--
+Provide a concrete JSON-LD (or Turtle) graph showing the proposed concept in use. This example serves as:
+
+1. A demonstration of what the submitter eventually wants to build and share with others
+2. Ground truth data for testing competency questions and SPARQL queries
+3. A validatable artifact that reviewers can inspect
+
+The example should be complete enough to:
+- Exercise all proposed classes and properties
+- Support the SPARQL queries in the Competencies section
+- Include both positive and negative ground truth where applicable
+
+If the example graph is provided as a separate file (e.g., in a change_proposals/ directory), reference its path here.
+-->
+
+```json
+{
+  "@context": { },
+  "@graph": [ ]
+}
+```
+
+I am fine with my examples being transcribed and credited.
+
+
 # Solution suggestion
 
 <!--
@@ -87,7 +123,42 @@ Some requirements are narrow enough they could be considered "Self-documenting."
 
 > Requirement 1 also fully describes the solution, implemented in [PR X](https://github.com/ucoProject/UCO/pull/X).
 
-If there is an accompanying pull request, please do link it under the "Development" box on the right of the Issues page.
-
 If example snippets of instance data are provided, please note if you provide permission for the examples to be transcribed to one of the tested example repositories (such as CASE-Examples).  This is a significant aid in confirming examples represent the semantics that the submitter intended.  "I am fine with my examples being transcribed and credited" should be sufficient.
 -->
+
+
+# Pre-submission testing
+
+<!--
+Before submitting this proposal for ontologist review, the following tests should be run and their results reported here. Use `make test-proposal PROPOSAL=<slug>` to run all tests automatically.
+-->
+
+## SPARQL query testing
+
+<!--
+Report whether each SPARQL query in the Competencies section was tested against the example instance data. List the query, whether it returned the expected results, and any issues encountered.
+-->
+
+| Query | Tested | Expected results match | Notes |
+|-------|--------|----------------------|-------|
+| CQ 1.1 | Yes/No | Yes/No | |
+| CQ 1.2 | Yes/No | Yes/No | |
+
+## Graph validation
+
+<!--
+Report the results of validating the example instance data. At minimum, validate against the current CASE/UCO release. If a local extension ontology is provided, include it in validation.
+-->
+
+```
+$ case_validate --built-version case-1.4.0 example-data.jsonld
+Validation result: [Conforms/Does not conform]
+```
+
+## Unresolved issues
+
+<!--
+List any test failures, validation warnings, or known issues that remain unresolved at submission time. If all tests pass, state "No unresolved issues."
+-->
+
+No unresolved issues.

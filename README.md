@@ -2,7 +2,7 @@
 
 # CASE/UCO SDK
 
-**v1.6.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
+**v1.7.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
 
 A multi-language data modeling library for digital forensics, cyber-investigation, and cyber-observable data. If your software produces or consumes forensic evidence, this SDK gives you typed, validated builders in **Python**, **C#**, **Java**, and **Rust** — so you can model investigation data in your language and produce interoperable [CASE/UCO](https://caseontology.org/) JSON-LD output.
 
@@ -21,23 +21,44 @@ The SDK is auto-generated from the official CASE 1.4.0 and UCO 1.4.0 ontology so
 
 ## Installation
 
-### Quick Start (Python)
+### Use the SDK (Consumer Install)
+
+Install the SDK package for your language. No need to clone the repo or run the generator.
+
+<!-- Package registry install lines (coming soon — currently install from GitHub release artifacts):
 
 ```bash
-git clone --recurse-submodules https://github.com/vulnmaster/CASE-UCO-SDK.git
-cd CASE-UCO-SDK
-make init      # creates .venv, installs all Python deps, generator, and SDK
+pip install case-uco                          # Python
+dotnet add package CaseUco                    # C#
+mvn dependency:get -Dartifact=org.caseontology:case-uco:1.7.0  # Java
+cargo add case-uco                            # Rust
 ```
+-->
 
-This creates a `.venv` virtual environment, installs everything from `requirements.txt`, and sets up the generator and Python SDK in editable mode. All Makefile targets automatically use the virtual environment — no need to activate it manually.
-
-If you prefer to activate the venv yourself (e.g. for interactive use):
+**From the latest [GitHub Release](https://github.com/vulnmaster/CASE-UCO-SDK/releases):**
 
 ```bash
-source .venv/bin/activate
+# Python — download the .whl from the release, then:
+pip install case_uco-1.7.0-py3-none-any.whl
+pip install case-utils    # recommended: enables graph.validate()
 ```
 
-### All Languages (via Makefile)
+For C#, Java, and Rust install instructions from release artifacts, see the release notes.
+
+### Prerequisites
+
+Only install what you need for your language:
+
+| Language | Requirement |
+|----------|-------------|
+| Python | Python 3.9+ |
+| C# | .NET SDK 8.0+ |
+| Java | JDK 11+ and Maven |
+| Rust | Rust toolchain (cargo) |
+
+### Contribute to the SDK (Developer Install)
+
+If you want to modify the generator, regenerate libraries, run tests, or contribute changes:
 
 ```bash
 git clone --recurse-submodules https://github.com/vulnmaster/CASE-UCO-SDK.git
@@ -51,16 +72,7 @@ make smoke     # run smoke test binaries (C#, Java, Rust)
 make check     # all of the above in one command
 ```
 
-### Prerequisites
-
-Only install what you need for your language:
-
-| Language | Requirement |
-|----------|-------------|
-| Python | Python 3.9+ (venv created automatically by `make init`) |
-| C# | .NET SDK 8.0+ |
-| Java | JDK 11+ and Maven |
-| Rust | Rust toolchain (cargo) |
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contributor guide.
 
 ## Basic Usage
 
@@ -81,8 +93,10 @@ app = graph.create(
     has_facet=[ApplicationFacet(application_identifier="com.example.app")],
 )
 
-print(graph.serialize())   # JSON-LD string
 graph.write("output.jsonld")
+
+# Validate — always validate before using the output
+graph.validate()  # requires: pip install case-uco[validation]
 ```
 
 ### C\#
@@ -407,6 +421,12 @@ Don't know which CASE/UCO class fits your data? The mapping guide organizes clas
 
 - **[docs/MAPPING_GUIDE.md](docs/MAPPING_GUIDE.md)** — maps common concepts (files, network, devices, email, mobile, etc.) to the right classes, with usage examples
 
+### Cross-Language Parity
+
+Switching between languages? The parity contract documents what is identical vs. language-idiomatic:
+
+- **[docs/CROSS_LANGUAGE_PARITY.md](docs/CROSS_LANGUAGE_PARITY.md)** — canonical operation names, naming conventions, stability guarantees
+
 ### Recipes
 
 Step-by-step patterns for common forensic workflows — disk imaging, file system analysis, network artifacts, chain of custody, mobile forensics, round-trip serialization, and managing large datasets:
@@ -439,18 +459,20 @@ CASE-UCO-SDK/
 │   ├── rules/              AI agent guidance (SDK patterns, gap detection)
 │   └── mcp.json            MCP server configuration
 ├── docs/
-│   ├── ECOSYSTEM.md        Companion tools, community extensions, ontology sources
-│   ├── MAPPING_GUIDE.md    Domain mapping guide (auto-generated)
-│   ├── PERFORMANCE_GUIDE.md  Engineering tradeoffs and benchmarks
-│   ├── templates/          Official change proposal template
-│   └── recipes/            Practical forensic workflow cookbook (one file per recipe)
+│   ├── ECOSYSTEM.md            Companion tools, community extensions, ontology sources
+│   ├── MAPPING_GUIDE.md        Domain mapping guide (auto-generated)
+│   ├── PERFORMANCE_GUIDE.md    Engineering tradeoffs and benchmarks
+│   ├── CROSS_LANGUAGE_PARITY.md  API parity contract across languages
+│   ├── templates/              Official change proposal template
+│   └── recipes/                Practical forensic workflow cookbook (one file per recipe)
 │       ├── INDEX.md         Recipe catalog and shared guidance
 │       ├── chain-of-custody.md
 │       ├── change-proposal.md
 │       ├── forensic-tool.md
 │       └── ...              (11 recipe files total)
 ├── ONTOLOGY_REFERENCE.md   Complete class reference (auto-generated)
-├── .github/workflows/      CI, CodeQL, dependency review, release workflows
+├── SECURITY.md             Vulnerability reporting policy
+├── .github/workflows/      CI, CodeQL, Rust security, dependency review, release workflows
 └── Makefile                Build orchestration (make check for full verification)
 ```
 
@@ -474,12 +496,13 @@ CASE-UCO-SDK/
 | Runtime introspection | `case_uco.registry` | `OntologyRegistry` | `OntologyRegistry` | `registry` module |
 | Provenance metadata | `UCO_VERSION` | `CaseUcoMeta` | `CaseUcoMeta` | `VERSION` |
 
-## Ontology Versions
+## Version Matrix
 
-| Component | Version |
-|-----------|---------|
-| UCO | 1.4.0 |
-| CASE | 1.4.0 |
+All four language packages are released in lockstep from the same ontology sources and share the same version number.
+
+| SDK Version | UCO | CASE | Python `case-uco` | C# `CaseUco` | Java `case-uco` | Rust `case-uco` |
+|-------------|-----|------|-------------------|--------------|-----------------|-----------------|
+| 1.7.0 | 1.4.0 | 1.4.0 | 1.7.0 | 1.7.0 | 1.7.0 | 1.7.0 |
 
 To check at runtime:
 
@@ -588,12 +611,21 @@ For MCP server setup details and troubleshooting, see **[mcp_server/README.md](m
 
 ## Ecosystem & Tools
 
-The SDK builds graphs. These companion tools and community projects complete the picture.
+The SDK builds graphs. These companion tools and community projects complete the picture. The SDK fits into the [CDO project release flow](https://cyberdomainontology.org/resources/project_release_flow.html) as a downstream consumer of the UCO and CASE ontologies.
 
 ### Companion Tools
 
 - **[case-utils](https://github.com/casework/CASE-Utilities-Python)** — CLI tools for SHACL validation (`case_validate`), graph merging, and format conversion. Install via `pip install case-utils`.
+- **[case-validation-action](https://github.com/kchason/case-validation-action)** — GitHub Action for CASE validation in CI workflows.
 - **[Apache Jena Fuseki](https://jena.apache.org/documentation/fuseki2/)** — Free SPARQL-capable graph database for querying across multiple graph files.
+
+### Community Mappings and Implementations
+
+The CASE community maintains tool-specific mappings and working implementations. When integrating a specific forensic tool, check these first:
+
+- **[CASE-Mappings](https://github.com/casework/CASE-Mappings)** — Concept and property mappings for SleuthKit, Cellebrite, Bulk Extractor, and NSRL
+- **[CASE-Implementation-*](https://github.com/casework?q=Implementation&type=all)** — Working implementations for UFED, ExifTool, AXIOM, XRY, DC3DD, and more
+- **[CASE-Mapping-Template-Stubs](https://github.com/casework/CASE-Mapping-Template-Stubs)** — JSON-LD stub generator for bootstrapping new tool mappings
 
 ### Community Extensions
 
@@ -603,18 +635,38 @@ Projects that extend CASE/UCO into specialized domains:
 - **[SOLVE-IT](https://github.com/SOLVE-IT-DF)** — Knowledge base and extension framework for digital forensics workflows.
 - **[Adversary Engagement Ontology](https://github.com/UNHSAILLab/Adversary-Engagement-Ontology)** — UCO sub-ontology for cyber deception, honeypots, and adversary engagement operations.
 
+### UCO Profiles — Interoperability with Other Ontologies
+
+UCO maintains [Profile repositories](https://cyberdomainontology.org/ontology/development/#profiles) that align UCO classes with other established ontologies. If you're already familiar with BFO, PROV-O, GeoSPARQL, or another ontology, these profiles bridge the gap:
+
+| Profile | External Ontology | Use case |
+|---------|------------------|----------|
+| [UCO-Profile-BFO](https://github.com/ucoProject/UCO-Profile-BFO) | Basic Formal Ontology | Top-level grounding for formal reasoning |
+| [UCO-Profile-gufo](https://github.com/ucoProject/UCO-Profile-gufo) | gUFO (OntoUML) | Used by the [CAC Ontology](https://github.com/Project-VIC-International/CAC-Ontology) |
+| [UCO-Profile-PROV-O](https://github.com/ucoProject/UCO-Profile-PROV-O) | W3C PROV-O | Provenance tracking and chain of custody |
+| [UCO-Profile-Time](https://github.com/ucoProject/UCO-Profile-Time) | W3C OWL-Time | Temporal reasoning and intervals |
+| [UCO-Profile-GeoSPARQL](https://github.com/ucoProject/UCO-Profile-GeoSPARQL) | OGC GeoSPARQL | Geospatial queries and spatial reasoning |
+| [UCO-Profile-FOAF](https://github.com/ucoProject/UCO-Profile-FOAF) | Friend-of-a-Friend | Social network and identity data |
+
+For detailed usage guidance and SDK integration patterns, see **[docs/ECOSYSTEM.md](docs/ECOSYSTEM.md#uco-profiles--interoperability-with-other-ontologies)**.
+
 ### Ontology Sources
 
 - [UCO Ontology](https://github.com/ucoProject/UCO) — Unified Cyber Ontology source
 - [CASE Ontology](https://github.com/casework/CASE) — Cyber-investigation Analysis Standard Expression source
 - [CASE Examples](https://github.com/casework/CASE-Examples) — Validated CASE/UCO example data
+- [CDO Project Release Flow](https://cyberdomainontology.org/resources/project_release_flow.html) — Community release pipeline and adoption status
 - [CDO Community Playground Guide](https://docs.google.com/document/d/1EiXQiAeUGk-629xdKx7HZHVn927k891LGkPcQzNLLr8/edit?usp=sharing) — Requirements for community extensions
 
 For detailed descriptions, installation guides, and additional resources, see **[docs/ECOSYSTEM.md](docs/ECOSYSTEM.md)**.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines — organized into three tracks: using the SDK, contributing to it, and extending/regenerating the ontology bindings.
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for our vulnerability reporting and disclosure policy.
 
 ## License
 

@@ -7,21 +7,201 @@ on:
 
 permissions:
   contents: write
+  id-token: write
+  attestations: write
 
 jobs:
-  release:
+  generate:
+    name: Generate Libraries
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
           submodules: recursive
 
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install generator dependencies
+        run: pip install rdflib jinja2
+
+      - name: Run code generator
+        run: PYTHONPATH=generator/src python -m case_uco_generator generate --lang all
+
+      - name: Upload generated sources
+        uses: actions/upload-artifact@v7
+        with:
+          name: generated-sources
+          path: |
+            python/case_uco/
+            csharp/CaseUco/
+            csharp/CaseUco.Tests/ExhaustiveInstantiationTests.cs
+            java/src/
+            rust/src/
+            rust/tests/
+
+  build-python:
+    name: Build Python
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Download generated sources
+        uses: actions/download-artifact@v8
+        with:
+          name: generated-sources
+          path: .
+
+      - name: Install build tools
+        run: pip install build
+
+      - name: Build sdist and wheel
+        working-directory: python
+        run: python -m build
+
+      - name: Generate SBOM
+        run: |
+          pip install pip-audit
+          pip install -e python/
+          pip-audit --format=cyclonedx-json --output=python/dist/sbom-python.cdx.json 2>/dev/null || true
+          pip freeze > python/dist/requirements-frozen.txt
+
+      - name: Upload Python artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist-python
+          path: python/dist/
+
+  build-csharp:
+    name: Build C#
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Download generated sources
+        uses: actions/download-artifact@v8
+        with:
+          name: generated-sources
+          path: .
+
+      - name: Build NuGet package
+        working-directory: csharp
+        run: |
+          dotnet build -c Release
+          dotnet pack CaseUco/CaseUco.csproj -c Release -o dist/
+
+      - name: Upload C# artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist-csharp
+          path: csharp/dist/
+
+  build-java:
+    name: Build Java
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Download generated sources
+        uses: actions/download-artifact@v8
+        with:
+          name: generated-sources
+          path: .
+
+      - name: Build JAR
+        working-directory: java
+        run: mvn package -q -DskipTests
+
+      - name: Upload Java artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist-java
+          path: java/target/*.jar
+
+  build-rust:
+    name: Build Rust
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Download generated sources
+        uses: actions/download-artifact@v8
+        with:
+          name: generated-sources
+          path: .
+
+      - name: Build crate
+        working-directory: rust
+        run: cargo package --allow-dirty
+
+      - name: Upload Rust artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist-rust
+          path: rust/target/package/*.crate
+
+  release:
+    name: Create Release
+    needs: [build-python, build-csharp, build-java, build-rust]
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: artifacts/
+
+      - name: Collect release assets
+        run: |
+          mkdir -p release-assets
+          cp artifacts/dist-python/*.whl release-assets/ 2>/dev/null || true
+          cp artifacts/dist-python/*.tar.gz release-assets/ 2>/dev/null || true
+          cp artifacts/dist-python/sbom-python.cdx.json release-assets/ 2>/dev/null || true
+          cp artifacts/dist-python/requirements-frozen.txt release-assets/ 2>/dev/null || true
+          cp artifacts/dist-csharp/*.nupkg release-assets/ 2>/dev/null || true
+          cp artifacts/dist-java/*.jar release-assets/ 2>/dev/null || true
+          cp artifacts/dist-rust/*.crate release-assets/ 2>/dev/null || true
+
+      - name: Generate SHA256 checksums
+        working-directory: release-assets
+        run: sha256sum * > SHA256SUMS.txt
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: release-assets/*
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
+          files: release-assets/*
           body: |
-            ## CASE/UCO Libraries ${{ github.ref_name }}
+            ## CASE/UCO SDK ${{ github.ref_name }}
 
             Auto-generated builder libraries for the CASE and UCO ontologies.
 
@@ -29,10 +209,48 @@ jobs:
             - UCO: 1.4.0
             - CASE: 1.4.0
 
-            ### Languages
-            - **Python** (`case-uco`) — `pip install -e python/`
-            - **C#** (`CaseUco`) — `dotnet add reference`
-            - **Java** (`case-uco`) — Maven
-            - **Rust** (`case-uco`) — Cargo
+            ### Packages
+
+            | Language | Package | File |
+            |----------|---------|------|
+            | Python | `case-uco` | `case_uco-*.whl` / `.tar.gz` |
+            | C# | `CaseUco` | `CaseUco.*.nupkg` |
+            | Java | `case-uco` | `case-uco-*.jar` |
+            | Rust | `case-uco` | `case-uco-*.crate` |
+
+            ### Verification
+
+            All release artifacts include:
+            - **SHA256 checksums** (`SHA256SUMS.txt`)
+            - **SLSA build provenance** attestations via [actions/attest-build-provenance](https://github.com/actions/attest-build-provenance)
+            - **Python SBOM** (`sbom-python.cdx.json`) in CycloneDX format
+
+            To verify checksums:
+            ```bash
+            sha256sum -c SHA256SUMS.txt
+            ```
+
+            To verify provenance attestations:
+            ```bash
+            gh attestation verify <artifact> --repo vulnmaster/CASE-UCO-SDK
+            ```
+
+            ### Install from Release
+
+            These artifacts are not yet published to package registries. To install from this release:
+
+            ```bash
+            # Python
+            pip install case_uco-${{ github.ref_name }}-py3-none-any.whl
+
+            # C# — add the .nupkg as a local package source
+            dotnet nuget add source ./release-assets -n local
+            dotnet add package CaseUco
+
+            # Java — install the JAR to local Maven repo
+            mvn install:install-file -Dfile=case-uco-*.jar -DgroupId=org.caseontology -DartifactId=case-uco -Dpackaging=jar
+
+            # Rust — reference the .crate file or use a path dependency
+            ```
 
             See the [README](https://github.com/vulnmaster/CASE-UCO-SDK#readme) for usage.

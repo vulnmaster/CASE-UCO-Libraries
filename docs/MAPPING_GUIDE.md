@@ -4,6 +4,16 @@ This guide maps common digital forensics, cyber-investigation, and cyber-observa
 
 For the complete class reference with all properties, see [ONTOLOGY_REFERENCE.md](../ONTOLOGY_REFERENCE.md).
 
+## Community Mapping Resources
+
+This guide is auto-generated from the current ontology (CASE 1.4.0 / UCO 1.4.0) and organizes classes by forensic domain. The CASE community also maintains complementary mapping resources that document how specific tools map to CASE/UCO:
+
+- **[CASE-Mappings](https://github.com/casework/CASE-Mappings)** — Hand-written concept, category, and property mappings for SleuthKit, Cellebrite, Bulk Extractor, and NSRL. Originally written against CASE v0.1.0 (class names like `Trace` and `CyberItem` have since been renamed to `ObservableObject` + Facets), but the conceptual mappings remain valuable.
+- **[CASE-Mapping-Template-Stubs](https://github.com/casework/CASE-Mapping-Template-Stubs)** — JSON-LD stub generator that produces a minimal, null-valued JSON-LD dictionary for any CASE/UCO class, reflecting correct cardinality. Useful for bootstrapping new tool mappings.
+- **[CASE-Implementation-*](https://github.com/casework?q=Implementation&type=all)** — Working tool implementations (UFED, ExifTool, AXIOM, XRY, DC3DD, and more) that convert specific tool outputs into CASE/UCO format.
+
+See [ECOSYSTEM.md](ECOSYSTEM.md) for the full list of community implementations and mapping templates.
+
 ## Contents
 
 - [Files and Filesystem](#files-and-filesystem)
@@ -2130,3 +2140,13 @@ Extension ontologies add domain-specific classes beyond the core CASE/UCO specif
    case-uco-explore modules              # list all modules
    case-uco-explore module observable     # browse a specific module
    ```
+
+7. **Check the community mappings** if you're integrating a specific forensic tool. The [CASE-Mappings](https://github.com/casework/CASE-Mappings) repo has existing tool-to-CASE mapping specs, and the [CASE-Implementation repos](https://github.com/casework?q=Implementation&type=all) have working code examples. See [ECOSYSTEM.md](ECOSYSTEM.md) for the full list.
+
+8. **Use UCO Profiles for external ontology interop.** If your data already uses concepts from BFO, PROV-O, OWL-Time, GeoSPARQL, gUFO, or FOAF, UCO maintains [Profile ontologies](https://cyberdomainontology.org/ontology/development/#profiles) that align those ontologies with UCO classes. For example:
+   - Working with **provenance** data? → [UCO-Profile-PROV-O](https://github.com/ucoProject/UCO-Profile-PROV-O) aligns PROV-O Activities/Entities with UCO actions
+   - Working with **geospatial** data? → [UCO-Profile-GeoSPARQL](https://github.com/ucoProject/UCO-Profile-GeoSPARQL) aligns GeoSPARQL Features with UCO locations
+   - Working with **temporal** data? → [UCO-Profile-Time](https://github.com/ucoProject/UCO-Profile-Time) aligns OWL-Time with UCO temporal concepts
+   - Working with **identity/social** data? → [UCO-Profile-FOAF](https://github.com/ucoProject/UCO-Profile-FOAF) aligns FOAF Persons with UCO identities
+
+   See the [UCO Profiles section of ECOSYSTEM.md](ECOSYSTEM.md#uco-profiles--interoperability-with-other-ontologies) for the full list and integration patterns.

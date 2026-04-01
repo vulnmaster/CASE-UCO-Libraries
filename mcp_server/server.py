@@ -34,6 +34,7 @@ from domain_index import (
     CORE_PATTERNS,
     RECIPE_INDEX,
     CHANGE_PROPOSAL_SECTIONS,
+    UCO_PROFILES,
     suggest_target_repo,
 )
 
@@ -48,7 +49,10 @@ mcp = FastMCP(
         "find_classes_for_domain to map investigative tasks to the right types. "
         "When a concept is missing from the ontology, use check_existing_proposals "
         "to search for prior proposals in UCO/CASE issue trackers, then "
-        "draft_change_proposal to generate a filled-in change proposal."
+        "draft_change_proposal to generate a filled-in change proposal. "
+        "Use get_uco_profiles to find UCO Profile ontologies that align UCO "
+        "with external ontologies like BFO, PROV-O, GeoSPARQL, OWL-Time, "
+        "gUFO, and FOAF for cross-ontology interoperability."
     ),
 )
 
@@ -132,6 +136,7 @@ def find_classes_for_domain(domain: str) -> dict:
             })
 
     matching_categories = []
+    matched_category_names = set()
     for cat in DOMAIN_CATEGORIES:
         title_match = q in cat["title"].lower()
         keyword_match = any(kw in q for kw in cat["keywords"])
@@ -140,8 +145,24 @@ def find_classes_for_domain(domain: str) -> dict:
                 "domain": cat["title"],
                 "description": cat["description"],
             })
+            matched_category_names.add(cat["name"])
 
-    return {
+    matching_profiles = []
+    for profile in UCO_PROFILES:
+        kw_match = any(kw in q for kw in profile["keywords"])
+        domain_match = any(
+            d in matched_category_names for d in profile.get("related_domains", [])
+        )
+        if kw_match or domain_match:
+            matching_profiles.append({
+                "name": profile["name"],
+                "full_name": profile["full_name"],
+                "description": profile["description"],
+                "repo_url": profile["repo_url"],
+                "profile_type": profile["profile_type"],
+            })
+
+    result: dict = {
         "query": domain,
         "task_templates": matching_tasks,
         "related_domains": matching_categories,
@@ -149,6 +170,72 @@ def find_classes_for_domain(domain: str) -> dict:
             "Use get_class_details(name) on any class above to see its full "
             "property table. The most common pattern is ObservableObject + "
             "Facets — create an ObservableObject and attach Facets to describe it."
+        ),
+    }
+
+    if matching_profiles:
+        result["related_profiles"] = matching_profiles
+        result["profile_tip"] = (
+            "UCO Profile ontologies align UCO classes with external ontologies. "
+            "Use get_uco_profiles() for full details on any profile listed above."
+        )
+
+    return result
+
+
+@mcp.tool
+def get_uco_profiles(query: str = "") -> dict:
+    """Find UCO Profile ontologies that align UCO with other established ontologies.
+
+    UCO maintains profile repositories that map UCO concepts to external
+    ontologies (BFO, gUFO, PROV-O, OWL-Time, GeoSPARQL, FOAF). These
+    profiles enable interoperability and help developers familiar with
+    those ontologies use CASE/UCO effectively.
+
+    Pass a keyword to filter (e.g., "provenance", "geospatial", "time"),
+    or leave empty to list all profiles.
+
+    Examples: get_uco_profiles("provenance"), get_uco_profiles("geospatial"),
+              get_uco_profiles("foundational"), get_uco_profiles("")
+    """
+    q = query.lower().strip()
+
+    if q:
+        matches = []
+        for profile in UCO_PROFILES:
+            text = (
+                f"{profile['name']} {profile['full_name']} "
+                f"{profile['description']} {' '.join(profile['keywords'])}"
+            ).lower()
+            if any(word in text for word in q.split()):
+                matches.append(profile)
+    else:
+        matches = list(UCO_PROFILES)
+
+    results = []
+    for p in matches:
+        results.append({
+            "name": p["name"],
+            "full_name": p["full_name"],
+            "profile_type": p["profile_type"],
+            "status": p["status"],
+            "description": p["description"],
+            "repo_url": p["repo_url"],
+            "ontology_url": p["ontology_url"],
+            "ontology_file": p["ontology_file"],
+            "related_recipes": p.get("related_recipes", []),
+        })
+
+    return {
+        "query": query or "(all profiles)",
+        "total": len(results),
+        "profiles": results,
+        "rationale_url": "https://cyberdomainontology.org/ontology/development/#profiles",
+        "tip": (
+            "Profiles are OWL ontology files (.ttl) that add subclass axioms "
+            "to align UCO classes with the external ontology. Include the "
+            "profile alongside your CASE/UCO graph for cross-ontology reasoning. "
+            "See docs/ECOSYSTEM.md for integration patterns."
         ),
     }
 
@@ -317,6 +404,83 @@ def _slugify(text: str) -> str:
     return slug.strip("-")[:80]
 
 
+def _build_example_graph(proposed_classes: list[dict] | None) -> dict | None:
+    """Build an example JSON-LD graph dict from proposed classes."""
+    if not proposed_classes:
+        return None
+
+    cls = proposed_classes[0]
+    cls_name = cls.get("name", "ProposedClass")
+    example_obj: dict = {
+        "@type": f"proposed:{cls_name}",
+    }
+    for p in cls.get("properties", []):
+        p_name = p.get("name", "")
+        p_type = p.get("type", "xsd:string")
+        if "decimal" in p_type or "float" in p_type or "double" in p_type:
+            example_obj[f"proposed:{p_name}"] = 0.0
+        elif "integer" in p_type or "int" in p_type:
+            example_obj[f"proposed:{p_name}"] = 0
+        elif "boolean" in p_type:
+            example_obj[f"proposed:{p_name}"] = False
+        else:
+            example_obj[f"proposed:{p_name}"] = f"example-{p_name}"
+
+    return {
+        "@context": {
+            "kb": "http://example.org/kb/",
+            "proposed": "http://example.org/ontology/proposed/",
+            "uco-observable": "https://ontology.unifiedcyberontology.org/uco/observable/",
+            "uco-core": "https://ontology.unifiedcyberontology.org/uco/core/",
+        },
+        "@graph": [
+            {
+                "@id": "kb:observable-1",
+                "@type": "uco-observable:ObservableObject",
+                "uco-core:hasFacet": [example_obj],
+            }
+        ],
+    }
+
+
+def _build_sparql_queries(proposed_classes: list[dict] | None) -> str | None:
+    """Build SPARQL query text from proposed classes for testing."""
+    if not proposed_classes:
+        return None
+
+    cls = proposed_classes[0]
+    cls_name = cls.get("name", "ProposedClass")
+    props = cls.get("properties", [])
+    prop_names = [p.get("name", "") for p in props[:3]]
+
+    if not prop_names:
+        return None
+
+    sparql_vars = " ".join(f"?{p}" for p in prop_names)
+    sparql_bindings = "\n".join(
+        f"           proposed:{p} ?{p} ;"
+        for p in prop_names
+    )
+    if sparql_bindings.endswith(" ;"):
+        sparql_bindings = sparql_bindings[:-2] + " ."
+
+    query = (
+        f"# CQ 1.1: What values are recorded for {cls_name} instances?\n"
+        f"PREFIX uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/>\n"
+        f"PREFIX uco-core: <https://ontology.unifiedcyberontology.org/uco/core/>\n"
+        f"PREFIX proposed: <http://example.org/ontology/proposed/>\n\n"
+        f"SELECT ?obj {sparql_vars}\n"
+        f"WHERE {{\n"
+        f"    ?obj a uco-observable:ObservableObject ;\n"
+        f"         uco-core:hasFacet ?facet .\n"
+        f"    ?facet a proposed:{cls_name} ;\n"
+        f"{sparql_bindings}\n"
+        f"}}\n"
+    )
+
+    return query
+
+
 def _build_proposal_markdown(
     concept: str,
     description: str,
@@ -324,9 +488,17 @@ def _build_proposal_markdown(
     proposed_classes: list[dict] | None,
     proposed_properties: list[dict] | None,
     target_repo: str,
+    target_release: str,
     existing_issue_refs: list[str] | None,
+    slug: str,
 ) -> str:
     """Render a filled-in change proposal from the official template."""
+
+    # --- Target release ---
+    target_release_section = (
+        f"# Target release\n\n"
+        f"**Target**: CASE/UCO {target_release}\n"
+    )
 
     # --- Background ---
     refs_text = ""
@@ -421,7 +593,7 @@ def _build_proposal_markdown(
                 f"returns the matching subset of objects."
             )
 
-        # Draft SPARQL
+        # Draft SPARQL (inline in markdown)
         sparql_vars = " ".join(f"?{p}" for p in prop_names)
         sparql_bindings = "\n".join(
             f"           proposed:{p} ?{p} ;"
@@ -448,6 +620,22 @@ def _build_proposal_markdown(
 
     competencies = "\n".join(comp_lines)
 
+    # --- Example instance data ---
+    example_graph = _build_example_graph(proposed_classes)
+    example_lines = ["\n# Example instance data\n"]
+    if example_graph:
+        example_lines.append(
+            f"The example graph is also available as a standalone file at "
+            f"`change_proposals/{slug}.jsonld` for validation and SPARQL testing.\n"
+        )
+        example_lines.append("```json")
+        example_lines.append(json.dumps(example_graph, indent=2))
+        example_lines.append("```")
+    example_lines.append(
+        "\nI am fine with my examples being transcribed and credited."
+    )
+    example_section = "\n".join(example_lines)
+
     # --- Solution suggestion ---
     sol_lines = []
     if proposed_classes:
@@ -470,65 +658,51 @@ def _build_proposal_markdown(
             )
 
     sol_lines.append("* Add unit test(s) demonstrating valid and invalid usage")
-    sol_lines.append(
-        "\nI am fine with my examples being transcribed and credited."
-    )
     solution = "\n".join(sol_lines)
 
-    # --- Example JSON-LD ---
-    example_lines = ["\n# Example instance data\n"]
-    if proposed_classes:
-        cls = proposed_classes[0]
-        cls_name = cls.get("name", "ProposedClass")
-        example_obj: dict = {
-            "@type": f"proposed:{cls_name}",
-        }
-        for p in cls.get("properties", []):
-            p_name = p.get("name", "")
-            p_type = p.get("type", "xsd:string")
-            if "decimal" in p_type or "float" in p_type or "double" in p_type:
-                example_obj[f"proposed:{p_name}"] = 0.0
-            elif "integer" in p_type or "int" in p_type:
-                example_obj[f"proposed:{p_name}"] = 0
-            elif "boolean" in p_type:
-                example_obj[f"proposed:{p_name}"] = False
-            else:
-                example_obj[f"proposed:{p_name}"] = f"example-{p_name}"
-
-        example_graph = {
-            "@context": {
-                "proposed": "http://example.org/ontology/proposed/",
-                "uco-observable": "https://ontology.unifiedcyberontology.org/uco/observable/",
-                "uco-core": "https://ontology.unifiedcyberontology.org/uco/core/",
-            },
-            "@graph": [
-                {
-                    "@type": "uco-observable:ObservableObject",
-                    "uco-core:hasFacet": [example_obj],
-                }
-            ],
-        }
-        example_lines.append("```json")
-        example_lines.append(json.dumps(example_graph, indent=2))
-        example_lines.append("```")
-
-    example_section = "\n".join(example_lines)
+    # --- Pre-submission testing ---
+    cq_count = 1
+    if proposed_classes and len(proposed_classes[0].get("properties", [])) >= 2:
+        cq_count = 2
+    testing_rows = "\n".join(
+        f"| CQ 1.{i} | Not yet | — | |"
+        for i in range(1, cq_count + 1)
+    )
+    testing_section = (
+        f"# Pre-submission testing\n\n"
+        f"Run `make test-proposal PROPOSAL={slug}` to execute all tests.\n\n"
+        f"## SPARQL query testing\n\n"
+        f"| Query | Tested | Expected results match | Notes |\n"
+        f"|-------|--------|----------------------|-------|\n"
+        f"{testing_rows}\n\n"
+        f"## Graph validation\n\n"
+        f"```\n"
+        f"$ make validate-proposal PROPOSAL={slug}\n"
+        f"(results pending)\n"
+        f"```\n\n"
+        f"## Unresolved issues\n\n"
+        f"Testing not yet run. Execute `make test-proposal PROPOSAL={slug}` "
+        f"and update this section before submission.\n"
+    )
 
     # --- Assemble ---
     sections = [
+        target_release_section,
         CHANGE_PROPOSAL_SECTIONS["background"].format(background=background),
         CHANGE_PROPOSAL_SECTIONS["requirements"].format(requirements=requirements),
         CHANGE_PROPOSAL_SECTIONS["risk_benefit"].format(
             benefits=benefits, risks=risks
         ),
         CHANGE_PROPOSAL_SECTIONS["competencies"].format(competencies=competencies),
-        CHANGE_PROPOSAL_SECTIONS["solution"].format(solution=solution),
         example_section,
+        CHANGE_PROPOSAL_SECTIONS["solution"].format(solution=solution),
+        testing_section,
     ]
 
     header = (
         f"<!-- Change Proposal: {concept} -->\n"
         f"<!-- Target repository: {target_repo} -->\n"
+        f"<!-- Target release: {target_release} -->\n"
         f"<!-- Generated by CASE/UCO SDK draft_change_proposal tool -->\n\n"
     )
 
@@ -543,15 +717,19 @@ def draft_change_proposal(
     proposed_classes: list[dict] | None = None,
     proposed_properties: list[dict] | None = None,
     target_repo: str | None = None,
+    target_release: str = "1.5.0",
     existing_issue_refs: list[str] | None = None,
 ) -> dict:
     """Draft a CASE/UCO change proposal for a concept not in the ontology.
 
-    Generates a filled-in change proposal markdown file using the official
-    CDO template. The agent should call check_existing_proposals first
-    to avoid duplicates.
+    Generates a filled-in change proposal markdown file, a companion
+    example JSON-LD graph file, and a SPARQL query file for testing.
+    The agent should call check_existing_proposals first to avoid duplicates.
 
-    Returns the file path, rendered markdown, and target repository info.
+    After drafting, run `make test-proposal PROPOSAL=<slug>` to validate
+    the example graph and test SPARQL queries before submission.
+
+    Returns the file paths, rendered markdown, and target repository info.
 
     Args:
         concept: Short name for the proposed concept (e.g., "Drone telemetry facet")
@@ -561,6 +739,8 @@ def draft_change_proposal(
             (each property: name, type, description)
         proposed_properties: List of dicts with keys: name, target_class, type, description
         target_repo: "UCO" or "CASE" — auto-detected if omitted
+        target_release: Target ontology release version (e.g., "1.5.0", "2.0.0").
+            Defaults to "1.5.0" (current develop branch target).
         existing_issue_refs: Links to related existing issues
 
     Examples:
@@ -569,13 +749,15 @@ def draft_change_proposal(
             description="No existing facet captures UAV flight data...",
             scenario="An investigator extracts telemetry from a DJI drone...",
             proposed_classes=[{"name": "DroneTelemetryFacet", ...}],
-            target_repo="UCO"
+            target_repo="UCO",
+            target_release="1.5.0"
         )
     """
-    # Auto-detect target repo if not specified
     triage = suggest_target_repo(concept, description)
     if target_repo is None:
         target_repo = triage["suggestion"]
+
+    slug = _slugify(concept)
 
     content = _build_proposal_markdown(
         concept=concept,
@@ -584,14 +766,35 @@ def draft_change_proposal(
         proposed_classes=proposed_classes,
         proposed_properties=proposed_properties,
         target_repo=target_repo if target_repo != "unsure" else "TBD",
+        target_release=target_release,
         existing_issue_refs=existing_issue_refs,
+        slug=slug,
     )
 
-    slug = _slugify(concept)
     out_dir = PROJECT_ROOT / "change_proposals"
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Write the proposal markdown
     out_path = out_dir / f"{slug}.md"
     out_path.write_text(content, encoding="utf-8")
+
+    generated_files = [str(out_path.relative_to(PROJECT_ROOT))]
+
+    # Write companion example JSON-LD graph
+    example_graph = _build_example_graph(proposed_classes)
+    if example_graph:
+        jsonld_path = out_dir / f"{slug}.jsonld"
+        jsonld_path.write_text(
+            json.dumps(example_graph, indent=2) + "\n", encoding="utf-8"
+        )
+        generated_files.append(str(jsonld_path.relative_to(PROJECT_ROOT)))
+
+    # Write companion SPARQL queries
+    sparql_text = _build_sparql_queries(proposed_classes)
+    if sparql_text:
+        sparql_path = out_dir / f"{slug}.sparql"
+        sparql_path.write_text(sparql_text, encoding="utf-8")
+        generated_files.append(str(sparql_path.relative_to(PROJECT_ROOT)))
 
     repo_urls = {
         "UCO": "https://github.com/ucoProject/UCO/issues/new",
@@ -600,7 +803,9 @@ def draft_change_proposal(
 
     result: dict = {
         "file_path": str(out_path.relative_to(PROJECT_ROOT)),
+        "generated_files": generated_files,
         "target_repo": target_repo,
+        "target_release": target_release,
         "triage_reasoning": triage["reasoning"],
         "content_preview": content[:500] + "..." if len(content) > 500 else content,
     }
@@ -618,7 +823,9 @@ def draft_change_proposal(
 
     result["next_steps"] = [
         f"Review the draft at {out_path.relative_to(PROJECT_ROOT)}",
-        "Refine the requirements, competency questions, and SPARQL queries",
+        f"Run `make test-proposal PROPOSAL={slug}` to validate the example graph and test SPARQL queries",
+        "Update the Pre-submission testing section with test results",
+        "Refine the requirements, competency questions, and example data",
         "Optionally create a local extension for immediate use (see extensions recipe)",
         f"Submit as a GitHub issue at {repo_urls.get(target_repo, 'the appropriate repo')}",
     ]
@@ -634,6 +841,28 @@ def get_domains() -> str:
         lines.append(f"## {cat['title']}")
         lines.append(cat["description"])
         lines.append(f"Keywords: {', '.join(cat['keywords'])}")
+        lines.append("")
+    return "\n".join(lines)
+
+
+@mcp.resource("case-uco://profiles")
+def get_profiles_resource() -> str:
+    """UCO Profile ontologies for interoperability with external ontologies."""
+    lines = ["# UCO Profiles\n"]
+    lines.append(
+        "UCO maintains Profile repositories that align UCO classes with "
+        "external ontologies. See: "
+        "https://cyberdomainontology.org/ontology/development/#profiles\n"
+    )
+    for p in UCO_PROFILES:
+        lines.append(f"## {p['name']}")
+        lines.append(f"**{p['full_name']}** ({p['profile_type']} profile)")
+        lines.append(f"Status: {p['status']}")
+        lines.append(p["description"])
+        lines.append(f"Repo: {p['repo_url']}")
+        lines.append(f"Ontology file: {p['ontology_file']}")
+        if p.get("related_recipes"):
+            lines.append(f"Related recipes: {', '.join(p['related_recipes'])}")
         lines.append("")
     return "\n".join(lines)
 

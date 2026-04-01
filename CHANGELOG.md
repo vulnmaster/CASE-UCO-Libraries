@@ -5,6 +5,171 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2026-04-01
+
+### Added
+
+#### Security Policy and Supply-Chain Hardening
+
+- **`SECURITY.md`** — vulnerability reporting policy with private disclosure
+  via GitHub Security Advisories, 72-hour acknowledgment SLA, and coordinated
+  disclosure process. Documents all security measures (CodeQL, cargo-audit,
+  dependency review, Dependabot) and defines scope.
+
+#### Rust Security Scanning
+
+- **`rust-security.yml`** workflow — dedicated CI pipeline for Rust
+  supply-chain security, running on push/PR to `main`/`develop` plus weekly
+  schedule:
+  - `cargo audit` for dependency vulnerability scanning (filling the gap
+    left by CodeQL, which does not support Rust)
+  - `clippy` with `unwrap_used` and `expect_used` security-focused lints
+
+#### Hardened Release Pipeline
+
+- **`release.yml`** completely rewritten from a simple GitHub Release creator
+  to a full build-and-attest pipeline:
+  - Builds all four language packages from generated source (Python wheel/sdist,
+    C# NuGet, Java JAR, Rust crate)
+  - Generates Python SBOM in CycloneDX format via `pip-audit`
+  - Produces SHA256 checksums (`SHA256SUMS.txt`) for all release assets
+  - Creates SLSA build provenance attestations via
+    `actions/attest-build-provenance@v2`
+  - Requests `id-token: write` and `attestations: write` permissions for
+    OIDC-based trusted provenance
+  - Uses a `release` environment for deployment protection rules
+
+#### Change Proposal Improvements (Ontology Committee Feedback)
+
+Based on feedback from the CASE/UCO Ontology Committee, the change
+proposal workflow now includes:
+
+- **Target release** — every proposal must specify which CASE/UCO release
+  it targets (e.g., 1.5.0, 2.0.0). Added to the template, recipe, and
+  MCP tool (`target_release` parameter, defaults to "1.5.0")
+- **Example graph generation** — `draft_change_proposal` now generates a
+  companion `.jsonld` file alongside the proposal markdown, containing
+  the example instance data that the submitter wants to build and share
+- **SPARQL query file** — `draft_change_proposal` now generates a companion
+  `.sparql` file with the competency queries for automated testing
+- **Pre-submission testing** section added to the template requiring
+  submitters to report SPARQL test results, graph validation output,
+  and any unresolved issues before the proposal goes to manual review
+- **`make test-proposal PROPOSAL=<slug>`** — new Makefile target that
+  validates the example `.jsonld` graph with `case_validate` and tests
+  all SPARQL queries against the example data using RDFLib
+- **`make validate-proposal`** and **`make sparql-test-proposal`** —
+  individual Makefile targets for running validation or SPARQL tests
+  separately
+- **Extension compatibility testing** against multiple CASE/UCO branches:
+  - `make test-extension-compat` — tests an extension ontology against
+    `main` (current stable), `develop` (v1.5.0), and `develop-2.0.0`
+    (v2.0.0) branches
+  - Individual targets: `test-extension-main`, `test-extension-develop`,
+    `test-extension-develop2`
+  - This helps ontologists review change proposals by showing
+    compatibility across release targets
+- Updated `docs/templates/change-proposal-template.md` with Target
+  release, Example instance data, and Pre-submission testing sections
+- Updated `docs/recipes/change-proposal.md` with new Steps 3 (target
+  release selection), 5 (example data), and 6 (test before submission)
+- File convention documentation for proposal artifacts: `.md`, `.jsonld`,
+  `.sparql`, `.ttl`, `-shapes.ttl`
+
+#### UCO Profile Ontology Integration
+
+UCO maintains [Profile repositories](https://cyberdomainontology.org/ontology/development/#profiles)
+that align UCO classes with established external ontologies. The SDK now
+surfaces all six profiles to developers:
+
+- **New MCP tool `get_uco_profiles()`** — search and browse UCO Profile
+  ontologies (BFO, gUFO, PROV-O, OWL-Time, GeoSPARQL, FOAF) with
+  descriptions, repo links, related recipes, and integration guidance
+- **New MCP resource `case-uco://profiles`** — browsable profile catalog
+  for AI agent context
+- **`find_classes_for_domain` now returns matching profiles** — when a
+  domain query matches a profile's keywords or related domains, the
+  response includes `related_profiles` with links and descriptions
+- **`UCO_PROFILES` data structure** in `domain_index.py` — complete
+  metadata for all six profiles including keywords, related domains,
+  related recipes, ontology file names, and profile types (top-level
+  vs. adopting)
+- **`docs/ECOSYSTEM.md`** — new "UCO Profiles — Interoperability with
+  Other Ontologies" section with:
+  - Profile table with descriptions and use cases
+  - "For Developers Coming from Other Ontologies" cross-reference table
+  - SDK integration code example
+  - Profile repository structure reference
+- **`README.md`** — new "UCO Profiles" subsection in Ecosystem & Tools
+  with quick-reference table
+- **`docs/MAPPING_GUIDE.md`** — new Tip #8 connecting domain mappings
+  to relevant profile ontologies with concrete examples
+
+#### Cross-Language Parity Contract
+
+- **`docs/CROSS_LANGUAGE_PARITY.md`** — formal specification of what is
+  intentionally identical across all four languages (operation names, registry
+  API, JSON-LD output, validation behavior) vs. what is intentionally
+  language-idiomatic (object construction, naming conventions). Includes
+  stability guarantees and migration guidance.
+
+### Changed
+
+#### Version Alignment
+
+- All four package manifests now track the repository release version:
+  - Python `pyproject.toml`: 0.1.0 → 1.7.0
+  - Rust `Cargo.toml`: 0.1.0 → 1.7.0
+  - Java `pom.xml`: 0.1.0 → 1.7.0
+  - C# `CaseUco.csproj`: 0.1.0 → 1.7.0
+- Previously, package versions were stuck at 0.1.0 while the repo was at
+  v1.6.0, creating a provenance and support-expectation mismatch
+
+#### README Restructured for Consumer vs. Contributor Paths
+
+- **Installation section** split into "Use the SDK (Consumer Install)" and
+  "Contribute to the SDK (Developer Install)" — consumers no longer need to
+  clone the repo or run the generator
+- Added install-from-release-artifact instructions with placeholder for
+  future package registry lines (PyPI, NuGet, Maven Central, crates.io)
+- Python quickstart example now ends with `graph.validate()` instead of
+  just `graph.write()`, making validation part of the default developer path
+- Added **Version Matrix** section showing lockstep package versions across
+  all four languages and their corresponding ontology versions
+- Added **Cross-Language Parity** section linking to the parity contract
+- Added **Security** section linking to `SECURITY.md`
+- Architecture diagram updated to reflect new files
+
+#### Community Integration (ECOSYSTEM.md and MAPPING_GUIDE.md)
+
+- **CDO Project Release Flow** section in `ECOSYSTEM.md` — documents the
+  established community release pipeline (UCO → CASE → case-utils → case-
+  validation-action → downstream projects) and positions the SDK within it,
+  per guidance from the CASE/UCO Ontology Committee
+- **Community Mappings and Implementations** section in `ECOSYSTEM.md` —
+  references the full landscape of existing community mapping work:
+  - Mapping specifications: CASE-Mappings (SleuthKit, Cellebrite, Bulk
+    Extractor, NSRL), CASE-Mapping-Template-Stubs, CASE-Mapping-Template-
+    Python, CASE-Mapping-Python (INSPECTr)
+  - 10 tool implementation repositories (UFED-XML, ExifTool, AXIOM, XRY,
+    DC3DD, GNU-Time, Plaso, Volatility, macOS System Profiler, PROV-O)
+  - Templates for new implementations
+- **Community Mapping Resources** section in `MAPPING_GUIDE.md` — links the
+  auto-generated domain mapping guide to the community's hand-written tool
+  mappings, noting the v0.1.0-era terminology differences and the
+  complementary relationship between the two
+
+#### CONTRIBUTING.md Reorganized into Three Tracks
+
+- **Track 1: Use the SDK** — for developers who just want to consume the
+  package (install, resources, bug reporting)
+- **Track 2: Contribute to the SDK** — for developers fixing bugs or adding
+  features (setup, project structure, CI checks, code style)
+- **Track 3: Extend or Regenerate** — for advanced users adding extension
+  ontologies, modifying the generator, or updating ontology versions
+- Each track links to the relevant docs without requiring knowledge of the
+  other tracks
+
 ## [1.6.0] - 2026-03-27
 
 ### Added
@@ -400,6 +565,8 @@ digital forensics, cyber-investigation, and cyber-observable data.
 - GitHub Actions workflows: CI, CodeQL, dependency review, release
 - Dependabot configuration for automated dependency updates
 
+[1.7.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.7.0
+[1.6.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.6.0
 [1.5.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.5.0
 [1.4.1]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.4.1
 [1.4.0]: https://github.com/vulnmaster/CASE-UCO-SDK/releases/tag/v1.4.0
