@@ -20,14 +20,19 @@ Model entries from the Windows NTFS Update Sequence Number (USN) Change Journal 
 ## Pattern
 
 ```
-Investigation ──────────────────────────────────────────────────────
-    └── InvestigativeAction ("Parse USN Journal")
-            ├── instrument ──▶ Tool (MFTECmd)
-            ├── object ──▶ disk_image (ObservableObject)
-            └── result ──▶ usn_journal ($UsnJrnl:$J)
+Investigation
+    └── object ──▶ InvestigativeAction ("Parse USN Journal")
+                       ├── instrument ──▶ Tool (MFTECmd)
+                       ├── object ──▶ disk_image (ObservableObject + ContentDataFacet)
+                       └── result ──▶ $UsnJrnl:$J
+                                  ──▶ USN Record (per entry)
+                                  ──▶ Event (per entry)
 
 Volume (ObservableObject + WindowsVolumeFacet + FileSystemFacet)
-    ├── Directory ──▶ file (ObservableObject + FileFacet + NTFSFileFacet)
+    ├── Users ──▶ analyst ──▶ Documents ──▶ report.docx
+    │                     ──▶ Downloads ──▶ malware.exe
+    ├── ProgramData ──▶ AppConfig ──▶ config.ini
+    ├── Logs ──▶ system.log
     └── $Extend ──▶ $UsnJrnl:$J
                        └── USN Record (ObservableObject + EventRecordFacet)
 
@@ -64,18 +69,11 @@ from case_uco.uco.types import Dictionary, DictionaryEntry, Hash
 graph = CASEGraph()
 tz = timezone(timedelta(hours=...))  # from source
 
-# --- Provenance ---
-investigation = graph.create(Investigation,
-    name="...",
-    focus=["File system activity analysis"],
-    investigation_form=["incident"],
-    start_time=datetime(..., tzinfo=tz),
-)
-
+# --- Evidence source and tool (created early for references) ---
 disk_image = graph.create(ObservableObject,
     name="...",
     has_facet=[
-        FileFacet(file_name=["..."], file_path=["..."]),
+        FileFacet(file_name=["..."], file_path=["..."], size_in_bytes=...),
         ContentDataFacet(hash=[Hash(hash_method="SHA256", hash_value="...")]),
     ],
 )
@@ -84,14 +82,6 @@ tool = graph.create(Tool,
     name="MFTECmd",  # from source
     version="1.3.2.1",
     tool_type="USN Journal Parser",
-)
-
-extraction = graph.create(InvestigativeAction,
-    name="Parse USN Journal from ...",
-    start_time=datetime(..., tzinfo=tz),
-    end_time=datetime(..., tzinfo=tz),
-    instrument=[tool],
-    object=[disk_image],
 )
 
 # --- NTFS Volume ---
@@ -103,20 +93,27 @@ volume = graph.create(ObservableObject,
     ],
 )
 
-# --- Directories (nested containment) ---
-parent_dir = graph.create(ObservableObject,
-    name="Documents",
-    has_facet=[FileFacet(
-        file_name=["Documents"],
-        file_path=["C:\\Users\\analyst\\Documents"],
-        is_directory=[True],
-    )],
-)
-graph.create(ObservableRelationship,
-    is_directional=True,
+# --- Full directory hierarchy ---
+dir_users = graph.create(ObservableObject, name="Users",
+    has_facet=[FileFacet(file_name=["Users"], file_path=["C:\\Users"],
+                         is_directory=[True])])
+graph.create(ObservableRelationship, is_directional=True,
     kind_of_relationship="Contained_Within",
-    source=[parent_dir], target=volume,
-)
+    source=[dir_users], target=volume)
+
+dir_analyst = graph.create(ObservableObject, name="analyst",
+    has_facet=[FileFacet(file_name=["analyst"],
+        file_path=["C:\\Users\\analyst"], is_directory=[True])])
+graph.create(ObservableRelationship, is_directional=True,
+    kind_of_relationship="Contained_Within",
+    source=[dir_analyst], target=dir_users)
+
+dir_documents = graph.create(ObservableObject, name="Documents",
+    has_facet=[FileFacet(file_name=["Documents"],
+        file_path=["C:\\Users\\analyst\\Documents"], is_directory=[True])])
+graph.create(ObservableRelationship, is_directional=True,
+    kind_of_relationship="Contained_Within",
+    source=[dir_documents], target=dir_analyst)
 
 # --- USN Journal ($UsnJrnl:$J) ---
 usn_journal = graph.create(ObservableObject,
@@ -126,20 +123,22 @@ usn_journal = graph.create(ObservableObject,
         file_path=["C:\\$Extend\\$UsnJrnl:$J"],
     )],
 )
-extraction.result.append(usn_journal)
 
 # --- Per-entry: file + record + event ---
+parsed_results = []  # collect for InvestigativeAction.result
+
 file_obj = graph.create(ObservableObject,
     name="report.docx",  # from source
     has_facet=[
-        FileFacet(file_name=["report.docx"], file_path=["C:\\...\\report.docx"]),
+        FileFacet(file_name=["report.docx"],
+                  file_path=["C:\\Users\\analyst\\Documents\\report.docx"]),
         NTFSFileFacet(entry_id=48291),  # MFT entry number from source
     ],
 )
 graph.create(ObservableRelationship,
     is_directional=True,
     kind_of_relationship="Contained_Within",
-    source=[file_obj], target=parent_dir,
+    source=[file_obj], target=dir_documents,
 )
 
 record = graph.create(ObservableObject,
@@ -160,7 +159,7 @@ graph.create(ObservableRelationship,
 )
 
 reason_flags = ["USN_REASON_FILE_CREATE", "USN_REASON_CLOSE"]  # from source
-graph.create(Event,
+event = graph.create(Event,
     name="USN Change 109248: report.docx",
     start_time=[datetime(..., tzinfo=tz)],
     event_type=reason_flags,
@@ -172,6 +171,7 @@ graph.create(Event,
         DictionaryEntry(key="MFT_ENTRY_ID", value="48291"),
     ])],
 )
+parsed_results.extend([record, event])
 
 # --- Rename: model both old and new file states ---
 new_file = graph.create(ObservableObject,
@@ -194,6 +194,24 @@ graph.create(ObservableRelationship,
     source=[new_file], target=old_file,
 )
 # ... then create the Event with both files in eventContext
+
+# --- Provenance (created last so result list is complete) ---
+extraction = graph.create(InvestigativeAction,
+    name="Parse USN Journal from ...",
+    start_time=datetime(..., tzinfo=tz),
+    end_time=datetime(..., tzinfo=tz),
+    instrument=[tool],
+    object=[disk_image],
+    result=[usn_journal] + parsed_results,
+)
+
+graph.create(Investigation,
+    name="...",
+    focus=["File system activity analysis"],
+    investigation_form=["incident"],
+    start_time=datetime(..., tzinfo=tz),
+    object=[extraction],
+)
 
 graph.write("usn_journal.jsonld")
 ```
@@ -230,17 +248,18 @@ Rename operations create two `ObservableObject` nodes sharing the same MFT entry
 
 ### Directory hierarchy
 
-Files are placed inside directory `ObservableObject` nodes (with `isDirectory=true`), which are themselves `Contained_Within` the volume. This preserves the actual file system structure rather than flattening everything directly under the volume.
+Model the full directory path, not just the leaf directory. For `C:\Users\analyst\Documents\report.docx`, create separate directory objects for `Users`, `analyst`, and `Documents`, each `Contained_Within` its parent. This preserves the actual file system structure and avoids flattening paths like `C:\Users\analyst\Documents` directly under `C:`.
 
 ### Forensic provenance
 
-The graph records how the USN data was obtained:
-- **`Investigation`** — the case context
-- **`InvestigativeAction`** — the specific extraction step (with start/end times)
+The graph records how the USN data was obtained. Create the `InvestigativeAction` and `Investigation` **after** all USN entries so the `result` list is fully populated at creation time (the SDK serializes objects at `create()` time):
+
+- **`Investigation`** — the case context, with `object=[extraction_action]` linking to the action
+- **`InvestigativeAction`** — the parsing step, with `instrument=[tool]`, `object=[disk_image]`, and `result=[usn_journal] + all_records_and_events`
 - **`Tool`** — the parser used (e.g., MFTECmd)
 - **Evidence source** — the disk image as an `ObservableObject` with hash
 
-The `InvestigativeAction.result` links to the extracted `$UsnJrnl:$J` object, establishing a chain from evidence through tool to parsed records.
+This creates an explicit provenance chain: `Investigation` → `InvestigativeAction` → (`$UsnJrnl:$J` + all USN records + all Event objects), traceable back through the tool and evidence source.
 
 ## Common USN reason flags
 
@@ -266,3 +285,17 @@ The `InvestigativeAction.result` links to the extracted `$UsnJrnl:$J` object, es
 - The same MFT entry ID on two file objects (old name, new name) signals that they are the same underlying NTFS file record at different points in time.
 - For high-volume USN data, partition by volume or time window rather than splitting mid-stream — USN records within a volume form a sequential log where cross-references (parent file reference numbers) need to resolve.
 - See also: [Events and Authentication Logs](event.md) for the general Event/Dictionary pattern, [File System Forensics](file-system.md) for directory hierarchy patterns.
+
+## Known limitations
+
+### Relationship labels are free strings
+
+`kindOfRelationship` is typed as `xsd:string` in UCO — there is no controlled vocabulary for relationship types. Labels like `Contained_Within`, `Records_Change_To`, and `Renamed_From` are readable conventions (and `Contained_Within` appears in [CASE-Examples](https://github.com/casework/CASE-Examples)), but they are not ontology-grounded terms. If interoperability across tools matters, coordinate on a shared vocabulary or propose new relationship types via a [change proposal](change-proposal.md).
+
+### Dictionary values are strings
+
+UCO `DictionaryEntry.value` is `xsd:string`, so there is no mechanism for strongly typed values (booleans, integers) inside Dictionary entries. The reason flags are `"true"` as strings, and the USN number is `"109248"` as a string. The primary structured mechanism for querying is `Event.eventType` (a native `list[str]`), not the Dictionary.
+
+### File identity vs. temporal state
+
+This recipe models files as continuing objects — `malware.exe` exists as an `ObservableObject` even after a delete event records its removal. This is standard CASE/UCO practice and works for most forensic workflows, but does not distinguish "the file as a concept" from "the file's state at a specific moment." For workflows requiring explicit temporal state snapshots or validity intervals, see the [Existence Intervals and Temporal Modeling](existence-intervals.md) recipe.

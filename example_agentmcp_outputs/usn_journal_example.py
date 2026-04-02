@@ -1,6 +1,6 @@
 """Model four Windows NTFS USN Journal entries in CASE/UCO.
 
-Demonstrates structured reason flags, directory hierarchy, rename
+Demonstrates structured reason flags, full directory hierarchy, rename
 before/after modeling, and forensic provenance for USN Journal data.
 """
 
@@ -26,16 +26,8 @@ graph = CASEGraph()
 tz = timezone(timedelta(hours=-5))
 
 # ============================================================
-# Provenance: investigation, evidence source, extraction tool
+# Evidence source and tool (created early for references)
 # ============================================================
-
-investigation = graph.create(
-    Investigation,
-    name="Case 2025-1114",
-    focus=["File system activity analysis"],
-    investigation_form=["incident"],
-    start_time=datetime(2025, 11, 14, 8, 0, 0, tzinfo=tz),
-)
 
 disk_image = graph.create(
     ObservableObject,
@@ -49,7 +41,7 @@ disk_image = graph.create(
         ContentDataFacet(
             hash=[Hash(
                 hash_method="SHA256",
-                hash_value="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                hash_value="a7f5f35426b927411fc9231b56382173b5eb9099b4d6792e9e1b8cda6c4104cb",
             )],
         ),
     ],
@@ -60,15 +52,6 @@ tool = graph.create(
     name="MFTECmd",
     version="1.3.2.1",
     tool_type="USN Journal Parser",
-)
-
-extraction_action = graph.create(
-    InvestigativeAction,
-    name="Parse USN Journal from analyst-workstation.E01",
-    start_time=datetime(2025, 11, 14, 16, 30, 0, tzinfo=tz),
-    end_time=datetime(2025, 11, 14, 16, 32, 15, tzinfo=tz),
-    instrument=[tool],
-    object=[disk_image],
 )
 
 # ============================================================
@@ -85,7 +68,7 @@ volume = graph.create(
 )
 
 # ============================================================
-# Directory hierarchy
+# Full directory hierarchy
 # ============================================================
 
 def make_dir(name, path, parent):
@@ -103,16 +86,15 @@ def make_dir(name, path, parent):
     )
     return d
 
-dir_users_analyst_documents = make_dir(
-    "Documents", "C:\\Users\\analyst\\Documents", volume,
-)
-dir_programdata_appconfig = make_dir(
-    "AppConfig", "C:\\ProgramData\\AppConfig", volume,
-)
+dir_users = make_dir("Users", "C:\\Users", volume)
+dir_analyst = make_dir("analyst", "C:\\Users\\analyst", dir_users)
+dir_documents = make_dir("Documents", "C:\\Users\\analyst\\Documents", dir_analyst)
+dir_downloads = make_dir("Downloads", "C:\\Users\\analyst\\Downloads", dir_analyst)
+
+dir_programdata = make_dir("ProgramData", "C:\\ProgramData", volume)
+dir_appconfig = make_dir("AppConfig", "C:\\ProgramData\\AppConfig", dir_programdata)
+
 dir_logs = make_dir("Logs", "C:\\Logs", volume)
-dir_users_analyst_downloads = make_dir(
-    "Downloads", "C:\\Users\\analyst\\Downloads", volume,
-)
 dir_extend = make_dir("$Extend", "C:\\$Extend", volume)
 
 # ============================================================
@@ -138,12 +120,12 @@ graph.create(
     target=dir_extend,
 )
 
-# Link extraction action results to the journal
-extraction_action.result.append(usn_journal)
-
 # ============================================================
 # Helper: create a USN change event
 # ============================================================
+
+parsed_results = []
+
 
 def add_usn_entry(
     *,
@@ -178,7 +160,6 @@ def add_usn_entry(
 
     event_context_objects = [file_obj]
 
-    # For renames, model the prior file state explicitly
     if old_file_name and old_file_path:
         old_file_obj = graph.create(
             ObservableObject,
@@ -207,7 +188,6 @@ def add_usn_entry(
         )
         event_context_objects.append(old_file_obj)
 
-    # The raw USN record observable
     record = graph.create(
         ObservableObject,
         name=f"USN Record {usn_number}",
@@ -231,9 +211,6 @@ def add_usn_entry(
     )
     event_context_objects.append(record)
 
-    # Structured event with queryable reason flags and metadata.
-    # Each reason flag becomes its own key (flags are present/absent),
-    # keeping dictionary keys unique as required by SHACL validation.
     reason_entries = [
         DictionaryEntry(key=flag, value="true")
         for flag in reason_flags
@@ -243,7 +220,7 @@ def add_usn_entry(
         DictionaryEntry(key="MFT_ENTRY_ID", value=str(mft_entry_id)),
     ])
 
-    graph.create(
+    event = graph.create(
         Event,
         name=f"USN Change {usn_number}: {file_name}",
         start_time=[timestamp],
@@ -252,6 +229,7 @@ def add_usn_entry(
         event_attribute=[Dictionary(entry=reason_entries)],
     )
 
+    parsed_results.extend([record, event])
     return file_obj, record
 
 
@@ -263,7 +241,7 @@ add_usn_entry(
     timestamp=datetime(2025, 11, 14, 9, 23, 17, tzinfo=tz),
     file_name="report.docx",
     file_path="C:\\Users\\analyst\\Documents\\report.docx",
-    parent_dir=dir_users_analyst_documents,
+    parent_dir=dir_documents,
     mft_entry_id=48291,
     reason_flags=["USN_REASON_FILE_CREATE", "USN_REASON_CLOSE"],
     description="File report.docx was created and handle closed",
@@ -277,7 +255,7 @@ add_usn_entry(
     timestamp=datetime(2025, 11, 14, 10, 5, 42, tzinfo=tz),
     file_name="config.ini",
     file_path="C:\\ProgramData\\AppConfig\\config.ini",
-    parent_dir=dir_programdata_appconfig,
+    parent_dir=dir_appconfig,
     mft_entry_id=12044,
     reason_flags=[
         "USN_REASON_DATA_OVERWRITE",
@@ -315,10 +293,33 @@ add_usn_entry(
     timestamp=datetime(2025, 11, 14, 14, 47, 55, tzinfo=tz),
     file_name="malware.exe",
     file_path="C:\\Users\\analyst\\Downloads\\malware.exe",
-    parent_dir=dir_users_analyst_downloads,
+    parent_dir=dir_downloads,
     mft_entry_id=51883,
     reason_flags=["USN_REASON_FILE_DELETE", "USN_REASON_CLOSE"],
     description="File malware.exe was deleted and handle closed",
+)
+
+# ============================================================
+# Provenance (created last so result list is fully populated)
+# ============================================================
+
+extraction_action = graph.create(
+    InvestigativeAction,
+    name="Parse USN Journal from analyst-workstation.E01",
+    start_time=datetime(2025, 11, 14, 16, 30, 0, tzinfo=tz),
+    end_time=datetime(2025, 11, 14, 16, 32, 15, tzinfo=tz),
+    instrument=[tool],
+    object=[disk_image],
+    result=[usn_journal] + parsed_results,
+)
+
+graph.create(
+    Investigation,
+    name="Case 2025-1114",
+    focus=["File system activity analysis"],
+    investigation_form=["incident"],
+    start_time=datetime(2025, 11, 14, 8, 0, 0, tzinfo=tz),
+    object=[extraction_action],
 )
 
 graph.write("usn_journal.jsonld")

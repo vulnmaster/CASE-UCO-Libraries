@@ -17,8 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   forensic provenance. Demonstrates the two-layer event model pattern:
   `ObservableObject` + `EventRecordFacet` for the raw artifact, and
   `core:Event` with structured `eventType` flags for queryable semantics.
-  Includes a common USN reason flags reference table and SHACL validation
-  notes for dictionary key uniqueness.
+  Includes a common USN reason flags reference table, SHACL validation
+  notes for dictionary key uniqueness, and a "Known limitations" section
+  documenting relationship vocabulary, string-typed dictionary values,
+  and file identity vs. temporal state trade-offs.
 
 #### USN Journal Example
 
@@ -30,10 +32,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `Dictionary`/`DictionaryEntry` metadata with unique keys per flag
   - Rename modeled as two `ObservableObject` nodes linked by
     `Renamed_From` relationship (same MFT entry ID, different names)
-  - Directory hierarchy with nested `Contained_Within` relationships
-  - Full forensic provenance chain: `Investigation` →
-    `InvestigativeAction` → `Tool` (MFTECmd) → evidence source disk
-    image with SHA256 hash
+  - Full directory hierarchy: `C:` → `Users` → `analyst` → `Documents`,
+    `C:` → `ProgramData` → `AppConfig`, etc. (no flattened paths)
+  - Explicit provenance chain: `Investigation` →(`object`)→
+    `InvestigativeAction` →(`result`)→ all 9 parsed outputs (journal +
+    4 USN records + 4 Event objects) + `Tool` (MFTECmd) + evidence
+    source disk image with SHA256 hash
   - Validated with `case_validate --built-version case-1.4.0`
 
 ### Changed
