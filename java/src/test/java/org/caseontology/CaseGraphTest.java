@@ -63,27 +63,43 @@ public class CaseGraphTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testContextHasAllPrefixes() {
+    public void testContextPrunesUnusedPrefixes() {
         CaseGraph graph = new CaseGraph();
+        Tool tool = new Tool();
+        tool.setName("Tool A");
+        graph.add(tool);
+
         Map<String, Object> doc = graph.toMap();
         Map<String, String> context = (Map<String, String>) doc.get("@context");
 
-        String[] expected = {
-            "uco-core", "uco-tool", "uco-observable", "uco-action",
-            "uco-identity", "uco-location", "uco-types", "uco-vocabulary",
-            "uco-role", "uco-victim", "uco-analysis", "uco-configuration",
-            "uco-marking", "uco-pattern", "uco-time", "xsd",
-            "case-investigation",
+        assertTrue("used prefix kb should be present", context.containsKey("kb"));
+        assertTrue("used prefix uco-tool should be present", context.containsKey("uco-tool"));
+        assertTrue("used prefix uco-core should be present", context.containsKey("uco-core"));
+
+        String[] unused = {
+            "uco-identity", "uco-location", "uco-role", "uco-victim",
+            "uco-configuration", "uco-marking", "uco-pattern", "uco-time",
         };
-        for (String prefix : expected) {
-            assertTrue("missing context prefix: " + prefix, context.containsKey(prefix));
+        for (String prefix : unused) {
+            assertFalse("unused prefix should be pruned: " + prefix, context.containsKey(prefix));
         }
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testEmptyGraphHasEmptyContext() {
+        CaseGraph graph = new CaseGraph();
+        Map<String, Object> doc = graph.toMap();
+        Map<String, String> context = (Map<String, String>) doc.get("@context");
+        assertTrue("empty graph should have empty context", context.isEmpty());
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void testCustomKbPrefix() {
         CaseGraph graph = new CaseGraph("http://mylab.example.org/case/");
+        Tool tool = new Tool();
+        graph.add(tool);
         Map<String, Object> doc = graph.toMap();
         Map<String, String> context = (Map<String, String>) doc.get("@context");
         assertEquals("http://mylab.example.org/case/", context.get("kb"));

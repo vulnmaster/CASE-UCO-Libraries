@@ -234,10 +234,75 @@ namespace CaseUco
         {
             var doc = new Dictionary<string, object>
             {
-                ["@context"] = _context,
+                ["@context"] = PrunedContext(),
                 ["@graph"] = _objects,
             };
             return ToJsonString(doc, indented ? 0 : -1);
+        }
+
+        private Dictionary<string, string> PrunedContext()
+        {
+            var used = UsedPrefixes();
+            return _context
+                .Where(kv => used.Contains(kv.Key))
+                .ToDictionary(kv => kv.Key, kv => kv.Value);
+        }
+
+        private HashSet<string> UsedPrefixes()
+        {
+            var prefixes = new HashSet<string>();
+            var contextKeys = new HashSet<string>(_context.Keys);
+            foreach (var obj in _objects)
+                CollectPrefixes(obj, contextKeys, prefixes);
+            return prefixes;
+        }
+
+        private static string ExtractPrefix(string value, HashSet<string> contextKeys)
+        {
+            if (value.Contains("://")) return null;
+            var colon = value.IndexOf(':');
+            if (colon > 0)
+            {
+                var prefix = value.Substring(0, colon);
+                if (contextKeys.Contains(prefix)) return prefix;
+            }
+            return null;
+        }
+
+        private static void CollectPrefixes(object node, HashSet<string> contextKeys, HashSet<string> output)
+        {
+            if (node is Dictionary<string, object> dict)
+            {
+                foreach (var kv in dict)
+                {
+                    var p = ExtractPrefix(kv.Key, contextKeys);
+                    if (p != null) output.Add(p);
+                    if (kv.Value is string strVal)
+                    {
+                        p = ExtractPrefix(strVal, contextKeys);
+                        if (p != null) output.Add(p);
+                    }
+                    else
+                    {
+                        CollectPrefixes(kv.Value, contextKeys, output);
+                    }
+                }
+            }
+            else if (node is List<object> list)
+            {
+                foreach (var item in list)
+                {
+                    if (item is string strItem)
+                    {
+                        var p = ExtractPrefix(strItem, contextKeys);
+                        if (p != null) output.Add(p);
+                    }
+                    else
+                    {
+                        CollectPrefixes(item, contextKeys, output);
+                    }
+                }
+            }
         }
 
         /// <summary>Write the graph to a file.</summary>

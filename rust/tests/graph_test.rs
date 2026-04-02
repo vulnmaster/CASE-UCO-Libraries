@@ -94,21 +94,36 @@ fn test_multiple_objects() {
 }
 
 #[test]
-fn test_context_has_all_prefixes() {
-    let graph = CaseGraph::new("http://example.org/kb/");
+fn test_context_prunes_unused_prefixes() {
+    let mut graph = CaseGraph::new("http://example.org/kb/");
+    let tool = Tool::builder()
+        .version("1.0".to_string())
+        .build();
+    graph.create(&tool);
+
     let json = graph.serialize().expect("serialization should succeed");
     let parsed: serde_json::Value = serde_json::from_str(&json).unwrap();
     let ctx = parsed.get("@context").unwrap();
 
-    let expected = vec![
-        "case-investigation", "uco-core", "uco-tool", "uco-observable",
-        "uco-action", "uco-identity", "uco-location", "uco-types",
-        "uco-vocabulary", "uco-role", "uco-victim", "uco-analysis",
-        "uco-configuration", "uco-marking", "uco-pattern", "uco-time", "xsd",
+    assert!(ctx.get("kb").is_some(), "used prefix kb should be present");
+    assert!(ctx.get("uco-tool").is_some(), "used prefix uco-tool should be present");
+
+    let unused = vec![
+        "uco-identity", "uco-location", "uco-role", "uco-victim",
+        "uco-configuration", "uco-marking", "uco-pattern", "uco-time",
     ];
-    for prefix in expected {
-        assert!(ctx.get(prefix).is_some(), "missing context prefix: {}", prefix);
+    for prefix in unused {
+        assert!(ctx.get(prefix).is_none(), "unused prefix should be pruned: {}", prefix);
     }
+}
+
+#[test]
+fn test_empty_graph_has_empty_context() {
+    let graph = CaseGraph::new("http://example.org/kb/");
+    let json = graph.serialize().expect("serialization should succeed");
+    let parsed: serde_json::Value = serde_json::from_str(&json).unwrap();
+    let ctx = parsed.get("@context").unwrap().as_object().unwrap();
+    assert!(ctx.is_empty(), "empty graph should have empty context");
 }
 
 #[test]

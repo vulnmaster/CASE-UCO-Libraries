@@ -98,9 +98,65 @@ public class CaseGraph {
      */
     public Map<String, Object> toMap() {
         Map<String, Object> doc = new LinkedHashMap<>();
-        doc.put("@context", context);
+        doc.put("@context", prunedContext());
         doc.put("@graph", objects);
         return doc;
+    }
+
+    private Map<String, String> prunedContext() {
+        java.util.Set<String> used = usedPrefixes();
+        Map<String, String> pruned = new LinkedHashMap<>();
+        for (Map.Entry<String, String> entry : context.entrySet()) {
+            if (used.contains(entry.getKey())) {
+                pruned.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return pruned;
+    }
+
+    private java.util.Set<String> usedPrefixes() {
+        java.util.Set<String> prefixes = new java.util.HashSet<>();
+        java.util.Set<String> contextKeys = context.keySet();
+        for (Map<String, Object> obj : objects) {
+            collectPrefixes(obj, contextKeys, prefixes);
+        }
+        return prefixes;
+    }
+
+    private static String extractPrefix(String value, java.util.Set<String> contextKeys) {
+        if (value.contains("://")) return null;
+        int colon = value.indexOf(':');
+        if (colon > 0) {
+            String prefix = value.substring(0, colon);
+            if (contextKeys.contains(prefix)) return prefix;
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void collectPrefixes(Object node, java.util.Set<String> contextKeys, java.util.Set<String> out) {
+        if (node instanceof Map) {
+            for (Map.Entry<String, Object> entry : ((Map<String, Object>) node).entrySet()) {
+                String p = extractPrefix(entry.getKey(), contextKeys);
+                if (p != null) out.add(p);
+                Object val = entry.getValue();
+                if (val instanceof String) {
+                    p = extractPrefix((String) val, contextKeys);
+                    if (p != null) out.add(p);
+                } else {
+                    collectPrefixes(val, contextKeys, out);
+                }
+            }
+        } else if (node instanceof List) {
+            for (Object item : (List<Object>) node) {
+                if (item instanceof String) {
+                    String p = extractPrefix((String) item, contextKeys);
+                    if (p != null) out.add(p);
+                } else {
+                    collectPrefixes(item, contextKeys, out);
+                }
+            }
+        }
     }
 
     /**

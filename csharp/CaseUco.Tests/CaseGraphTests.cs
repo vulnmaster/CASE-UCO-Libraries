@@ -51,6 +51,7 @@ namespace CaseUco.Tests
         public void CustomKbPrefix_ReflectedInContext()
         {
             var graph = new CaseGraph("http://mylab.example.org/case/");
+            graph.Add(new Tool { Name = "Tool A" });
             var json = graph.Serialize();
             Assert.Contains("http://mylab.example.org/case/", json);
         }
@@ -90,26 +91,38 @@ namespace CaseUco.Tests
         }
 
         [Fact]
-        public void ContextHasAllPrefixes()
+        public void ContextPrunesUnusedPrefixes()
+        {
+            var graph = new CaseGraph();
+            graph.Add(new Tool { Name = "Tool A" });
+            var json = graph.Serialize();
+
+            using var doc = JsonDocument.Parse(json);
+            var ctx = doc.RootElement.GetProperty("@context");
+
+            Assert.True(ctx.TryGetProperty("kb", out _), "used prefix kb should be present");
+            Assert.True(ctx.TryGetProperty("uco-tool", out _), "used prefix uco-tool should be present");
+            Assert.True(ctx.TryGetProperty("uco-core", out _), "used prefix uco-core should be present");
+
+            var unused = new[] { "uco-identity", "uco-location", "uco-role", "uco-victim",
+                                 "uco-configuration", "uco-marking", "uco-pattern", "uco-time" };
+            foreach (var prefix in unused)
+            {
+                Assert.False(ctx.TryGetProperty(prefix, out _), $"unused prefix should be pruned: {prefix}");
+            }
+        }
+
+        [Fact]
+        public void EmptyGraphHasEmptyContext()
         {
             var graph = new CaseGraph();
             var json = graph.Serialize();
 
-            var expectedPrefixes = new[]
-            {
-                "uco-core", "uco-tool", "uco-observable", "uco-action",
-                "uco-identity", "uco-location", "uco-types", "uco-vocabulary",
-                "uco-role", "uco-victim", "uco-analysis", "uco-configuration",
-                "uco-marking", "uco-pattern", "uco-time", "xsd",
-                "case-investigation",
-            };
-
             using var doc = JsonDocument.Parse(json);
             var ctx = doc.RootElement.GetProperty("@context");
-            foreach (var prefix in expectedPrefixes)
-            {
-                Assert.True(ctx.TryGetProperty(prefix, out _), $"missing context prefix: {prefix}");
-            }
+            int count = 0;
+            foreach (var _ in ctx.EnumerateObject()) count++;
+            Assert.Equal(0, count);
         }
 
         [Fact]

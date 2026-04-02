@@ -231,6 +231,18 @@ TASK_TO_CLASSES: dict[str, list[tuple[str, str]]] = {
         ("ObservableObject", "Tool-related observable"),
         ("ConfigurationEntryFacet", "Tool configuration"),
     ],
+    "model AI image analysis or ML inference pipeline": [
+        ("Investigation", "The case container"),
+        ("InvestigativeAction", "Each step in the analysis pipeline (one per model/tool)"),
+        ("AnalyticTool", "The AI/ML model or analysis tool"),
+        ("RasterPicture", "Image files (use instead of File for .jpg, .png, etc.)"),
+        ("RasterPictureFacet", "Image dimensions, compression, picture type"),
+        ("FileFacet", "Filename, path, size, timestamps"),
+        ("ContentDataFacet", "Hashes and MIME type for evidentiary integrity"),
+        ("ConfidenceFacet", "Per-result similarity/confidence score"),
+        ("Relationship", "Explicit input/output links (Selected_From, Derived_From)"),
+        ("ProvenanceRecord", "Groups the pipeline and its artifacts"),
+    ],
     "model digital evidence for court": [
         ("Investigation", "The case container"),
         ("ProvenanceRecord", "Provenance and chain of custody"),
@@ -294,9 +306,10 @@ DOMAIN_CATEGORIES: list[dict[str, str | list[str]]] = [
     {
         "name": "actions_and_events",
         "title": "Actions and Events",
-        "description": "Investigative actions, tool runs, observations, and analysis events.",
+        "description": "Investigative actions, tool runs, observations, analysis events, and AI/ML inference pipelines.",
         "keywords": ["action", "event", "observation", "analysis", "pattern",
-                     "lifecycle"],
+                     "lifecycle", "pipeline", "inference", "ai", "ml",
+                     "prediction", "detection"],
     },
     {
         "name": "investigation_metadata",
@@ -308,8 +321,9 @@ DOMAIN_CATEGORIES: list[dict[str, str | list[str]]] = [
     {
         "name": "tool_information",
         "title": "Tool Information",
-        "description": "Forensic and analysis tools, their versions, and configurations.",
-        "keywords": ["tool", "version", "configuration", "build"],
+        "description": "Forensic and analysis tools, AI/ML models, their versions, and configurations.",
+        "keywords": ["tool", "version", "configuration", "build", "model",
+                     "analytic", "classifier", "neural", "embedding"],
     },
     {
         "name": "time_and_temporal",
@@ -588,6 +602,12 @@ RECIPE_INDEX: list[dict[str, str]] = [
         "file": "docs/recipes/analysis.md",
     },
     {
+        "title": "AI/ML Analysis Pipelines",
+        "description": "Model AI/ML analysis workflows — multi-step inference, image search, per-result scoring, ranked outputs, and full provenance.",
+        "keywords": "ai ml machine learning inference pipeline image search semantic embedding clip model scoring ranking similarity confidence raster picture photo detection prediction neural network",
+        "file": "docs/recipes/ai-analysis-pipeline.md",
+    },
+    {
         "title": "Multi-Platform Account Linking",
         "description": "Model cross-platform identity correlation across social media, email, and cloud accounts.",
         "keywords": "account identity person facebook google email digital platform social media linking",
@@ -807,6 +827,34 @@ MAPPING_GUIDE_INDEX: list[dict] = [
         ],
         "starter_kit": None,
         "code_skeleton": "graph.create(ObservableObject, has_facet=[URLHistoryFacet(browser_info=..., url=..., last_visited=...)])",
+    },
+    {
+        "source": "ai ml image analysis",
+        "keywords": ["ai", "ml", "machine learning", "inference", "model", "image", "search",
+                     "semantic", "embedding", "clip", "neural", "prediction", "detection",
+                     "classification", "scoring", "ranking", "similarity", "pipeline",
+                     "photo", "picture", "raster", "rescuebox"],
+        "pattern": "InvestigativeAction (per pipeline step) + AnalyticTool + RasterPicture + ConfidenceFacet + Relationship",
+        "classes": ["InvestigativeAction", "AnalyticTool", "RasterPicture", "RasterPictureFacet",
+                    "FileFacet", "ContentDataFacet", "ConfidenceFacet", "Relationship",
+                    "ProvenanceRecord", "Directory"],
+        "anti_patterns": [
+            "Don't hide structured facts (model name, query, thresholds, scores) inside uco-core:description as JSON strings — use explicit properties or ConfiguredTool",
+            "Don't use ArtifactClassification for tool endpoint names — classification describes what the artifact IS (content label), not which tool processed it",
+            "Don't model a multi-step pipeline as a single InvestigativeAction — each model/step gets its own action with its own inputs, outputs, and timestamps",
+            "Don't use generic File or ObservableObject for image files — use RasterPicture with RasterPictureFacet",
+            "Don't omit per-result scores — use ConfidenceFacet on each result for ranking and explainability",
+            "Don't omit hashes and sizes on evidence files — without them the graph is a workflow log, not an evidentiary record",
+        ],
+        "starter_kit": None,
+        "code_skeleton": (
+            "# One InvestigativeAction per pipeline step\n"
+            "step = graph.create(InvestigativeAction, name=..., instrument=[tool], object=[inputs], result=[outputs])\n"
+            "# RasterPicture with score\n"
+            "img = graph.create(RasterPicture, has_facet=[FileFacet(...), ContentDataFacet(hash=[...]), RasterPictureFacet(...), ConfidenceFacet(confidence=0.87)])\n"
+            "# Explicit relationship\n"
+            "graph.create(Relationship, source=[img], target=input_dir, kind_of_relationship='Selected_From', is_directional=True)"
+        ),
     },
     {
         "source": "registry artifacts",

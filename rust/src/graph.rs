@@ -170,9 +170,11 @@ impl CaseGraph {
     /// Returns `Err` if the internal structure cannot be serialized
     /// (should not happen under normal use).
     pub fn serialize(&self) -> Result<String, serde_json::Error> {
+        let used = self.used_prefixes();
         let context_value: Map<String, Value> = self
             .context
             .iter()
+            .filter(|(k, _)| used.contains(k.as_str()))
             .map(|(k, v)| (k.clone(), Value::String(v.clone())))
             .collect();
 
@@ -182,6 +184,16 @@ impl CaseGraph {
         });
 
         serde_json::to_string_pretty(&doc)
+    }
+
+    fn used_prefixes(&self) -> std::collections::HashSet<String> {
+        let mut prefixes = std::collections::HashSet::new();
+        let context_keys: std::collections::HashSet<&str> =
+            self.context.keys().map(|k| k.as_str()).collect();
+        for obj in &self.objects {
+            collect_prefixes(obj, &context_keys, &mut prefixes);
+        }
+        prefixes
     }
 
     /// Write the graph to a file.
@@ -323,6 +335,59 @@ fn count_triples(value: &Value) -> usize {
             count
         }
         _ => 0,
+    }
+}
+
+fn extract_prefix<'a>(
+    value: &'a str,
+    context_keys: &std::collections::HashSet<&str>,
+) -> Option<&'a str> {
+    if value.contains("://") {
+        return None;
+    }
+    if let Some(colon) = value.find(':') {
+        if colon > 0 {
+            let prefix = &value[..colon];
+            if context_keys.contains(prefix) {
+                return Some(prefix);
+            }
+        }
+    }
+    None
+}
+
+fn collect_prefixes(
+    value: &Value,
+    context_keys: &std::collections::HashSet<&str>,
+    out: &mut std::collections::HashSet<String>,
+) {
+    match value {
+        Value::Object(map) => {
+            for (key, val) in map {
+                if let Some(p) = extract_prefix(key, context_keys) {
+                    out.insert(p.to_string());
+                }
+                if let Some(s) = val.as_str() {
+                    if let Some(p) = extract_prefix(s, context_keys) {
+                        out.insert(p.to_string());
+                    }
+                } else {
+                    collect_prefixes(val, context_keys, out);
+                }
+            }
+        }
+        Value::Array(items) => {
+            for item in items {
+                if let Some(s) = item.as_str() {
+                    if let Some(p) = extract_prefix(s, context_keys) {
+                        out.insert(p.to_string());
+                    }
+                } else {
+                    collect_prefixes(item, context_keys, out);
+                }
+            }
+        }
+        _ => {}
     }
 }
 

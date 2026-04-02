@@ -5,6 +5,62 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - 2026-04-02
+
+### Added
+
+#### AI/ML Analysis Pipeline Recipe
+
+- **`docs/recipes/ai-analysis-pipeline.md`** — new comprehensive recipe for
+  modeling AI and machine-learning analysis workflows (image search, object
+  detection, content classification, embedding-based retrieval, multi-step
+  inference pipelines). Covers seven common modeling mistakes:
+  1. Structured facts hidden in JSON description strings
+  2. Missing explicit input/output relationships
+  3. No per-result ranking or scoring metadata
+  4. Multi-step pipelines collapsed into a single action
+  5. ArtifactClassification misused for tool endpoint identity
+  6. Missing file-level evidence metadata (hashes, sizes, MIME types)
+  7. Generic File used for known image formats instead of RasterPicture
+
+#### MCP Server AI/ML Guidance
+
+- **`guide_mapping`** now returns targeted anti-patterns and code skeletons
+  when queried about AI, ML, image analysis, semantic search, or inference
+  pipeline workflows — 6 anti-patterns covering JSON blob misuse, per-result
+  scoring, multi-step pipeline modeling, RasterPicture usage, and evidence
+  metadata requirements
+- **`RECIPE_INDEX`** — new entry for the AI/ML Analysis Pipeline recipe with
+  keywords: ai, ml, machine learning, inference, pipeline, image, search,
+  semantic, embedding, clip, model, scoring, ranking, similarity, confidence,
+  raster, picture, photo, detection, prediction, neural network
+- **`TASK_TO_CLASSES`** — new entry mapping "model AI image analysis or ML
+  inference pipeline" to the correct classes (RasterPicture, ConfidenceFacet,
+  Relationship, AnalyticTool, etc.)
+- **`MAPPING_GUIDE_INDEX`** — new "ai ml image analysis" evidence source
+  entry with 6 anti-patterns and a code skeleton
+- Updated `actions_and_events` and `tool_information` domain categories with
+  AI/ML-related keywords (pipeline, inference, ai, ml, prediction, detection,
+  model, analytic, classifier, neural, embedding)
+
+### Changed
+
+#### Context Pruning in Serialized Graphs
+
+- **All four languages** (Python, C#, Java, Rust) — the `@context` section
+  of serialized JSON-LD graphs now contains only namespace prefixes that are
+  actually used in the `@graph` body. Previously, all 17+ default CASE/UCO
+  namespace prefixes were emitted regardless of usage, bloating the context
+  with unused entries. The full prefix set is still available internally for
+  IRI compaction; only serialization output is pruned.
+
+#### Analysis Recipe Anti-Patterns
+
+- **`docs/recipes/analysis.md`** — added an explicit "Anti-patterns" section
+  covering: JSON blobs in description fields, ArtifactClassification misuse
+  for tool identity, missing input/output links, and generic File for known
+  media types. Added cross-reference to the new AI/ML Analysis Pipeline recipe.
+
 ## [1.8.0] - 2026-04-01
 
 ### Added

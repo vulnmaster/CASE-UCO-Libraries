@@ -142,6 +142,11 @@ def test_multiple_objects():
 
 def test_context_has_required_prefixes():
     graph = CASEGraph()
+    graph.create(Tool, name="Tool A")
+    graph.create(InvestigativeAction, name="Action A")
+    graph.create(ObservableObject, has_changed=True,
+                 has_facet=[ApplicationFacet(application_identifier="com.app")])
+
     output = json.loads(graph.serialize())
     ctx = output["@context"]
     assert "uco-core" in ctx
@@ -154,6 +159,7 @@ def test_context_has_required_prefixes():
 
 def test_custom_kb_prefix():
     graph = CASEGraph(kb_prefix="http://mylab.example.org/case/")
+    graph.create(Tool, name="Tool A")
     output = json.loads(graph.serialize())
     assert output["@context"]["kb"] == "http://mylab.example.org/case/"
 
@@ -265,10 +271,8 @@ def test_load_then_add():
 
 
 def test_context_parity_all_prefixes():
-    """Verify Python context has all standard UCO/CASE prefixes."""
-    graph = CASEGraph()
-    output = json.loads(graph.serialize())
-    ctx = output["@context"]
+    """Verify Python DEFAULT_CONTEXT has all standard UCO/CASE prefixes."""
+    from case_uco.graph import DEFAULT_CONTEXT
     expected = [
         "case-investigation", "uco-core", "uco-tool", "uco-observable",
         "uco-action", "uco-identity", "uco-location", "uco-types",
@@ -276,7 +280,41 @@ def test_context_parity_all_prefixes():
         "uco-configuration", "uco-marking", "uco-pattern", "uco-time", "xsd",
     ]
     for prefix in expected:
-        assert prefix in ctx, f"missing context prefix: {prefix}"
+        assert prefix in DEFAULT_CONTEXT, f"missing context prefix: {prefix}"
+
+
+def test_context_pruning_only_used_prefixes():
+    """Serialized context should only contain prefixes actually used in @graph."""
+    graph = CASEGraph()
+    graph.create(Tool, name="Tool A", version="1.0")
+
+    output = json.loads(graph.serialize())
+    ctx = output["@context"]
+    assert "kb" in ctx
+    assert "uco-tool" in ctx
+    assert "uco-core" in ctx
+
+    for prefix in ["uco-identity", "uco-location", "uco-role", "uco-victim",
+                    "uco-configuration", "uco-marking", "uco-pattern", "uco-time"]:
+        assert prefix not in ctx, f"unused prefix should be pruned: {prefix}"
+
+
+def test_context_pruning_empty_graph():
+    """An empty graph should have no context entries."""
+    graph = CASEGraph()
+    output = json.loads(graph.serialize())
+    assert output["@context"] == {}
+
+
+def test_context_pruning_preserves_extension_prefix():
+    """User-added extension prefixes should be preserved when used."""
+    graph = CASEGraph(extra_context={"myext": "http://example.org/ext/"})
+    graph.load(json.dumps({
+        "@context": {"kb": "http://example.org/kb/"},
+        "@graph": [{"@id": "kb:Foo-1", "@type": "myext:Foo", "myext:bar": "baz"}],
+    }))
+    output = json.loads(graph.serialize())
+    assert "myext" in output["@context"]
 
 
 def test_estimate_triples_empty():
@@ -338,7 +376,7 @@ def test_split_preserves_context():
     for chunk in chunks:
         ctx = json.loads(chunk.serialize())["@context"]
         assert ctx["kb"] == "http://example.org/test/"
-        assert "myext" in ctx
+        assert "myext" in chunk._context
 
 
 def test_split_single_chunk():
@@ -491,6 +529,7 @@ def test_from_jsonld_extra_classes():
 
 
 def test_from_jsonld_roundtrip_context():
+    """Unused extra context prefixes are pruned during serialization."""
     graph = CASEGraph(
         kb_prefix="http://mylab.example.org/kb/",
         extra_context={"myext": "http://example.org/myext/"},
@@ -498,9 +537,9 @@ def test_from_jsonld_roundtrip_context():
     graph.create(Tool, name="Context Test")
     json_str = graph.serialize()
 
-    graph2, _ = CASEGraph.from_jsonld(json_str, kb_prefix="http://mylab.example.org/kb/")
-    output = json.loads(graph2.serialize())
-    assert "myext" in output["@context"]
+    output = json.loads(json_str)
+    assert "myext" not in output["@context"], "unused prefix should be pruned"
+    assert "uco-tool" in output["@context"]
 
 
 # --- validate tests ---

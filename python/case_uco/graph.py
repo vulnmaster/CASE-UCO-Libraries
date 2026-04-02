@@ -120,7 +120,7 @@ class CASEGraph:
         if format != "json-ld":
             raise ValueError(f"Unsupported format: {format}. Only 'json-ld' is supported.")
         doc = {
-            "@context": self._context,
+            "@context": self._pruned_context(),
             "@graph": self._objects,
         }
         return json.dumps(doc, indent=indent, default=str)
@@ -411,6 +411,54 @@ class CASEGraph:
                 graph._objects.append(raw)
 
         return graph, typed_objects
+
+    def _pruned_context(self) -> dict[str, str]:
+        """Return a copy of the context containing only prefixes used in the graph."""
+        used = self._used_prefixes()
+        return {k: v for k, v in self._context.items() if k in used}
+
+    def _used_prefixes(self) -> set[str]:
+        """Collect all namespace prefixes referenced in the graph objects."""
+        prefixes: set[str] = set()
+        context_keys = set(self._context.keys())
+        for obj in self._objects:
+            self._collect_prefixes(obj, context_keys, prefixes)
+        return prefixes
+
+    @staticmethod
+    def _extract_prefix(value: str, context_keys: set[str]) -> str | None:
+        if "://" in value:
+            return None
+        colon = value.find(":")
+        if colon > 0:
+            prefix = value[:colon]
+            if prefix in context_keys:
+                return prefix
+        return None
+
+    @staticmethod
+    def _collect_prefixes(
+        node: Any, context_keys: set[str], out: set[str]
+    ) -> None:
+        if isinstance(node, dict):
+            for key, val in node.items():
+                p = CASEGraph._extract_prefix(key, context_keys)
+                if p:
+                    out.add(p)
+                if isinstance(val, str):
+                    p = CASEGraph._extract_prefix(val, context_keys)
+                    if p:
+                        out.add(p)
+                else:
+                    CASEGraph._collect_prefixes(val, context_keys, out)
+        elif isinstance(node, list):
+            for item in node:
+                if isinstance(item, str):
+                    p = CASEGraph._extract_prefix(item, context_keys)
+                    if p:
+                        out.add(p)
+                else:
+                    CASEGraph._collect_prefixes(item, context_keys, out)
 
     def _compact_iri(self, iri: str) -> str:
         """Compact a full IRI to prefixed form using the context."""

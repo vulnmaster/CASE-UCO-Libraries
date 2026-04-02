@@ -2,7 +2,7 @@
 
 # CASE/UCO SDK
 
-**v1.8.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
+**v1.9.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
 
 A multi-language data modeling library for digital forensics, cyber-investigation, and cyber-observable data. If your software produces or consumes forensic evidence, this SDK gives you typed, validated builders in **Python**, **C#**, **Java**, and **Rust** — so you can model investigation data in your language and produce interoperable [CASE/UCO](https://caseontology.org/) JSON-LD output.
 
@@ -15,7 +15,7 @@ The SDK is auto-generated from the official CASE 1.4.0 and UCO 1.4.0 ontology so
 - **Full ontology coverage** — all 428 classes across 15 modules (including extensions)
 - **Typed properties** with correct JSON-LD serialization (IRIs, typed literals, nested objects)
 - **Required-field validation** — ontology-mandated properties are checked before graph insertion
-- **Automatic JSON-LD context** — the standard 18 CASE/UCO namespace prefixes are built in
+- **Automatic JSON-LD context** — the standard CASE/UCO namespace prefixes are built in; serialized output includes only the prefixes actually used in the graph
 - **Deterministic ID support** — use auto-generated UUIDs or supply your own stable IRIs
 - **Round-trip capable** — load existing JSON-LD graphs, add objects, and re-serialize
 
@@ -37,7 +37,7 @@ For Java, add to your `pom.xml`:
 <dependency>
     <groupId>org.caseontology</groupId>
     <artifactId>case-uco</artifactId>
-    <version>1.8.0</version>
+    <version>1.9.0</version>
 </dependency>
 ```
 
@@ -508,8 +508,9 @@ All four language packages are released in lockstep from the same ontology sourc
 
 | SDK Version | UCO | CASE | Python `case-uco` | C# `CaseUco` | Java `case-uco` | Rust `case-uco` |
 |-------------|-----|------|-------------------|--------------|-----------------|-----------------|
+| 1.9.0 | 1.4.0 | 1.4.0 | 1.9.0 | 1.9.0 | 1.9.0 | 1.9.0 |
 | 1.8.0 | 1.4.0 | 1.4.0 | 1.8.0 | 1.8.0 | 1.8.0 | 1.8.0 |
-| 1.7.0 | 1.4.0 | 1.4.0 | 1.7.0 | 1.7.0 | 1.7.0 | 1.7.0 |
+
 
 To check at runtime:
 
@@ -569,6 +570,7 @@ Describe what you need in plain language. The agent uses the MCP tools to find t
 - "I captured this pcapng with Wireshark on my WiFi interface — model it"
 - "Model a mobile device with SIM card, IMEI, and carrier info"
 - "Create a forensic analysis result classifying a file as malware with confidence 0.92"
+- "Model a two-step AI image analysis pipeline with ranked results and similarity scores"
 - "I need to model a Bitcoin wallet on a sanctions list — is there a class for that?"
 - "Draft a change proposal for modeling drone telemetry data"
 

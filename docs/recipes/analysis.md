@@ -120,6 +120,13 @@ graph.write("analysis.jsonld")
 
 </details>
 
+## Anti-patterns
+
+- **JSON blobs in description fields.** Do not serialize structured data (model parameters, endpoint names, result metadata) into `uco-core:description` as a JSON string. Express each fact as a first-class property or facet. If you need structured tool parameters, use `ConfiguredTool`.
+- **Using ArtifactClassification for tool identity.** `ArtifactClassification.class_` should describe *what the artifact is* (content category, triage label, detection result), not *which tool or endpoint processed it*. Keep tool/endpoint identity on the `AnalyticTool` or `InvestigativeAction`.
+- **Missing input/output links.** Always use `object` for inputs and `result` for outputs on `InvestigativeAction`. Without these, the provenance chain is broken.
+- **Generic File for known media types.** Use `RasterPicture` for image files (`.jpg`, `.png`, `.bmp`) instead of `File` or `ObservableObject`. See the [EXIF and Image Metadata](exif-data.md) recipe.
+
 ## Notes
 
 - `ArtifactClassification.class_` is `list[str]` (note the trailing underscore — `class` is a Python reserved word). It requires at least one value.
@@ -127,3 +134,4 @@ graph.write("analysis.jsonld")
 - For multi-label classification, add multiple `ArtifactClassification` entries to the `classification` list.
 - `AnalyticTool` (subclass of `Tool`) is used for analysis tools. Use `tool_type` to distinguish categories (e.g., "Reverse Engineering", "Classifier", "Malware Scanner").
 - For tool configurations (specific command-line flags, rulesets, etc.), see the `ConfiguredTool` class in the SDK which wraps a base tool with configuration entries.
+- For AI/ML inference pipelines with ranked results, multi-step processing, or semantic search, see the [AI/ML Analysis Pipelines](ai-analysis-pipeline.md) recipe.
