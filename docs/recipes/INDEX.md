@@ -63,6 +63,7 @@ End-to-end mapping recipes that walk through source input, modeling choices, ant
 | Location Modeling | [location.md](location.md) | Street addresses, GPS coordinates, custom location facets | [location](https://github.com/casework/CASE-Examples/tree/master/examples/illustrations/location) |
 | Multi-Platform Account Linking | [accounts.md](accounts.md) | Cross-platform identity correlation (social media, email, cloud) | [accounts](https://github.com/casework/CASE-Examples/tree/master/examples/illustrations/accounts) |
 | Events and Authentication Logs | [event.md](event.md) | Authentication events with structured Dictionary attributes | [event](https://github.com/casework/CASE-Examples/tree/master/examples/illustrations/event) |
+| Windows USN Journal | [usn-journal.md](usn-journal.md) | NTFS change journal entries with structured reason flags, rename modeling, and provenance | — |
 
 ### Files and data artifacts
 

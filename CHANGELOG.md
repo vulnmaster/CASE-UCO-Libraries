@@ -5,6 +5,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.0] - 2026-04-02
+
+### Added
+
+#### Windows USN Journal Recipe
+
+- **`docs/recipes/usn-journal.md`** — new recipe for modeling Windows NTFS
+  Update Sequence Number (USN) Change Journal entries. Covers structured
+  reason flags, rename before/after modeling, directory hierarchy, and
+  forensic provenance. Demonstrates the two-layer event model pattern:
+  `ObservableObject` + `EventRecordFacet` for the raw artifact, and
+  `core:Event` with structured `eventType` flags for queryable semantics.
+  Includes a common USN reason flags reference table and SHACL validation
+  notes for dictionary key uniqueness.
+
+#### USN Journal Example
+
+- **`example_agentmcp_outputs/usn_journal_example.py`** and
+  **`example_agentmcp_outputs/usn_journal.jsonld`** — complete worked
+  example modeling four USN Journal entries (file create, data modify,
+  rename, delete) with:
+  - Structured `Event.eventType` reason flags (queryable via SPARQL)
+  - `Dictionary`/`DictionaryEntry` metadata with unique keys per flag
+  - Rename modeled as two `ObservableObject` nodes linked by
+    `Renamed_From` relationship (same MFT entry ID, different names)
+  - Directory hierarchy with nested `Contained_Within` relationships
+  - Full forensic provenance chain: `Investigation` →
+    `InvestigativeAction` → `Tool` (MFTECmd) → evidence source disk
+    image with SHA256 hash
+  - Validated with `case_validate --built-version case-1.4.0`
+
+### Changed
+
+#### Recipe Index
+
+- **`docs/recipes/INDEX.md`** — added Windows USN Journal recipe entry
+  in the "Devices, locations, and identity" section
+
 ## [1.9.0] - 2026-04-02
 
 ### Added

@@ -2,7 +2,7 @@
 
 # CASE/UCO SDK
 
-**v1.9.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
+**v1.10.0** · CASE 1.4.0 · UCO 1.4.0 · [Changelog](CHANGELOG.md)
 
 A multi-language data modeling library for digital forensics, cyber-investigation, and cyber-observable data. If your software produces or consumes forensic evidence, this SDK gives you typed, validated builders in **Python**, **C#**, **Java**, and **Rust** — so you can model investigation data in your language and produce interoperable [CASE/UCO](https://caseontology.org/) JSON-LD output.
 
@@ -38,7 +38,7 @@ For Java, add to your `pom.xml`:
 <dependency>
     <groupId>org.caseontology</groupId>
     <artifactId>case-uco</artifactId>
-    <version>1.9.0</version>
+    <version>1.10.0</version>
 </dependency>
 ```
 
@@ -475,7 +475,8 @@ CASE-UCO-SDK/
 │       ├── change-proposal.md
 │       ├── forensic-tool.md
 │       ├── starter-*.md     End-to-end mapping starter kits (4 recipes)
-│       └── ...              (15 recipe files total)
+│       ├── usn-journal.md   Windows USN Journal modeling
+│       └── ...              (40 recipe files total)
 ├── ONTOLOGY_REFERENCE.md   Complete class reference (auto-generated)
 ├── SECURITY.md             Vulnerability reporting policy
 ├── .github/workflows/      CI, CodeQL, Rust security, dependency review, release workflows
@@ -509,6 +510,7 @@ All four language packages are released in lockstep from the same ontology sourc
 
 | SDK Version | UCO | CASE | Python `case-uco` | C# `CaseUco` | Java `case-uco` | Rust `case-uco` |
 |-------------|-----|------|-------------------|--------------|-----------------|-----------------|
+| 1.10.0 | 1.4.0 | 1.4.0 | 1.10.0 | 1.10.0 | 1.10.0 | 1.10.0 |
 | 1.9.0 | 1.4.0 | 1.4.0 | 1.9.0 | 1.9.0 | 1.9.0 | 1.9.0 |
 | 1.8.0 | 1.4.0 | 1.4.0 | 1.8.0 | 1.8.0 | 1.8.0 | 1.8.0 |
 
@@ -609,13 +611,14 @@ Drafted proposals are saved to `change_proposals/` and can be submitted as GitHu
 
 ### Example Agent Outputs
 
-The `example_agentmcp_outputs/` directory contains three complete worked examples produced by the AI agent using this SDK and MCP server:
+The `example_agentmcp_outputs/` directory contains four complete worked examples produced by the AI agent using this SDK and MCP server:
 
 | Example | What it demonstrates |
 |---------|---------------------|
 | `wifi_capture.py` / `.jsonld` | Three-layer network investigation — acquisition (Wireshark capture), observed network (17 TCP flows, DNS chains, IPv6), and analysis layer (5 service attributions with confidence scores) |
 | `cellbrite_samsung_extraction.py` / `.jsonld` | Mobile device forensics — Cellebrite extraction with WhatsApp messages, GPS locations, app artifacts, and device metadata |
 | `field_office_custody.py` / `.jsonld` | Chain of custody — evidence transfer from a field office with provenance records and handling documentation |
+| `usn_journal_example.py` / `.jsonld` | Windows USN Journal — four NTFS change entries (create, modify, rename, delete) with structured reason flags, directory hierarchy, rename before/after modeling, and forensic provenance |
 
 Each example includes both the Python source that builds the graph and the validated JSON-LD output.
 

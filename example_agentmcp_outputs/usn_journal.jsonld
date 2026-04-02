@@ -1,0 +1,970 @@
+{
+    "@context": {
+        "case-investigation": "https://ontology.caseontology.org/case/investigation/",
+        "kb": "http://example.org/kb/",
+        "uco-action": "https://ontology.unifiedcyberontology.org/uco/action/",
+        "uco-core": "https://ontology.unifiedcyberontology.org/uco/core/",
+        "uco-observable": "https://ontology.unifiedcyberontology.org/uco/observable/",
+        "uco-tool": "https://ontology.unifiedcyberontology.org/uco/tool/",
+        "uco-types": "https://ontology.unifiedcyberontology.org/uco/types/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "@graph": [
+        {
+            "@id": "kb:Investigation-f50eee0f-9ebd-43a4-8671-1b855c47e9c4",
+            "@type": "case-investigation:Investigation",
+            "uco-core:name": "Case 2025-1114",
+            "case-investigation:focus": [
+                "File system activity analysis"
+            ],
+            "case-investigation:investigationForm": [
+                "incident"
+            ],
+            "uco-core:startTime": {
+                "@type": "xsd:dateTime",
+                "@value": "2025-11-14T08:00:00-05:00"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-46f25bf5-145f-48f3-9366-d563cf7b08cb",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:FileFacet-edad8861-7d78-4c8b-a9f0-3c70350f4273",
+                    "@type": "uco-observable:FileFacet",
+                    "uco-observable:fileName": [
+                        "analyst-workstation.E01"
+                    ],
+                    "uco-observable:filePath": [
+                        "/evidence/case-2025-1114/analyst-workstation.E01"
+                    ],
+                    "uco-observable:sizeInBytes": {
+                        "@type": "xsd:integer",
+                        "@value": "107374182400"
+                    }
+                },
+                {
+                    "@id": "kb:ContentDataFacet-7131f651-d021-4bf5-b3c9-c9a42cdaf83b",
+                    "@type": "uco-observable:ContentDataFacet",
+                    "uco-observable:hash": [
+                        {
+                            "@id": "kb:Hash-a836cde2-ddba-4c50-822e-1fb4184bb9e0",
+                            "@type": "uco-types:Hash",
+                            "uco-types:hashMethod": "SHA256",
+                            "uco-types:hashValue": {
+                                "@type": "xsd:hexBinary",
+                                "@value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "uco-core:name": "analyst-workstation.E01"
+        },
+        {
+            "@id": "kb:Tool-3678eef0-989c-45ac-9a29-b6624c34a342",
+            "@type": "uco-tool:Tool",
+            "uco-core:name": "MFTECmd",
+            "uco-tool:toolType": "USN Journal Parser",
+            "uco-tool:version": "1.3.2.1"
+        },
+        {
+            "@id": "kb:InvestigativeAction-f221406e-ce8b-4c73-89e7-08713134aaf0",
+            "@type": "case-investigation:InvestigativeAction",
+            "uco-core:name": "Parse USN Journal from analyst-workstation.E01",
+            "uco-action:endTime": {
+                "@type": "xsd:dateTime",
+                "@value": "2025-11-14T16:32:15-05:00"
+            },
+            "uco-action:instrument": [
+                {
+                    "@id": "kb:Tool-3678eef0-989c-45ac-9a29-b6624c34a342"
+                }
+            ],
+            "uco-action:object": [
+                {
+                    "@id": "kb:ObservableObject-46f25bf5-145f-48f3-9366-d563cf7b08cb"
+                }
+            ],
+            "uco-action:startTime": {
+                "@type": "xsd:dateTime",
+                "@value": "2025-11-14T16:30:00-05:00"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-70f50d80-2fca-46cc-8c26-c7cc55bc2b73",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:WindowsVolumeFacet-7ab1e04f-3fa1-4c12-825d-e93325a513f1",
+                    "@type": "uco-observable:WindowsVolumeFacet",
+                    "uco-observable:driveLetter": "C:"
+                },
+                {
+                    "@id": "kb:FileSystemFacet-90b4791e-d8a3-43ba-b063-ad905a39293d",
+                    "@type": "uco-observable:FileSystemFacet",
+                    "uco-observable:clusterSize": {
+                        "@type": "xsd:integer",
+                        "@value": "4096"
+                    },
+                    "uco-observable:fileSystemType": "NTFS"
+                }
+            ],
+            "uco-core:name": "C: Volume"
+        },
+        {
+            "@id": "kb:ObservableObject-53a4c647-80d7-47be-8eba-b7cdd6194eac",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:FileFacet-2ee8d1c3-6a59-49cf-a0cf-b9c4493ee207",
+                    "@type": "uco-observable:FileFacet",
+                    "uco-observable:fileName": [
+                        "Documents"
+                    ],
+                    "uco-observable:filePath": [
+                        "C:\\Users\\analyst\\Documents"
+                    ],
+                    "uco-observable:isDirectory": [
+                        {
+                            "@type": "xsd:boolean",
+                            "@value": "true"
+                        }
+                    ]
+                }
+            ],
+            "uco-core:name": "Documents"
+        },
+        {
+            "@id": "kb:ObservableRelationship-b4316d54-27ef-4a2e-8392-56de6a1aad28",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-53a4c647-80d7-47be-8eba-b7cdd6194eac"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-70f50d80-2fca-46cc-8c26-c7cc55bc2b73"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-45f97991-2512-42a5-8c1f-d0f4bc6439b2",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:FileFacet-ba70b3ba-8f98-473a-a3c9-55e8b502ae4d",
+                    "@type": "uco-observable:FileFacet",
+                    "uco-observable:fileName": [
+                        "AppConfig"
+                    ],
+                    "uco-observable:filePath": [
+                        "C:\\ProgramData\\AppConfig"
+                    ],
+                    "uco-observable:isDirectory": [
+                        {
+                            "@type": "xsd:boolean",
+                            "@value": "true"
+                        }
+                    ]
+                }
+            ],
+            "uco-core:name": "AppConfig"
+        },
+        {
+            "@id": "kb:ObservableRelationship-7d8bd8bf-f744-4843-9b0f-9e71dc87b20a",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-45f97991-2512-42a5-8c1f-d0f4bc6439b2"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-70f50d80-2fca-46cc-8c26-c7cc55bc2b73"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-783925cc-9b4a-4e2d-be0d-e8a5e8e24274",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:FileFacet-c248abd6-0dfe-4098-96ee-ca8f72324bc4",
+                    "@type": "uco-observable:FileFacet",
+                    "uco-observable:fileName": [
+                        "Logs"
+                    ],
+                    "uco-observable:filePath": [
+                        "C:\\Logs"
+                    ],
+                    "uco-observable:isDirectory": [
+                        {
+                            "@type": "xsd:boolean",
+                            "@value": "true"
+                        }
+                    ]
+                }
+            ],
+            "uco-core:name": "Logs"
+        },
+        {
+            "@id": "kb:ObservableRelationship-fd4cdf3a-d727-40cf-aa24-66536070cb99",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-783925cc-9b4a-4e2d-be0d-e8a5e8e24274"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-70f50d80-2fca-46cc-8c26-c7cc55bc2b73"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-63e39db9-88d8-4c89-8351-13afde89adb0",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:FileFacet-0facd6b4-1c7e-4a80-a072-3606130b1ac6",
+                    "@type": "uco-observable:FileFacet",
+                    "uco-observable:fileName": [
+                        "Downloads"
+                    ],
+                    "uco-observable:filePath": [
+                        "C:\\Users\\analyst\\Downloads"
+                    ],
+                    "uco-observable:isDirectory": [
+                        {
+                            "@type": "xsd:boolean",
+                            "@value": "true"
+                        }
+                    ]
+                }
+            ],
+            "uco-core:name": "Downloads"
+        },
+        {
+            "@id": "kb:ObservableRelationship-7a19e789-ec53-44ad-8ff4-0ed5045beafe",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-63e39db9-88d8-4c89-8351-13afde89adb0"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-70f50d80-2fca-46cc-8c26-c7cc55bc2b73"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-9102c410-820a-4512-b017-a24827b620c9",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:FileFacet-3a65e7be-b11b-4e5b-8d7e-3db6b8785ad1",
+                    "@type": "uco-observable:FileFacet",
+                    "uco-observable:fileName": [
+                        "$Extend"
+                    ],
+                    "uco-observable:filePath": [
+                        "C:\\$Extend"
+                    ],
+                    "uco-observable:isDirectory": [
+                        {
+                            "@type": "xsd:boolean",
+                            "@value": "true"
+                        }
+                    ]
+                }
+            ],
+            "uco-core:name": "$Extend"
+        },
+        {
+            "@id": "kb:ObservableRelationship-7b86e830-936a-409d-94b3-9e956d1cd796",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-9102c410-820a-4512-b017-a24827b620c9"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-70f50d80-2fca-46cc-8c26-c7cc55bc2b73"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-faac6963-58e8-4ebf-8865-b053caa0a5f2",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:FileFacet-956290cc-9e87-4713-874e-96f895855122",
+                    "@type": "uco-observable:FileFacet",
+                    "uco-observable:fileName": [
+                        "$UsnJrnl:$J"
+                    ],
+                    "uco-observable:filePath": [
+                        "C:\\$Extend\\$UsnJrnl:$J"
+                    ]
+                }
+            ],
+            "uco-core:name": "$UsnJrnl:$J"
+        },
+        {
+            "@id": "kb:ObservableRelationship-d6e1b0a8-5aa9-4dc8-8d4a-da552e9c1e33",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-faac6963-58e8-4ebf-8865-b053caa0a5f2"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-9102c410-820a-4512-b017-a24827b620c9"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-498e788d-561f-4ff7-b567-9d8bf98be9c3",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:FileFacet-92ef4b5a-eabd-4833-b4bd-0a07e7431459",
+                    "@type": "uco-observable:FileFacet",
+                    "uco-observable:fileName": [
+                        "report.docx"
+                    ],
+                    "uco-observable:filePath": [
+                        "C:\\Users\\analyst\\Documents\\report.docx"
+                    ]
+                },
+                {
+                    "@id": "kb:NTFSFileFacet-4e95c15b-31b6-4480-b744-a582b4662c74",
+                    "@type": "uco-observable:NTFSFileFacet",
+                    "uco-observable:entryID": {
+                        "@type": "xsd:integer",
+                        "@value": "48291"
+                    }
+                }
+            ],
+            "uco-core:name": "report.docx"
+        },
+        {
+            "@id": "kb:ObservableRelationship-e90b68a4-3811-49b9-aee4-63f9ae6d6d4b",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-498e788d-561f-4ff7-b567-9d8bf98be9c3"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-53a4c647-80d7-47be-8eba-b7cdd6194eac"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-01ae9f3c-5fab-4e05-8cb8-b00529612712",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:EventRecordFacet-d94ff766-4294-4f97-8f70-473c92d35816",
+                    "@type": "uco-observable:EventRecordFacet",
+                    "uco-observable:eventRecordDevice": {
+                        "@id": "kb:ObservableObject-70f50d80-2fca-46cc-8c26-c7cc55bc2b73"
+                    },
+                    "uco-observable:eventRecordID": "109248",
+                    "uco-observable:eventRecordServiceName": "NTFS USN Journal",
+                    "uco-observable:eventRecordText": "File report.docx was created and handle closed",
+                    "uco-observable:eventType": "USN_CHANGE_JOURNAL",
+                    "uco-observable:observableCreatedTime": {
+                        "@type": "xsd:dateTime",
+                        "@value": "2025-11-14T09:23:17-05:00"
+                    }
+                }
+            ],
+            "uco-core:name": "USN Record 109248"
+        },
+        {
+            "@id": "kb:ObservableRelationship-f71e7b51-f803-4b9f-8bd2-e551f42136af",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-01ae9f3c-5fab-4e05-8cb8-b00529612712"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-faac6963-58e8-4ebf-8865-b053caa0a5f2"
+            }
+        },
+        {
+            "@id": "kb:Event-b6bf6283-434e-473d-8866-2fb1cc20cc29",
+            "@type": "uco-core:Event",
+            "uco-core:name": "USN Change 109248: report.docx",
+            "uco-core:eventAttribute": [
+                {
+                    "@id": "kb:Dictionary-4bd9858f-56e4-45f5-bd47-2ce2fd22e8e2",
+                    "@type": "uco-types:Dictionary",
+                    "uco-types:entry": [
+                        {
+                            "@id": "kb:DictionaryEntry-46b8791f-5b56-4329-81dd-c58616dd1975",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_REASON_FILE_CREATE",
+                            "uco-types:value": "true"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-7708f296-a487-4a17-9b17-99e40367e1c4",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_REASON_CLOSE",
+                            "uco-types:value": "true"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-1e3d1543-9ca4-4086-8918-8ebcd24b8952",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_NUMBER",
+                            "uco-types:value": "109248"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-bec03d3d-da56-4a68-983c-2b60853bbb82",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "MFT_ENTRY_ID",
+                            "uco-types:value": "48291"
+                        }
+                    ]
+                }
+            ],
+            "uco-core:eventContext": [
+                {
+                    "@id": "kb:ObservableObject-498e788d-561f-4ff7-b567-9d8bf98be9c3"
+                },
+                {
+                    "@id": "kb:ObservableObject-01ae9f3c-5fab-4e05-8cb8-b00529612712"
+                }
+            ],
+            "uco-core:eventType": [
+                "USN_REASON_FILE_CREATE",
+                "USN_REASON_CLOSE"
+            ],
+            "uco-core:startTime": [
+                {
+                    "@type": "xsd:dateTime",
+                    "@value": "2025-11-14T09:23:17-05:00"
+                }
+            ]
+        },
+        {
+            "@id": "kb:ObservableObject-2a4d296f-2753-4e3c-9239-5560a3d05d83",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:FileFacet-746d8f7f-c3d8-4577-8470-fd1b90417c73",
+                    "@type": "uco-observable:FileFacet",
+                    "uco-observable:fileName": [
+                        "config.ini"
+                    ],
+                    "uco-observable:filePath": [
+                        "C:\\ProgramData\\AppConfig\\config.ini"
+                    ]
+                },
+                {
+                    "@id": "kb:NTFSFileFacet-1abfb5f0-4483-4f47-82cc-5aa7844e843c",
+                    "@type": "uco-observable:NTFSFileFacet",
+                    "uco-observable:entryID": {
+                        "@type": "xsd:integer",
+                        "@value": "12044"
+                    }
+                }
+            ],
+            "uco-core:name": "config.ini"
+        },
+        {
+            "@id": "kb:ObservableRelationship-1798a9d4-5d6b-49b6-b59d-a36dacbc5882",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-2a4d296f-2753-4e3c-9239-5560a3d05d83"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-45f97991-2512-42a5-8c1f-d0f4bc6439b2"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-4696b584-4631-4378-bcd2-059ace44a694",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:EventRecordFacet-e48242df-f2ec-46a8-92fb-c1383c9f578f",
+                    "@type": "uco-observable:EventRecordFacet",
+                    "uco-observable:eventRecordDevice": {
+                        "@id": "kb:ObservableObject-70f50d80-2fca-46cc-8c26-c7cc55bc2b73"
+                    },
+                    "uco-observable:eventRecordID": "109312",
+                    "uco-observable:eventRecordServiceName": "NTFS USN Journal",
+                    "uco-observable:eventRecordText": "File config.ini had data overwritten and extended, then handle closed",
+                    "uco-observable:eventType": "USN_CHANGE_JOURNAL",
+                    "uco-observable:observableCreatedTime": {
+                        "@type": "xsd:dateTime",
+                        "@value": "2025-11-14T10:05:42-05:00"
+                    }
+                }
+            ],
+            "uco-core:name": "USN Record 109312"
+        },
+        {
+            "@id": "kb:ObservableRelationship-59fd102f-90e3-4857-ab2c-d751b6105418",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-4696b584-4631-4378-bcd2-059ace44a694"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-faac6963-58e8-4ebf-8865-b053caa0a5f2"
+            }
+        },
+        {
+            "@id": "kb:Event-96afb77c-e345-4462-8935-ab251929e8d7",
+            "@type": "uco-core:Event",
+            "uco-core:name": "USN Change 109312: config.ini",
+            "uco-core:eventAttribute": [
+                {
+                    "@id": "kb:Dictionary-556358c5-da7f-4045-b870-c6c16a8a5659",
+                    "@type": "uco-types:Dictionary",
+                    "uco-types:entry": [
+                        {
+                            "@id": "kb:DictionaryEntry-4bacbfff-d8d0-401a-a68e-7b8e6c5c0598",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_REASON_DATA_OVERWRITE",
+                            "uco-types:value": "true"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-8328ab35-2ffb-40a5-9e4c-45c45518706b",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_REASON_DATA_EXTEND",
+                            "uco-types:value": "true"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-579540bf-e7a5-43a3-9bb3-3276a9673028",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_REASON_CLOSE",
+                            "uco-types:value": "true"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-d9f2a251-02d6-445c-a00c-03a1c89f425b",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_NUMBER",
+                            "uco-types:value": "109312"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-67db5d26-7fd9-4d71-984c-999adcab63c7",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "MFT_ENTRY_ID",
+                            "uco-types:value": "12044"
+                        }
+                    ]
+                }
+            ],
+            "uco-core:eventContext": [
+                {
+                    "@id": "kb:ObservableObject-2a4d296f-2753-4e3c-9239-5560a3d05d83"
+                },
+                {
+                    "@id": "kb:ObservableObject-4696b584-4631-4378-bcd2-059ace44a694"
+                }
+            ],
+            "uco-core:eventType": [
+                "USN_REASON_DATA_OVERWRITE",
+                "USN_REASON_DATA_EXTEND",
+                "USN_REASON_CLOSE"
+            ],
+            "uco-core:startTime": [
+                {
+                    "@type": "xsd:dateTime",
+                    "@value": "2025-11-14T10:05:42-05:00"
+                }
+            ]
+        },
+        {
+            "@id": "kb:ObservableObject-84379ad8-b5d8-4a13-ab47-3307d8bbddea",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:FileFacet-5546f77f-feb8-410b-9ed7-7b037495cc77",
+                    "@type": "uco-observable:FileFacet",
+                    "uco-observable:fileName": [
+                        "system.log"
+                    ],
+                    "uco-observable:filePath": [
+                        "C:\\Logs\\system.log"
+                    ]
+                },
+                {
+                    "@id": "kb:NTFSFileFacet-f1d38ba2-8618-4dda-89bf-2cf92a4a135e",
+                    "@type": "uco-observable:NTFSFileFacet",
+                    "uco-observable:entryID": {
+                        "@type": "xsd:integer",
+                        "@value": "33107"
+                    }
+                }
+            ],
+            "uco-core:name": "system.log"
+        },
+        {
+            "@id": "kb:ObservableRelationship-f78c04ca-5a20-47a1-98c6-e918ed7017d5",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-84379ad8-b5d8-4a13-ab47-3307d8bbddea"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-783925cc-9b4a-4e2d-be0d-e8a5e8e24274"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-dc093254-f1ae-4575-8329-c98e3bf34d35",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:FileFacet-e2cefca8-1e18-48e6-a8bf-8ead64f0aa6f",
+                    "@type": "uco-observable:FileFacet",
+                    "uco-observable:fileName": [
+                        "temp.log"
+                    ],
+                    "uco-observable:filePath": [
+                        "C:\\Logs\\temp.log"
+                    ]
+                },
+                {
+                    "@id": "kb:NTFSFileFacet-14547f78-feb6-4698-a971-65389005fac5",
+                    "@type": "uco-observable:NTFSFileFacet",
+                    "uco-observable:entryID": {
+                        "@type": "xsd:integer",
+                        "@value": "33107"
+                    }
+                }
+            ],
+            "uco-core:name": "temp.log (prior state)"
+        },
+        {
+            "@id": "kb:ObservableRelationship-e4bc1606-057c-4ff8-98d9-30608b37ccfb",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-dc093254-f1ae-4575-8329-c98e3bf34d35"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-783925cc-9b4a-4e2d-be0d-e8a5e8e24274"
+            }
+        },
+        {
+            "@id": "kb:ObservableRelationship-c0e254c6-f128-4cd3-a755-dd94035e1076",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Renamed_From",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-84379ad8-b5d8-4a13-ab47-3307d8bbddea"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-dc093254-f1ae-4575-8329-c98e3bf34d35"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-6dde4f29-ba56-434f-a886-9607d163fa84",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:EventRecordFacet-292cdb80-1c44-4840-b670-34364c04421b",
+                    "@type": "uco-observable:EventRecordFacet",
+                    "uco-observable:eventRecordDevice": {
+                        "@id": "kb:ObservableObject-70f50d80-2fca-46cc-8c26-c7cc55bc2b73"
+                    },
+                    "uco-observable:eventRecordID": "109456",
+                    "uco-observable:eventRecordServiceName": "NTFS USN Journal",
+                    "uco-observable:eventRecordText": "File renamed from temp.log to system.log, handle closed",
+                    "uco-observable:eventType": "USN_CHANGE_JOURNAL",
+                    "uco-observable:observableCreatedTime": {
+                        "@type": "xsd:dateTime",
+                        "@value": "2025-11-14T11:18:03-05:00"
+                    }
+                }
+            ],
+            "uco-core:name": "USN Record 109456"
+        },
+        {
+            "@id": "kb:ObservableRelationship-21d1659c-5a65-4f83-8576-ec3deba4ab12",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-6dde4f29-ba56-434f-a886-9607d163fa84"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-faac6963-58e8-4ebf-8865-b053caa0a5f2"
+            }
+        },
+        {
+            "@id": "kb:Event-57397dd3-30fc-4dc5-8976-f78b4d2c70db",
+            "@type": "uco-core:Event",
+            "uco-core:name": "USN Change 109456: system.log",
+            "uco-core:eventAttribute": [
+                {
+                    "@id": "kb:Dictionary-868d50d2-d94a-4529-b5ab-9c6a87a30b7b",
+                    "@type": "uco-types:Dictionary",
+                    "uco-types:entry": [
+                        {
+                            "@id": "kb:DictionaryEntry-42c3773e-a639-4b8e-93d5-027ee4f6c375",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_REASON_RENAME_OLD_NAME",
+                            "uco-types:value": "true"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-06e1a64e-84d8-45c7-b6c5-ef8f1cc54381",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_REASON_RENAME_NEW_NAME",
+                            "uco-types:value": "true"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-09f9861e-3898-4264-83df-f6f8a064b24c",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_REASON_CLOSE",
+                            "uco-types:value": "true"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-f79cecbb-8cfe-4202-90b3-4d2c67396d12",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_NUMBER",
+                            "uco-types:value": "109456"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-70305b18-79cb-4c45-aaaa-9709fe0e2bb5",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "MFT_ENTRY_ID",
+                            "uco-types:value": "33107"
+                        }
+                    ]
+                }
+            ],
+            "uco-core:eventContext": [
+                {
+                    "@id": "kb:ObservableObject-84379ad8-b5d8-4a13-ab47-3307d8bbddea"
+                },
+                {
+                    "@id": "kb:ObservableObject-dc093254-f1ae-4575-8329-c98e3bf34d35"
+                },
+                {
+                    "@id": "kb:ObservableObject-6dde4f29-ba56-434f-a886-9607d163fa84"
+                }
+            ],
+            "uco-core:eventType": [
+                "USN_REASON_RENAME_OLD_NAME",
+                "USN_REASON_RENAME_NEW_NAME",
+                "USN_REASON_CLOSE"
+            ],
+            "uco-core:startTime": [
+                {
+                    "@type": "xsd:dateTime",
+                    "@value": "2025-11-14T11:18:03-05:00"
+                }
+            ]
+        },
+        {
+            "@id": "kb:ObservableObject-a2238fff-e45f-460b-9a9c-57e8f0fca45c",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:FileFacet-92303cd8-4e77-4112-bc6e-e7407b19c154",
+                    "@type": "uco-observable:FileFacet",
+                    "uco-observable:fileName": [
+                        "malware.exe"
+                    ],
+                    "uco-observable:filePath": [
+                        "C:\\Users\\analyst\\Downloads\\malware.exe"
+                    ]
+                },
+                {
+                    "@id": "kb:NTFSFileFacet-069eda9e-9c6e-414d-be65-0c41e35bdf77",
+                    "@type": "uco-observable:NTFSFileFacet",
+                    "uco-observable:entryID": {
+                        "@type": "xsd:integer",
+                        "@value": "51883"
+                    }
+                }
+            ],
+            "uco-core:name": "malware.exe"
+        },
+        {
+            "@id": "kb:ObservableRelationship-1190b6fa-542c-4fdc-a7b4-1f7d1381b1c4",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-a2238fff-e45f-460b-9a9c-57e8f0fca45c"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-63e39db9-88d8-4c89-8351-13afde89adb0"
+            }
+        },
+        {
+            "@id": "kb:ObservableObject-60ef4da8-0f49-4cf7-b8e2-99287bb3bc09",
+            "@type": "uco-observable:ObservableObject",
+            "uco-core:hasFacet": [
+                {
+                    "@id": "kb:EventRecordFacet-f7591832-f66e-4138-a2a0-389e7a6ee58c",
+                    "@type": "uco-observable:EventRecordFacet",
+                    "uco-observable:eventRecordDevice": {
+                        "@id": "kb:ObservableObject-70f50d80-2fca-46cc-8c26-c7cc55bc2b73"
+                    },
+                    "uco-observable:eventRecordID": "109520",
+                    "uco-observable:eventRecordServiceName": "NTFS USN Journal",
+                    "uco-observable:eventRecordText": "File malware.exe was deleted and handle closed",
+                    "uco-observable:eventType": "USN_CHANGE_JOURNAL",
+                    "uco-observable:observableCreatedTime": {
+                        "@type": "xsd:dateTime",
+                        "@value": "2025-11-14T14:47:55-05:00"
+                    }
+                }
+            ],
+            "uco-core:name": "USN Record 109520"
+        },
+        {
+            "@id": "kb:ObservableRelationship-79a8b09c-c604-441b-8e9e-3d2ea57da8b2",
+            "@type": "uco-observable:ObservableRelationship",
+            "uco-core:isDirectional": {
+                "@type": "xsd:boolean",
+                "@value": "true"
+            },
+            "uco-core:kindOfRelationship": "Contained_Within",
+            "uco-core:source": [
+                {
+                    "@id": "kb:ObservableObject-60ef4da8-0f49-4cf7-b8e2-99287bb3bc09"
+                }
+            ],
+            "uco-core:target": {
+                "@id": "kb:ObservableObject-faac6963-58e8-4ebf-8865-b053caa0a5f2"
+            }
+        },
+        {
+            "@id": "kb:Event-6da87ea8-d5b8-462b-b64f-4e5627be021f",
+            "@type": "uco-core:Event",
+            "uco-core:name": "USN Change 109520: malware.exe",
+            "uco-core:eventAttribute": [
+                {
+                    "@id": "kb:Dictionary-d204ae11-f6b3-44ce-ba70-a4590d9de1db",
+                    "@type": "uco-types:Dictionary",
+                    "uco-types:entry": [
+                        {
+                            "@id": "kb:DictionaryEntry-518e120b-4ee4-4262-80dc-5779a8aa3aba",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_REASON_FILE_DELETE",
+                            "uco-types:value": "true"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-9295b71e-763e-446f-9250-be8d6f7ac8d2",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_REASON_CLOSE",
+                            "uco-types:value": "true"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-eebc86ab-8470-47fb-bdac-62398deaabbe",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "USN_NUMBER",
+                            "uco-types:value": "109520"
+                        },
+                        {
+                            "@id": "kb:DictionaryEntry-b1fb96b5-793e-4fc8-b486-0310dc5e9f02",
+                            "@type": "uco-types:DictionaryEntry",
+                            "uco-types:key": "MFT_ENTRY_ID",
+                            "uco-types:value": "51883"
+                        }
+                    ]
+                }
+            ],
+            "uco-core:eventContext": [
+                {
+                    "@id": "kb:ObservableObject-a2238fff-e45f-460b-9a9c-57e8f0fca45c"
+                },
+                {
+                    "@id": "kb:ObservableObject-60ef4da8-0f49-4cf7-b8e2-99287bb3bc09"
+                }
+            ],
+            "uco-core:eventType": [
+                "USN_REASON_FILE_DELETE",
+                "USN_REASON_CLOSE"
+            ],
+            "uco-core:startTime": [
+                {
+                    "@type": "xsd:dateTime",
+                    "@value": "2025-11-14T14:47:55-05:00"
+                }
+            ]
+        }
+    ]
+}
