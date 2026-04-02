@@ -24,6 +24,7 @@ The SDK is auto-generated from the official CASE 1.4.0 and UCO 1.4.0 ontology so
 ### Use the SDK (Consumer Install)
 
 Install the SDK package for your language. No need to clone the repo or run the generator.
+As of this release, the bindings are not pushed to the distro services so you will need to access the bindings locally via the CLI or MCP. I plan to publish the bindings to the distro services soon after more SDK testing.
 
 ```bash
 pip install case-uco                          # Python (PyPI)
