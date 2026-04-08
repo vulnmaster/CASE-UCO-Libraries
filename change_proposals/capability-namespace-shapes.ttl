@@ -1,0 +1,47 @@
+@prefix proposed: <https://proposed.ontology.unifiedcyberontology.org/uco/capability/> .
+@prefix uco-core: <https://ontology.unifiedcyberontology.org/uco/core/> .
+@prefix uco-action: <https://ontology.unifiedcyberontology.org/uco/action/> .
+@prefix uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+proposed:Capability-Shape
+	a sh:NodeShape ;
+	sh:targetClass proposed:Capability ;
+	sh:property
+		[
+			sh:path proposed:structuredCharacterization ;
+			sh:class uco-action:ActionPattern ;
+			sh:nodeKind sh:IRI ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "structuredCharacterization" ;
+			sh:description "Structured ActionPattern representation of the capability (at most one)." ;
+		] ,
+		[
+			sh:path proposed:capabilityScope ;
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:name "capabilityScope" ;
+			sh:description "Capability domain categorization (zero or more)." ;
+		]
+		;
+	.
+
+proposed:Module-Shape
+	a sh:NodeShape ;
+	sh:targetClass proposed:Module ;
+	sh:property
+		[
+			sh:path proposed:analyticFocus ;
+			sh:class uco-observable:ObservableObject ;
+			sh:nodeKind sh:IRI ;
+			sh:name "analyticFocus" ;
+			sh:description "Primary analysis target of this module (zero or more)." ;
+		]
+		;
+	.
+
+proposed:Parser-Shape
+	a sh:NodeShape ;
+	sh:targetClass proposed:Parser ;
+	.

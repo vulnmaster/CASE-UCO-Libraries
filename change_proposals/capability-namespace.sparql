@@ -1,0 +1,72 @@
+# CQ1: Which tools have a capability to parse Snapchat messages?
+# Expected: Autopsy, Cellebrite UFED
+PREFIX uco-core: <https://ontology.unifiedcyberontology.org/uco/core/>
+PREFIX uco-action: <https://ontology.unifiedcyberontology.org/uco/action/>
+PREFIX uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/>
+PREFIX proposed: <https://proposed.ontology.unifiedcyberontology.org/uco/capability/>
+
+SELECT DISTINCT ?toolName ?capName
+WHERE {
+    ?rel1 a uco-core:Relationship ;
+          uco-core:kindOfRelationship "mayUse" ;
+          uco-core:source ?tool ;
+          uco-core:target ?module .
+
+    ?rel2 a uco-core:Relationship ;
+          uco-core:kindOfRelationship "hasCapability" ;
+          uco-core:source ?module ;
+          uco-core:target ?cap .
+
+    ?cap a proposed:Capability .
+
+    ?tool uco-core:name ?toolName .
+    ?cap uco-core:name ?capName .
+}
+
+# ---
+
+# CQ2: Full tool -> module -> capability -> actionPattern chain
+# Expected: Two chains (Autopsy and UFED), both reaching same Capability and ActionPattern
+PREFIX uco-core: <https://ontology.unifiedcyberontology.org/uco/core/>
+PREFIX uco-action: <https://ontology.unifiedcyberontology.org/uco/action/>
+PREFIX proposed: <https://proposed.ontology.unifiedcyberontology.org/uco/capability/>
+
+SELECT ?toolName ?moduleName ?capName ?actionName
+WHERE {
+    ?rel1 a uco-core:Relationship ;
+          uco-core:kindOfRelationship "mayUse" ;
+          uco-core:source ?tool ;
+          uco-core:target ?module .
+
+    ?rel2 a uco-core:Relationship ;
+          uco-core:kindOfRelationship "hasCapability" ;
+          uco-core:source ?module ;
+          uco-core:target ?cap .
+
+    ?cap a proposed:Capability ;
+         proposed:structuredCharacterization ?pattern .
+
+    ?pattern uco-core:name ?actionName .
+
+    ?tool uco-core:name ?toolName .
+    ?module uco-core:name ?moduleName .
+    ?cap uco-core:name ?capName .
+}
+
+# ---
+
+# CQ3: Which modules focus on the Snapchat iOS application?
+# Expected: Snapchat iOS Module, Snapchat Parser Module
+PREFIX uco-core: <https://ontology.unifiedcyberontology.org/uco/core/>
+PREFIX proposed: <https://proposed.ontology.unifiedcyberontology.org/uco/capability/>
+
+SELECT ?moduleName ?appName
+WHERE {
+    ?module a proposed:Module ;
+            proposed:analyticFocus ?app ;
+            uco-core:name ?moduleName .
+
+    ?app uco-core:name ?appName .
+
+    FILTER(CONTAINS(?appName, "Snapchat"))
+}

@@ -1,22 +1,23 @@
-# Forensic Tool Capability Extension — Exemplar Instances (A-Box) v0.3.0
+# Forensic Tool Capability Extension — Exemplar Instances (A-Box) v0.4.0
 #
-# This file contains validated example instances of the toolcap extension
-# classes, demonstrating how to model forensic tool capabilities, benchmark
-# observations, platform specifications, and access restrictions.
+# This file demonstrates the decomposed, graph-based capability model
+# informed by Sean Barnum's data model design:
 #
-# The scenario models two commercial DFIR tools (Tool A and Tool B) and their
-# ability to parse two applications: a messaging app (App Alpha) and an email
-# client (Outlook). Outlook has two data format versions (.pst and .nst) to
-# demonstrate how the extension tracks format-level capability gaps and
-# benchmark observations over time.
+#   Tool --[mayUse]--> Module --[hasCapability]--> Capability
+#                      Module --[uses]--> Parser
+#                      Module --[analyticFocus]--> Application
+#   Application --[runs-on]--> OperatingSystem
+#   Application --[variation-of]--> Application (generic)
+#   Versioned instances --[isVersionOf]--> Generic instances
 #
-# v0.3.0 adds NIST CFTT-style task-level capabilities (file carving, deleted
-# file recovery, string search) with AutoDFBench IR metrics (precision,
-# recall, F1, TP, FP, FN), benchmark provenance, and filesystem-aware
-# platform specifications.
+# Scenario: Two forensic tools (Tool A "Autopsy" and Tool B "Cellebrite UFED")
+# both have modules that can parse Snapchat iOS messages. A benchmark
+# observation records how well each tool performs.
 #
 # Validation command:
 #   case_validate --built-version case-1.4.0 \
+#     --ontology-graph change_proposals/capability-namespace.ttl \
+#     --ontology-graph change_proposals/capability-namespace-shapes.ttl \
 #     --ontology-graph extensions/toolcap/toolcap.ttl \
 #     --ontology-graph extensions/toolcap/toolcap-shapes.ttl \
 #     --inference rdfs --allow-info \
@@ -24,16 +25,18 @@
 
 @prefix kb: <http://example.org/kb/> .
 @prefix toolcap: <http://example.org/ontology/toolcap/> .
+@prefix capability: <https://proposed.ontology.unifiedcyberontology.org/uco/capability/> .
 @prefix uco-core: <https://ontology.unifiedcyberontology.org/uco/core/> .
 @prefix uco-tool: <https://ontology.unifiedcyberontology.org/uco/tool/> .
+@prefix uco-action: <https://ontology.unifiedcyberontology.org/uco/action/> .
 @prefix uco-identity: <https://ontology.unifiedcyberontology.org/uco/identity/> .
+@prefix uco-marking: <https://ontology.unifiedcyberontology.org/uco/marking/> .
 @prefix uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
-@prefix case-investigation: <https://ontology.caseontology.org/case/investigation/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 
 # =============================================================================
-# Identity (the benchmarking lab)
+# Identity (benchmarking lab)
 # =============================================================================
 
 kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee
@@ -43,85 +46,225 @@ kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee
 
 
 # =============================================================================
-# Tools (instances of uco-tool:Tool)
+# Tools
 # =============================================================================
 
-kb:Tool-a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d
+kb:Tool-autopsy-a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d
 	a uco-tool:Tool ;
-	uco-core:name "Tool A"^^xsd:string ;
-	uco-core:description "A digital forensics platform for acquiring, analyzing, and reporting on digital evidence from computers, mobile devices, and cloud services."^^xsd:string ;
+	uco-core:name "Autopsy"^^xsd:string ;
+	uco-core:description "An open-source digital forensics platform."^^xsd:string ;
+	uco-tool:version "4.21.0"^^xsd:string ;
 	.
 
-kb:Tool-b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e
+kb:Tool-ufed-b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e
 	a uco-tool:Tool ;
-	uco-core:name "Tool B"^^xsd:string ;
-	uco-core:description "A mobile forensics tool for physical and logical extraction and analysis of data from mobile devices, including smartphones, tablets, and portable GPS devices."^^xsd:string ;
+	uco-core:name "Cellebrite UFED"^^xsd:string ;
+	uco-core:description "A commercial mobile forensics platform."^^xsd:string ;
+	uco-tool:version "8.5.0"^^xsd:string ;
 	.
 
 
 # =============================================================================
-# Applications (instances of uco-observable:ObservableObject)
+# Operating Systems
 # =============================================================================
 
-kb:Application-c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f
-	a uco-observable:ObservableObject ;
-	uco-core:hasFacet kb:ApplicationFacet-d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f80 ;
+kb:OS-ios-dddddddd-4444-4ddd-e444-444444444444
+	a uco-observable:OperatingSystem , uco-observable:Software ;
+	uco-core:name "iOS"^^xsd:string ;
 	.
 
-kb:ApplicationFacet-d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f80
-	a uco-observable:ApplicationFacet ;
-	uco-observable:applicationIdentifier "com.example.app.alpha"^^xsd:string ;
-	uco-core:name "App Alpha"^^xsd:string ;
-	.
-
-kb:Application-outlook-e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091
-	a uco-observable:ObservableObject ;
-	uco-core:hasFacet kb:ApplicationFacet-outlook-f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f809102 ;
-	.
-
-kb:ApplicationFacet-outlook-f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f809102
-	a uco-observable:ApplicationFacet ;
-	uco-observable:applicationIdentifier "com.microsoft.outlook"^^xsd:string ;
-	uco-core:name "Microsoft Outlook"^^xsd:string ;
+kb:OS-android-eeeeeeee-5555-4eee-f555-555555555555
+	a uco-observable:OperatingSystem , uco-observable:Software ;
+	uco-core:name "Android"^^xsd:string ;
 	.
 
 
 # =============================================================================
-# Platform Specifications
+# Applications (generic + platform-specific)
 # =============================================================================
 
-kb:Platform-android14-physical-11111111-aaaa-4bbb-cccc-dddddddddddd
-	a toolcap:PlatformSpecification ;
-	uco-core:name "Android 14 — Physical"^^xsd:string ;
-	toolcap:operatingSystem "Android"^^xsd:string ;
-	toolcap:osVersion "14"^^xsd:string ;
-	toolcap:extractionMethod "physical"^^xsd:string ;
-	toolcap:extractionMethod "file-system"^^xsd:string ;
+kb:App-snapchat-11111111-aaaa-4111-b111-111111111111
+	a uco-observable:Application ;
+	uco-core:name "Snapchat"^^xsd:string ;
+	uco-core:description "Snapchat messaging application (generic, platform-independent)."^^xsd:string ;
 	.
 
-kb:Platform-android14-bfu-22222222-aaaa-4bbb-cccc-dddddddddddd
-	a toolcap:PlatformSpecification ;
-	uco-core:name "Android 14 — BFU"^^xsd:string ;
-	toolcap:operatingSystem "Android"^^xsd:string ;
-	toolcap:osVersion "14"^^xsd:string ;
-	toolcap:extractionMethod "BFU"^^xsd:string ;
+kb:App-snapchat-ios-22222222-bbbb-4222-c222-222222222222
+	a uco-observable:Application ;
+	uco-core:name "Snapchat iOS"^^xsd:string ;
+	uco-core:description "Snapchat for iOS."^^xsd:string ;
 	.
 
-kb:Platform-ios17-logical-33333333-aaaa-4bbb-cccc-dddddddddddd
-	a toolcap:PlatformSpecification ;
-	uco-core:name "iOS 17 — Logical"^^xsd:string ;
-	toolcap:operatingSystem "iOS"^^xsd:string ;
-	toolcap:osVersion "17.4"^^xsd:string ;
-	toolcap:deviceModel "iPhone 15"^^xsd:string ;
-	toolcap:extractionMethod "logical"^^xsd:string ;
+kb:App-snapchat-android-33333333-cccc-4333-d333-333333333333
+	a uco-observable:Application ;
+	uco-core:name "Snapchat Android"^^xsd:string ;
+	uco-core:description "Snapchat for Android."^^xsd:string ;
 	.
 
-kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd
-	a toolcap:PlatformSpecification ;
-	uco-core:name "Windows 11 — Logical"^^xsd:string ;
-	toolcap:operatingSystem "Windows"^^xsd:string ;
-	toolcap:osVersion "11 23H2"^^xsd:string ;
-	toolcap:extractionMethod "logical"^^xsd:string ;
+
+# =============================================================================
+# Relationships: Application <-> OperatingSystem, Application variations
+# =============================================================================
+
+kb:Rel-snapchat-ios-runs-on-44444444-dddd-4444-e444-444444444444
+	a uco-core:Relationship ;
+	uco-core:source kb:App-snapchat-ios-22222222-bbbb-4222-c222-222222222222 ;
+	uco-core:target kb:OS-ios-dddddddd-4444-4ddd-e444-444444444444 ;
+	uco-core:kindOfRelationship "runs-on"^^xsd:string ;
+	uco-core:isDirectional "true"^^xsd:boolean ;
+	.
+
+kb:Rel-snapchat-android-runs-on-55555555-eeee-4555-f555-555555555555
+	a uco-core:Relationship ;
+	uco-core:source kb:App-snapchat-android-33333333-cccc-4333-d333-333333333333 ;
+	uco-core:target kb:OS-android-eeeeeeee-5555-4eee-f555-555555555555 ;
+	uco-core:kindOfRelationship "runs-on"^^xsd:string ;
+	uco-core:isDirectional "true"^^xsd:boolean ;
+	.
+
+kb:Rel-snapchat-ios-variation-66666666-ffff-4666-a666-666666666666
+	a uco-core:Relationship ;
+	uco-core:source kb:App-snapchat-ios-22222222-bbbb-4222-c222-222222222222 ;
+	uco-core:target kb:App-snapchat-11111111-aaaa-4111-b111-111111111111 ;
+	uco-core:kindOfRelationship "variation-of"^^xsd:string ;
+	uco-core:isDirectional "true"^^xsd:boolean ;
+	.
+
+kb:Rel-snapchat-android-variation-77777777-0000-4777-b777-777777777777
+	a uco-core:Relationship ;
+	uco-core:source kb:App-snapchat-android-33333333-cccc-4333-d333-333333333333 ;
+	uco-core:target kb:App-snapchat-11111111-aaaa-4111-b111-111111111111 ;
+	uco-core:kindOfRelationship "variation-of"^^xsd:string ;
+	uco-core:isDirectional "true"^^xsd:boolean ;
+	.
+
+
+# =============================================================================
+# Modules
+# =============================================================================
+
+kb:Module-snapchat-autopsy-88888888-1111-4888-c888-888888888888
+	a capability:Module ;
+	uco-core:name "Snapchat iOS Parser Module"^^xsd:string ;
+	uco-core:description "Autopsy ingest module for parsing Snapchat iOS data from main.db."^^xsd:string ;
+	capability:analyticFocus kb:App-snapchat-ios-22222222-bbbb-4222-c222-222222222222 ;
+	.
+
+kb:Module-snapchat-ufed-99999999-2222-4999-d999-999999999999
+	a capability:Module ;
+	uco-core:name "Snapchat Decoder"^^xsd:string ;
+	uco-core:description "Cellebrite UFED decoder module for Snapchat iOS."^^xsd:string ;
+	capability:analyticFocus kb:App-snapchat-ios-22222222-bbbb-4222-c222-222222222222 ;
+	.
+
+
+# =============================================================================
+# Parsers
+# =============================================================================
+
+kb:Parser-maindb-aaaaaaaa-3333-4aaa-eaaa-aaaaaaaaaaaa
+	a capability:Parser ;
+	uco-core:name "main.db SQLite Parser"^^xsd:string ;
+	uco-core:description "Parser for Snapchat's main.db SQLite database containing chat messages, contacts, and stories."^^xsd:string ;
+	.
+
+
+# =============================================================================
+# Relationships: Tool -> Module -> Parser
+# =============================================================================
+
+kb:Rel-autopsy-mayuse-module-bbbbbbbb-4444-4bbb-fbbb-bbbbbbbbbbbb
+	a uco-core:Relationship ;
+	uco-core:source kb:Tool-autopsy-a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d ;
+	uco-core:target kb:Module-snapchat-autopsy-88888888-1111-4888-c888-888888888888 ;
+	uco-core:kindOfRelationship "mayUse"^^xsd:string ;
+	uco-core:isDirectional "true"^^xsd:boolean ;
+	.
+
+kb:Rel-ufed-mayuse-module-cccccccc-5555-4ccc-accc-cccccccccccc
+	a uco-core:Relationship ;
+	uco-core:source kb:Tool-ufed-b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e ;
+	uco-core:target kb:Module-snapchat-ufed-99999999-2222-4999-d999-999999999999 ;
+	uco-core:kindOfRelationship "mayUse"^^xsd:string ;
+	uco-core:isDirectional "true"^^xsd:boolean ;
+	.
+
+kb:Rel-module-uses-parser-dddddddd-6666-4ddd-bddd-dddddddddddd
+	a uco-core:Relationship ;
+	uco-core:source kb:Module-snapchat-autopsy-88888888-1111-4888-c888-888888888888 ;
+	uco-core:target kb:Parser-maindb-aaaaaaaa-3333-4aaa-eaaa-aaaaaaaaaaaa ;
+	uco-core:kindOfRelationship "uses"^^xsd:string ;
+	uco-core:isDirectional "true"^^xsd:boolean ;
+	.
+
+kb:Rel-module-uses-parser2-eeeeee11-7777-4eee-ceee-eeeeeeeeeeee
+	a uco-core:Relationship ;
+	uco-core:source kb:Module-snapchat-ufed-99999999-2222-4999-d999-999999999999 ;
+	uco-core:target kb:Parser-maindb-aaaaaaaa-3333-4aaa-eaaa-aaaaaaaaaaaa ;
+	uco-core:kindOfRelationship "uses"^^xsd:string ;
+	uco-core:isDirectional "true"^^xsd:boolean ;
+	.
+
+
+# =============================================================================
+# File and Result type (for ActionPattern)
+# =============================================================================
+
+kb:File-maindb-ffffff22-8888-4fff-dfff-ffffffffffff
+	a uco-observable:File ;
+	uco-core:name "main.db"^^xsd:string ;
+	.
+
+kb:MessageType-00000033-9999-4000-e000-000000000000
+	a uco-observable:Message ;
+	uco-core:name "Snapchat chat message"^^xsd:string ;
+	.
+
+
+# =============================================================================
+# ActionPattern (structured characterization of the capability)
+# =============================================================================
+
+kb:ActionPattern-parse-snapchat-11111144-aaaa-4111-f111-111111111111
+	a uco-action:ActionPattern ;
+	uco-core:name "parse"^^xsd:string ;
+	uco-core:description "Parse Snapchat messages from the main.db SQLite database."^^xsd:string ;
+	uco-action:object kb:File-maindb-ffffff22-8888-4fff-dfff-ffffffffffff ;
+	uco-action:result kb:MessageType-00000033-9999-4000-e000-000000000000 ;
+	.
+
+
+# =============================================================================
+# Capability (the core assertion — shared by both tools' modules)
+# =============================================================================
+
+kb:Capability-parse-snapchat-msgs-22222255-bbbb-4222-a222-222222222222
+	a capability:Capability ;
+	uco-core:name "Parse Snapchat messages from main.db"^^xsd:string ;
+	uco-core:description "The ability to parse Snapchat chat messages, contacts, and stories from the main.db SQLite database on iOS devices."^^xsd:string ;
+	capability:structuredCharacterization kb:ActionPattern-parse-snapchat-11111144-aaaa-4111-f111-111111111111 ;
+	capability:capabilityScope "forensic-parsing"^^xsd:string ;
+	.
+
+
+# =============================================================================
+# Relationships: Module -> Capability
+# =============================================================================
+
+kb:Rel-module-hascap-33333366-cccc-4333-b333-333333333333
+	a uco-core:Relationship ;
+	uco-core:source kb:Module-snapchat-autopsy-88888888-1111-4888-c888-888888888888 ;
+	uco-core:target kb:Capability-parse-snapchat-msgs-22222255-bbbb-4222-a222-222222222222 ;
+	uco-core:kindOfRelationship "hasCapability"^^xsd:string ;
+	uco-core:isDirectional "true"^^xsd:boolean ;
+	.
+
+kb:Rel-module-hascap2-44444477-dddd-4444-c444-444444444444
+	a uco-core:Relationship ;
+	uco-core:source kb:Module-snapchat-ufed-99999999-2222-4999-d999-999999999999 ;
+	uco-core:target kb:Capability-parse-snapchat-msgs-22222255-bbbb-4222-a222-222222222222 ;
+	uco-core:kindOfRelationship "hasCapability"^^xsd:string ;
+	uco-core:isDirectional "true"^^xsd:boolean ;
 	.
 
 
@@ -129,130 +272,19 @@ kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd
 # Access Restrictions
 # =============================================================================
 
-kb:AccessRestriction-commercial-55555555-aaaa-4bbb-cccc-dddddddddddd
+kb:AccessRestriction-commercial-55555588-eeee-4555-d555-555555555555
 	a toolcap:AccessRestriction ;
 	toolcap:restrictionType "licensing"^^xsd:string ;
 	toolcap:restrictionLevel "commercial-license-required"^^xsd:string ;
-	toolcap:restrictionDescription "Requires an active commercial license from the tool vendor. Annual subscription model."^^xsd:string ;
+	toolcap:restrictionDescription "Cellebrite UFED requires an active commercial license."^^xsd:string ;
 	.
 
-kb:AccessRestriction-leo-only-66666666-aaaa-4bbb-cccc-dddddddddddd
-	a toolcap:AccessRestriction ;
-	toolcap:restrictionType "licensing"^^xsd:string ;
-	toolcap:restrictionLevel "law-enforcement-only"^^xsd:string ;
-	toolcap:restrictionDescription "This tool is only available to sworn law enforcement and authorized government agencies."^^xsd:string ;
-	.
-
-kb:AccessRestriction-opsec-77777777-aaaa-4bbb-cccc-dddddddddddd
-	a toolcap:AccessRestriction ;
-	toolcap:restrictionType "operational-security"^^xsd:string ;
-	toolcap:restrictionLevel "covert-capable"^^xsd:string ;
-	toolcap:restrictionDescription "BFU acquisition technique may be detectable by device owner. Operational security review required before deployment on live investigations."^^xsd:string ;
-	.
-
-
-# =============================================================================
-# Tool Capabilities
-# =============================================================================
-
-# --- Tool A → App Alpha (Android physical + iOS logical) ---
-kb:ToolCapability-11111111-2222-4333-a444-555555555555
-	a toolcap:ToolCapability ;
-	uco-core:description "Tool A's capability to extract and parse App Alpha messaging data from Android and iOS device images."^^xsd:string ;
-	toolcap:tool kb:Tool-a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d ;
-	toolcap:application kb:Application-c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f ;
-	toolcap:supportsPlatform
-		kb:Platform-android14-physical-11111111-aaaa-4bbb-cccc-dddddddddddd ,
-		kb:Platform-ios17-logical-33333333-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:parsedObservableType "messages"^^xsd:string ;
-	toolcap:parsedObservableType "contacts"^^xsd:string ;
-	toolcap:parsedObservableType "media files"^^xsd:string ;
-	toolcap:parsedObservableType "call logs"^^xsd:string ;
-	toolcap:toolVersion "8.2.0"^^xsd:string ;
-	toolcap:applicationVersion "7.0.2"^^xsd:string ;
-	toolcap:claimedByVendor "true"^^xsd:boolean ;
-	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
-	toolcap:isVerified "true"^^xsd:boolean ;
-	toolcap:lastTestedDate "2026-03-01T10:00:00Z"^^xsd:dateTime ;
-	toolcap:hasAccessRestriction kb:AccessRestriction-commercial-55555555-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:hasObservation
-		kb:Benchmark-aaa11111-1111-4111-a111-111111111111 ;
-	.
-
-# --- Tool A → Outlook (Windows, .pst and .nst formats) ---
-kb:ToolCapability-22222222-3333-4444-a555-666666666666
-	a toolcap:ToolCapability ;
-	uco-core:description "Tool A's capability to parse Microsoft Outlook data from Windows images. Supports the classic .pst format; the new .nst format is claimed but not yet verified."^^xsd:string ;
-	toolcap:tool kb:Tool-a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d ;
-	toolcap:application kb:Application-outlook-e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091 ;
-	toolcap:supportsPlatform
-		kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:parsedObservableType "emails"^^xsd:string ;
-	toolcap:parsedObservableType "contacts"^^xsd:string ;
-	toolcap:parsedObservableType "calendar events"^^xsd:string ;
-	toolcap:parsedObservableType "attachments"^^xsd:string ;
-	toolcap:toolVersion "8.2.0"^^xsd:string ;
-	toolcap:applicationVersion "Classic"^^xsd:string ;
-	toolcap:applicationVersion "New (2024)"^^xsd:string ;
-	toolcap:dataFormatVersion ".pst"^^xsd:string ;
-	toolcap:dataFormatVersion ".nst"^^xsd:string ;
-	toolcap:claimedByVendor "true"^^xsd:boolean ;
-	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
-	toolcap:isVerified "true"^^xsd:boolean ;
-	toolcap:lastTestedDate "2026-03-15T14:00:00Z"^^xsd:dateTime ;
-	toolcap:hasAccessRestriction kb:AccessRestriction-commercial-55555555-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:hasObservation
-		kb:Benchmark-bbb22222-2222-4222-a222-222222222222 ,
-		kb:Benchmark-ccc33333-3333-4333-a333-333333333333 ;
-	.
-
-# --- Tool B → App Alpha (Android BFU — law-enforcement-only) ---
-kb:ToolCapability-33333333-4444-4555-a666-777777777777
-	a toolcap:ToolCapability ;
-	uco-core:description "Tool B's capability to extract App Alpha data from Android devices, including BFU acquisition. Law-enforcement-only licensing."^^xsd:string ;
-	toolcap:tool kb:Tool-b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e ;
-	toolcap:application kb:Application-c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f ;
-	toolcap:supportsPlatform
-		kb:Platform-android14-physical-11111111-aaaa-4bbb-cccc-dddddddddddd ,
-		kb:Platform-android14-bfu-22222222-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:parsedObservableType "messages"^^xsd:string ;
-	toolcap:parsedObservableType "contacts"^^xsd:string ;
-	toolcap:toolVersion "7.70"^^xsd:string ;
-	toolcap:applicationVersion "7.0.2"^^xsd:string ;
-	toolcap:claimedByVendor "true"^^xsd:boolean ;
-	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
-	toolcap:isVerified "true"^^xsd:boolean ;
-	toolcap:lastTestedDate "2026-02-15T14:30:00Z"^^xsd:dateTime ;
-	toolcap:hasAccessRestriction
-		kb:AccessRestriction-leo-only-66666666-aaaa-4bbb-cccc-dddddddddddd ,
-		kb:AccessRestriction-opsec-77777777-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:hasObservation
-		kb:Benchmark-ddd44444-4444-4444-a444-444444444444 ,
-		kb:Benchmark-eee55555-5555-4555-a555-555555555555 ;
-	.
-
-# --- Tool B → Outlook (Windows, .pst only — cannot parse .nst) ---
-kb:ToolCapability-44444444-5555-4666-a777-888888888888
-	a toolcap:ToolCapability ;
-	uco-core:description "Tool B's capability to parse Microsoft Outlook data from Windows images. Only supports the classic .pst format; fails on the new .nst format."^^xsd:string ;
-	toolcap:tool kb:Tool-b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e ;
-	toolcap:application kb:Application-outlook-e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091 ;
-	toolcap:supportsPlatform
-		kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:parsedObservableType "emails"^^xsd:string ;
-	toolcap:parsedObservableType "contacts"^^xsd:string ;
-	toolcap:parsedObservableType "calendar events"^^xsd:string ;
-	toolcap:toolVersion "7.70"^^xsd:string ;
-	toolcap:applicationVersion "Classic"^^xsd:string ;
-	toolcap:dataFormatVersion ".pst"^^xsd:string ;
-	toolcap:claimedByVendor "true"^^xsd:boolean ;
-	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
-	toolcap:isVerified "true"^^xsd:boolean ;
-	toolcap:lastTestedDate "2026-03-10T09:00:00Z"^^xsd:dateTime ;
-	toolcap:hasAccessRestriction kb:AccessRestriction-leo-only-66666666-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:hasObservation
-		kb:Benchmark-fff66666-6666-4666-a666-666666666666 ,
-		kb:Benchmark-ggg77777-7777-4777-a777-777777777777 ;
+kb:Rel-ufed-restriction-66666699-ffff-4666-e666-666666666666
+	a uco-core:Relationship ;
+	uco-core:source kb:Tool-ufed-b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e ;
+	uco-core:target kb:AccessRestriction-commercial-55555588-eeee-4555-d555-555555555555 ;
+	uco-core:kindOfRelationship "hasAccessRestriction"^^xsd:string ;
+	uco-core:isDirectional "true"^^xsd:boolean ;
 	.
 
 
@@ -260,351 +292,64 @@ kb:ToolCapability-44444444-5555-4666-a777-888888888888
 # Benchmark Observations
 # =============================================================================
 
-# --- Tool A / App Alpha on Android 14 physical — pass ---
-kb:Benchmark-aaa11111-1111-4111-a111-111111111111
+kb:Benchmark-autopsy-snapchat-7777aa00-1111-4777-f777-777777777777
 	a toolcap:BenchmarkObservation ;
-	uco-core:description "Benchmark of Tool A parsing App Alpha on Android 14 physical extraction."^^xsd:string ;
-	toolcap:capability kb:ToolCapability-11111111-2222-4333-a444-555555555555 ;
-	toolcap:benchmarkDate "2026-03-01T10:00:00Z"^^xsd:dateTime ;
+	uco-core:description "Benchmark of Autopsy parsing Snapchat iOS messages from main.db."^^xsd:string ;
+	toolcap:capability kb:Capability-parse-snapchat-msgs-22222255-bbbb-4222-a222-222222222222 ;
+	toolcap:benchmarkDate "2026-03-15T10:00:00Z"^^xsd:dateTime ;
 	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
-	toolcap:benchmarkPlatform kb:Platform-android14-physical-11111111-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:parseSuccess "true"^^xsd:boolean ;
-	toolcap:completenessScore "0.95"^^xsd:decimal ;
-	toolcap:accuracyScore "0.98"^^xsd:decimal ;
-	toolcap:falsePositiveCount "2"^^xsd:nonNegativeInteger ;
-	toolcap:falseNegativeCount "12"^^xsd:nonNegativeInteger ;
-	toolcap:processingDuration "PT3M45S"^^xsd:duration ;
-	toolcap:datasetSizeInBytes "5368709120"^^xsd:nonNegativeInteger ;
-	toolcap:parsedCategory "messages"^^xsd:string ;
-	toolcap:parsedCategory "contacts"^^xsd:string ;
-	toolcap:parsedCategory "media files"^^xsd:string ;
-	toolcap:parsedCategory "call logs"^^xsd:string ;
-	toolcap:testedToolVersion "8.2.0"^^xsd:string ;
-	toolcap:testedApplicationVersion "7.0.2"^^xsd:string ;
-	toolcap:benchmarkNotes "Full physical image from Pixel 8. All major artifact categories recovered. 12 deleted messages not recovered."^^xsd:string ;
-	.
-
-# --- Tool A / Outlook .pst on Windows 11 — pass ---
-kb:Benchmark-bbb22222-2222-4222-a222-222222222222
-	a toolcap:BenchmarkObservation ;
-	uco-core:description "Benchmark of Tool A parsing Outlook .pst format on Windows 11."^^xsd:string ;
-	toolcap:capability kb:ToolCapability-22222222-3333-4444-a555-666666666666 ;
-	toolcap:benchmarkDate "2026-03-10T09:00:00Z"^^xsd:dateTime ;
-	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
-	toolcap:benchmarkPlatform kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:parseSuccess "true"^^xsd:boolean ;
-	toolcap:completenessScore "0.98"^^xsd:decimal ;
-	toolcap:accuracyScore "0.99"^^xsd:decimal ;
-	toolcap:parsedCategory "emails"^^xsd:string ;
-	toolcap:parsedCategory "contacts"^^xsd:string ;
-	toolcap:parsedCategory "calendar events"^^xsd:string ;
-	toolcap:parsedCategory "attachments"^^xsd:string ;
-	toolcap:testedToolVersion "8.2.0"^^xsd:string ;
-	toolcap:testedApplicationVersion "Classic"^^xsd:string ;
-	toolcap:testedDataFormatVersion ".pst"^^xsd:string ;
-	toolcap:benchmarkNotes "Mature parser. Near-complete recovery of all artifact types from legacy .pst format."^^xsd:string ;
-	.
-
-# --- Tool A / Outlook .nst on Windows 11 — fail ---
-kb:Benchmark-ccc33333-3333-4333-a333-333333333333
-	a toolcap:BenchmarkObservation ;
-	uco-core:description "Benchmark of Tool A parsing Outlook .nst format on Windows 11. Tool failed to parse the new database format."^^xsd:string ;
-	toolcap:capability kb:ToolCapability-22222222-3333-4444-a555-666666666666 ;
-	toolcap:benchmarkDate "2026-03-15T14:00:00Z"^^xsd:dateTime ;
-	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
-	toolcap:benchmarkPlatform kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:parseSuccess "false"^^xsd:boolean ;
-	toolcap:completenessScore "0.0"^^xsd:decimal ;
-	toolcap:missedCategory "emails"^^xsd:string ;
-	toolcap:missedCategory "contacts"^^xsd:string ;
-	toolcap:missedCategory "calendar events"^^xsd:string ;
-	toolcap:missedCategory "attachments"^^xsd:string ;
-	toolcap:testedToolVersion "8.2.0"^^xsd:string ;
-	toolcap:testedApplicationVersion "New (2024)"^^xsd:string ;
-	toolcap:testedDataFormatVersion ".nst"^^xsd:string ;
-	toolcap:benchmarkNotes "Tool A v8.2.0 cannot recognize the new Microsoft custom database format (.nst). Vendor has acknowledged the gap and indicated a parser update is planned for Q3 2026."^^xsd:string ;
-	.
-
-# --- Tool B / App Alpha on Android 14 physical — pass ---
-kb:Benchmark-ddd44444-4444-4444-a444-444444444444
-	a toolcap:BenchmarkObservation ;
-	uco-core:description "Benchmark of Tool B parsing App Alpha on Android 14 physical extraction."^^xsd:string ;
-	toolcap:capability kb:ToolCapability-33333333-4444-4555-a666-777777777777 ;
-	toolcap:benchmarkDate "2026-02-15T14:30:00Z"^^xsd:dateTime ;
-	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
-	toolcap:benchmarkPlatform kb:Platform-android14-physical-11111111-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:parseSuccess "true"^^xsd:boolean ;
-	toolcap:completenessScore "0.88"^^xsd:decimal ;
-	toolcap:accuracyScore "0.96"^^xsd:decimal ;
-	toolcap:falsePositiveCount "0"^^xsd:nonNegativeInteger ;
-	toolcap:falseNegativeCount "28"^^xsd:nonNegativeInteger ;
-	toolcap:parsedCategory "messages"^^xsd:string ;
-	toolcap:parsedCategory "contacts"^^xsd:string ;
-	toolcap:missedCategory "media files"^^xsd:string ;
-	toolcap:testedToolVersion "7.70"^^xsd:string ;
-	toolcap:testedApplicationVersion "7.0.2"^^xsd:string ;
-	toolcap:benchmarkNotes "Recovered messages and contacts but missed embedded media files. No false positives."^^xsd:string ;
-	.
-
-# --- Tool B / App Alpha on Android 14 BFU — partial ---
-kb:Benchmark-eee55555-5555-4555-a555-555555555555
-	a toolcap:BenchmarkObservation ;
-	uco-core:description "Benchmark of Tool B parsing App Alpha from a BFU acquisition on Android 14."^^xsd:string ;
-	toolcap:capability kb:ToolCapability-33333333-4444-4555-a666-777777777777 ;
-	toolcap:benchmarkDate "2026-02-20T09:00:00Z"^^xsd:dateTime ;
-	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
-	toolcap:benchmarkPlatform kb:Platform-android14-bfu-22222222-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:parseSuccess "true"^^xsd:boolean ;
-	toolcap:completenessScore "0.35"^^xsd:decimal ;
-	toolcap:accuracyScore "0.99"^^xsd:decimal ;
-	toolcap:parsedCategory "contacts"^^xsd:string ;
-	toolcap:missedCategory "messages"^^xsd:string ;
-	toolcap:missedCategory "media files"^^xsd:string ;
-	toolcap:testedToolVersion "7.70"^^xsd:string ;
-	toolcap:testedApplicationVersion "7.0.2"^^xsd:string ;
-	toolcap:benchmarkNotes "BFU extraction yielded contact database only. Message and media databases are encrypted at rest until first unlock. Completeness is low as expected for BFU state."^^xsd:string ;
-	.
-
-# --- Tool B / Outlook .pst on Windows 11 — pass ---
-kb:Benchmark-fff66666-6666-4666-a666-666666666666
-	a toolcap:BenchmarkObservation ;
-	uco-core:description "Benchmark of Tool B parsing Outlook .pst format on Windows 11."^^xsd:string ;
-	toolcap:capability kb:ToolCapability-44444444-5555-4666-a777-888888888888 ;
-	toolcap:benchmarkDate "2026-03-10T09:00:00Z"^^xsd:dateTime ;
-	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
-	toolcap:benchmarkPlatform kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:parseSuccess "true"^^xsd:boolean ;
-	toolcap:completenessScore "0.96"^^xsd:decimal ;
-	toolcap:accuracyScore "0.97"^^xsd:decimal ;
-	toolcap:parsedCategory "emails"^^xsd:string ;
-	toolcap:parsedCategory "contacts"^^xsd:string ;
-	toolcap:parsedCategory "calendar events"^^xsd:string ;
-	toolcap:testedToolVersion "7.70"^^xsd:string ;
-	toolcap:testedApplicationVersion "Classic"^^xsd:string ;
-	toolcap:testedDataFormatVersion ".pst"^^xsd:string ;
-	toolcap:benchmarkNotes "Solid .pst parser. Slightly lower completeness than Tool A due to missing some attachment metadata."^^xsd:string ;
-	.
-
-# --- Tool B / Outlook .nst on Windows 11 — fail ---
-kb:Benchmark-ggg77777-7777-4777-a777-777777777777
-	a toolcap:BenchmarkObservation ;
-	uco-core:description "Benchmark of Tool B parsing Outlook .nst format on Windows 11. Tool cannot parse the new format."^^xsd:string ;
-	toolcap:capability kb:ToolCapability-44444444-5555-4666-a777-888888888888 ;
-	toolcap:benchmarkDate "2026-03-10T11:00:00Z"^^xsd:dateTime ;
-	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
-	toolcap:benchmarkPlatform kb:Platform-windows11-logical-44444444-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:parseSuccess "false"^^xsd:boolean ;
-	toolcap:completenessScore "0.0"^^xsd:decimal ;
-	toolcap:missedCategory "emails"^^xsd:string ;
-	toolcap:missedCategory "contacts"^^xsd:string ;
-	toolcap:missedCategory "calendar events"^^xsd:string ;
-	toolcap:testedToolVersion "7.70"^^xsd:string ;
-	toolcap:testedApplicationVersion "New (2024)"^^xsd:string ;
-	toolcap:testedDataFormatVersion ".nst"^^xsd:string ;
-	toolcap:benchmarkNotes "Tool B v7.70 does not recognize the .nst format at all. Returns empty results. No vendor timeline for support."^^xsd:string ;
-	.
-
-
-# =============================================================================
-# Platform Specifications — CFTT / AutoDFBench environments (v0.3.0)
-# =============================================================================
-
-kb:Platform-cftt-ntfs-aaaaaaaa-1111-4aaa-b111-111111111111
-	a toolcap:PlatformSpecification ;
-	uco-core:name "CFTT Test Environment — NTFS"^^xsd:string ;
-	toolcap:operatingSystem "Windows"^^xsd:string ;
-	toolcap:osVersion "11 23H2"^^xsd:string ;
-	toolcap:fileSystemType "NTFS"^^xsd:string ;
-	.
-
-kb:Platform-cftt-fat32-bbbbbbbb-2222-4bbb-c222-222222222222
-	a toolcap:PlatformSpecification ;
-	uco-core:name "CFTT Test Environment — FAT32"^^xsd:string ;
-	toolcap:operatingSystem "Windows"^^xsd:string ;
-	toolcap:osVersion "11 23H2"^^xsd:string ;
-	toolcap:fileSystemType "FAT32"^^xsd:string ;
-	.
-
-kb:Platform-cftt-ext4-cccccccc-3333-4ccc-d333-333333333333
-	a toolcap:PlatformSpecification ;
-	uco-core:name "CFTT Test Environment — ext4"^^xsd:string ;
-	toolcap:operatingSystem "Linux"^^xsd:string ;
-	toolcap:osVersion "6.1"^^xsd:string ;
-	toolcap:fileSystemType "ext4"^^xsd:string ;
-	.
-
-
-# =============================================================================
-# Task-Level Tool Capabilities (CFTT / AutoDFBench) — v0.3.0
-# =============================================================================
-
-# --- Tool A → File Carving on NTFS ---
-kb:ToolCapability-55555555-6666-4777-a888-999999999999
-	a toolcap:ToolCapability ;
-	uco-core:description "Tool A's file carving capability on NTFS volumes. Tested against NIST CFTT file carving reference datasets."^^xsd:string ;
-	toolcap:tool kb:Tool-a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d ;
-	toolcap:forensicTaskType "file-carving"^^xsd:string ;
-	toolcap:supportsPlatform kb:Platform-cftt-ntfs-aaaaaaaa-1111-4aaa-b111-111111111111 ;
-	toolcap:parsedObservableType "carved files"^^xsd:string ;
-	toolcap:toolVersion "8.2.0"^^xsd:string ;
-	toolcap:claimedByVendor "true"^^xsd:boolean ;
-	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
-	toolcap:isVerified "true"^^xsd:boolean ;
-	toolcap:lastTestedDate "2026-03-20T08:00:00Z"^^xsd:dateTime ;
-	toolcap:hasAccessRestriction kb:AccessRestriction-commercial-55555555-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:hasObservation kb:Benchmark-hhh88888-8888-4888-a888-888888888888 ;
-	.
-
-# --- Tool A → Deleted File Recovery on FAT32 ---
-kb:ToolCapability-66666666-7777-4888-a999-aaaaaaaaaaaa
-	a toolcap:ToolCapability ;
-	uco-core:description "Tool A's deleted file recovery capability on FAT32 volumes. Tested with AutoDFBench deleted file recovery suite."^^xsd:string ;
-	toolcap:tool kb:Tool-a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d ;
-	toolcap:forensicTaskType "deleted-file-recovery"^^xsd:string ;
-	toolcap:supportsPlatform kb:Platform-cftt-fat32-bbbbbbbb-2222-4bbb-c222-222222222222 ;
-	toolcap:parsedObservableType "recovered files"^^xsd:string ;
-	toolcap:toolVersion "8.2.0"^^xsd:string ;
-	toolcap:claimedByVendor "true"^^xsd:boolean ;
-	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
-	toolcap:isVerified "true"^^xsd:boolean ;
-	toolcap:lastTestedDate "2026-03-20T10:00:00Z"^^xsd:dateTime ;
-	toolcap:hasAccessRestriction kb:AccessRestriction-commercial-55555555-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:hasObservation kb:Benchmark-iii99999-9999-4999-a999-999999999999 ;
-	.
-
-# --- Tool B → String Search on ext4 ---
-kb:ToolCapability-77777777-8888-4999-aaaa-bbbbbbbbbbbb
-	a toolcap:ToolCapability ;
-	uco-core:description "Tool B's string search capability on ext4 volumes. Tested with AutoDFBench string search suite against NIST CFTT reference data."^^xsd:string ;
-	toolcap:tool kb:Tool-b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e ;
-	toolcap:forensicTaskType "string-search"^^xsd:string ;
-	toolcap:supportsPlatform kb:Platform-cftt-ext4-cccccccc-3333-4ccc-d333-333333333333 ;
-	toolcap:parsedObservableType "string matches"^^xsd:string ;
-	toolcap:toolVersion "7.70"^^xsd:string ;
-	toolcap:claimedByVendor "true"^^xsd:boolean ;
-	toolcap:verifiedByBenchmark "true"^^xsd:boolean ;
-	toolcap:isVerified "true"^^xsd:boolean ;
-	toolcap:lastTestedDate "2026-03-22T09:00:00Z"^^xsd:dateTime ;
-	toolcap:hasAccessRestriction kb:AccessRestriction-leo-only-66666666-aaaa-4bbb-cccc-dddddddddddd ;
-	toolcap:hasObservation kb:Benchmark-jjj00000-0000-4000-a000-000000000000 ;
-	.
-
-
-# =============================================================================
-# Benchmark Observations — CFTT / AutoDFBench (v0.3.0)
-# =============================================================================
-
-# --- Tool A / File Carving on NTFS — AutoDFBench ---
-kb:Benchmark-hhh88888-8888-4888-a888-888888888888
-	a toolcap:BenchmarkObservation ;
-	uco-core:description "AutoDFBench file carving evaluation of Tool A on NTFS. 150 files planted across JPEG, PDF, DOCX, and PNG types."^^xsd:string ;
-	toolcap:capability kb:ToolCapability-55555555-6666-4777-a888-999999999999 ;
-	toolcap:benchmarkDate "2026-03-20T08:00:00Z"^^xsd:dateTime ;
-	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
-	toolcap:benchmarkPlatform kb:Platform-cftt-ntfs-aaaaaaaa-1111-4aaa-b111-111111111111 ;
+	toolcap:benchmarkEnvironment kb:OS-ios-dddddddd-4444-4ddd-e444-444444444444 ;
 	toolcap:benchmarkFramework "AutoDFBench"^^xsd:string ;
-	toolcap:testCaseIdentifier "AutoDFBench-FC-NTFS-01"^^xsd:string ;
-	toolcap:parseSuccess "true"^^xsd:boolean ;
-	toolcap:groundTruthCount "150"^^xsd:nonNegativeInteger ;
-	toolcap:submittedCount "142"^^xsd:nonNegativeInteger ;
-	toolcap:truePositiveCount "138"^^xsd:nonNegativeInteger ;
-	toolcap:falsePositiveCount "4"^^xsd:nonNegativeInteger ;
-	toolcap:falseNegativeCount "12"^^xsd:nonNegativeInteger ;
-	toolcap:precisionScore "0.9718"^^xsd:decimal ;
-	toolcap:recallScore "0.92"^^xsd:decimal ;
-	toolcap:f1Score "0.9452"^^xsd:decimal ;
-	toolcap:completenessScore "0.92"^^xsd:decimal ;
-	toolcap:accuracyScore "0.97"^^xsd:decimal ;
-	toolcap:benchmarkSuiteScore "0.94"^^xsd:decimal ;
-	toolcap:processingDuration "PT12M30S"^^xsd:duration ;
-	toolcap:datasetSizeInBytes "2147483648"^^xsd:nonNegativeInteger ;
-	toolcap:parsedCategory "JPEG"^^xsd:string ;
-	toolcap:parsedCategory "PDF"^^xsd:string ;
-	toolcap:parsedCategory "DOCX"^^xsd:string ;
-	toolcap:missedCategory "PNG"^^xsd:string ;
-	toolcap:testedToolVersion "8.2.0"^^xsd:string ;
-	toolcap:benchmarkNotes "Recovered 138 of 150 planted files. Missed 12 fragmented PNG files. 4 false positives from JPEG header remnants in unallocated space."^^xsd:string ;
-	.
-
-# --- Tool A / Deleted File Recovery on FAT32 — AutoDFBench ---
-kb:Benchmark-iii99999-9999-4999-a999-999999999999
-	a toolcap:BenchmarkObservation ;
-	uco-core:description "AutoDFBench deleted file recovery evaluation of Tool A on FAT32. 200 files deleted and then recovery attempted."^^xsd:string ;
-	toolcap:capability kb:ToolCapability-66666666-7777-4888-a999-aaaaaaaaaaaa ;
-	toolcap:benchmarkDate "2026-03-20T10:00:00Z"^^xsd:dateTime ;
-	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
-	toolcap:benchmarkPlatform kb:Platform-cftt-fat32-bbbbbbbb-2222-4bbb-c222-222222222222 ;
-	toolcap:benchmarkFramework "AutoDFBench"^^xsd:string ;
-	toolcap:testCaseIdentifier "AutoDFBench-DFR-FAT32-01"^^xsd:string ;
-	toolcap:parseSuccess "true"^^xsd:boolean ;
-	toolcap:groundTruthCount "200"^^xsd:nonNegativeInteger ;
-	toolcap:submittedCount "183"^^xsd:nonNegativeInteger ;
-	toolcap:truePositiveCount "178"^^xsd:nonNegativeInteger ;
-	toolcap:falsePositiveCount "5"^^xsd:nonNegativeInteger ;
-	toolcap:falseNegativeCount "22"^^xsd:nonNegativeInteger ;
-	toolcap:precisionScore "0.9727"^^xsd:decimal ;
-	toolcap:recallScore "0.89"^^xsd:decimal ;
-	toolcap:f1Score "0.9296"^^xsd:decimal ;
-	toolcap:completenessScore "0.89"^^xsd:decimal ;
-	toolcap:accuracyScore "0.97"^^xsd:decimal ;
-	toolcap:benchmarkSuiteScore "0.92"^^xsd:decimal ;
-	toolcap:processingDuration "PT8M15S"^^xsd:duration ;
-	toolcap:datasetSizeInBytes "1073741824"^^xsd:nonNegativeInteger ;
-	toolcap:parsedCategory "deleted files"^^xsd:string ;
-	toolcap:missedCategory "overwritten files"^^xsd:string ;
-	toolcap:testedToolVersion "8.2.0"^^xsd:string ;
-	toolcap:benchmarkNotes "FAT32 directory entry recovery. 178 of 200 deleted files recovered. 22 missed due to cluster reallocation. 5 false positives from stale directory entries."^^xsd:string ;
-	.
-
-# --- Tool B / String Search on ext4 — AutoDFBench ---
-kb:Benchmark-jjj00000-0000-4000-a000-000000000000
-	a toolcap:BenchmarkObservation ;
-	uco-core:description "AutoDFBench string search evaluation of Tool B on ext4. 500 planted strings across ASCII, UTF-8, and UTF-16 encodings."^^xsd:string ;
-	toolcap:capability kb:ToolCapability-77777777-8888-4999-aaaa-bbbbbbbbbbbb ;
-	toolcap:benchmarkDate "2026-03-22T09:00:00Z"^^xsd:dateTime ;
-	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
-	toolcap:benchmarkPlatform kb:Platform-cftt-ext4-cccccccc-3333-4ccc-d333-333333333333 ;
-	toolcap:benchmarkFramework "AutoDFBench"^^xsd:string ;
-	toolcap:testCaseIdentifier "AutoDFBench-SS-ext4-01"^^xsd:string ;
+	toolcap:testCaseIdentifier "AutoDFBench-MSG-iOS-01"^^xsd:string ;
 	toolcap:parseSuccess "true"^^xsd:boolean ;
 	toolcap:groundTruthCount "500"^^xsd:nonNegativeInteger ;
-	toolcap:submittedCount "487"^^xsd:nonNegativeInteger ;
-	toolcap:truePositiveCount "482"^^xsd:nonNegativeInteger ;
-	toolcap:falsePositiveCount "5"^^xsd:nonNegativeInteger ;
-	toolcap:falseNegativeCount "18"^^xsd:nonNegativeInteger ;
-	toolcap:precisionScore "0.9897"^^xsd:decimal ;
-	toolcap:recallScore "0.964"^^xsd:decimal ;
-	toolcap:f1Score "0.9767"^^xsd:decimal ;
-	toolcap:completenessScore "0.964"^^xsd:decimal ;
-	toolcap:accuracyScore "0.99"^^xsd:decimal ;
-	toolcap:benchmarkSuiteScore "0.97"^^xsd:decimal ;
-	toolcap:processingDuration "PT2M10S"^^xsd:duration ;
-	toolcap:datasetSizeInBytes "536870912"^^xsd:nonNegativeInteger ;
-	toolcap:parsedCategory "ASCII strings"^^xsd:string ;
-	toolcap:parsedCategory "UTF-8 strings"^^xsd:string ;
-	toolcap:missedCategory "UTF-16 strings"^^xsd:string ;
-	toolcap:testedToolVersion "7.70"^^xsd:string ;
-	toolcap:benchmarkNotes "Strong ASCII and UTF-8 performance. Missed 18 UTF-16LE strings in unallocated space. 5 false positives from partial string matches in slack space."^^xsd:string ;
+	toolcap:submittedCount "478"^^xsd:nonNegativeInteger ;
+	toolcap:truePositiveCount "475"^^xsd:nonNegativeInteger ;
+	toolcap:falsePositiveCount "3"^^xsd:nonNegativeInteger ;
+	toolcap:falseNegativeCount "25"^^xsd:nonNegativeInteger ;
+	toolcap:precisionScore "0.9937"^^xsd:decimal ;
+	toolcap:recallScore "0.95"^^xsd:decimal ;
+	toolcap:f1Score "0.9714"^^xsd:decimal ;
+	toolcap:completenessScore "0.95"^^xsd:decimal ;
+	toolcap:accuracyScore "0.98"^^xsd:decimal ;
+	toolcap:benchmarkSuiteScore "0.96"^^xsd:decimal ;
+	toolcap:processingDuration "PT2M15S"^^xsd:duration ;
+	toolcap:datasetSizeInBytes "1073741824"^^xsd:nonNegativeInteger ;
+	toolcap:parsedCategory "messages"^^xsd:string ;
+	toolcap:parsedCategory "contacts"^^xsd:string ;
+	toolcap:missedCategory "stories"^^xsd:string ;
+	toolcap:testedToolVersion "4.21.0"^^xsd:string ;
+	toolcap:testedApplicationVersion "13.31.0.47"^^xsd:string ;
+	toolcap:benchmarkNotes "Recovered 475 of 500 planted messages. Missed 25 deleted messages. 3 false positives from draft message fragments."^^xsd:string ;
 	.
 
-
-# =============================================================================
-# Capability Matrix
-# =============================================================================
-
-kb:CapabilityMatrix-99999999-aaaa-4bbb-accc-dddddddddddd
-	a toolcap:CapabilityMatrix ;
-	uco-core:name "DFIR Tool Comparison Q1 2026"^^xsd:string ;
-	uco-core:description "A capability matrix comparing Tool A and Tool B support for App Alpha, Microsoft Outlook, and NIST CFTT forensic tasks (file carving, deleted file recovery, string search) across Android, Windows, and Linux platforms."^^xsd:string ;
-	toolcap:matrixName "DFIR Tool Comparison Q1 2026"^^xsd:string ;
-	toolcap:matrixVersion "3.0"^^xsd:string ;
-	toolcap:hasCapability
-		kb:ToolCapability-11111111-2222-4333-a444-555555555555 ,
-		kb:ToolCapability-22222222-3333-4444-a555-666666666666 ,
-		kb:ToolCapability-33333333-4444-4555-a666-777777777777 ,
-		kb:ToolCapability-44444444-5555-4666-a777-888888888888 ,
-		kb:ToolCapability-55555555-6666-4777-a888-999999999999 ,
-		kb:ToolCapability-66666666-7777-4888-a999-aaaaaaaaaaaa ,
-		kb:ToolCapability-77777777-8888-4999-aaaa-bbbbbbbbbbbb
-		;
+kb:Benchmark-ufed-snapchat-8888bb11-2222-4888-a888-888888888888
+	a toolcap:BenchmarkObservation ;
+	uco-core:description "Benchmark of Cellebrite UFED parsing Snapchat iOS messages from main.db."^^xsd:string ;
+	toolcap:capability kb:Capability-parse-snapchat-msgs-22222255-bbbb-4222-a222-222222222222 ;
+	toolcap:benchmarkDate "2026-03-15T14:00:00Z"^^xsd:dateTime ;
+	toolcap:benchmarkedBy kb:Identity-lab-aaa11111-bbbb-4ccc-dddd-eeeeeeeeeeee ;
+	toolcap:benchmarkEnvironment kb:OS-ios-dddddddd-4444-4ddd-e444-444444444444 ;
+	toolcap:benchmarkFramework "AutoDFBench"^^xsd:string ;
+	toolcap:testCaseIdentifier "AutoDFBench-MSG-iOS-01"^^xsd:string ;
+	toolcap:parseSuccess "true"^^xsd:boolean ;
+	toolcap:groundTruthCount "500"^^xsd:nonNegativeInteger ;
+	toolcap:submittedCount "492"^^xsd:nonNegativeInteger ;
+	toolcap:truePositiveCount "490"^^xsd:nonNegativeInteger ;
+	toolcap:falsePositiveCount "2"^^xsd:nonNegativeInteger ;
+	toolcap:falseNegativeCount "10"^^xsd:nonNegativeInteger ;
+	toolcap:precisionScore "0.9959"^^xsd:decimal ;
+	toolcap:recallScore "0.98"^^xsd:decimal ;
+	toolcap:f1Score "0.9879"^^xsd:decimal ;
+	toolcap:completenessScore "0.98"^^xsd:decimal ;
+	toolcap:accuracyScore "0.99"^^xsd:decimal ;
+	toolcap:benchmarkSuiteScore "0.98"^^xsd:decimal ;
+	toolcap:processingDuration "PT1M45S"^^xsd:duration ;
+	toolcap:datasetSizeInBytes "1073741824"^^xsd:nonNegativeInteger ;
+	toolcap:parsedCategory "messages"^^xsd:string ;
+	toolcap:parsedCategory "contacts"^^xsd:string ;
+	toolcap:parsedCategory "stories"^^xsd:string ;
+	toolcap:testedToolVersion "8.5.0"^^xsd:string ;
+	toolcap:testedApplicationVersion "13.31.0.47"^^xsd:string ;
+	toolcap:benchmarkNotes "Recovered 490 of 500 planted messages. Missed 10 deleted messages. 2 false positives. Full stories recovery."^^xsd:string ;
 	.

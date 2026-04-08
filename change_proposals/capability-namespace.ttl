@@ -1,0 +1,58 @@
+@prefix proposed: <https://proposed.ontology.unifiedcyberontology.org/uco/capability/> .
+@prefix uco-core: <https://ontology.unifiedcyberontology.org/uco/core/> .
+@prefix uco-action: <https://ontology.unifiedcyberontology.org/uco/action/> .
+@prefix uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://proposed.ontology.unifiedcyberontology.org/uco/capability>
+	a owl:Ontology ;
+	rdfs:label "Proposed UCO Capability Namespace"@en ;
+	rdfs:comment "Extension ontology declaring classes and properties proposed for inclusion in UCO as a new 'capability' namespace. Includes Capability (subclass of UcoObject), Module and Parser (subclasses of Software)."@en ;
+	.
+
+proposed:Capability
+	a owl:Class ;
+	rdfs:subClassOf uco-core:UcoObject ;
+	rdfs:label "Capability"@en ;
+	rdfs:comment "A capability is the ability of an entity to perform some action or produce some result. Capabilities are connected to their possessors (tools, modules, parsers, people, organizations) via uco-core:Relationship instances with kindOfRelationship='hasCapability'. A capability may be described unstructured (via name/description) or structured (via structuredCharacterization pointing to an ActionPattern). See https://github.com/ucoProject/UCO/issues/596 for related Software hierarchy work."@en ;
+	.
+
+proposed:Module
+	a owl:Class ;
+	rdfs:subClassOf uco-observable:Software ;
+	rdfs:label "Module"@en ;
+	rdfs:comment "A module is a discrete, potentially reusable component of a larger software system. In forensic tool architectures, a module represents a pluggable unit of functionality such as a parsing module, carving module, or decryption module. Modules are related to Tools via Relationship instances with kindOfRelationship='mayUse' (available but not necessarily active) or 'uses' (active in a specific configuration). See https://en.wikipedia.org/wiki/Modular_programming for the general concept."@en ;
+	.
+
+proposed:Parser
+	a owl:Class ;
+	rdfs:subClassOf uco-observable:Software ;
+	rdfs:label "Parser"@en ;
+	rdfs:comment "A parser is a type of software that takes structured or semi-structured input data and extracts meaningful content from it. In forensic contexts, parsers read application databases, file formats, and data structures to produce observable artifacts (messages, contacts, files, etc.). Parsers are typically used by Modules and are related to them via Relationship instances with kindOfRelationship='uses'. See https://en.wikipedia.org/wiki/Parsing for the general concept."@en ;
+	.
+
+proposed:structuredCharacterization
+	a owl:ObjectProperty ;
+	rdfs:label "structuredCharacterization"@en ;
+	rdfs:comment "A structured representation of what a capability entails, expressed as an ActionPattern specifying the action type, target objects, and expected results."@en ;
+	rdfs:domain proposed:Capability ;
+	rdfs:range uco-action:ActionPattern ;
+	.
+
+proposed:capabilityScope
+	a owl:DatatypeProperty ;
+	rdfs:label "capabilityScope"@en ;
+	rdfs:comment "A categorization of the capability domain (e.g., 'forensic-parsing', 'data-acquisition', 'threat-operation', 'software-assurance', 'human-skill')."@en ;
+	rdfs:domain proposed:Capability ;
+	rdfs:range xsd:string ;
+	.
+
+proposed:analyticFocus
+	a owl:ObjectProperty ;
+	rdfs:label "analyticFocus"@en ;
+	rdfs:comment "The primary observable object (typically an Application) that a module is designed to analyze or process."@en ;
+	rdfs:domain proposed:Module ;
+	rdfs:range uco-observable:ObservableObject ;
+	.

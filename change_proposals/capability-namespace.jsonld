@@ -1,0 +1,120 @@
+{
+  "@context": {
+    "kb": "http://example.org/kb/",
+    "proposed": "https://proposed.ontology.unifiedcyberontology.org/uco/capability/",
+    "uco-core": "https://ontology.unifiedcyberontology.org/uco/core/",
+    "uco-action": "https://ontology.unifiedcyberontology.org/uco/action/",
+    "uco-observable": "https://ontology.unifiedcyberontology.org/uco/observable/",
+    "uco-tool": "https://ontology.unifiedcyberontology.org/uco/tool/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "kb:tool-autopsy-aaaaaaaa-1111-4aaa-b111-111111111111",
+      "@type": "uco-tool:Tool",
+      "uco-core:name": "Autopsy",
+      "uco-tool:version": "4.21.0"
+    },
+    {
+      "@id": "kb:tool-ufed-bbbbbbbb-2222-4bbb-c222-222222222222",
+      "@type": "uco-tool:Tool",
+      "uco-core:name": "Cellebrite UFED",
+      "uco-tool:version": "8.5.0"
+    },
+    {
+      "@id": "kb:app-snapchat-ios-cccccccc-3333-4ccc-d333-333333333333",
+      "@type": "uco-observable:Application",
+      "uco-core:name": "Snapchat iOS"
+    },
+    {
+      "@id": "kb:os-ios-dddddddd-4444-4ddd-e444-444444444444",
+      "@type": ["uco-observable:OperatingSystem", "uco-observable:Software"],
+      "uco-core:name": "iOS"
+    },
+    {
+      "@id": "kb:module-snapchat-autopsy-eeeeeeee-5555-4eee-f555-555555555555",
+      "@type": "proposed:Module",
+      "uco-core:name": "Snapchat iOS Module",
+      "uco-core:description": "Autopsy module for parsing Snapchat iOS application data",
+      "proposed:analyticFocus": {"@id": "kb:app-snapchat-ios-cccccccc-3333-4ccc-d333-333333333333"}
+    },
+    {
+      "@id": "kb:module-snapchat-ufed-ffffffff-6666-4fff-a666-666666666666",
+      "@type": "proposed:Module",
+      "uco-core:name": "Snapchat Parser Module",
+      "uco-core:description": "Cellebrite UFED module for parsing Snapchat iOS data",
+      "proposed:analyticFocus": {"@id": "kb:app-snapchat-ios-cccccccc-3333-4ccc-d333-333333333333"}
+    },
+    {
+      "@id": "kb:parser-maindb-11111111-7777-4111-b777-777777777777",
+      "@type": "proposed:Parser",
+      "uco-core:name": "main.db Parser",
+      "uco-core:description": "Parser for Snapchat's main.db SQLite database"
+    },
+    {
+      "@id": "kb:file-maindb-22222222-8888-4222-c888-888888888888",
+      "@type": "uco-observable:File",
+      "uco-core:name": "main.db"
+    },
+    {
+      "@id": "kb:action-parse-snapchat-33333333-9999-4333-d999-999999999999",
+      "@type": "uco-action:ActionPattern",
+      "uco-core:name": "parse",
+      "uco-action:object": [{"@id": "kb:file-maindb-22222222-8888-4222-c888-888888888888"}],
+      "uco-action:result": [{"@id": "kb:result-message-type-44444444-aaaa-4444-eaaa-aaaaaaaaaaaa"}]
+    },
+    {
+      "@id": "kb:result-message-type-44444444-aaaa-4444-eaaa-aaaaaaaaaaaa",
+      "@type": "uco-observable:Message",
+      "uco-core:name": "Snapchat chat message"
+    },
+    {
+      "@id": "kb:cap-parse-snapchat-55555555-bbbb-4555-fbbb-bbbbbbbbbbbb",
+      "@type": "proposed:Capability",
+      "uco-core:name": "Parse Snapchat messages from main.db",
+      "uco-core:description": "The ability to parse Snapchat chat messages from the main.db SQLite database found on iOS devices",
+      "proposed:structuredCharacterization": {"@id": "kb:action-parse-snapchat-33333333-9999-4333-d999-999999999999"},
+      "proposed:capabilityScope": "forensic-parsing"
+    },
+    {
+      "@id": "kb:rel-autopsy-module-66666666-cccc-4666-accc-cccccccccccc",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:tool-autopsy-aaaaaaaa-1111-4aaa-b111-111111111111"}],
+      "uco-core:target": {"@id": "kb:module-snapchat-autopsy-eeeeeeee-5555-4eee-f555-555555555555"},
+      "uco-core:kindOfRelationship": "mayUse",
+      "uco-core:isDirectional": true
+    },
+    {
+      "@id": "kb:rel-ufed-module-77777777-dddd-4777-bddd-dddddddddddd",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:tool-ufed-bbbbbbbb-2222-4bbb-c222-222222222222"}],
+      "uco-core:target": {"@id": "kb:module-snapchat-ufed-ffffffff-6666-4fff-a666-666666666666"},
+      "uco-core:kindOfRelationship": "mayUse",
+      "uco-core:isDirectional": true
+    },
+    {
+      "@id": "kb:rel-module-cap-88888888-eeee-4888-ceee-eeeeeeeeeeee",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:module-snapchat-autopsy-eeeeeeee-5555-4eee-f555-555555555555"}],
+      "uco-core:target": {"@id": "kb:cap-parse-snapchat-55555555-bbbb-4555-fbbb-bbbbbbbbbbbb"},
+      "uco-core:kindOfRelationship": "hasCapability",
+      "uco-core:isDirectional": true
+    },
+    {
+      "@id": "kb:rel-module-cap2-99999999-ffff-4999-dfff-ffffffffffff",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:module-snapchat-ufed-ffffffff-6666-4fff-a666-666666666666"}],
+      "uco-core:target": {"@id": "kb:cap-parse-snapchat-55555555-bbbb-4555-fbbb-bbbbbbbbbbbb"},
+      "uco-core:kindOfRelationship": "hasCapability",
+      "uco-core:isDirectional": true
+    },
+    {
+      "@id": "kb:rel-app-runs-on-aaaaaa00-1111-4aaa-b111-000000000000",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:app-snapchat-ios-cccccccc-3333-4ccc-d333-333333333333"}],
+      "uco-core:target": {"@id": "kb:os-ios-dddddddd-4444-4ddd-e444-444444444444"},
+      "uco-core:kindOfRelationship": "runs-on",
+      "uco-core:isDirectional": true
+    }
+  ]
+}

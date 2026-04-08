@@ -1,192 +1,21 @@
 # Forensic Tool Capability Extension — SHACL Shapes
 #
-# Validation shapes for the toolcap extension ontology (v0.3.1).
-# Separated from the OWL definitions per CDO Ontology Committee guidance
-# to avoid redundancies during testing.
+# Validation shapes for the toolcap extension ontology (v0.4.0).
+# v0.4.0 removes shapes for deprecated classes (ToolCapability,
+# CapabilityMatrix, PlatformSpecification) and focuses on
+# BenchmarkObservation and AccessRestriction.
+# Capability, Module, and Parser shapes are in the proposed
+# capability-namespace-shapes.ttl.
 
 @prefix toolcap: <http://example.org/ontology/toolcap/> .
+@prefix capability: <https://proposed.ontology.unifiedcyberontology.org/uco/capability/> .
 @prefix uco-core: <https://ontology.unifiedcyberontology.org/uco/core/> .
 @prefix uco-tool: <https://ontology.unifiedcyberontology.org/uco/tool/> .
+@prefix uco-marking: <https://ontology.unifiedcyberontology.org/uco/marking/> .
 @prefix uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/> .
 @prefix case-investigation: <https://ontology.caseontology.org/case/investigation/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-
-# =============================================================================
-# ToolCapability shape
-# =============================================================================
-
-toolcap:ToolCapability-Shape
-	a sh:NodeShape ;
-	sh:targetClass toolcap:ToolCapability ;
-	sh:property
-		[
-			sh:path toolcap:tool ;
-			sh:class uco-tool:Tool ;
-			sh:nodeKind sh:IRI ;
-			sh:minCount "1"^^xsd:integer ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "tool" ;
-			sh:description "The forensic tool that has this capability (exactly one required)." ;
-		] ,
-		[
-			sh:path toolcap:application ;
-			sh:class uco-observable:ObservableObject ;
-			sh:nodeKind sh:IRI ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "application" ;
-			sh:description "The target application whose data the tool can parse (at most one; omit when forensicTaskType is used)." ;
-		] ,
-		[
-			sh:path toolcap:forensicTaskType ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:name "forensicTaskType" ;
-			sh:description "Forensic task category aligned with NIST CFTT domains (zero or more, e.g., 'string-search', 'file-carving')." ;
-		] ,
-		[
-			sh:path toolcap:supportsPlatform ;
-			sh:class toolcap:PlatformSpecification ;
-			sh:nodeKind sh:IRI ;
-			sh:name "supportsPlatform" ;
-			sh:description "Structured platform specifications (zero or more)." ;
-		] ,
-		[
-			sh:path toolcap:supportedPlatform ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:name "supportedPlatform" ;
-			sh:description "DEPRECATED. Device platforms on which the tool supports this application (zero or more)." ;
-		] ,
-		[
-			sh:path toolcap:parsedObservableType ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:name "parsedObservableType" ;
-			sh:description "Categories of observable data the tool can extract (zero or more)." ;
-		] ,
-		[
-			sh:path toolcap:toolVersion ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "toolVersion" ;
-			sh:description "The version of the tool verified for this capability (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:isVerified ;
-			sh:datatype xsd:boolean ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "isVerified" ;
-			sh:description "Whether the capability has been independently verified (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:lastTestedDate ;
-			sh:datatype xsd:dateTime ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "lastTestedDate" ;
-			sh:description "When the capability was last tested (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:claimedByVendor ;
-			sh:datatype xsd:boolean ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "claimedByVendor" ;
-			sh:description "Whether this capability is vendor-asserted (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:verifiedByBenchmark ;
-			sh:datatype xsd:boolean ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "verifiedByBenchmark" ;
-			sh:description "Whether this capability has been independently benchmarked (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:applicationVersion ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:name "applicationVersion" ;
-			sh:description "Target application versions this capability applies to (zero or more)." ;
-		] ,
-		[
-			sh:path toolcap:dataFormatVersion ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:name "dataFormatVersion" ;
-			sh:description "Data storage format versions this capability applies to (zero or more)." ;
-		] ,
-		[
-			sh:path toolcap:hasAccessRestriction ;
-			sh:class toolcap:AccessRestriction ;
-			sh:nodeKind sh:IRI ;
-			sh:name "hasAccessRestriction" ;
-			sh:description "Access restrictions on using this capability (zero or more)." ;
-		] ,
-		[
-			sh:path toolcap:hasObservation ;
-			sh:class toolcap:BenchmarkObservation ;
-			sh:nodeKind sh:IRI ;
-			sh:name "hasObservation" ;
-			sh:description "Benchmark observations linked to this capability (zero or more)." ;
-		]
-		;
-	sh:or (
-		[
-			sh:property [
-				sh:path toolcap:application ;
-				sh:minCount "1"^^xsd:integer ;
-			]
-		]
-		[
-			sh:property [
-				sh:path toolcap:forensicTaskType ;
-				sh:minCount "1"^^xsd:integer ;
-			]
-		]
-	) ;
-	sh:message "A ToolCapability must have at least one of toolcap:application (for app-level capabilities) or toolcap:forensicTaskType (for CFTT task-level capabilities)."@en ;
-	.
-
-
-# =============================================================================
-# CapabilityMatrix shape
-# =============================================================================
-
-toolcap:CapabilityMatrix-Shape
-	a sh:NodeShape ;
-	sh:targetClass toolcap:CapabilityMatrix ;
-	sh:property
-		[
-			sh:path toolcap:matrixName ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "matrixName" ;
-			sh:description "Human-readable name for this capability matrix (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:matrixVersion ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "matrixVersion" ;
-			sh:description "Version identifier for this capability matrix (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:hasCapability ;
-			sh:class toolcap:ToolCapability ;
-			sh:nodeKind sh:IRI ;
-			sh:name "hasCapability" ;
-			sh:description "ToolCapability members of this matrix (zero or more)." ;
-		]
-		;
-	.
 
 
 # =============================================================================
@@ -199,12 +28,12 @@ toolcap:BenchmarkObservation-Shape
 	sh:property
 		[
 			sh:path toolcap:capability ;
-			sh:class toolcap:ToolCapability ;
+			sh:class capability:Capability ;
 			sh:nodeKind sh:IRI ;
 			sh:minCount "1"^^xsd:integer ;
 			sh:maxCount "1"^^xsd:integer ;
 			sh:name "capability" ;
-			sh:description "The ToolCapability this observation provides evidence for (exactly one required)." ;
+			sh:description "The Capability this observation provides evidence for (exactly one required)." ;
 		] ,
 		[
 			sh:path toolcap:benchmarkDate ;
@@ -223,6 +52,14 @@ toolcap:BenchmarkObservation-Shape
 			sh:description "Who performed the benchmark (at most one)." ;
 		] ,
 		[
+			sh:path toolcap:benchmarkEnvironment ;
+			sh:class uco-observable:OperatingSystem ;
+			sh:nodeKind sh:IRI ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "benchmarkEnvironment" ;
+			sh:description "The OperatingSystem environment used for this benchmark (at most one)." ;
+		] ,
+		[
 			sh:path toolcap:parseSuccess ;
 			sh:datatype xsd:boolean ;
 			sh:nodeKind sh:Literal ;
@@ -238,7 +75,6 @@ toolcap:BenchmarkObservation-Shape
 			sh:minInclusive "0.0"^^xsd:decimal ;
 			sh:maxInclusive "1.0"^^xsd:decimal ;
 			sh:name "completenessScore" ;
-			sh:description "Fraction of records recovered, 0.0 to 1.0 (at most one)." ;
 		] ,
 		[
 			sh:path toolcap:accuracyScore ;
@@ -248,93 +84,6 @@ toolcap:BenchmarkObservation-Shape
 			sh:minInclusive "0.0"^^xsd:decimal ;
 			sh:maxInclusive "1.0"^^xsd:decimal ;
 			sh:name "accuracyScore" ;
-			sh:description "Accuracy of recovered data, 0.0 to 1.0 (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:falsePositiveCount ;
-			sh:datatype xsd:nonNegativeInteger ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "falsePositiveCount" ;
-			sh:description "Number of false positives (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:falseNegativeCount ;
-			sh:datatype xsd:nonNegativeInteger ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "falseNegativeCount" ;
-			sh:description "Number of false negatives (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:processingDuration ;
-			sh:datatype xsd:duration ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "processingDuration" ;
-			sh:description "Wall-clock time for parsing (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:datasetSizeInBytes ;
-			sh:datatype xsd:nonNegativeInteger ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "datasetSizeInBytes" ;
-			sh:description "Size of the test dataset in bytes (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:parsedCategory ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:name "parsedCategory" ;
-			sh:description "Observable categories successfully extracted (zero or more)." ;
-		] ,
-		[
-			sh:path toolcap:missedCategory ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:name "missedCategory" ;
-			sh:description "Observable categories the tool failed to extract (zero or more)." ;
-		] ,
-		[
-			sh:path toolcap:benchmarkNotes ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "benchmarkNotes" ;
-			sh:description "Free-text notes about the benchmark run (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:benchmarkPlatform ;
-			sh:class toolcap:PlatformSpecification ;
-			sh:nodeKind sh:IRI ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "benchmarkPlatform" ;
-			sh:description "The platform environment used for this benchmark (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:testedToolVersion ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "testedToolVersion" ;
-			sh:description "Forensic tool version used in this benchmark (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:testedApplicationVersion ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "testedApplicationVersion" ;
-			sh:description "Target application version tested (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:testedDataFormatVersion ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "testedDataFormatVersion" ;
-			sh:description "Data storage format version tested (at most one)." ;
 		] ,
 		[
 			sh:path toolcap:precisionScore ;
@@ -344,7 +93,6 @@ toolcap:BenchmarkObservation-Shape
 			sh:minInclusive "0.0"^^xsd:decimal ;
 			sh:maxInclusive "1.0"^^xsd:decimal ;
 			sh:name "precisionScore" ;
-			sh:description "Precision = TP / (TP + FP), 0.0 to 1.0 (at most one)." ;
 		] ,
 		[
 			sh:path toolcap:recallScore ;
@@ -354,7 +102,6 @@ toolcap:BenchmarkObservation-Shape
 			sh:minInclusive "0.0"^^xsd:decimal ;
 			sh:maxInclusive "1.0"^^xsd:decimal ;
 			sh:name "recallScore" ;
-			sh:description "Recall = TP / (TP + FN), 0.0 to 1.0 (at most one)." ;
 		] ,
 		[
 			sh:path toolcap:f1Score ;
@@ -364,7 +111,6 @@ toolcap:BenchmarkObservation-Shape
 			sh:minInclusive "0.0"^^xsd:decimal ;
 			sh:maxInclusive "1.0"^^xsd:decimal ;
 			sh:name "f1Score" ;
-			sh:description "F1 = 2 * precision * recall / (precision + recall), 0.0 to 1.0 (at most one)." ;
 		] ,
 		[
 			sh:path toolcap:truePositiveCount ;
@@ -372,7 +118,20 @@ toolcap:BenchmarkObservation-Shape
 			sh:nodeKind sh:Literal ;
 			sh:maxCount "1"^^xsd:integer ;
 			sh:name "truePositiveCount" ;
-			sh:description "Number of true positives (at most one)." ;
+		] ,
+		[
+			sh:path toolcap:falsePositiveCount ;
+			sh:datatype xsd:nonNegativeInteger ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "falsePositiveCount" ;
+		] ,
+		[
+			sh:path toolcap:falseNegativeCount ;
+			sh:datatype xsd:nonNegativeInteger ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "falseNegativeCount" ;
 		] ,
 		[
 			sh:path toolcap:groundTruthCount ;
@@ -380,7 +139,6 @@ toolcap:BenchmarkObservation-Shape
 			sh:nodeKind sh:Literal ;
 			sh:maxCount "1"^^xsd:integer ;
 			sh:name "groundTruthCount" ;
-			sh:description "Total items in the ground truth dataset (at most one)." ;
 		] ,
 		[
 			sh:path toolcap:submittedCount ;
@@ -388,7 +146,60 @@ toolcap:BenchmarkObservation-Shape
 			sh:nodeKind sh:Literal ;
 			sh:maxCount "1"^^xsd:integer ;
 			sh:name "submittedCount" ;
-			sh:description "Total items reported by the tool, i.e. TP + FP (at most one)." ;
+		] ,
+		[
+			sh:path toolcap:processingDuration ;
+			sh:datatype xsd:duration ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "processingDuration" ;
+		] ,
+		[
+			sh:path toolcap:datasetSizeInBytes ;
+			sh:datatype xsd:nonNegativeInteger ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "datasetSizeInBytes" ;
+		] ,
+		[
+			sh:path toolcap:parsedCategory ;
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:name "parsedCategory" ;
+		] ,
+		[
+			sh:path toolcap:missedCategory ;
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:name "missedCategory" ;
+		] ,
+		[
+			sh:path toolcap:benchmarkNotes ;
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "benchmarkNotes" ;
+		] ,
+		[
+			sh:path toolcap:testedToolVersion ;
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "testedToolVersion" ;
+		] ,
+		[
+			sh:path toolcap:testedApplicationVersion ;
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "testedApplicationVersion" ;
+		] ,
+		[
+			sh:path toolcap:testedDataFormatVersion ;
+			sh:datatype xsd:string ;
+			sh:nodeKind sh:Literal ;
+			sh:maxCount "1"^^xsd:integer ;
+			sh:name "testedDataFormatVersion" ;
 		] ,
 		[
 			sh:path toolcap:benchmarkFramework ;
@@ -396,7 +207,6 @@ toolcap:BenchmarkObservation-Shape
 			sh:nodeKind sh:Literal ;
 			sh:maxCount "1"^^xsd:integer ;
 			sh:name "benchmarkFramework" ;
-			sh:description "Name of the benchmark framework (e.g., 'AutoDFBench', 'NIST-CFTT') (at most one)." ;
 		] ,
 		[
 			sh:path toolcap:testCaseIdentifier ;
@@ -404,7 +214,6 @@ toolcap:BenchmarkObservation-Shape
 			sh:nodeKind sh:Literal ;
 			sh:maxCount "1"^^xsd:integer ;
 			sh:name "testCaseIdentifier" ;
-			sh:description "Unique test case ID within the benchmark framework (at most one)." ;
 		] ,
 		[
 			sh:path toolcap:benchmarkSuiteScore ;
@@ -414,7 +223,6 @@ toolcap:BenchmarkObservation-Shape
 			sh:minInclusive "0.0"^^xsd:decimal ;
 			sh:maxInclusive "1.0"^^xsd:decimal ;
 			sh:name "benchmarkSuiteScore" ;
-			sh:description "Overall composite score from the benchmark framework, 0.0 to 1.0 (at most one)." ;
 		]
 		;
 	sh:sparql [
@@ -436,56 +244,6 @@ toolcap:BenchmarkObservation-Shape
 
 
 # =============================================================================
-# PlatformSpecification shape
-# =============================================================================
-
-toolcap:PlatformSpecification-Shape
-	a sh:NodeShape ;
-	sh:targetClass toolcap:PlatformSpecification ;
-	sh:property
-		[
-			sh:path toolcap:operatingSystem ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "operatingSystem" ;
-			sh:description "Operating system name (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:osVersion ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "osVersion" ;
-			sh:description "Operating system version (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:deviceModel ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:maxCount "1"^^xsd:integer ;
-			sh:name "deviceModel" ;
-			sh:description "Device hardware model (at most one)." ;
-		] ,
-		[
-			sh:path toolcap:extractionMethod ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:name "extractionMethod" ;
-			sh:description "Acquisition methods supported (zero or more, e.g., 'logical', 'physical', 'BFU')." ;
-		] ,
-		[
-			sh:path toolcap:fileSystemType ;
-			sh:datatype xsd:string ;
-			sh:nodeKind sh:Literal ;
-			sh:name "fileSystemType" ;
-			sh:description "Filesystem type (zero or more, e.g., 'FAT32', 'NTFS', 'ext4', 'HFS+')." ;
-		]
-		;
-	.
-
-
-# =============================================================================
 # AccessRestriction shape
 # =============================================================================
 
@@ -500,7 +258,7 @@ toolcap:AccessRestriction-Shape
 			sh:minCount "1"^^xsd:integer ;
 			sh:maxCount "1"^^xsd:integer ;
 			sh:name "restrictionType" ;
-			sh:description "Category of restriction: licensing, classification, operational-security, or legal-authority (exactly one required)." ;
+			sh:description "Category of restriction (exactly one required). Values: 'licensing', 'classification', 'operational-security', 'legal-authority'. This is a subproperty of uco-marking:definitionType, so under RDFS inference it also satisfies the inherited MarkingDefinition requirement for definitionType." ;
 		] ,
 		[
 			sh:path toolcap:restrictionLevel ;
@@ -508,7 +266,6 @@ toolcap:AccessRestriction-Shape
 			sh:nodeKind sh:Literal ;
 			sh:maxCount "1"^^xsd:integer ;
 			sh:name "restrictionLevel" ;
-			sh:description "Specific level or value of the restriction (at most one)." ;
 		] ,
 		[
 			sh:path toolcap:restrictionDescription ;
@@ -516,7 +273,6 @@ toolcap:AccessRestriction-Shape
 			sh:nodeKind sh:Literal ;
 			sh:maxCount "1"^^xsd:integer ;
 			sh:name "restrictionDescription" ;
-			sh:description "Human-readable explanation of the restriction (at most one)." ;
 		] ,
 		[
 			sh:path toolcap:requiredAuthorization ;
@@ -524,7 +280,6 @@ toolcap:AccessRestriction-Shape
 			sh:nodeKind sh:IRI ;
 			sh:maxCount "1"^^xsd:integer ;
 			sh:name "requiredAuthorization" ;
-			sh:description "CASE Authorization required to use this capability (at most one)." ;
 		]
 		;
 	.
