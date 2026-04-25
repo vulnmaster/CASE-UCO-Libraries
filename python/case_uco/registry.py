@@ -56,24 +56,24 @@ def _discover_extensions() -> None:
         return
 
     try:
-        eps = entry_points(group="case_uco.extensions")
+        eps = entry_points(group="case_uco.extensions")  # type: ignore[call-arg]
     except TypeError:
-        eps = entry_points().get("case_uco.extensions", [])
+        eps = entry_points().get("case_uco.extensions", [])  # type: ignore[assignment]
 
     for ep in eps:
         try:
-            registry_path_ref = ep.load()
+            registry_path_ref = ep.load()  # type: ignore[attr-defined]
             if isinstance(registry_path_ref, str):
                 reg_path = Path(registry_path_ref)
             else:
                 continue
 
             if not reg_path.exists():
-                _logger.debug("Extension %s registry not found at %s", ep.name, reg_path)
+                _logger.debug("Extension %s registry not found at %s", ep.name, reg_path)  # type: ignore[attr-defined]
                 continue
 
             ext_reg = json.loads(reg_path.read_text(encoding="utf-8"))
-            ext_name = ext_reg.get("extension", ep.name)
+            ext_name = ext_reg.get("extension", ep.name)  # type: ignore[attr-defined]
 
             merged_classes = 0
             for cls_name, cls_info in ext_reg.get("classes", {}).items():
@@ -89,7 +89,7 @@ def _discover_extensions() -> None:
             if merged_classes > 0:
                 _logger.debug("Merged %d classes from extension '%s'", merged_classes, ext_name)
         except Exception as exc:
-            _logger.debug("Failed to load extension entry point %s: %s", ep.name, exc)
+            _logger.debug("Failed to load extension entry point %s: %s", ep.name, exc)  # type: ignore[attr-defined]
 
 
 def _load_concepts() -> dict[str, Any]:
