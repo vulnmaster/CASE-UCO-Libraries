@@ -60,6 +60,7 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
 
 SELECT DISTINCT ?class ?shape ?label ?comment ?parent WHERE {
     ?class a owl:Class .
+    FILTER(!isBlank(?class))
     ?shape a sh:NodeShape .
     ?shape sh:targetClass ?class .
     OPTIONAL { ?class rdfs:label ?label . }
@@ -294,10 +295,26 @@ def _merge_property(existing: OntologyProperty, new: OntologyProperty) -> Ontolo
     )
 
 
-def _extract_properties(g: Graph, shape_iris: list[str]) -> list[OntologyProperty]:
-    """Extract SHACL properties for a class from all shapes targeting it."""
+def _extract_properties(
+    g: Graph,
+    shape_iris: list[str],
+    class_iri: str | None = None,
+) -> list[OntologyProperty]:
+    """Extract SHACL properties for a class from all shapes targeting it.
+
+    When ``class_iri`` is provided, shapes whose namespace differs from the
+    class's namespace are skipped.  This prevents extension validation
+    profiles (for example, CAC's cacontology-synthesis-shapes:ActionSemanticsShape
+    targeting uco-action:Action with sh:minCount 1 on startTime) from
+    bleeding into the generated typed binding for the upstream class.  Such
+    shapes still execute during SHACL validation; they simply do not redefine
+    the class structure produced by code generation.
+    """
+    class_ns = iri_namespace(class_iri) if class_iri else None
     props: dict[str, OntologyProperty] = {}
     for shape_iri in shape_iris:
+        if class_ns is not None and iri_namespace(shape_iri) != class_ns:
+            continue
         shape_ref = URIRef(shape_iri)
         for prop_shape in g.objects(shape_ref, SH.property):
             prop = _extract_property_from_shape(g, prop_shape)
@@ -559,7 +576,7 @@ def parse_ontology(
         module_key = f"{top_level}.{module}"
 
         is_facet = _is_subclass_of(g, cls_iri, FACET_IRI)
-        properties = _extract_properties(g, sorted(data["shapes"]))
+        properties = _extract_properties(g, sorted(data["shapes"]), class_iri=cls_iri)
 
         ont_class = OntologyClass(
             iri=cls_iri,

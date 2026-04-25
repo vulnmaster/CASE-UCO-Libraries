@@ -3,6 +3,74 @@
 use serde::Serialize;
 use crate::graph::CaseObject;
 
+/// An analysis is an action of detailed examination of something in order to understand its nature, context or essential features.
+#[derive(Debug, Clone, Serialize)]
+pub struct Analysis {
+    #[serde(skip_serializing)]
+    pub class_iri: &'static str,
+}
+
+impl Analysis {
+    pub const CLASS_IRI: &'static str = "https://ontology.unifiedcyberontology.org/uco/analysis/Analysis";
+    pub const NAMESPACE_PREFIX: &'static str = "uco-analysis";
+
+    pub fn builder() -> AnalysisBuilder {
+        AnalysisBuilder {
+        }
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct AnalysisBuilder {
+}
+
+impl AnalysisBuilder {
+    pub fn build(self) -> Analysis {
+        Analysis {
+            class_iri: Analysis::CLASS_IRI,
+        }
+    }
+}
+
+impl CaseObject for Analysis {
+    fn class_iri() -> &'static str { Analysis::CLASS_IRI }
+    fn type_name() -> &'static str { "Analysis" }
+}
+
+/// An analytic result is a characterization of the understanding resulting from an analysis action.
+#[derive(Debug, Clone, Serialize)]
+pub struct AnalyticResult {
+    #[serde(skip_serializing)]
+    pub class_iri: &'static str,
+}
+
+impl AnalyticResult {
+    pub const CLASS_IRI: &'static str = "https://ontology.unifiedcyberontology.org/uco/analysis/AnalyticResult";
+    pub const NAMESPACE_PREFIX: &'static str = "uco-analysis";
+
+    pub fn builder() -> AnalyticResultBuilder {
+        AnalyticResultBuilder {
+        }
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct AnalyticResultBuilder {
+}
+
+impl AnalyticResultBuilder {
+    pub fn build(self) -> AnalyticResult {
+        AnalyticResult {
+            class_iri: AnalyticResult::CLASS_IRI,
+        }
+    }
+}
+
+impl CaseObject for AnalyticResult {
+    fn class_iri() -> &'static str { AnalyticResult::CLASS_IRI }
+    fn type_name() -> &'static str { "AnalyticResult" }
+}
+
 /// An analytic result facet is a grouping of characteristics unique to the results of an analysis action.
 #[derive(Debug, Clone, Serialize)]
 pub struct AnalyticResultFacet {

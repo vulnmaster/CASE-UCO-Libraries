@@ -45,6 +45,15 @@ class Examiner(Role):
 
 
 @dataclass
+class ExaminerActionLifecycle(ActionLifecycle):
+    """An examiner action lifecycle is an action pattern consisting of an ordered set of actions or subordinate action-lifecycles performed by an entity acting in a role involved in providing scientific eval"""
+
+    CLASS_IRI: str = "https://ontology.caseontology.org/case/investigation/ExaminerActionLifecycle"
+    NAMESPACE_PREFIX: str = "case-investigation"
+
+
+
+@dataclass
 class Investigation(ContextualCompilation):
     """An investigation is a grouping of characteristics unique to an exploration of the facts involved in a cyber-relevant set of suspicious activity."""
 

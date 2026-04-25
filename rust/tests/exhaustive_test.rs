@@ -3,6 +3,7 @@
 use case_uco::case::investigation::Attorney;
 use case_uco::case::investigation::Authorization;
 use case_uco::case::investigation::Examiner;
+use case_uco::case::investigation::ExaminerActionLifecycle;
 use case_uco::case::investigation::Investigation;
 use case_uco::case::investigation::InvestigativeAction;
 use case_uco::case::investigation::Investigator;
@@ -17,6 +18,8 @@ use case_uco::uco::action::ActionFrequencyFacet;
 use case_uco::uco::action::ActionLifecycle;
 use case_uco::uco::action::ActionPattern;
 use case_uco::uco::action::ArrayOfAction;
+use case_uco::uco::analysis::Analysis;
+use case_uco::uco::analysis::AnalyticResult;
 use case_uco::uco::analysis::AnalyticResultFacet;
 use case_uco::uco::analysis::ArtifactClassification;
 use case_uco::uco::analysis::ArtifactClassificationResultFacet;
@@ -433,6 +436,7 @@ fn test_all_classes_can_be_instantiated() {
     instances.push(Box::new(Attorney::builder().build()));
     instances.push(Box::new(Authorization::builder().build()));
     instances.push(Box::new(Examiner::builder().build()));
+    instances.push(Box::new(ExaminerActionLifecycle::builder().build()));
     instances.push(Box::new(Investigation::builder().build()));
     instances.push(Box::new(InvestigativeAction::builder().build()));
     instances.push(Box::new(Investigator::builder().build()));
@@ -447,6 +451,8 @@ fn test_all_classes_can_be_instantiated() {
     instances.push(Box::new(ActionLifecycle::builder().build()));
     instances.push(Box::new(ActionPattern::builder().build()));
     instances.push(Box::new(ArrayOfAction::builder().build()));
+    instances.push(Box::new(Analysis::builder().build()));
+    instances.push(Box::new(AnalyticResult::builder().build()));
     instances.push(Box::new(AnalyticResultFacet::builder().build()));
     instances.push(Box::new(ArtifactClassification::builder().build()));
     instances.push(Box::new(ArtifactClassificationResultFacet::builder().build()));
@@ -856,5 +862,5 @@ fn test_all_classes_can_be_instantiated() {
     instances.push(Box::new(ThreadItem::builder().build()));
     instances.push(Box::new(Victim::builder().build()));
     instances.push(Box::new(VictimTargeting::builder().build()));
-    assert_eq!(instances.len(), 426);
+    assert_eq!(instances.len(), 429);
 }

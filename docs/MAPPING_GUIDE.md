@@ -4,16 +4,6 @@ This guide maps common digital forensics, cyber-investigation, and cyber-observa
 
 For the complete class reference with all properties, see [ONTOLOGY_REFERENCE.md](../ONTOLOGY_REFERENCE.md).
 
-## Community Mapping Resources
-
-This guide is auto-generated from the current ontology (CASE 1.4.0 / UCO 1.4.0) and organizes classes by forensic domain. The CASE community also maintains complementary mapping resources that document how specific tools map to CASE/UCO:
-
-- **[CASE-Mappings](https://github.com/casework/CASE-Mappings)** — Hand-written concept, category, and property mappings for SleuthKit, Cellebrite, Bulk Extractor, and NSRL. Originally written against CASE v0.1.0 (class names like `Trace` and `CyberItem` have since been renamed to `ObservableObject` + Facets), but the conceptual mappings remain valuable.
-- **[CASE-Mapping-Template-Stubs](https://github.com/casework/CASE-Mapping-Template-Stubs)** — JSON-LD stub generator that produces a minimal, null-valued JSON-LD dictionary for any CASE/UCO class, reflecting correct cardinality. Useful for bootstrapping new tool mappings.
-- **[CASE-Implementation-*](https://github.com/casework?q=Implementation&type=all)** — Working tool implementations (UFED, ExifTool, AXIOM, XRY, DC3DD, and more) that convert specific tool outputs into CASE/UCO format.
-
-See [ECOSYSTEM.md](ECOSYSTEM.md) for the full list of community implementations and mapping templates.
-
 ## Contents
 
 - [Files and Filesystem](#files-and-filesystem)
@@ -37,85 +27,343 @@ Classes for representing files, directories, file systems, and their metadata. U
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
+| **AIContentDetection** | ext.cac.cacontology-ai-csam | Class | Process of identifying AI-generated or AI-altered content to distinguish from authentic material ... |
+| **AIContentGeneration** | ext.cac.cacontology-ai-csam | Class | Process of creating artificial CSAM using machine learning models, neural networks, or other AI t... |
+| **AIContentInvestigationSituation** | ext.cac.cacontology-ai-csam | Class | Complex situation involving multiple stakeholders, technologies, and legal frameworks for investi... |
+| **AIDetectionPhase** | ext.cac.cacontology-ai-csam | Class | Anti-rigid phase during which AI-generated content undergoes detection and analysis processes. |
+| **AIDetectionTool** | ext.cac.cacontology-ai-csam | Class | Software tool specialized for detecting AI-generated content in digital media. Enhanced as gUFO O... |
+| **AIForensicAnalyst** | ext.cac.cacontology-ai-csam | Class | Anti-rigid role of specialist analyzing AI-generated content for authenticity and generation meth... |
+| **AIModelAnalyst** | ext.cac.cacontology-ai-csam | Class | Anti-rigid role of specialist identifying and analyzing AI models used for content generation. |
+| **AcceleratedTrustExploitation** | ext.cac.cacontology-grooming | Class | Rapid exploitation of minimal trust established through pretexts or assistance offers. |
+| **AccelerationistGroup** | ext.cac.cacontology-extremist-enterprises | Class | Extremist group with accelerationist goals seeking to hasten societal collapse through criminal a... |
+| **AccessControlSystem** | ext.cac.cacontology-extremist-enterprises | Class | System controlling access to enterprise channels and resources based on member status and content... |
+| **AccountMetadata** | ext.cac.cacontology-platforms | Class | Account-level metadata including creation date, profile information, and activity patterns. |
+| **AdditionalContentDemand** | ext.cac.cacontology-sextortion | Class | Demand for more graphic content or additional intimate images. |
+| **AgeDeceptionSextortion** | ext.cac.cacontology-sextortion | Class | Sextortion incident involving offender lying about their age when interacting with children (e.g.... |
+| **AgeProgression** | ext.cac.cacontology-ai-csam | Class | AI technique for artificially aging or de-aging subjects in content, potentially creating illegal... |
+| **AgingOutVictimProfile** | ext.cac.cacontology-sex-trafficking | Class | Vulnerability profile for youth aging out of foster care system. |
 | **AlternateDataStream** | uco.observable | Class | An alternate data stream is data content stored within an NTFS file that is independent of the st... |
 | **AlternateDataStreamFacet** | uco.observable | Facet | An alternate data stream facet is a grouping of characteristics unique to data content stored wit... |
+| **Analysis** | uco.analysis | Class | An analysis is an action of detailed examination of something in order to understand its nature, ... |
 | **ArchiveFile** | uco.observable | Class | An archive file is a file that is composed of one or more computer files along with metadata. |
 | **ArchiveFileFacet** | uco.observable | Facet | An archive file facet is a grouping of characteristics unique to a file that is composed of one o... |
+| **ArrestOperation** | ext.cac.cacontology-tactical | Class | Law enforcement operation to apprehend and take suspect into custody. Extends investigation:Inves... |
+| **ArrestReport** | ext.cac.cacontology-tactical | Class | Formal arrest report documenting the arrest including charges, evidence, and suspect information.... |
+| **AthleticContactEscalation** | ext.cac.cacontology-athletic-exploitation | Class | Escalation of physical contact within legitimate athletic training context. Enhanced as gUFO Event. |
+| **AttackPattern** | ext.aeo.attack | Class | An attack pattern is a common approach (set of actions) utilized by a person or organization to c... |
+| **AutomatedContentAnalysis** | ext.cac.cacontology-forensics | Class | Automated analysis of large volumes of content using machine learning and AI for rapid classifica... |
+| **AutomatedDetectionAction** | ext.cac.cacontology-detection | Class | The action of using automated systems to detect potential CSAM content. Modeled as gUFO Event. |
+| **AutomatedReporterAgent** | ext.cac.cacontology-hotlines | Class | A software agent that automatically reports content to hotlines. Enhanced as gUFO Object for comp... |
+| **BarricadeSituation** | ext.cac.cacontology-tactical | Class | Situation where suspect has barricaded themselves and refuses to surrender. A state/context, not ... |
+| **BidirectionalContentExchange** | ext.cac.cacontology-sex-offender-registry | Class | Exchange where offender both sends explicit content to victim and solicits/receives explicit cont... |
+| **BiometricInconsistencyAnalysis** | ext.cac.cacontology-ai-csam | Class | Analysis of biometric inconsistencies in AI-generated content, such as unnatural eye movements or... |
 | **BlockDeviceNode** | uco.observable | Class | A block device node is a UNIX filesystem special file that serves as a conduit to communicate wit... |
+| **BookingAction** | ext.cac.cacontology-tactical | Class | Process of booking a suspect into a correctional facility including fingerprinting, photography, ... |
 | **BotConfiguration** | uco.observable | Class | A bot configuration is a set of contextual settings for a software application that runs automate... |
+| **Breadcrumb** | ext.aeo.engagement | Class | A Breadcrumb is a set of objects placed to be at least partially, sequentially interacted by an a... |
 | **Bundle** | uco.core | Class | A bundle is a container for a grouping of UCO content with no presumption of shared context. |
-| **CapabilityMatrix** | ext.toolcap | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
+| **CACInvestigation** | ext.cac.cacontology | Class | A child-protection investigation that follows a standard action lifecycle that commonly begins wi... |
+| **CaseDocumentation** | ext.cac.cacontology-case-management | Class | Comprehensive documentation management for case files, reports, evidence logs, and legal document... |
+| **CaseInformationSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of case-specific information including case files, reports, witness statements, and inves... |
 | **CharacterDeviceNode** | uco.observable | Class | A character device node is a UNIX filesystem special file that serves as a conduit to communicate... |
+| **ChildSexTourismIncident** | ext.cac.cacontology-us-ncmec | Class | Incidents involving child sex tourism. Source: NCMEC Cybertip API Section B.1.1, incidentType 'Ch... |
+| **ChildSexTraffickingIncident** | ext.cac.cacontology-us-ncmec | Class | Incidents involving child sex trafficking. Source: NCMEC Cybertip API Section B.1.1, incidentType... |
+| **Claim** | ext.cac.cacontology-synthesis | Class | A first-class, queryable claim extracted from a report (finding, recommendation, distribution, ga... |
+| **ClassificationResult** | ext.cac.cacontology-detection | Class | The result of content classification using standard scales like SAR or COPINE. |
+| **ClassroomExploitationContext** | ext.cac.cacontology-educational-exploitation | Class | Specific classroom situations and contexts where exploitation occurs. Enhanced as gUFO Object for... |
+| **CommunicationDevice** | ext.cac.cacontology-physical-evidence | Class | Devices used to communicate with victims or distribute illegal content (gUFO FunctionalComplex). |
+| **ComplexCaseManagement** | ext.cac.cacontology-case-management | Class | Specialized management for complex cases involving multiple offenses, victims, or extensive evide... |
+| **ComplexTrauma** | ext.cac.cacontology-victim-impact | Class | Complex trauma resulting from multiple types of victimization or prolonged abuse. |
+| **ComplianceIntelligenceFramework** | ext.cac.cacontology-legal-harmonization | Class | A verified compliance intelligence framework used to document good-faith content moderation and r... |
 | **CompressedStreamFacet** | uco.observable | Facet | A compressed stream facet is a grouping of characteristics unique to the application of a size-re... |
+| **Condoms** | ext.cac.cacontology-physical-evidence | Class | Contraceptive devices found as evidence corroborating intent to engage in sexual activity. Extend... |
+| **ConsentToSearchAuthorization** | ext.cac.cacontology-physical-evidence | Class | Authorization obtained through suspect's consent to search property or devices. Extends investiga... |
 | **ContactProfile** | uco.observable | Class | A contact profile is a grouping of characteristics unique to details for contacting a contact ent... |
+| **ContentAnalystRole** | ext.cac.cacontology-detection | Class | Role of professional analyzing flagged content for classification. Modeled as anti-rigid gUFO Role. |
+| **ContentBasedRecruitment** | ext.cac.cacontology-extremist-enterprises | Class | Recruitment of new members based on quality and notoriety of content they produce. |
+| **ContentCompilationSystem** | ext.cac.cacontology-extremist-enterprises | Class | System for compiling, editing, and organizing exploitative content within criminal enterprise. |
+| **ContentCorrelationAnalysis** | ext.cac.cacontology-forensics | Class | Analysis correlating content across multiple users and platforms for identifying networks and rel... |
+| **ContentCreation** | ext.cac.cacontology-production | Class | Process of creating, editing, or enhancing child sexual abuse material. |
+| **ContentCurationAction** | ext.cac.cacontology-extremist-enterprises | Class | Action of curating and organizing exploitative content for enterprise purposes. |
+| **ContentCurrencySystem** | ext.cac.cacontology-extremist-enterprises | Class | System using exploitative content as valuable currency within criminal enterprise for advancement... |
 | **ContentData** | uco.observable | Class | Content data is a block of digital data. |
 | **ContentDataFacet** | uco.observable | Facet | A content data facet is a grouping of characteristics unique to a block of digital data. |
+| **ContentDeliveryNetwork** | ext.cac.cacontology-platform-infrastructure | Class | CDN infrastructure used for distributing illegal content globally with high availability and perf... |
+| **ContentDetectionCooperation** | ext.cac.cacontology-partnerships | Class | Cooperation in developing and improving automated content detection systems. Modeled as gUFO Event. |
+| **ContentDevelopmentPhase** | ext.cac.cacontology-training | Class | Phase of developing training content and materials. Modeled as anti-rigid gUFO Phase. |
+| **ContentEditingProcess** | ext.cac.cacontology-extremist-enterprises | Class | Process of editing and organizing victim content into compilations for enterprise distribution. |
+| **ContentGenerationPhase** | ext.cac.cacontology-ai-csam | Class | Anti-rigid phase during which AI systems generate illegal content. |
+| **ContentHashingAction** | ext.cac.cacontology-detection | Class | The action of generating cryptographic or perceptual hashes for content identification and matchi... |
+| **ContentHashingAction** | ext.cac.cacontology-platforms | Class | An action by a platform to generate hashes of content for detection and matching. Modeled as gUFO... |
+| **ContentHashingTool** | ext.cac.cacontology-detection | Class | A tool for generating perceptual or cryptographic hashes for content matching (e.g., PhotoDNA, pH... |
+| **ContentIdentification** | ext.cac.cacontology-us-ncmec | Class | Identification and classification of illegal content in NCMEC tips. |
+| **ContentModerationAction** | ext.cac.cacontology-platforms | Class | An action taken by a platform to moderate content (review, remove, restrict, etc.). Modeled as gU... |
+| **ContentModerationCapability** | ext.cac.cacontology-platforms | Class | The ability and methods a platform uses to detect, review, and remove inappropriate content. Mode... |
+| **ContentModerationQueue** | ext.cac.cacontology-platforms | Class | A queue/backlog of content items awaiting moderation review and operational handling at scale (e.... |
+| **ContentProducerRole** | ext.cac.cacontology-extremist-enterprises | Class | Role focused on producing high-quality exploitative content for enterprise operations. |
+| **ContentValueAssessment** | ext.cac.cacontology-extremist-enterprises | Class | Assessment of content value based on quality, notoriety, and enterprise utility. |
 | **ContextualCompilation** | uco.core | Class | A contextual compilation is a grouping of things sharing some context (e.g., a set of network con... |
+| **CorrectionalFacility** | ext.cac.cacontology-tactical | Class | Physical correctional facility where suspects are booked and held. Examples include county jails ... |
+| **CourtFiling** | ext.cac.cacontology-case-management | Class | Legal documents filed with courts including motions, briefs, and procedural filings. Enhanced as ... |
+| **CovertEmployeeOperation** | ext.cac.cacontology-extremist-enterprises | Class | Operation using online covert employees (OCE) to infiltrate and monitor extremist networks. |
 | **CredentialDump** | uco.observable | Class | A credential dump is a collection (typically forcibly extracted from a system) of specific login ... |
+| **CrossPlatformDetectionSituation** | ext.cac.cacontology-ai-csam | Class | Situation involving detection and analysis of AI-generated content across multiple platforms and ... |
+| **CustodialAbuse** | ext.cac.cacontology-custodial | Class | Abuse committed by someone in custodial or caregiving role. Modeled as gUFO SubKind of TrustViola... |
+| **CyberExtremistNetwork** | ext.cac.cacontology-extremist-enterprises | Class | Extremist network operating primarily through digital platforms and encrypted communications. |
+| **DataRetentionPolicy** | ext.cac.cacontology-platforms | Class | A platform's policy for how long they retain user data and content. Modeled as gUFO Object. |
+| **DatabaseInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Database systems storing user accounts, content metadata, and platform operational data (gUFO Fun... |
+| **DatabaseMatchAction** | ext.cac.cacontology-detection | Class | The action of comparing content against known CSAM hash databases. Modeled as gUFO Event. |
+| **DatabaseMatchingTool** | ext.cac.cacontology-detection | Class | A tool for matching content against known CSAM databases (e.g., NCMEC hash database, INTERPOL ICS... |
+| **DeepfakeCSAM** | ext.cac.cacontology-ai-csam | Class | CSAM created by using AI to alter genuine content, potentially making real victims appear in fabr... |
+| **DeepfakeDetection** | ext.cac.cacontology-ai-csam | Class | Specialized analysis for detecting deepfake technology use in content, including face replacement... |
+| **DeepfakeDetectionTool** | ext.cac.cacontology-ai-csam | Class | Tool specifically designed to identify deepfake content and face manipulation techniques. Enhance... |
+| **DefensePattern** | ext.aeo.attack | Class | A defense pattern is a common approach (set of actions) utilized by a person or organization to c... |
+| **DetectionEvent** | ext.cac.cac-core | Class | An event representing the detection, identification, or flagging of content, behavior, or indicat... |
+| **DetectionResult** | ext.cac.cacontology-detection | Class | The result of a content detection action including confidence scores and classification. |
+| **DeviceForensicAnalysis** | ext.cac.cacontology-sextortion | Class | Forensic examination of seized devices for sextortion evidence. |
+| **DigitalFollowUp** | ext.cac.cacontology-street-recruitment | Class | Follow-up through digital communication channels (text, social media, calls). |
 | **Directory** | uco.observable | Class | A directory is a file system cataloging structure which contains references to other computer fil... |
 | **Disk** | uco.observable | Class | A disk is a storage mechanism where data is recorded by various electronic, magnetic, optical, or... |
 | **DiskFacet** | uco.observable | Facet | A disk facet is a grouping of characteristics unique to a storage mechanism where data is recorde... |
 | **DiskPartition** | uco.observable | Class | A disk partition is a particular managed region on a storage mechanism where data is recorded by ... |
 | **DiskPartitionFacet** | uco.observable | Facet | A disk partition facet is a grouping of characteristics unique to a particular managed region on ... |
+| **DistributedForensicProcessing** | ext.cac.cacontology-forensics | Class | Forensic processing distributed across multiple systems and locations for handling massive eviden... |
 | **EXIFFacet** | uco.observable | Facet | An EXIF (exchangeable image file format) facet is a grouping of characteristics unique to the for... |
+| **EditedContent** | ext.cac.cacontology-production | Class | Original content that has been digitally modified or enhanced. |
+| **EducationPlatformIntegration** | ext.cac.cacontology-prevention | Class | Integration capabilities between different educational delivery platforms and content management ... |
+| **ElectronicServiceProvider** | ext.cac.cacontology-platforms | Class | An organization that provides digital services and platforms, with responsibilities for content m... |
 | **EncodedStreamFacet** | uco.observable | Facet | An encoded stream facet is a grouping of characteristics unique to the conversion of a body of da... |
+| **EncryptedChannelInfiltration** | ext.cac.cacontology-extremist-enterprises | Class | Infiltration of encrypted channels used by extremist networks for evidence collection. |
+| **EncryptedChannelNetwork** | ext.cac.cacontology-extremist-enterprises | Class | Network of encrypted messaging channels used for enterprise coordination and content sharing. |
 | **EncryptedStreamFacet** | uco.observable | Facet | An encrypted stream facet is a grouping of characteristics unique to the conversion of a body of ... |
+| **EscalationPattern** | ext.cac.cacontology-grooming | Class | Progressive increase in inappropriate content or requests over time. |
 | **EventRecord** | uco.observable | Class | An event record is something that happens in a digital context (e.g., operating system events). |
 | **EventRecordFacet** | uco.observable | Facet | An event record facet is a grouping of characteristics unique to something that happens in a digi... |
+| **EvidenceCollectionAction** | ext.cac.cacontology-physical-evidence | Class | Action of collecting and documenting physical evidence during search. Extends investigation:Inves... |
+| **EvidenceSeizure** | ext.cac.cacontology-physical-evidence | Class | Legal seizure of physical items as evidence. Extends investigation:InvestigativeAction (gUFO Event). |
+| **EvidenceTriageSystem** | ext.cac.cacontology-forensics | Class | Automated system for triaging massive evidence volumes to prioritize high-value targets and criti... |
+| **ExplicitMessageRequestAction** | ext.cac.cacontology-undercover | Class | Suspect requesting explicit pictures or content from undercover persona. |
+| **ExposureMitigationMeasure** | ext.cac.cacontology-analyst-wellbeing | Class | A measure, control, or workflow technique used to reduce human exposure to traumatic content whil... |
 | **ExtInodeFacet** | uco.observable | Facet | An extInode facet is a grouping of characteristics unique to a file system object (file, director... |
+| **ExtendedInvestigationTimeline** | ext.cac.cacontology-forensics | Class | Investigation timeline spanning weeks, months, or years for complex child exploitation cases. |
+| **ExtendedProductionPeriod** | ext.cac.cacontology-production | Class | Ongoing pattern of production over an extended time period. |
+| **ExternalOversightInvestigation** | ext.cac.cacontology-law-enforcement-corruption | Class | Investigation by external agency into law enforcement corruption. |
 | **ExternalReference** | uco.core | Class | Characteristics of a reference to a resource outside of the UCO. |
+| **ExternalReview** | ext.cac.cacontology-case-management | Class | External review by independent parties for oversight, audit, or specialized expertise. Enhanced a... |
+| **ExtortionDemand** | ext.cac.cacontology-sextortion | Class | Specific demand made by sextortion offender using threat leverage. |
+| **ExtortionPhase** | ext.cac.cacontology-sextortion | Class | Final phase involving threats and blackmail using obtained images. |
 | **ExtractedString** | uco.observable | Class | An extracted string is a grouping of characteristics unique to a series of characters pulled from... |
 | **ExtractedStringsFacet** | uco.observable | Facet | An extracted strings facet is a grouping of characteristics unique to one or more sequences of ch... |
+| **ExtractionPhase** | ext.cac.cacontology-undercover | Class | Phase involving safe withdrawal from undercover operation. |
+| **ExtracurricularRecruitment** | ext.cac.cacontology-recruitment-networks | Class | Recruitment occurring during extracurricular activities or school events. |
+| **ExtraditionAgreement** | ext.cac.cacontology-international | Class | Agreement for extraditing suspects between countries. |
+| **ExtraditionAgreement** | ext.cac.cacontology-legal-harmonization | Class | Agreement enabling extradition for child protection crimes. |
+| **ExtraditionRequest** | ext.cac.cacontology-multi-jurisdiction | Class | Legal request to transfer suspect between jurisdictions. |
+| **ExtraterritorialProduction** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of producing child pornography outside U.S. by U.S. citizens or residents. Modeled ... |
+| **ExtraterritorialSexualExploitationLaw** | ext.cac.cacontology-usa-federal-law | Class | Federal laws criminalizing sexual exploitation of children committed by U.S. citizens or resident... |
+| **ExtremeDegradationCoercion** | ext.cac.cacontology-extremist-enterprises | Class | Coercion of victims to engage in extreme degrading activities beyond typical exploitation. |
+| **ExtremistNetworkCell** | ext.cac.cacontology-extremist-enterprises | Class | Operational cell within larger extremist network conducting specialized activities. |
+| **FaceSwapping** | ext.cac.cacontology-ai-csam | Class | AI technique for replacing faces in existing content with different faces, potentially placing vi... |
+| **FalseProfileCreation** | ext.cac.cacontology-sextortion | Class | Creating fake profiles on platforms with false age and personal information. |
+| **FederalChildSexTraffickingLaw** | ext.cac.cacontology-usa-federal-law | Class | Federal statutes criminalizing child sex trafficking, commercial sexual exploitation, and related... |
 | **File** | uco.observable | Class | A file is a computer resource for recording data discretely on a computer storage device. |
 | **FileFacet** | uco.observable | Facet | A file facet is a grouping of characteristics unique to the storage of a file (computer resource ... |
+| **FileHostingService** | ext.cac.cacontology-platforms | Class | A service for storing and sharing files online (e.g., Google Drive, Dropbox, OneDrive, MEGA). Mod... |
 | **FilePermissionsFacet** | uco.observable | Facet | A file permissions facet is a grouping of characteristics unique to the access rights (e.g., view... |
 | **FileSystem** | uco.observable | Class | A file system is the process that manages how and where data on a storage medium is stored, acces... |
 | **FileSystemFacet** | uco.observable | Facet | A file system facet is a grouping of characteristics unique to the process that manages how and w... |
 | **FileSystemObject** | uco.observable | Class | A file system object is an informational object represented and managed within a file system. |
+| **ForensicAnalysisPhase** | ext.cac.cacontology-ai-csam | Class | Anti-rigid phase during which AI-generated content undergoes detailed forensic examination. |
 | **ForumPost** | uco.observable | Class | A forum post is message submitted by a user account to an online forum where the message content ... |
 | **FragmentFacet** | uco.observable | Facet | A fragment facet is a grouping of characteristics unique to an individual piece of the content of... |
 | **GUI** | uco.observable | Class | A GUI is a graphical user interface that allows users to interact with electronic devices through... |
 | **GeoLocationTrack** | uco.observable | Class | A geolocation track is a set of contiguous geolocation entries representing a path/track taken. |
 | **GeoLocationTrackFacet** | uco.observable | Facet | A geolocation track facet is a grouping of characteristics unique to a set of contiguous geolocat... |
+| **GroomingMessage** | ext.cac.cacontology-grooming | Class | Communication containing grooming behavior or inappropriate content directed at a child. |
 | **Grouping** | uco.core | Class | A grouping is a compilation of referenced UCO content with a shared context. |
+| **GymTeacherRole** | ext.cac.cacontology-educational-exploitation | Class | Physical education teacher role with student interaction in athletic contexts. Enhanced as anti-r... |
 | **HTTPConnection** | uco.observable | Class | An HTTP connection is network connection that is conformant to the Hypertext Transfer Protocol (H... |
 | **HTTPConnectionFacet** | uco.observable | Facet | An HTTP connection facet is a grouping of characteristics unique to portions of a network connect... |
+| **HashComparisonPhase** | ext.cac.cacontology-detection | Class | Phase of comparing content hashes against known databases. Modeled as anti-rigid gUFO Phase. |
+| **HashSharingProtocol** | ext.cac.cacontology-partnerships | Class | Protocol for sharing cryptographic hashes of illegal content between partners for detection and p... |
+| **HelpSeekingFacilitator** | ext.cac.cacontology-victim-impact | Class | Factor that enables or encourages victim to seek help (opportunity, trust, desperation, external ... |
+| **HiddenRecordingDevice** | ext.cac.cacontology-production | Class | Covert recording equipment designed to capture content without victim awareness. |
+| **HighPriorityModule** | ext.cac.cacontology-integration-patterns | Class | CAC module requiring immediate gUFO integration due to core investigation role or external depend... |
+| **HighVolumeDigitalExploitation** | ext.cac.cacontology-sex-offender-registry | Class | Digital exploitation involving thousands of messages or communications over extended period. |
+| **HotlineReport** | ext.cac.cacontology-hotlines | Class | A report submitted to a hotline about potential child sexual abuse material. Enhanced as gUFO Sit... |
+| **HybridCSAM** | ext.cac.cacontology-ai-csam | Class | Content combining real and AI-generated elements, making it difficult to distinguish between auth... |
+| **IdeologyPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling extremist ideologies as belief systems influencing criminal behavior. |
+| **IllinoisICACtaskForce** | ext.cac.cacontology-taskforce | Class | Illinois state CAC task force with specialized capabilities and extensive network partnerships. |
 | **Image** | uco.observable | Class | An image is a complete copy of a hard disk, memory, or other digital media. |
 | **ImageFacet** | uco.observable | Facet | An image facet is a grouping of characteristics unique to a complete copy of a hard disk, memory,... |
+| **ImmediateExploitationAttempt** | ext.cac.cacontology-street-recruitment | Class | Attempt to immediately engage victim in commercial sexual activity without extended grooming. |
+| **ImmediateExploitationAttempt** | ext.cac.cacontology-grooming | Class | Attempt to immediately exploit victim without extended grooming or relationship building. |
+| **InformationSharingRateMetrics** | ext.cac.cacontology-investigation-coordination | Class | Metrics measuring the rate and volume of information sharing between agencies. |
+| **InitialDetectionPhase** | ext.cac.cacontology-detection | Class | Phase of initial automated content detection and flagging. Modeled as anti-rigid gUFO Phase. |
+| **InitiatorContentSending** | ext.cac.cacontology-grooming | Class | Grooming phase where perpetrator sends sexual content to victim first. |
+| **InstantMessagingPlatform** | ext.cac.cacontology-sextortion | Class | Digital platform used for instant messaging in sextortion incidents. |
+| **InstantMessagingSextortion** | ext.cac.cacontology-sextortion | Class | Sextortion conducted through instant messaging platforms with direct private communication. |
+| **InstitutionalRolePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling institutional roles in multi-jurisdiction contexts with authority and r... |
+| **InterviewWithoutCounsel** | ext.cac.cacontology-tactical | Class | Suspect interview conducted after suspect waives right to legal counsel. Extends investigation:In... |
+| **IntoxicatingSubstance** | ext.cac.cacontology-physical-evidence | Class | Alcohol, drugs, or other intoxicating substances intended to impair victim judgment. Extends Abus... |
 | **InvestigativeAction** | case.investigation | Class | An investigative action is something that may be done or performed within the context of an inves... |
+| **IsolationBasedControl** | ext.cac.cacontology-institutional-exploitation | Class | Control method using isolation from family, community, and external oversight. |
 | **Junction** | uco.observable | Class | A junction is a specific NTFS (New Technology File System) reparse point to redirect a directory ... |
+| **KnowingParadox** | ext.cac.cacontology-legal-harmonization | Class | A policy incentive conflict where platforms face liability both for detecting content (creating k... |
+| **LargeScaleOperation** | ext.cac.cacontology-multi-jurisdiction | Class | Operation involving 100+ law enforcement actions or extensive coordination. |
+| **LiveStreamContent** | ext.cac.cacontology-production | Class | Content transmitted in real-time during live production events. |
+| **LivestreamedCoercionShow** | ext.cac.cacontology-sadistic-online-exploitation | Class | A coordinated livestreamed coercion event (ritualized 'show') in which participants celebrate, wi... |
+| **LongTermMonitoringPhase** | ext.cac.cacontology-victim-impact | Class | Extended phase monitoring long-term effects and continued support needs. |
+| **Lorebook** | ext.cac.cacontology-extremist-enterprises | Class | Edited compilation of victim content including images, videos, and personal information organized... |
+| **MachineLearningDetectionTool** | ext.cac.cacontology-detection | Class | A tool using machine learning algorithms to detect CSAM content (e.g., Google's CSAI Classifier, ... |
+| **ManualClassificationAction** | ext.cac.cacontology-detection | Class | The action of human review and classification of suspected CSAM content. Modeled as gUFO Event. |
+| **ManualReviewTool** | ext.cac.cacontology-detection | Class | A tool supporting human review and classification of potentially illegal content. Modeled as gUFO... |
+| **MassContentAnalysisSituation** | ext.cac.cacontology-detection | Class | Situation involving analysis of large volumes of content requiring coordinated detection systems.... |
+| **MassDigitalEvidenceProcessing** | ext.cac.cacontology-forensics | Class | Processing of massive volumes of digital evidence requiring specialized automated tools and distr... |
+| **MasturbationDiscussionExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation through extensive masturbation discussions during athletic training. Enhanced as gUF... |
+| **MeetingLocation** | ext.cac.cacontology-undercover | Class | Physical location arranged for meeting with alleged minor. Extends uco-location:Location as this ... |
+| **MembershipAdvancementSystem** | ext.cac.cacontology-extremist-enterprises | Class | System governing member advancement within enterprise based on content contributions and activities. |
+| **MentalHealthSupport** | ext.cac.cacontology-specialized-units | Class | Mental health services and support for officers dealing with traumatic content. Modeled as gUFO O... |
+| **MetadataCorrelation** | ext.cac.cacontology-forensics | Class | Correlation analysis of metadata across multiple files and platforms. |
+| **MetadataExtractionAction** | ext.cac.cacontology-forensics | Class | The action of extracting metadata from digital artifacts including EXIF, file system timestamps, ... |
 | **MftRecordFacet** | uco.observable | Facet | An MFT record facet is a grouping of characteristics unique to the details of a single file as ma... |
+| **MobileForensicTool** | ext.cac.cacontology-forensics | Class | A tool specialized for mobile device forensics including logical and physical extraction (e.g., C... |
+| **ModelIdentification** | ext.cac.cacontology-ai-csam | Class | Process of identifying the specific AI model or algorithm used to generate illegal content. Enhan... |
+| **ModelTraining** | ext.cac.cacontology-ai-csam | Class | Process of training AI models on datasets that may include illegal content for the purpose of gen... |
+| **ModerationThroughputMetrics** | ext.cac.cacontology-platforms | Class | Operational metrics describing moderation throughput and latency (e.g., queue size, review latenc... |
+| **MultiModalDigitalEvidence** | ext.cac.cacontology-sex-offender-registry | Class | Digital evidence containing multiple content types (text, images, audio, video) in single exploit... |
+| **MultimediaEducationContent** | ext.cac.cacontology-prevention | Class | Educational content incorporating multiple media types including audio, video, and interactive el... |
+| **MultiplePersonaOperation** | ext.cac.cacontology-undercover | Class | Undercover operation where agent poses as multiple fictitious minors (e.g., 14-year-old and 12-ye... |
 | **NTFSFile** | uco.observable | Class | An NTFS file is a New Technology File System (NTFS) file. |
 | **NTFSFileFacet** | uco.observable | Facet | An NTFS file facet is a grouping of characteristics unique to a file on an NTFS (new technology f... |
 | **NTFSFilePermissionsFacet** | uco.observable | Facet | An NTFS file permissions facet is a grouping of characteristics unique to the access rights (e.g.... |
 | **NamedPipe** | uco.observable | Class | A named pipe is a mechanism for FIFO (first-in-first-out) inter-process communication. It is pers... |
+| **NationalICACtaskForceDirectory** | ext.cac.cacontology-taskforce | Class | Comprehensive directory of all 61 CAC task forces across the United States, territories, and mili... |
+| **NetworkMappingInvestigation** | ext.cac.cacontology-extremist-enterprises | Class | Investigation mapping the structure and relationships within extremist child exploitation networks. |
 | **NetworkProtocol** | uco.observable | Class | A network protocol is an established set of structured rules that determine how data is transmitt... |
 | **NetworkRoute** | uco.observable | Class | A network route is a specific path (of specific network nodes, connections and protocols) for tra... |
+| **NextDayFollowUp** | ext.cac.cacontology-street-recruitment | Class | Follow-up contact occurring the day after initial encounter. |
+| **NihilisticViolentExtremismNetwork** | ext.cac.cacontology-extremist-enterprises | Class | Criminal network engaging in child exploitation as part of broader nihilistic violent extremism g... |
+| **NormalizationGrooming** | ext.cac.cacontology-grooming | Class | Grooming technique to normalize sexual conversations and content sharing. |
 | **Note** | uco.observable | Class | A note is a brief textual record. |
 | **NoteFacet** | uco.observable | Facet | A note facet is a grouping of characteristics unique to a brief textual record. |
+| **Nudification** | ext.cac.cacontology-ai-csam | Class | AI content generation/manipulation process that produces synthetic nudity (e.g., 'nudifying apps'... |
+| **NudifiedCSAM** | ext.cac.cacontology-ai-csam | Class | Child sexual abuse material created by AI-enabled nudification (synthetic nudity) of an existing ... |
+| **OccupationalHarm** | ext.cac.cacontology-analyst-wellbeing | Class | Occupational harm experienced by investigators or content analysts arising from exposure to traum... |
+| **OffenderProfile** | ext.cac.cacontology-sex-offender-registry | Class | Comprehensive profile of registered sex offender including all required information. |
 | **PDFFile** | uco.observable | Class | A PDF file is a Portable Document Format (PDF) file. |
 | **PDFFileFacet** | uco.observable | Facet | A PDF file facet is a grouping of characteristics unique to a PDF (Portable Document Format) file. |
 | **PathRelationFacet** | uco.observable | Facet | A path relation facet is a grouping of characteristics unique to the location of one object withi... |
+| **PaymentProcessing** | ext.cac.cacontology-platform-infrastructure | Class | Financial processing systems enabling platform monetization through subscription fees, content pu... |
+| **PersonLikeEntity** | ext.cac.cac-core | Class | An enduring entity that is person-like in the domain model. Use for natural persons and person-pr... |
+| **Phase3Wave3** | ext.cac.cacontology-integration-patterns | Class | Third wave implementing low-priority modules (AI CSAM, extremist enterprises, advanced features). |
+| **PhoneChargingOffer** | ext.cac.cacontology-street-recruitment | Class | Specific pretext offering to charge victim's phone in vehicle or location. |
+| **PhysicalContactEscalation** | ext.cac.cacontology-athletic-exploitation | Class | Escalation of physical contact within athletic training context. Enhanced as gUFO Event. |
+| **PhysicalEvidenceProvenanceRecord** | ext.cac.cacontology-physical-evidence | Class | Provenance record tracking chain of custody and handling of physical evidence. Extends investigat... |
+| **PhysicalSearch** | ext.cac.cacontology-physical-evidence | Class | Law enforcement search of physical premises for evidence. Extends investigation:InvestigativeActi... |
 | **Pipe** | uco.observable | Class | A pipe is a mechanism for one-way inter-process communication using message passing where data wr... |
-| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
+| **PlaceLikeEntity** | ext.cac.cac-core | Class | An enduring entity used to represent places, venues, virtual environments treated as locatable co... |
+| **PlatformAnonymityFeature** | ext.cac.cacontology-grooming | Class | Platform features that enable anonymous communication (guest messaging, temporary accounts, no pr... |
+| **PlatformModerationPhase** | ext.cac.cacontology-platforms | Class | Phase of active content moderation and policy enforcement. Modeled as anti-rigid gUFO Phase. |
+| **PlatformMonitoring** | ext.cac.cacontology-partnerships | Class | Cooperative monitoring of platforms and services for illegal content and activities. Modeled as g... |
+| **PlatformSpecification** | ext.toolcap | Class | DEPRECATED in 0.4.0. Use first-class uco-observable:OperatingSystem instances linked via uco-core... |
+| **PodcastEducationSeries** | ext.cac.cacontology-prevention | Class | Audio-based educational content delivery system, such as the Protect Kids Online (PKO) Podcast. |
+| **PretextBasedApproach** | ext.cac.cacontology-street-recruitment | Class | Initial approach using false pretext or offer of assistance to establish contact. |
+| **ProducedContent** | ext.cac.cacontology-production | Class | Child sexual abuse material created through production activities. |
+| **ProducedVideo** | ext.cac.cacontology-production | Class | Video content created through production activities. |
+| **ProductionDistributionPhase** | ext.cac.cacontology-production | Class | Phase during which produced content is distributed or shared. |
+| **ProductionFacilitator** | ext.cac.cacontology-production | Class | Individual who assists in or enables production activities without directly producing content. |
 | **Profile** | uco.observable | Class | A profile is an explicit digital representation of identity and characteristics of the owner of a... |
+| **ProfileBrowsingAnonymous** | ext.cac.cacontology-platforms | Class | Ability to browse and contact user profiles anonymously without revealing identity. |
 | **ProfileFacet** | uco.observable | Facet | A profile facet is a grouping of characteristics unique to an explicit digital representation of ... |
+| **ProgressiveEscalation** | ext.cac.cacontology-sextortion | Class | Gradual increase in sexual content and requests to avoid triggering victim resistance. |
+| **PropertyDestructionThreat** | ext.cac.cacontology-sextortion | Class | Threat mechanism involving destruction of property to compel compliance (e.g., 'destruction' thre... |
+| **ReciprocityGrooming** | ext.cac.cacontology-grooming | Class | Grooming technique encouraging victim to reciprocate with sexual content. |
+| **RecordingDevice** | ext.cac.cacontology-production | Class | Device capable of capturing video or photographic content. |
+| **RecoveredFile** | ext.cac.cacontology-forensics | Class | A file recovered from deleted or unallocated space on digital media through forensic analysis tec... |
 | **RecoveredObjectFacet** | uco.observable | Facet | Recoverability status of name, metadata, and content. |
+| **RecruitmentHierarchy** | ext.cac.cacontology-extremist-enterprises | Class | Hierarchy governing recruitment of new members based on content quality and notoriety. |
+| **RecruitmentSpecialistRole** | ext.cac.cacontology-extremist-enterprises | Class | Role specializing in recruiting new members based on content quality and enterprise needs. |
 | **ReleaseToMarking** | uco.marking | Class | A release-to marking is a grouping of characteristics unique to the expression of data marking de... |
 | **ReparsePoint** | uco.observable | Class | A reparse point is a type of NTFS (New Technology File System) object which is an optional attrib... |
+| **RepeatedCrossBorderTravel** | ext.cac.cacontology-institutional-exploitation | Class | Pattern of repeated travel to foreign country for exploitation over extended period. |
+| **ReportArtifact** | ext.cac.cacontology-synthesis | Class | A concrete artifact that realizes a Report (e.g., a PDF file). Use this when you want a report-as... |
+| **Role** | ext.cac.cac-core | Class | A non-rigid role borne by an enduring entity in a certain relational or contextual setting. A bea... |
 | **Role** | uco.role | Class | A role is a usual or customary function based on contextual perspective. |
+| **RunawayVictimProfile** | ext.cac.cacontology-sex-trafficking | Class | Vulnerability profile for runaway or homeless youth targeted by traffickers. |
+| **SadisticOnlineExploitationNetwork** | ext.cac.cacontology-sadistic-online-exploitation | Class | A DHS/Know2Protect-defined online group (network/community) engaged in sadistic coercion and expl... |
+| **SadisticSextortion** | ext.cac.cacontology-sextortion | Class | Sextortion incident in which the coercive leverage includes threats compelling suffering, submiss... |
+| **ScalableHashAnalysis** | ext.cac.cacontology-forensics | Class | Hash analysis systems capable of processing millions of files against large databases of known il... |
+| **SecondaryTraumaticStress** | ext.cac.cacontology-analyst-wellbeing | Class | Occupational stress reactions arising from indirect exposure to others' trauma, including exposur... |
+| **SelfHarmCoercion** | ext.cac.cacontology-extremist-enterprises | Class | Coercion of victims to engage in self-harm activities including cutting, burning, and extreme deg... |
+| **SexTourism** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of traveling abroad with intent to engage in sexual conduct with minors. Modeled as... |
+| **SexTrafficking** | ext.cac.cacontology-legal-outcomes | Class | Charge for sex trafficking of minors. Modeled as gUFO Object. |
+| **SexTraffickingConspiracy** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of conspiracy to engage in sex trafficking of minors. Modeled as gUFO Event. |
+| **SexTraffickingOfMinors** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of sex trafficking involving minors, including recruitment, harboring, transportati... |
+| **Sextortion** | ext.cac.cacontology | Class | Incidents involving sexual extortion of children. |
+| **SextortionAnnotation** | ext.cac.cacontology-us-ncmec | Class | Annotation indicating the report is associated with sextortion. Source: NCMEC Cybertip API Sectio... |
+| **SextortionAwareness** | ext.cac.cacontology-prevention | Class | Prevention program focused on sextortion education and awareness. |
+| **SextortionCharge** | ext.cac.cacontology-legal-outcomes | Class | Criminal charge specifically related to sextortion involving sexual extortion of children through... |
+| **SextortionCommunication** | ext.cac.cacontology-sextortion | Class | Communication patterns specific to sextortion incidents. |
+| **SextortionEducation** | ext.cac.cacontology-prevention | Class | Educational content specifically addressing sextortion risks and prevention. |
+| **SextortionIncident** | ext.cac.cacontology-sextortion | Class | Online blackmail incident where offender tricks or coerces someone into sending sexual images, th... |
+| **SextortionInvestigation** | ext.cac.cacontology-sextortion | Class | Investigation specifically focused on sextortion incidents. |
+| **SextortionLaw** | ext.cac.cacontology-legal-harmonization | Class | Laws addressing sextortion of children. |
+| **SextortionProgression** | ext.cac.cacontology-sextortion | Class | Sequential phases of sextortion from initial contact through exploitation. |
+| **SextortionResponse** | ext.cac.cacontology-prevention | Class | Response protocol for sextortion incidents. |
+| **SextortionWarningSign** | ext.cac.cacontology-prevention | Class | Identifiable warning signs of sextortion activities. |
+| **SexualConsequenceGameGrooming** | ext.cac.cacontology-grooming | Class | Physical-space grooming pattern where the perpetrator frames sexualized contact as part of a game... |
+| **SexualContentExchangeGrooming** | ext.cac.cacontology-grooming | Class | Grooming involving exchange of sexual content to normalize sexual behavior. |
+| **SexualEducationExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Use of sexual topics and education as exploitation method within athletic context. Enhanced as gU... |
+| **SexualizationPhase** | ext.cac.cacontology-grooming | Class | Phase involving introduction of sexual content and normalization of inappropriate behavior. |
+| **SexuallyExplicitConversation** | ext.cac.cacontology-sextortion | Class | Conversation containing sexually explicit content directed at children. |
+| **SimultaneousRoleSituation** | ext.cac.cacontology-temporal | Class | Situation where person plays multiple roles simultaneously in investigation context. Modeled as g... |
+| **Situation** | ext.cac.cac-core | Class | A context, state, or configuration that holds at a time and may involve multiple participants. Al... |
 | **Snapshot** | uco.observable | Class | A snapshot is a file system object representing a snapshot of the contents of a part of a file sy... |
+| **SocialMediaPlatform** | ext.cac.cacontology-platforms | Class | A digital platform for social networking and content sharing (e.g., Facebook, Instagram, TikTok, ... |
+| **SocialMediaPost** | ext.cac.cacontology-platforms | Class | Individual posts, updates, or content shared on social media platforms. |
+| **SocialMediaSextortion** | ext.cac.cacontology-sextortion | Class | Sextortion conducted through social media platforms and networks. |
 | **Socket** | uco.observable | Class | A socket is a special file used for inter-process communication, which enables communication betw... |
+| **SportsContextPhysicalAbuse** | ext.cac.cacontology-athletic-exploitation | Class | Physical abuse within sports training context disguised as coaching. Enhanced as gUFO Event. |
+| **StatementChangeContext** | ext.cac.cacontology-recantation | Class | A situation capturing the social, familial, investigative, and coercive conditions surrounding a ... |
 | **StatementMarking** | uco.marking | Class | A statement marking is a grouping of characteristics unique to the expression of data marking def... |
+| **StorageMedia** | ext.cac.cacontology-physical-evidence | Class | External storage devices including hard drives, USB drives, memory cards, and optical media (gUFO... |
+| **StoredSocialMediaContent** | ext.cac.cacontology-platforms | Class | Social media content downloaded and stored on electronic devices. |
+| **SuspectProfile** | ext.cac.cacontology-tactical | Class | Assessment of suspect behavior, capabilities, and threat level. |
+| **SuspendedSituation** | ext.cac.cacontology-temporal | Class | Situation where investigation is temporarily suspended pending resources, legal decisions, or ext... |
 | **SymbolicLink** | uco.observable | Class | A symbolic link is a file that contains a reference to another file or directory in the form of a... |
 | **SymbolicLinkFacet** | uco.observable | Facet | A symbolic link facet is a grouping of characteristics unique to a file that contains a reference... |
+| **SystematicInstitutionalAbuse** | ext.cac.cacontology-institutional-exploitation | Class | Systematic pattern of abuse affecting multiple children over extended period. |
+| **TakedownRequestAction** | ext.cac.cacontology-hotlines | Class | The action of requesting content takedown from a hosting provider. Enhanced as gUFO Event for con... |
+| **TeamBasedExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Contextual situation in which exploitation occurs using team dynamics, group pressure, and collec... |
+| **TeamDynamicsExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Contextual situation in which exploitation occurs using team membership, group dynamics, and athl... |
+| **TechIndustryCooperation** | ext.cac.cacontology-partnerships | Class | Cooperation framework between law enforcement and technology companies for content detection, pla... |
+| **TechnicalAnalysisSituation** | ext.cac.cacontology-ai-csam | Class | Situation requiring coordination between technical experts, forensic analysts, and legal teams fo... |
+| **TechnicalServiceProvider** | ext.cac.cacontology-platforms | Class | Organizations providing technical infrastructure (hosting, CDN, DNS, etc.) that may be involved i... |
 | **TermsOfUseMarking** | uco.marking | Class | A terms of use marking is a grouping of characteristics unique to the expression of data marking ... |
-| **ToolCapability** | ext.toolcap | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
+| **TextEvidencePointer** | ext.cac.cacontology-synthesis | Class | A resolvable pointer to a location in a text artifact (e.g., normalized.txt lines), optionally wi... |
+| **TextMessageFollowUp** | ext.cac.cacontology-street-recruitment | Class | Follow-up through text messaging to reinforce trafficking proposition. |
+| **TrafficStop** | ext.cac.cacontology-tactical | Class | Investigative traffic stop used as part of undercover operation or to apprehend suspect. Extends ... |
+| **TrainingCampExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation during intensive training camps or extended athletic sessions. Enhanced as gUFO Event. |
+| **TrainingDataAnalysis** | ext.cac.cacontology-ai-csam | Class | Analysis of datasets potentially used to train AI models for generating illegal content. Enhanced... |
+| **TrustBreachSituation** | ext.cac.cacontology-custodial | Class | Situation arising from violation of trust or authority position. Modeled as gUFO Situation with t... |
 | **TwitterProfileFacet** | uco.observable | Facet | A twitter profile facet is a grouping of characteristics unique to an explicit digital representa... |
 | **UNIXFile** | uco.observable | Class | A UNIX file is a file pertaining to the UNIX operating system. |
 | **UNIXFilePermissionsFacet** | uco.observable | Facet | A UNIX file permissions facet is a grouping of characteristics unique to the access rights (e.g.,... |
 | **UNIXVolumeFacet** | uco.observable | Facet | A UNIX volume facet is a grouping of characteristics unique to a single accessible storage area (... |
 | **UcoObject** | uco.core | Class | A UCO object is a representation of a fundamental concept either directly inherent to the cyber d... |
+| **UnverifiedUserProfile** | ext.cac.cacontology-grooming | Class | User account with minimal or no identity verification enabling anonymous contact. |
+| **UserRiskClassification** | ext.cac.cacontology-platforms | Class | Automated classification of user risk levels based on platform activity patterns, content sharing... |
+| **VapeDevice** | ext.cac.cacontology-physical-evidence | Class | Electronic vaporizer or e-cigarette found as evidence. Often brought to lure or facilitate abuse ... |
+| **VictimContentCompilation** | ext.cac.cacontology-extremist-enterprises | Class | Organized compilation of content obtained from specific victim through exploitation and coercion. |
+| **VictimExtraction** | ext.cac.cacontology-victim-impact | Class | Immediate removal of victim from dangerous trafficking situation following emergency call. |
+| **VictimIdentification** | ext.cac.cacontology-sextortion | Class | Process of identifying and locating sextortion victims. |
+| **VictimProfileDevelopment** | ext.cac.cacontology-extremist-enterprises | Class | Development of detailed victim profiles including vulnerabilities and exploitation opportunities. |
+| **VictimResponse** | ext.cac.cacontology-sextortion | Class | Pattern of victim response to sextortion attempts. |
+| **VictimStatement** | ext.cac.cacontology-recantation | Class | A statement or account by a child victim concerning abuse, disclosure, denial, or recantation. Mo... |
+| **VictimVulnerabilityProfile** | ext.cac.cacontology-sex-trafficking | Class | Profile of factors that make individuals vulnerable to trafficking recruitment. Modeled as gUFO O... |
+| **VideoGeneration** | ext.cac.cacontology-ai-csam | Class | Generation of video content using AI models capable of creating temporal sequences and motion. En... |
+| **VideoStreamingPlatform** | ext.cac.cacontology-platforms | Class | A platform for video content streaming and sharing (e.g., YouTube, Twitch, OnlyFans, Periscope). ... |
 | **Volume** | uco.observable | Class | A volume is a single accessible storage area (volume) with a single file system. [based on https:... |
 | **VolumeFacet** | uco.observable | Facet | A volume facet is a grouping of characteristics unique to a single accessible storage area (volum... |
 | **Wiki** | uco.observable | Class | A wiki is an online hypertext publication collaboratively edited and managed by its own audience ... |
@@ -135,47 +383,27 @@ Classes for representing files, directories, file systems, and their metadata. U
 | **WindowsVolumeFacet** | uco.observable | Facet | A Windows volume facet is a grouping of characteristics unique to a single accessible storage are... |
 | **X509V3ExtensionsFacet** | uco.observable | Facet | An X.509 v3 certificate extensions facet is a grouping of characteristics unique to a public key ... |
 
-**AlternateDataStream** key properties:
+**AIContentDetection** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
+| detectionConfidence | decimal | No |
+| detectionMethod | string | No |
+| evidenceAdmissibility | string | No |
+| processingTime | decimal | No |
+| detectionTimePoint | dateTime | Yes |
+| startTime | dateTime | Yes |
 
-**ArchiveFile** key properties:
+**AIContentGeneration** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
-
-**BlockDeviceNode** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
+| generationComplexity | string | No |
+| generationTechnique | string | No |
+| technicalExpertiseRequired | string | No |
+| generationDuration | duration | No |
+| endTime | dateTime | No |
+| startTime | dateTime | Yes |
 
 **Example usage:**
 
@@ -221,8 +449,7 @@ let facet = FileFacet::builder()
     .file_name("evidence.dd".into())
     .size_in_bytes(1073741824)
     .build();
-let obs = ObservableObject::builder().has_facet(vec![facet]).build();
-graph.create(&obs);
+graph.create(&ObservableObject::default());
 ```
 
 </details>
@@ -233,61 +460,315 @@ Classes for network connections, IP addresses, DNS records, URLs, and related ar
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
+| **AIContentDetection** | ext.cac.cacontology-ai-csam | Class | Process of identifying AI-generated or AI-altered content to distinguish from authentic material ... |
+| **AIContentGeneration** | ext.cac.cacontology-ai-csam | Class | Process of creating artificial CSAM using machine learning models, neural networks, or other AI t... |
+| **AIContentInvestigationSituation** | ext.cac.cacontology-ai-csam | Class | Complex situation involving multiple stakeholders, technologies, and legal frameworks for investi... |
+| **AIDetectionPhase** | ext.cac.cacontology-ai-csam | Class | Anti-rigid phase during which AI-generated content undergoes detection and analysis processes. |
 | **API** | uco.observable | Class | An API (application programming interface) is a computing interface that defines interactions bet... |
 | **ARPCache** | uco.observable | Class | An ARP cache is a collection of Address Resolution Protocol (ARP) entries (mostly dynamic) that a... |
 | **ARPCacheEntry** | uco.observable | Class | An ARP cache entry is a single Address Resolution Protocol (ARP) response record that is created ... |
-| **AccessRestriction** | ext.toolcap | Class | An access restriction describes a security, licensing, classification, operational security, or l... |
+| **AcademicActivityExploitation** | ext.cac.cacontology-educational-exploitation | Class | Exploitation occurring during academic activities such as assignments, tests, or tutoring. Enhanc... |
+| **AcademicPartner** | ext.cac.cacontology-partnerships | Class | Academic institution participating in partnership with research and training capabilities. Modele... |
+| **AcademicPartnership** | ext.cac.cacontology-partnerships | Class | Partnership with academic institutions for research, training, and technology development in chil... |
+| **AcademicTermPhase** | ext.cac.cacontology-educational-exploitation | Class | Anti-rigid phase representing academic terms during which exploitation may occur. |
+| **AccessRestriction** | ext.toolcap | Class | An access restriction is a marking definition that describes a security, licensing, classificatio... |
+| **AccommodationMotion** | ext.cac.cacontology-case-management | Class | Court filing requesting witness or victim accommodations needed for testimony, accessibility, or ... |
+| **AccountLinking** | ext.cac.cacontology-us-ncmec | Class | Process of linking digital accounts to suspects through NCMEC tip analysis. |
 | **ActionLifecycle** | uco.action | Class | An action lifecycle is an action pattern consisting of an ordered set of multiple actions or subo... |
+| **ActionPhase** | ext.cac.cacontology-hotlines | Class | The phase during which responsive actions are taken (forwarding, takedown requests, etc.). |
+| **ActiveCustodyPhase** | ext.cac.cacontology-custodial | Class | Phase when custodial relationship is actively maintained and operational. Modeled as anti-rigid g... |
+| **ActiveInvestigationPhase** | ext.cac.cacontology-case-management | Class | Phase during which active investigation activities occur including evidence collection and analys... |
+| **ActiveProductionPhase** | ext.cac.cacontology-production | Class | Phase during which production activities are actively occurring. |
 | **Adaptor** | uco.observable | Class | An adaptor is a device that physically converts the pin outputs but does not alter the underlying... |
+| **AgeAcknowledgment** | ext.cac.cacontology-undercover | Class | Suspect explicitly acknowledging the stated age of the minor persona during communication. |
+| **AgeAtTimeSituation** | ext.cac.cacontology-temporal | Class | gUFO QualityValueAttributionSituation specializing in attribution of an Age quality value to a sp... |
+| **AggravatedSexualAbuse** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of aggravated sexual abuse involving children in federal jurisdiction. Modeled as g... |
+| **AnalysisPhase** | ext.cac.cacontology | Class | Phase focused on detailed analysis of evidence and cybertip information. |
+| **AnalystAssignment** | ext.cac.cacontology-case-management | Class | Assignment of analysts for data analysis, intelligence gathering, and technical support. Enhanced... |
+| **AnalystRole** | ext.cac.cacontology | Class | Role of professional analyzing cybertips and digital evidence. Modeled as anti-rigid gUFO Role. |
+| **AnalystRole** | ext.cac.cacontology-specialized-units | Class | Role of analyst supporting specialized unit operations. Modeled as anti-rigid gUFO Role. |
 | **AndroidDevice** | uco.observable | Class | An Android device is a device running the Android operating system. [based on https://en.wikipedi... |
 | **AndroidDeviceFacet** | uco.observable | Facet | An Android device facet is a grouping of characteristics unique to an Android device. [based on h... |
+| **AnonymousContactOpportunity** | ext.cac.cacontology-platforms | Class | Opportunities provided by platform for anonymous users to initiate contact with other users. |
 | **Appliance** | uco.observable | Class | An appliance is a purpose-built computer with software or firmware that is designed to provide a ... |
+| **ArrestReport** | ext.cac.cacontology-tactical | Class | Formal arrest report documenting the arrest including charges, evidence, and suspect information.... |
+| **Artifact** | ext.cac.cac-core | Class | An enduring entity that is inspectable, storable, transferable, or evidentiary. Aligned to UCO Ob... |
+| **AssessmentPhase** | ext.cac.cacontology-training | Class | Phase of participant assessment and competency evaluation. Modeled as anti-rigid gUFO Phase. |
+| **AssetAssessmentAction** | ext.cac.cacontology-asset-forfeiture | Class | Action to assess the value and ownership of assets for potential forfeiture. Enhanced as gUFO Eve... |
+| **AssetIdentificationPhase** | ext.cac.cacontology-asset-forfeiture | Class | Phase during which assets are identified and assessed for potential forfeiture. Anti-rigid gUFO P... |
+| **AssociateTraffickerRole** | ext.cac.cacontology-sex-trafficking | Class | Supporting role in trafficking operation, assisting primary traffickers. Modeled as anti-rigid gU... |
+| **AthleticCoachingExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Child sexual exploitation committed by athletic coaches using sports authority, team dynamics, an... |
+| **AthleticExploitationDiscovery** | ext.cac.cacontology-athletic-exploitation | Class | Discovery of athletic coaching exploitation through various reporting mechanisms. Enhanced as gUF... |
+| **AthleticFacility** | ext.cac.cacontology-athletic-exploitation | Class | Physical athletic facilities and sports venues where exploitation occurs. Enhanced as gUFO Object. |
+| **AthleticFacilityExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation occurring in athletic facilities and sports venues. Enhanced as gUFO Event occurring... |
+| **AthleticFieldExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation on outdoor athletic fields, courts, and sports venues. Enhanced as gUFO Event. |
+| **AthleticOpportunityThreats** | ext.cac.cacontology-athletic-exploitation | Class | Threats to athletic opportunities, advancement, and sports career prospects. Enhanced as gUFO Sit... |
+| **AttorneyGeneralHost** | ext.cac.cacontology-taskforce | Class | State attorney general office hosting CAC task force (Idaho AG, Illinois AG, Texas AG, etc.). |
+| **AuthorityAbuse** | ext.cac.cacontology-custodial | Class | Abuse of authority position to exploit or harm children. Modeled as gUFO SubKind with authority r... |
+| **AuthorityEstablishmentPhase** | ext.cac.cacontology-athletic-exploitation | Class | Phase during which coaching authority and control over athletes is established. Anti-rigid gUFO P... |
+| **AutomatedEvidenceDistribution** | ext.cac.cacontology-multi-jurisdiction | Class | Automated system for distributing evidence packages to appropriate jurisdictions based on user lo... |
+| **AutomatedReporterAgent** | ext.cac.cacontology-hotlines | Class | A software agent that automatically reports content to hotlines. Enhanced as gUFO Object for comp... |
 | **AutonomousSystem** | uco.observable | Class | An autonomous system is a collection of connected Internet Protocol (IP) routing prefixes under t... |
 | **AutonomousSystemFacet** | uco.observable | Facet | An autonomous system facet is a grouping of characteristics unique to a collection of connected I... |
+| **BarricadeSituation** | ext.cac.cacontology-tactical | Class | Situation where suspect has barricaded themselves and refuses to surrender. A state/context, not ... |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability.... |
 | **BlockDeviceNode** | uco.observable | Class | A block device node is a UNIX filesystem special file that serves as a conduit to communicate wit... |
 | **BotConfiguration** | uco.observable | Class | A bot configuration is a set of contextual settings for a software application that runs automate... |
 | **BrowserBookmark** | uco.observable | Class | A browser bookmark is a saved shortcut that directs a WWW (World Wide Web) browser software progr... |
 | **BrowserBookmarkFacet** | uco.observable | Facet | A browser bookmark facet is a grouping of characteristics unique to a saved shortcut that directs... |
 | **BrowserCookie** | uco.observable | Class | A browser cookie is a piece of of data sent from a website and stored on the user's computer by t... |
 | **BrowserCookieFacet** | uco.observable | Facet | A browser cookie facet is a grouping of characteristics unique to a piece of data sent from a web... |
+| **CACInvestigation** | ext.cac.cacontology | Class | A child-protection investigation that follows a standard action lifecycle that commonly begins wi... |
+| **CSAMSolicitationAnnotation** | ext.cac.cacontology-us-ncmec | Class | Annotation indicating the report is associated with solicitation of CSAM. Source: NCMEC Cybertip ... |
 | **Call** | uco.observable | Class | A call is a connection as part of a realtime cyber communication between one or more parties. |
 | **CallFacet** | uco.observable | Facet | A call facet is a grouping of characteristics unique to a connection as part of a realtime cyber ... |
-| **CapabilityMatrix** | ext.toolcap | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
+| **CapabilityMatrix** | ext.toolcap | Class | DEPRECATED in 0.4.0. The capability matrix concept is superseded by querying the overall graph of... |
+| **CapacityBuildingPartner** | ext.cac.cacontology-training | Class | Partner organization supporting capacity building efforts. Modeled as gUFO Organization. |
+| **CaregiverRelationship** | ext.cac.cacontology-custodial | Class | Relationship involving responsibility for child's care, welfare, or supervision. Modeled as gUFO ... |
+| **CaseDocumentation** | ext.cac.cacontology-case-management | Class | Comprehensive documentation management for case files, reports, evidence logs, and legal document... |
+| **CaseInformationSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of case-specific information including case files, reports, witness statements, and inves... |
+| **CaseInitiationPhase** | ext.cac.cacontology-case-management | Class | Initial phase where case is opened and basic assignment occurs. Anti-rigid gUFO Phase supporting ... |
+| **CaseReport** | ext.cac.cacontology-case-management | Class | Formal case report documenting investigation findings, evidence, and recommendations. Enhanced as... |
+| **CaseResolutionTimeMetrics** | ext.cac.cacontology-investigation-coordination | Class | Metrics measuring impact of coordination on case resolution times and outcomes. |
+| **CaseTracking** | ext.cac.cacontology-case-management | Class | Systematic tracking of case progress, updates, and status changes across multiple systems and jur... |
 | **CharacterDeviceNode** | uco.observable | Class | A character device node is a UNIX filesystem special file that serves as a conduit to communicate... |
+| **CharitableOrganizationLeader** | ext.cac.cacontology-institutional-exploitation | Class | Leadership role within charitable organization serving children. |
+| **ChildExploitationEnterprise** | ext.cac.cacontology-extremist-enterprises | Class | Criminal enterprise as defined in 18 U.S.C. § 2252A(g) engaging in coordinated child exploitation... |
+| **ChildPersona** | ext.cac.cacontology-undercover | Class | Undercover identity portraying a minor child for investigative purposes. |
+| **ChildPornographyReceipt** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of knowingly receiving child pornography through interstate or foreign commerce. Mo... |
+| **ChildRescueCoordination** | ext.cac.cacontology-multi-jurisdiction | Class | Coordination of child rescue operations across jurisdictions. |
+| **ChildSexTourismIncident** | ext.cac.cacontology-us-ncmec | Class | Incidents involving child sex tourism. Source: NCMEC Cybertip API Section B.1.1, incidentType 'Ch... |
+| **ChildSexTraffickingIncident** | ext.cac.cacontology-us-ncmec | Class | Incidents involving child sex trafficking. Source: NCMEC Cybertip API Section B.1.1, incidentType... |
+| **ChildSexualAbuseEvent** | ext.cac.cacontology | Class | A class representing any event involving child sexual abuse or exploitation. This is the base cla... |
+| **ChildSupportEnforcementLaw** | ext.cac.cacontology-usa-federal-law | Class | Federal laws related to child support enforcement that intersect with child exploitation cases. |
+| **ChildSupportEvasion** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of willfully failing to pay child support across state lines. Modeled as gUFO Event. |
+| **ChildSupportExploitationLink** | ext.cac.cacontology-usa-federal-law | Class | Connection between child support violations and child exploitation crimes. Modeled as gUFO Situat... |
+| **CivilSocietyEngagement** | ext.cac.cacontology-partnerships | Class | Framework for engaging civil society, volunteers, and public participation in child protection in... |
+| **CivilSocietyPartner** | ext.cac.cacontology-partnerships | Class | Civil society organization participating in partnership with community engagement capabilities. M... |
+| **Claim** | ext.cac.cacontology-synthesis | Class | A first-class, queryable claim extracted from a report (finding, recommendation, distribution, ga... |
+| **ClassmateRecruitmentNetwork** | ext.cac.cacontology-recruitment-networks | Class | Recruitment network operating within educational institutions using existing victims to recruit c... |
+| **ClassroomBasedExploitation** | ext.cac.cacontology-educational-exploitation | Class | Sexual exploitation occurring within classroom setting during academic activities. Enhanced as gU... |
+| **ClosurePhase** | ext.cac.cacontology-hotlines | Class | The phase during which reports are finalized and closed. |
+| **Coach** | ext.cac.cacontology-custodial | Class | Sports or activity coach with authority over young participants. Modeled as anti-rigid gUFO Role ... |
+| **CoalitionBuilding** | ext.cac.cacontology-legal-harmonization | Class | Building coalitions to support advocacy goals. |
 | **Code** | uco.observable | Class | Code is a direct representation (source, byte or binary) of a collection of computer instructions... |
+| **ColdCaseManagement** | ext.cac.cacontology-case-management | Class | Management protocols for cold cases including periodic review and new evidence integration. Subcl... |
+| **CollaborativeInvestigationSituation** | ext.cac.cacontology-partnerships | Class | Complex situation involving multiple partners working together on investigations. Modeled as gUFO... |
+| **CollegeParkBarrack** | ext.cac.cacontology-specialized-units | Class | Maryland State Police College Park Barrack supporting computer crimes investigations. Modeled as ... |
+| **CommunicationEquipment** | ext.cac.cacontology-tactical | Class | Specialized communication devices for tactical operations. |
+| **CommunicationPatternAnalysis** | ext.cac.cacontology-forensics | Class | Analysis of communication patterns to identify relationships and networks. |
+| **CommunicationProtocol** | ext.cac.cacontology-investigation-coordination | Class | Formal protocols governing communication between agencies including channels, frequencies, and pr... |
+| **CommunityBasedReporting** | ext.cac.cacontology-athletic-exploitation | Class | Reporting through community and parent networks rather than direct victim disclosure. Enhanced as... |
+| **CommunityEducationTraining** | ext.cac.cacontology-training | Class | Training designed to educate community members and caregivers about child abuse dynamics, disclos... |
+| **CommunityEngagementMetrics** | ext.cac.cacontology-prevention | Class | Comprehensive metrics for measuring community engagement across multiple communication channels. |
+| **CommunityPartnershipInitiative** | ext.cac.cacontology-prevention | Class | Initiative building partnerships with community organizations for child protection. |
+| **CommunityPressureRisk** | ext.cac.cacontology-recantation | Class | A recantation risk created by pressure, shame, or expectation from community, school, faith, or o... |
+| **CommunitySupport** | ext.cac.cacontology-victim-impact | Class | Community-based support services for trafficking victims during reintegration. |
 | **CompilerType** | uco.tool | Class | A compiler type is a grouping of characteristics unique to a specific program that translates com... |
+| **ComplexCaseManagement** | ext.cac.cacontology-case-management | Class | Specialized management for complex cases involving multiple offenses, victims, or extensive evide... |
+| **ComplexTrauma** | ext.cac.cacontology-victim-impact | Class | Complex trauma resulting from multiple types of victimization or prolonged abuse. |
+| **ComplianceBenchmark** | ext.cac.cacontology-legal-harmonization | Class | Benchmark for measuring legal compliance. |
+| **ComplianceDocumentationArtifact** | ext.cac.cacontology-legal-harmonization | Class | Documentation artifact (record/report/audit trail element) used to prove appropriate action to re... |
+| **ComplianceIntelligenceFramework** | ext.cac.cacontology-legal-harmonization | Class | A verified compliance intelligence framework used to document good-faith content moderation and r... |
+| **ComplianceMetrics** | ext.cac.cacontology-legal-harmonization | Class | Metrics for measuring legal compliance. |
+| **ComplianceProcess** | ext.cac.cacontology-legal-harmonization | Class | Process for ensuring legal compliance. |
+| **ComplianceVisitCoordination** | ext.cac.cacontology-multi-jurisdiction | Class | Coordination of multiple compliance visits across jurisdictions. |
+| **ComputerEquipment** | ext.cac.cacontology-physical-evidence | Class | Digital devices including computers, laptops, tablets, and mobile phones seized as evidence (gUFO... |
+| **ConcealmentContainer** | ext.cac.cacontology-production | Class | Object used to hide recording equipment such as backpacks, furniture, or everyday items with modi... |
+| **ConcurrentInvestigationSituation** | ext.cac.cacontology-temporal | Class | Situation where multiple investigations run simultaneously, potentially sharing resources or evid... |
+| **ConspiracyLeaderRole** | ext.cac.cacontology | Class | Leadership role within criminal conspiracy, directing and coordinating activities. |
+| **ConspiracyMemberRole** | ext.cac.cacontology | Class | Member role within criminal conspiracy, participating in coordinated activities. |
+| **ConspiracyToCommitCSA** | ext.cac.cacontology | Class | Criminal conspiracy involving multiple defendants coordinating child sexual abuse or exploitation... |
 | **ContactList** | uco.observable | Class | A contact list is a set of multiple individual contacts such as that found in a digital address b... |
 | **ContactListFacet** | uco.observable | Facet | A contact list facet is a grouping of characteristics unique to a set of multiple individual cont... |
 | **ContactSIP** | uco.observable | Class | A contact SIP is a grouping of characteristics unique to details for contacting a contact entity ... |
 | **ContactURL** | uco.observable | Class | A contact URL is a grouping of characteristics unique to details for contacting a contact entity ... |
+| **ContentCorrelationAnalysis** | ext.cac.cacontology-forensics | Class | Analysis correlating content across multiple users and platforms for identifying networks and rel... |
+| **ContentDeliveryNetwork** | ext.cac.cacontology-platform-infrastructure | Class | CDN infrastructure used for distributing illegal content globally with high availability and perf... |
+| **ContentGenerationPhase** | ext.cac.cacontology-ai-csam | Class | Anti-rigid phase during which AI systems generate illegal content. |
+| **ContentIdentification** | ext.cac.cacontology-us-ncmec | Class | Identification and classification of illegal content in NCMEC tips. |
 | **ContextualCompilation** | uco.core | Class | A contextual compilation is a grouping of things sharing some context (e.g., a set of network con... |
+| **CoordinatedCharging** | ext.cac.cacontology-multi-jurisdiction | Class | Coordinated charging decisions across multiple jurisdictions to ensure consistent prosecution app... |
+| **CoordinatedOffensePattern** | ext.cac.cacontology | Class | Pattern of coordinated criminal activities involving multiple perpetrators working together acros... |
+| **CoordinatingAgent** | ext.cac.cacontology-multi-jurisdiction | Class | Personnel responsible for coordinating multi-jurisdictional activities. |
+| **CoordinationEffectivenessMetrics** | ext.cac.cacontology-investigation-coordination | Class | Metrics measuring overall effectiveness of coordination efforts and outcomes. |
+| **CoordinationMetrics** | ext.cac.cacontology-investigation-coordination | Class | Performance metrics for measuring effectiveness and efficiency of inter-agency coordination. |
+| **CoordinationSituationPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling multi-jurisdiction coordination situations with participating organizat... |
+| **CostEfficiencyMetrics** | ext.cac.cacontology-investigation-coordination | Class | Metrics measuring cost efficiency and financial benefits of coordination activities. |
+| **CounselorRole** | ext.cac.cacontology-educational-exploitation | Class | Counseling role providing guidance and support to students. Enhanced as anti-rigid gUFO Role. |
+| **CountryPartnership** | ext.cac.cacontology-international | Class | A bilateral or multilateral partnership between specific countries for child protection. |
+| **CountyBasedTaskForce** | ext.cac.cacontology-taskforce | Class | CAC task force hosted by and primarily serving specific county jurisdiction. |
+| **CountyPoliceSupport** | ext.cac.cacontology-specialized-units | Class | County-level police department providing support to state computer crimes investigations. Modeled... |
+| **CourseCompletionTracking** | ext.cac.cacontology-prevention | Class | System for tracking participant progress and completion rates in interactive safety courses. |
+| **CourtProceedingsPhase** | ext.cac.cacontology-case-management | Class | Phase during which court proceedings occur including trials and hearings. Anti-rigid gUFO Phase. |
+| **CourtroomAccommodationPlan** | ext.cac.cacontology-case-management | Class | Case documentation specifying planned courtroom accommodations for a child witness, including sup... |
+| **CovertEmployeeOperation** | ext.cac.cacontology-extremist-enterprises | Class | Operation using online covert employees (OCE) to infiltrate and monitor extremist networks. |
+| **CrossBorderForensics** | ext.cac.cacontology-international | Class | Forensic analysis requiring coordination across multiple countries for large-scale evidence proce... |
+| **CrossBorderOperation** | ext.cac.cacontology-international | Class | Investigation or operation spanning multiple countries. |
+| **CrossBorderPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling cross-border investigations as complex situations spanning multiple jur... |
+| **CrossBorderThreatAlert** | ext.cac.cacontology-international | Class | Alert about threats that require immediate action across multiple countries. |
+| **CrossInstitutionalExploitation** | ext.cac.cacontology-educational-exploitation | Class | Exploitation targeting students from multiple educational institutions. Enhanced as gUFO Event wi... |
+| **CrossInstitutionalGrooming** | ext.cac.cacontology-grooming | Class | Grooming targeting students from multiple educational institutions. |
+| **CrossInstitutionalInvestigationSituation** | ext.cac.cacontology-educational-exploitation | Class | Situation requiring coordination between multiple educational institutions, law enforcement, and ... |
+| **CrossJurisdictionalControl** | ext.cac.cacontology-sex-trafficking | Class | Maintenance of victim control across multiple jurisdictions through coordinated trafficking netwo... |
+| **CrossJurisdictionalInvestigation** | ext.cac.cacontology-international | Class | Investigation spanning multiple jurisdictions and countries targeting international criminal netw... |
+| **CrossPlatformCoordination** | ext.cac.cacontology-extremist-enterprises | Class | Coordination of enterprise activities across multiple internet platforms and channels. |
+| **CrossPlatformCorrelation** | ext.cac.cacontology-forensics | Class | Analysis correlating evidence across multiple platforms and services to identify coordinated crim... |
+| **CrossPlatformDetectionSituation** | ext.cac.cacontology-detection | Class | Situation involving detection across multiple platforms and services. Modeled as gUFO Situation. |
+| **CrossPlatformDetectionSituation** | ext.cac.cacontology-ai-csam | Class | Situation involving detection and analysis of AI-generated content across multiple platforms and ... |
+| **CrossPlatformEvidence** | ext.cac.cacontology-platforms | Class | Evidence found across multiple social media platforms by the same user. |
+| **CrossPlatformEvidenceCorrelation** | ext.cac.cacontology-extremist-enterprises | Class | Correlation of evidence across multiple platforms to establish identity and network connections. |
+| **CrossReferenceAnalysis** | ext.cac.cacontology-forensics | Class | Cross-referencing of digital evidence across multiple cases and international databases for victi... |
+| **CrossReferenceAnalysis** | ext.cac.cacontology-international | Class | Analysis correlating data across multiple international databases to identify connections and pat... |
+| **CrossReferralProtocol** | ext.cac.cacontology-international | Class | Protocol for referring reports between national hotlines. |
+| **CrossStateEvidence** | ext.cac.cacontology-multi-jurisdiction | Class | Evidence collected across multiple states in trafficking investigation. |
+| **CrowdsourcingInvestigation** | ext.cac.cacontology-partnerships | Class | Investigation leveraging public participation for object identification, geolocation, and evidenc... |
+| **CustodialRelationship** | ext.cac.cacontology-custodial | Class | Legal or informal relationship involving custody, care, or supervision of a child. Modeled as gUF... |
+| **CyberExtremistNetwork** | ext.cac.cacontology-extremist-enterprises | Class | Extremist network operating primarily through digital platforms and encrypted communications. |
+| **CyberTipAnalysis** | ext.cac.cacontology-us-ncmec | Class | Analytical processing and assessment of NCMEC CyberTip reports by law enforcement. |
+| **CyberTipMetrics** | ext.cac.cacontology-taskforce | Class | Metrics tracking CyberTip processing and analysis by task force. |
 | **DNSCache** | uco.observable | Class | An DNS cache is a temporary locally stored collection of previous Domain Name System (DNS) query ... |
 | **DNSRecord** | uco.observable | Class | A DNS record is a single Domain Name System (DNS) artifact specifying information of a particular... |
+| **DarkWebService** | ext.cac.cacontology-platforms | Class | A service accessible through anonymizing networks like Tor, often used for illegal activities. Mo... |
+| **DataExchangeProtocol** | ext.cac.cacontology-international | Class | Technical protocol for secure data exchange between international partners. |
+| **DataTarget** | ext.aeo.engagement | Class | A datatarget is a grouping of characteristics unique to a specific target/listener that receives ... |
+| **DatabaseIntelligenceIntegration** | ext.cac.cacontology-forensics | Class | Integration and correlation against multiple international databases and intelligence sources. |
+| **DeceptionAction** | ext.aeo.engagement | Class | A deception action is an action used for and during a deception campaign which is performed to ma... |
+| **DeceptionObject** | ext.aeo.engagement | Class |  A deception concept object used during a deception compaign. |
+| **DeepfakeCSAM** | ext.cac.cacontology-ai-csam | Class | CSAM created by using AI to alter genuine content, potentially making real victims appear in fabr... |
+| **DeepfakeDetection** | ext.cac.cacontology-ai-csam | Class | Specialized analysis for detecting deepfake technology use in content, including face replacement... |
+| **DeepfakeDetectionTool** | ext.cac.cacontology-ai-csam | Class | Tool specifically designed to identify deepfake content and face manipulation techniques. Enhance... |
+| **DelayedReporting** | ext.cac.cacontology-street-recruitment | Class | Victim reporting that occurs days or weeks after initial incident. |
+| **DenialAction** | ext.aeo.engagement | Class | A denial action is an action used for and during a deception campaign which restricts or denies a... |
+| **Deploy** | ext.aeo.engagement | Class | A Deploy action involves instantiating some deception objects prior or during an operation. |
 | **Device** | uco.observable | Class | A device is a piece of equipment or a mechanism designed to serve a special purpose or perform a ... |
+| **DeviceDetection** | ext.cac.cacontology-specialized-units | Class | Detection of electronic storage devices during search operations. Modeled as gUFO Event. |
 | **DeviceFacet** | uco.observable | Facet | A device facet is a grouping of characteristics unique to a piece of equipment or a mechanism des... |
 | **DigitalAccount** | uco.observable | Class | A digital account is an arrangement with an entity to enable and control the provision of some ca... |
 | **DigitalAccountFacet** | uco.observable | Facet | A digital account facet is a grouping of characteristics unique to an arrangement with an entity ... |
 | **DigitalCamera** | uco.observable | Class | A digital camera is a camera that captures photographs in digital memory as opposed to capturing ... |
+| **DigitalManipulation** | ext.cac.cacontology-production | Class | Digital alteration or enhancement of images or videos to create child sexual abuse material. |
+| **DigitalSystemEntity** | ext.cac.cac-core | Class | An enduring entity representing a software or system-level resource such as an online service pla... |
+| **DigitalToPhysicalBridge** | ext.cac.cacontology-street-recruitment | Class | Use of digital communication to maintain connection after physical encounter. |
+| **DigitallyGeneratedCSAMIncident** | ext.cac.cacontology | Class | Incidents involving digitally generated or manipulated child sexual abuse material. |
 | **Directory** | uco.observable | Class | A directory is a file system cataloging structure which contains references to other computer fil... |
+| **DisclosureEncouragementStrategy** | ext.cac.cacontology-prevention | Class | Strategy for encouraging victims to disclose abuse through education and support. |
+| **DiscoveryPhase** | ext.cac.cacontology-athletic-exploitation | Class | Phase during which exploitation is discovered through various reporting mechanisms. Anti-rigid gU... |
+| **DisguiseBasedConcealment** | ext.cac.cacontology-stranger-abduction | Class | Use of disguises or concealment methods to hide identity during approach and abduction. |
 | **DiskPartition** | uco.observable | Class | A disk partition is a particular managed region on a storage mechanism where data is recorded by ... |
+| **DistributedForensicProcessing** | ext.cac.cacontology-forensics | Class | Forensic processing distributed across multiple systems and locations for handling massive eviden... |
+| **DistributedIntelligenceProcessing** | ext.cac.cacontology-international | Class | Distributed processing of intelligence across multiple international systems for scalable analysis. |
+| **DistributedProsecutionTeam** | ext.cac.cacontology-multi-jurisdiction | Class | Prosecution team distributed across multiple jurisdictions for handling massive caseloads. |
+| **DistributionObservation** | ext.cac.cacontology-synthesis | Class | A structured observation about a distribution (count/denominator and/or rank) reported by a report. |
+| **DistrictAttorneyHost** | ext.cac.cacontology-taskforce | Class | District or county attorney office hosting CAC task force (Delaware County DA, Cook County SA, et... |
+| **DomainInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Domain name system infrastructure including domain registration, DNS services, and subdomain mana... |
 | **DomainName** | uco.observable | Class | A domain name is an identification string that defines a realm of administrative autonomy, author... |
 | **DomainNameFacet** | uco.observable | Facet | A domain name facet is a grouping of characteristics unique to an identification string that defi... |
+| **DomainSinkholing** | ext.cac.cacontology-platform-infrastructure | Class | Redirecting domain traffic to law enforcement controlled servers to gather intelligence (gUFO Eve... |
+| **DonorManipulation** | ext.cac.cacontology-institutional-exploitation | Class | Manipulation of donors and supporters to maintain funding for abusive operations. |
+| **DualCoachingRoleExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation leveraging multiple coaching positions across different teams or institutions. Enhan... |
+| **ESPReport** | ext.cac.cacontology-hotlines | Class | A report submitted by an electronic service provider. |
 | **EXIFFacet** | uco.observable | Facet | An EXIF (exchangeable image file format) facet is a grouping of characteristics unique to the for... |
+| **EditingEquipment** | ext.cac.cacontology-production | Class | Computer hardware and software used to edit or enhance produced material. |
+| **EducationPortal** | ext.cac.cacontology-prevention | Class | Online portal providing educational resources for child protection. Modeled as gUFO Object. |
+| **EducationalInstitution** | ext.cac.cacontology-recruitment-networks | Class | School or educational facility where recruitment occurs or reporting takes place. |
+| **EducationalSupport** | ext.cac.cacontology-victim-impact | Class | Educational accommodations and support for victim's schooling. |
+| **ElectronicStorageDeviceK9** | ext.cac.cacontology-specialized-units | Class | K9 trained to detect electronic storage devices during search operations. Modeled as gUFO Organiz... |
 | **EmailAddress** | uco.observable | Class | An email address is an identifier for an electronic mailbox to which electronic mail messages (co... |
 | **EmailAddressFacet** | uco.observable | Facet | An email address facet is a grouping of characteristics unique to an identifier for an electronic... |
+| **EmailListEngagementMetrics** | ext.cac.cacontology-prevention | Class | Metrics tracking email list subscription rates, open rates, and engagement patterns. |
+| **EmergencyCoordinationProtocol** | ext.cac.cacontology-international | Class | Protocol for emergency coordination when immediate international response is required. |
+| **EmergencyHelpSeeking** | ext.cac.cacontology-victim-impact | Class | Victim's attempt to seek emergency help during trafficking or exploitation, such as calling 911 (... |
+| **EmotionalManipulation** | ext.cac.cacontology-sextortion | Class | Use of emotional tactics (false love, friendship, etc.) to control victim. |
+| **EmploymentPhase** | ext.cac.cacontology-educational-exploitation | Class | Anti-rigid phase representing educator's employment period during which exploitation occurs. |
+| **EncryptedChannelInfiltration** | ext.cac.cacontology-extremist-enterprises | Class | Infiltration of encrypted channels used by extremist networks for evidence collection. |
+| **EncryptedChannelNetwork** | ext.cac.cacontology-extremist-enterprises | Class | Network of encrypted messaging channels used for enterprise coordination and content sharing. |
+| **EncryptedCommunicationChannel** | ext.cac.cacontology-investigation-coordination | Class | Encrypted communication channels providing enhanced security for sensitive operations. |
+| **EnduringEntity** | ext.cac.cac-core | Class | A thing that persists through time while potentially changing state. This is the CAC-facing root ... |
+| **EnterpriseHierarchy** | ext.cac.cacontology-extremist-enterprises | Class | Organizational hierarchy within child exploitation enterprise defining leadership and member roles. |
+| **EnterpriseLeaderRole** | ext.cac.cacontology-extremist-enterprises | Class | Leadership role within child exploitation enterprise, directing and coordinating activities. |
+| **Entity** | ext.cac.cac-core | Class | The most general class in the CAC semantic spine. All CAC domain concepts should anchor to one of... |
 | **EnvironmentVariable** | uco.observable | Class | An environment variable is a grouping of characteristics unique to a dynamic-named value that can... |
+| **EquipmentSeizureAction** | ext.cac.cacontology-asset-forfeiture | Class | Seizure of equipment used in commission of child exploitation offenses. Enhanced as gUFO Event fo... |
+| **EquipmentSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of specialized equipment including forensic tools, surveillance equipment, and technical ... |
+| **EquipmentSharing** | ext.cac.cacontology-taskforce | Class | Sharing of specialized equipment or technology. |
+| **EscapeAttempt** | ext.cac.cacontology-stranger-abduction | Class | Victim's attempts to escape during or after abduction. |
+| **EuropolOperation** | ext.cac.cacontology-international | Class | Large-scale international operation coordinated by Europol involving multiple EU member states an... |
+| **EvaluationPhase** | ext.cac.cacontology-partnerships | Class | Phase of partnership evaluation and effectiveness assessment. Modeled as anti-rigid gUFO Phase. |
+| **EvidenceAnalysisPhase** | ext.cac.cacontology-physical-evidence | Class | Phase during which physical evidence is undergoing forensic analysis (gUFO Phase - anti-rigid). |
+| **EvidenceCollectionAction** | ext.cac.cacontology-physical-evidence | Class | Action of collecting and documenting physical evidence during search. Extends investigation:Inves... |
+| **EvidenceCollectionPhase** | ext.cac.cacontology-physical-evidence | Class | Phase during which physical evidence is being collected (gUFO Phase - anti-rigid). |
+| **EvidenceCustodianRole** | ext.cac.cacontology-forensics | Class | Role of a person responsible for evidence custody and security. |
+| **EvidenceDispositionPhase** | ext.cac.cacontology-physical-evidence | Class | Phase during which evidence disposition is determined and executed (gUFO Phase - anti-rigid). |
+| **EvidenceGap** | ext.cac.cacontology-synthesis | Class | A stated gap, limitation, or missing intervention area identified by a report. |
+| **EvidenceItem** | ext.cac.cacontology-hotlines | Class | A piece of evidence associated with a hotline report. Enhanced as gUFO Object for comprehensive d... |
+| **EvidenceManipulation** | ext.cac.cacontology-law-enforcement-corruption | Class | Manipulation or destruction of evidence to protect exploitation activities. |
+| **EvidenceStoragePhase** | ext.cac.cacontology-physical-evidence | Class | Phase during which physical evidence is in secure storage (gUFO Phase - anti-rigid). |
+| **ExpertReport** | ext.cac.cacontology-case-management | Class | Expert analysis reports including forensic findings, psychological evaluations, and technical ass... |
+| **ExtracurricularRecruitment** | ext.cac.cacontology-recruitment-networks | Class | Recruitment occurring during extracurricular activities or school events. |
+| **ExtraditionRequest** | ext.cac.cacontology-multi-jurisdiction | Class | Legal request to transfer suspect between jurisdictions. |
+| **ExtremistNetworkCell** | ext.cac.cacontology-extremist-enterprises | Class | Operational cell within larger extremist network conducting specialized activities. |
 | **Facet** | uco.core | Facet | A facet is a grouping of characteristics singularly unique to a particular inherent aspect of a U... |
+| **FalseInformationRegistrationOffense** | ext.cac.cacontology-sex-offender-registry | Class | Criminal offense for knowingly providing false or misleading information in connection with sex o... |
+| **FamilialRelationship** | ext.cac.cacontology-custodial | Class | Family-based relationship with natural or assumed custodial responsibilities. Modeled as gUFO Sub... |
+| **FearlessHudsonValleySupport** | ext.cac.cacontology-victim-impact | Class | Support services provided by Fearless! Hudson Valley organization for trafficking victims. |
+| **FederalAgency** | ext.cac.cacontology-multi-jurisdiction | Class | Law enforcement agency with federal jurisdiction. |
+| **FederalCharge** | ext.cac.cacontology-legal-outcomes | Class | Criminal charge under federal law and jurisdiction. Modeled as gUFO Object. |
+| **FederalChildPornographyLaw** | ext.cac.cacontology-usa-federal-law | Class | Federal statutes criminalizing child pornography production, distribution, receipt, and possession. |
+| **FederalChildSexualAbuseLaw** | ext.cac.cacontology-usa-federal-law | Class | Federal statutes criminalizing child sexual abuse in federal jurisdiction or involving interstate... |
+| **FederalICACtaskForce** | ext.cac.cacontology-taskforce | Class | Federal-level CAC task force for complex or multi-jurisdictional cases. |
+| **FederalJurisdiction** | ext.cac.cacontology-multi-jurisdiction | Class | Legal authority under federal law and courts. |
+| **FederalJurisdictionTrigger** | ext.cac.cacontology-multi-jurisdiction | Class | Interstate activity that triggers federal jurisdiction. |
+| **FederalReferral** | ext.cac.cacontology-us-ncmec | Class | Referral of NCMEC tip to federal law enforcement agencies. |
+| **FederatedDatabaseQuery** | ext.cac.cacontology-international | Class | Query system enabling simultaneous searches across multiple international databases. |
 | **FileFacet** | uco.observable | Facet | A file facet is a grouping of characteristics unique to the storage of a file (computer resource ... |
+| **FileHostingService** | ext.cac.cacontology-platforms | Class | A service for storing and sharing files online (e.g., Google Drive, Dropbox, OneDrive, MEGA). Mod... |
 | **FileSystem** | uco.observable | Class | A file system is the process that manages how and where data on a storage medium is stored, acces... |
 | **FileSystemFacet** | uco.observable | Facet | A file system facet is a grouping of characteristics unique to the process that manages how and w... |
+| **FinancialControlPattern** | ext.cac.cacontology-usa-federal-law | Class | Pattern where child support evasion is used as mechanism of control in exploitation cases. |
+| **FirearmThreats** | ext.cac.cacontology-stranger-abduction | Class | Use of firearm to threaten and control victim during abduction. |
+| **FloridaStateCharge** | ext.cac.cacontology-legal-outcomes | Class | Criminal charge under Florida state law and jurisdiction for ICAC-related offenses. Modeled as gU... |
+| **ForensicAnalysisPhase** | ext.cac.cacontology-ai-csam | Class | Anti-rigid phase during which AI-generated content undergoes detailed forensic examination. |
+| **FormalCommunicationChannel** | ext.cac.cacontology-investigation-coordination | Class | Official communication channels following established protocols and hierarchies. |
+| **ForwardToLEAction** | ext.cac.cacontology-hotlines | Class | The action of forwarding a report to law enforcement. Enhanced as gUFO Event for inter-agency coo... |
+| **FriendshipExploitation** | ext.cac.cacontology-recruitment-networks | Class | Exploitation of existing friendships and trust relationships between minors for recruitment. |
 | **GUI** | uco.observable | Class | A GUI is a graphical user interface that allows users to interact with electronic devices through... |
+| **GamePlatform** | ext.cac.cacontology-platforms | Class | A digital platform for gaming with communication features (e.g., Xbox Live, PlayStation Network, ... |
 | **GenericObservableObject** | uco.observable | Class | A generic observable object is an article or unit within the digital domain. |
+| **GeographicDistribution** | ext.cac.cacontology-platform-infrastructure | Class | Geographic distribution of infrastructure across multiple countries to complicate law enforcement... |
+| **GeorgiaStateCharge** | ext.cac.cacontology-legal-outcomes | Class | Criminal charge under Georgia state law and jurisdiction for CAC-related offenses. Modeled as gUF... |
+| **GeospatialCorrelation** | ext.cac.cacontology-forensics | Class | Correlation analysis based on geographic and location data from multiple sources. |
+| **GlobalCaseTracking** | ext.cac.cacontology-international | Class | System for tracking cases across multiple jurisdictions. |
+| **GlobalDatabaseNetwork** | ext.cac.cacontology-international | Class | Network of interconnected international databases enabling comprehensive cross-referencing and co... |
 | **GlobalFlagType** | uco.observable | Class | A global flag type is a grouping of characteristics unique to the Windows systemwide global varia... |
+| **GlobalHotlineNetwork** | ext.cac.cacontology-international | Class | Network of interconnected national hotlines for child protection reporting. |
+| **GlobalPlatformTakedown** | ext.cac.cacontology-international | Class | Takedown of global platforms with international user bases requiring coordinated action across mu... |
+| **GlobalTakedownCoordination** | ext.cac.cacontology-international | Class | Real-time coordination for simultaneous takedown operations across multiple countries. |
+| **GlobalTrainingSituation** | ext.cac.cacontology-training | Class | Situation involving global training initiatives across multiple countries and organizations. Mode... |
 | **GranularMarking** | uco.marking | Class | A granular marking is a grouping of characteristics unique to specification of marking definition... |
+| **GrassrootsAdvocacy** | ext.cac.cacontology-legal-harmonization | Class | Mobilizing public support for advocacy goals. |
+| **GroomingPattern** | ext.cac.cacontology-grooming | Class | Identifiable pattern of behavior across multiple communications or interactions that indicates gr... |
+| **GroomingPhase** | ext.cac.cacontology-athletic-exploitation | Class | Initial phase where coach establishes trust and authority before exploitation. Anti-rigid gUFO Ph... |
 | **HTTPConnection** | uco.observable | Class | An HTTP connection is network connection that is conformant to the Hypertext Transfer Protocol (H... |
 | **HTTPConnectionFacet** | uco.observable | Facet | An HTTP connection facet is a grouping of characteristics unique to portions of a network connect... |
+| **HarmonizationInitiative** | ext.cac.cacontology-legal-harmonization | Class | Organized effort to harmonize laws across jurisdictions. |
 | **Hash** | uco.types | Class | A hash is a grouping of characteristics unique to the result of applying a mathematical algorithm... |
+| **HashSharingProtocol** | ext.cac.cacontology-partnerships | Class | Protocol for sharing cryptographic hashes of illegal content between partners for detection and p... |
+| **HelpOfferApproach** | ext.cac.cacontology-street-recruitment | Class | Approach offering assistance such as phone charging, food, transportation, or shelter. |
+| **HelpSeekingBehavior** | ext.cac.cacontology-street-recruitment | Class | Victim's attempts to seek help or report trafficking recruitment. |
+| **HelpSeekingFacilitator** | ext.cac.cacontology-victim-impact | Class | Factor that enables or encourages victim to seek help (opportunity, trust, desperation, external ... |
+| **HiddenDeviceRecovery** | ext.cac.cacontology-forensics | Class | Recovery of concealed or hidden electronic storage devices during search operations. |
+| **HiddenRecordingDevice** | ext.cac.cacontology-production | Class | Covert recording equipment designed to capture content without victim awareness. |
+| **HighPriorityCaseManagement** | ext.cac.cacontology-case-management | Class | Enhanced management protocols for critical and high-priority cases requiring expedited processing... |
+| **HoneyObject** | ext.aeo.engagement | Class |  An domain object that is created to be percieved by an adversary to have high value to pursue in... |
+| **HospitalDischarge** | ext.cac.cacontology-victim-impact | Class | Discharge of trafficking victim from hospital with safety planning and transportation arrangements. |
+| **HostingProvider** | ext.cac.cacontology-platform-infrastructure | Class | Organizations providing server hosting, cloud services, or infrastructure-as-a-service for platfo... |
 | **Hostname** | uco.observable | Class | A hostname is a label that is assigned to a device connected to a computer network and that is us... |
+| **HotlineAction** | ext.cac.cacontology-hotlines | Class | An action taken as part of processing a hotline report. Enhanced as gUFO Event for comprehensive ... |
+| **HotlineAnalystRole** | ext.cac.cacontology-hotlines | Class | The role of a specialist who analyzes hotline reports. |
+| **HotlineOrganization** | ext.cac.cacontology-hotlines | Class | An organization that operates a hotline for receiving and processing reports of child sexual abus... |
+| **HotlineReport** | ext.cac.cacontology-hotlines | Class | A report submitted to a hotline about potential child sexual abuse material. Enhanced as gUFO Sit... |
+| **ICACAffiliateNetwork** | ext.cac.cacontology-prevention | Class | Network of formally affiliated CAC organizations for coordinated child protection efforts. |
 | **ICMPConnection** | uco.observable | Class | An ICMP connection is a network connection that is conformant to the Internet Control Message Pro... |
 | **ICMPConnectionFacet** | uco.observable | Facet | An ICMP connection facet is a grouping of characteristics unique to portions of a network connect... |
 | **IComHandlerActionType** | uco.observable | Class | An IComHandler action type is a grouping of characteristics unique to a Windows Task-related acti... |
@@ -301,55 +782,318 @@ Classes for network connections, IP addresses, DNS records, URLs, and related ar
 | **IPv6Address** | uco.observable | Class | An IPv6 (Internet Protocol version 6) address is an IPv6 standards conformant identifier assigned... |
 | **IPv6AddressFacet** | uco.observable | Facet | An IPv6 (Internet Protocol version 6) address facet is a grouping of characteristics unique to an... |
 | **IShowMessageActionType** | uco.observable | Class | An IShow message action type is a grouping of characteristics unique to an action that shows a me... |
+| **IdentityCorrelationAnalysis** | ext.cac.cacontology-extremist-enterprises | Class | Analysis correlating multiple accounts and identities across platforms to establish single indivi... |
+| **IllinoisICACtaskForce** | ext.cac.cacontology-taskforce | Class | Illinois state CAC task force with specialized capabilities and extensive network partnerships. |
+| **ImmediateExploitationAttempt** | ext.cac.cacontology-grooming | Class | Attempt to immediately exploit victim without extended grooming or relationship building. |
+| **ImmediatePhysicalContactExploitation** | ext.cac.cacontology-educational-exploitation | Class | Sexual exploitation involving immediate physical contact without prior grooming or relationship b... |
+| **ImmediateReporting** | ext.cac.cacontology-street-recruitment | Class | Victim reporting that occurs immediately or within hours of incident. |
+| **ImpoverishedChild** | ext.cac.cacontology-institutional-exploitation | Class | Vulnerability situation: child from impoverished background in need of institutional care and sup... |
+| **InformationSharing** | ext.cac.cacontology-multi-jurisdiction | Class | Formal sharing of intelligence or evidence between jurisdictions. |
+| **InformationSharingRateMetrics** | ext.cac.cacontology-investigation-coordination | Class | Metrics measuring the rate and volume of information sharing between agencies. |
+| **InformationSharingSituation** | ext.cac.cacontology-partnerships | Class | Situation involving active information sharing between partnership entities. Modeled as gUFO Situ... |
+| **InformationSynthesisPhase** | ext.cac.cacontology-multi-jurisdiction | Class | Phase involving compilation and analysis of multi-jurisdictional evidence. |
+| **InfrastructureDecommissionPhase** | ext.cac.cacontology-platform-infrastructure | Class | Phase during which infrastructure is being decommissioned or shut down (gUFO Phase - anti-rigid). |
+| **InfrastructureDeploymentPhase** | ext.cac.cacontology-platform-infrastructure | Class | Phase during which platform infrastructure is being deployed and configured (gUFO Phase - anti-ri... |
+| **InfrastructureMaintenancePhase** | ext.cac.cacontology-platform-infrastructure | Class | Phase during which infrastructure undergoes maintenance and updates (gUFO Phase - anti-rigid). |
+| **InfrastructureOperationalPhase** | ext.cac.cacontology-platform-infrastructure | Class | Phase during which platform infrastructure is actively supporting operations (gUFO Phase - anti-r... |
+| **InfrastructureTakedown** | ext.cac.cacontology-platform-infrastructure | Class | Coordinated operation to dismantle platform infrastructure including servers, domains, and suppor... |
+| **InitialContactPhase** | ext.cac.cacontology-grooming | Class | First phase of grooming involving initial contact and relationship establishment. |
+| **InitialCoordinationPhase** | ext.cac.cacontology-multi-jurisdiction | Class | Phase involving initial contact and coordination between jurisdictions. |
+| **InitialPhase** | ext.cac.cacontology | Class | Initial phase of CAC investigation involving cybertip receipt and preliminary review. |
+| **InstitutionalResponseSituation** | ext.cac.cacontology-educational-exploitation | Class | Situation involving institutional response to exploitation allegations, including investigation, ... |
+| **InstitutionalRolePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling institutional roles in multi-jurisdiction contexts with authority and r... |
+| **IntakeChannel** | ext.cac.cacontology-hotlines | Class | A channel through which reports are received (web form, API, phone, etc.). Enhanced as gUFO Objec... |
+| **IntakePhase** | ext.cac.cacontology-hotlines | Class | The phase during which reports are initially received and logged. |
+| **IntelligenceDataLake** | ext.cac.cacontology-international | Class | Centralized repository aggregating intelligence from multiple international sources for comprehen... |
+| **IntelligenceFusion** | ext.cac.cacontology-international | Class | Real-time fusion of intelligence from multiple international sources to create comprehensive thre... |
+| **IntelligenceSharing** | ext.cac.cacontology-partnerships | Class | Sharing of actionable intelligence between partners while maintaining operational security. Model... |
+| **InteragencyOperationSituation** | ext.cac.cacontology-specialized-units | Class | Situation involving operations across multiple agencies and jurisdictions. Modeled as gUFO Situat... |
+| **InternationalAgency** | ext.cac.cacontology-multi-jurisdiction | Class | Law enforcement agency from foreign jurisdiction. |
+| **InternationalCoordination** | ext.cac.cacontology-hotlines | Class | A coordination situation involving multiple countries or international organizations. |
+| **InternationalDatabase** | ext.cac.cacontology-international | Class | Shared database accessible by multiple countries for child protection. |
+| **InternationalEvidence** | ext.cac.cacontology-international | Class | Evidence collected from international operations requiring coordination across multiple jurisdict... |
+| **InternationalEvidenceProcessing** | ext.cac.cacontology-forensics | Class | Processing of evidence collected from international operations requiring coordination across mult... |
+| **InternationalIntelligenceSharing** | ext.cac.cacontology-international | Class | Intelligence sharing framework for large-scale operations requiring coordination across multiple ... |
+| **InternationalJurisdiction** | ext.cac.cacontology-multi-jurisdiction | Class | Legal authority in foreign countries. |
+| **InternationalNetworkDisruption** | ext.cac.cacontology-international | Class | Coordinated international effort to disrupt criminal networks operating across borders. |
+| **InternationalPartnership** | ext.cac.cacontology-international | Class | A formal partnership between countries or organizations for child protection cooperation. |
+| **InternationalProsecution** | ext.cac.cacontology-international | Class | Prosecution strategy coordinated across multiple countries for users identified in large-scale op... |
+| **InternationalProsecutionFramework** | ext.cac.cacontology-multi-jurisdiction | Class | Framework for coordinating prosecutions across multiple countries for global platform takedowns. |
+| **InternationalTraining** | ext.cac.cacontology-training | Class | Training program conducted across multiple countries. Modeled as gUFO Event. |
+| **InternationalWarrant** | ext.cac.cacontology-international | Class | Warrant recognized across multiple jurisdictions. |
+| **InterstateTraffickingNetwork** | ext.cac.cacontology-multi-jurisdiction | Class | Criminal network operating across state boundaries for trafficking. |
+| **InterstateTransportPlan** | ext.cac.cacontology-grooming | Class | Planning to transport victim across state lines for illegal purposes. |
+| **InterstateTransportationOffense** | ext.cac.cacontology-multi-jurisdiction | Class | Criminal offense involving transportation of victim across state lines. |
+| **InterstateVictimTransport** | ext.cac.cacontology-multi-jurisdiction | Class | Transportation of minor victim across state lines. |
+| **InterstateVictimTransport** | ext.cac.cacontology-sex-trafficking | Class | Transportation of trafficking victims across state lines for commercial sexual exploitation. Mode... |
+| **InterventionOperation** | ext.cac.cacontology-synthesis | Class | A domain of operation for an intervention (e.g., online, hybrid). |
+| **InterventionType** | ext.cac.cacontology-synthesis | Class | A category of TF-CSEA intervention (e.g., technological tools and protocols). |
+| **InvestigationCoordination** | ext.cac.cacontology-investigation-coordination | Class | Comprehensive framework for coordinating investigations across multiple agencies, jurisdictions, ... |
+| **InvestigationTrigger** | ext.cac.cacontology-us-ncmec | Class | Event or information that triggers law enforcement investigation based on NCMEC tip. |
+| **InvestigatorAssignment** | ext.cac.cacontology-case-management | Class | Specific assignment of investigators to cases with experience levels, caseload management, and sp... |
+| **IsolationBehavior** | ext.cac.cacontology-grooming | Class | Attempts to separate child from parents, friends, or other support systems. |
+| **IsolationPhase** | ext.cac.cacontology-grooming | Class | Phase aimed at separating victim from support systems and creating dependency. |
+| **IsolationVulnerabilityIndicator** | ext.cac.cacontology-street-recruitment | Class | Indicators that individual is alone or lacks social support (walking alone, no companions). |
+| **JointExecutionPhase** | ext.cac.cacontology-multi-jurisdiction | Class | Phase involving coordinated execution of multi-jurisdictional operations. |
+| **JointInvestigation** | ext.cac.cacontology-investigation-coordination | Class | Formal joint investigation involving multiple agencies working together with shared resources, co... |
+| **JointInvestigation** | ext.cac.cacontology-multi-jurisdiction | Class | Investigation conducted jointly by multiple law enforcement agencies. |
+| **JointOperation** | ext.cac.cacontology-partnerships | Class | Operation conducted jointly by multiple partners with shared resources and coordination. Modeled ... |
+| **JointOperation** | ext.cac.cacontology-taskforce | Class | Operation involving multiple task forces or agencies. |
 | **Junction** | uco.observable | Class | A junction is a specific NTFS (New Technology File System) reparse point to redirect a directory ... |
+| **Jurisdiction** | ext.cac.cacontology-multi-jurisdiction | Class | Legal authority and geographic area where an agency has enforcement power. |
+| **JurisdictionalConflictSituation** | ext.cac.cacontology-multi-jurisdiction | Class | Situation involving disputes over jurisdictional authority. |
+| **JurisdictionalCoordination** | ext.cac.cacontology-asset-forfeiture | Class | Complex coordination situation involving multiple legal jurisdictions for asset forfeiture operat... |
+| **JurisdictionalCoordination** | ext.cac.cacontology-international | Class | Coordination mechanism for resolving jurisdictional conflicts. |
+| **JurisdictionalCoordination** | ext.cac.cacontology-legal-harmonization | Class | Framework for coordinating across legal jurisdictions. |
+| **JurisdictionalHandoff** | ext.cac.cacontology-multi-jurisdiction | Class | Transfer of investigative authority between state and federal agencies. |
+| **JurisdictionalNegotiationPhase** | ext.cac.cacontology-multi-jurisdiction | Class | Phase involving determination of lead agency and jurisdictional authority. |
+| **JurisdictionalVariation** | ext.cac.cacontology-legal-harmonization | Class | Variation in legal approaches across jurisdictions. |
+| **JurisdictionalWarrant** | ext.cac.cacontology-multi-jurisdiction | Class | Legal authorization that specifies jurisdictional authority. |
+| **KeyFinding** | ext.cac.cacontology-synthesis | Class | A numbered key finding stated by a report. |
 | **Laptop** | uco.observable | Class | A laptop, laptop computer, or notebook computer is a small, portable personal computer with a scr... |
+| **LawEnforcementAgency** | ext.cac.cacontology-multi-jurisdiction | Class | Government organization responsible for law enforcement within a jurisdiction. |
+| **LawEnforcementPartner** | ext.cac.cacontology-partnerships | Class | Law enforcement agency participating in partnership with investigative and enforcement responsibi... |
+| **LeadAgency** | ext.cac.cacontology-multi-jurisdiction | Class | Primary agency responsible for coordinating multi-jurisdictional investigation. |
+| **LeadInvestigatorRole** | ext.cac.cacontology-case-management | Class | Primary investigator role with leadership responsibilities for case investigation. Enhanced as an... |
+| **LeadershipStructure** | ext.cac.cacontology-extremist-enterprises | Class | Leadership structure of enterprise including multiple leaders and their areas of control. |
+| **LegalProceedingsPhase** | ext.cac.cacontology-asset-forfeiture | Class | Phase during which formal forfeiture proceedings occur in court. Anti-rigid gUFO Phase. |
+| **LegalProceedingsSituation** | ext.cac.cacontology-asset-forfeiture | Class | Complex situation involving courts, legal counsel, and multiple parties in forfeiture proceedings... |
+| **LegalSupport** | ext.cac.cacontology-victim-impact | Class | Legal assistance and representation for victims in proceedings. |
+| **LegislativeProcess** | ext.cac.cacontology-legal-harmonization | Class | A step in the legislative lifecycle - applicable across jurisdictions. |
 | **Library** | uco.observable | Class | A library is a suite of data and programming code that is used to develop software programs and a... |
 | **LibraryFacet** | uco.observable | Facet | A library facet is a grouping of characteristics unique to a suite of data and programming code t... |
+| **LiveStreamContent** | ext.cac.cacontology-production | Class | Content transmitted in real-time during live production events. |
+| **LivestreamedCoercionShow** | ext.cac.cacontology-sadistic-online-exploitation | Class | A coordinated livestreamed coercion event (ritualized 'show') in which participants celebrate, wi... |
+| **LoadBalancer** | ext.cac.cacontology-platform-infrastructure | Class | Load balancing infrastructure distributing traffic across multiple servers for high availability ... |
+| **LocalAgency** | ext.cac.cacontology-multi-jurisdiction | Class | Law enforcement agency with local jurisdiction (city, county, municipal). |
+| **LocalCoordination** | ext.cac.cacontology-investigation-coordination | Class | Coordination activities within local jurisdictions and municipal boundaries. |
+| **LocalJurisdiction** | ext.cac.cacontology-multi-jurisdiction | Class | Legal authority at local level (city, county, municipal). |
+| **LocalLawEnforcementReferral** | ext.cac.cacontology-us-ncmec | Class | Referral of NCMEC tip to local law enforcement agency. |
+| **LocalPoliceHost** | ext.cac.cacontology-taskforce | Class | Local police department hosting CAC task force (Phoenix PD, Los Angeles PD, San Jose PD, etc.). |
+| **LocationBasedExploitation** | ext.cac.cacontology-stranger-abduction | Class | Exploitation occurring at specific location following victim transportation. |
+| **LongTermAbusePattern** | ext.cac.cacontology-institutional-exploitation | Class | Evidence of abuse patterns spanning multiple years or decades. |
+| **LongTermInstitutionalControl** | ext.cac.cacontology-institutional-exploitation | Class | Long-term control and exploitation spanning multiple years or decades within institution. |
+| **LongTermMonitoringPhase** | ext.cac.cacontology-victim-impact | Class | Extended phase monitoring long-term effects and continued support needs. |
+| **LunchBreakRecruitment** | ext.cac.cacontology-recruitment-networks | Class | Recruitment occurring during lunch breaks or between classes. |
 | **MACAddress** | uco.observable | Class | A MAC address is a media access control standards conformant identifier assigned to a network int... |
 | **MACAddressFacet** | uco.observable | Facet | A MAC address facet is a grouping of characteristics unique to a media access control standards c... |
+| **MachineLearningDetectionTool** | ext.cac.cacontology-detection | Class | A tool using machine learning algorithms to detect CSAM content (e.g., Google's CSAI Classifier, ... |
+| **MandatoryReporting** | ext.cac.cacontology-legal-harmonization | Class | Required reporting to authorities. |
+| **MandatoryReportingActivation** | ext.cac.cacontology-recruitment-networks | Class | Activation of mandatory reporting requirements by school personnel. |
+| **MandatoryReportingLaw** | ext.cac.cacontology-legal-harmonization | Class | Legislation requiring mandatory reporting of child abuse. |
+| **ManipulationPattern** | ext.cac.cacontology-grooming | Class | Systematic use of psychological manipulation techniques to control victim. |
+| **ManipulationTactic** | ext.cac.cacontology-sextortion | Class | Psychological manipulation technique used to control and exploit victims. |
+| **ManualReviewTool** | ext.cac.cacontology-detection | Class | A tool supporting human review and classification of potentially illegal content. Modeled as gUFO... |
+| **MassProsecutionCoordination** | ext.cac.cacontology-multi-jurisdiction | Class | Coordination of prosecutions for massive user bases from large-scale platform takedowns requiring... |
+| **MassUserAnalysis** | ext.cac.cacontology-international | Class | Analysis of massive user databases requiring international coordination for processing users acro... |
+| **MassUserJurisdictionMapping** | ext.cac.cacontology-multi-jurisdiction | Class | Mapping of massive user bases to appropriate jurisdictions for prosecution based on location and ... |
+| **MasturbationDiscussionExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation through extensive masturbation discussions during athletic training. Enhanced as gUF... |
+| **MaterialBenefitCoercion** | ext.cac.cacontology-athletic-exploitation | Class | Athletic equipment, benefits, or opportunities offered as coercion for sexual compliance. Enhance... |
+| **MediaOutreach** | ext.cac.cacontology-legal-harmonization | Class | Engaging media to support advocacy goals. |
+| **MembershipAdvancementSystem** | ext.cac.cacontology-extremist-enterprises | Class | System governing member advancement within enterprise based on content contributions and activities. |
+| **MembershipTier** | ext.cac.cacontology-extremist-enterprises | Class | Membership tier within enterprise hierarchy determining access and privileges. |
+| **MentalHealthSupport** | ext.cac.cacontology-specialized-units | Class | Mental health services and support for officers dealing with traumatic content. Modeled as gUFO O... |
+| **Mentor** | ext.cac.cacontology-custodial | Class | Adult mentor or role model with trusted relationship with child. Modeled as anti-rigid gUFO Role ... |
+| **MentorshipProgram** | ext.cac.cacontology-training | Class | One-on-one mentorship for professional development. Modeled as gUFO Organization. |
 | **Message** | uco.observable | Class | A message is a discrete unit of electronic communication intended by the source for consumption b... |
 | **MessageFacet** | uco.observable | Facet | A message facet is a grouping of characteristics unique to a discrete unit of electronic communic... |
+| **MetadataAnalysisTool** | ext.cac.cacontology-ai-csam | Class | Tool for analyzing metadata patterns that may indicate AI generation or manipulation. Enhanced as... |
+| **MetadataCorrelation** | ext.cac.cacontology-forensics | Class | Correlation analysis of metadata across multiple files and platforms. |
 | **MftRecordFacet** | uco.observable | Facet | An MFT record facet is a grouping of characteristics unique to the details of a single file as ma... |
+| **MilitaryICACtaskForce** | ext.cac.cacontology-taskforce | Class | CAC task force for U.S. Armed Forces military branches with specialized military jurisdiction. |
+| **MinorToMinorInteractionAnnotation** | ext.cac.cacontology-us-ncmec | Class | Annotation indicating the report is associated with an interaction between minors. Source: NCMEC ... |
+| **MissingChildRescueOperation** | ext.cac.cacontology-investigation-coordination | Class | Time-boxed, multi-party operation focused on locating missing children/teens at risk of endangerm... |
 | **MobileAccount** | uco.observable | Class | A mobile account is an arrangement with an entity to enable and control the provision of some cap... |
 | **MobileAccountFacet** | uco.observable | Facet | A mobile account facet is a grouping of characteristics unique to an arrangement with an entity t... |
 | **MobileDevice** | uco.observable | Class | A mobile device is a portable computing device. [based on https://www.lexico.com.definition/mobil... |
 | **MobileDeviceFacet** | uco.observable | Facet | A mobile device facet is a grouping of characteristics unique to a portable computing device. [ba... |
 | **MobilePhone** | uco.observable | Class | A mobile phone is a portable telephone that at least can make and receive calls over a radio freq... |
+| **MobileRecordingDevice** | ext.cac.cacontology-production | Class | Mobile phone, tablet, or portable device used for recording. |
+| **MultiAgencyCoordination** | ext.cac.cacontology-investigation-coordination | Class | Coordination involving multiple law enforcement agencies at various jurisdictional levels. |
+| **MultiAgencyVictimResponse** | ext.cac.cacontology-victim-impact | Class | Coordinated victim assistance involving multiple agencies across jurisdictions. |
+| **MultiCountryTakedown** | ext.cac.cacontology-international | Class | Coordinated takedown operation involving law enforcement from multiple countries (like Kidflix op... |
+| **MultiDefendantIndictment** | ext.cac.cacontology | Class | Legal indictment involving multiple defendants in coordinated criminal enterprise (e.g., 19-count... |
+| **MultiJurisdictionCoordinationSituation** | ext.cac.cacontology-temporal | Class | Situation where investigation requires coordination across multiple jurisdictions with timing syn... |
+| **MultiJurisdictionalCaseManagement** | ext.cac.cacontology-case-management | Class | Specialized management for cases spanning multiple jurisdictions with coordination requirements. ... |
+| **MultiJurisdictionalInvestigation** | ext.cac.cacontology-multi-jurisdiction | Class | Investigation spanning multiple legal jurisdictions requiring coordination between agencies. |
+| **MultiJurisdictionalOperation** | ext.cac.cacontology-specialized-units | Class | Operation involving multiple jurisdictions and agencies. Modeled as gUFO Event. |
+| **MultiJurisdictionalSituation** | ext.cac.cacontology-sex-trafficking | Class | Complex situation involving trafficking operations across multiple jurisdictions requiring coordi... |
+| **MultiJurisdictionalSituation** | ext.cac.cacontology-multi-jurisdiction | Class | Complex situation requiring coordination across multiple jurisdictions. |
+| **MultiModalDigitalEvidence** | ext.cac.cacontology-sex-offender-registry | Class | Digital evidence containing multiple content types (text, images, audio, video) in single exploit... |
+| **MultiPlatformSituation** | ext.cac.cacontology-platforms | Class | Situation involving coordination across multiple platforms and service providers. Modeled as gUFO... |
+| **MultiPlatformUndercoverOperation** | ext.cac.cacontology-undercover | Class | Undercover operation conducted across multiple social media platforms simultaneously. |
+| **MultiRegionalState** | ext.cac.cacontology-taskforce | Class | State with multiple CAC task forces covering different geographic regions. |
+| **MultiStakeholderInitiative** | ext.cac.cacontology-partnerships | Class | Initiative involving multiple types of organizations including law enforcement, technology compan... |
+| **MultiStakeholderTrainingSituation** | ext.cac.cacontology-training | Class | Situation involving training coordination between multiple stakeholder organizations. Modeled as ... |
+| **MultiStateCoordination** | ext.cac.cacontology-investigation-coordination | Class | Coordination activities spanning multiple states requiring interstate cooperation. |
+| **MultiStateForfeiture** | ext.cac.cacontology-asset-forfeiture | Class | Asset forfeiture operation spanning multiple Australian states and territories. Subclasses AssetF... |
+| **MultiStateTraffickingConspiracy** | ext.cac.cacontology-sex-trafficking | Class | Criminal conspiracy spanning multiple states for trafficking operations (e.g., Brooklyn-North Car... |
+| **MultiStateTraffickingInvestigation** | ext.cac.cacontology-multi-jurisdiction | Class | Child sex trafficking investigation spanning multiple states. |
+| **MultiUnitCoordinationSituation** | ext.cac.cacontology-specialized-units | Class | Complex situation involving coordination between multiple specialized units. Modeled as gUFO Situ... |
+| **MultiVictimExploitationSituation** | ext.cac.cacontology-educational-exploitation | Class | Situation involving multiple victims across multiple institutions or time periods. |
+| **MultiVictimForeignOffense** | ext.cac.cacontology-institutional-exploitation | Class | Foreign offense involving multiple separate child victims. |
+| **MultilingualSupport** | ext.cac.cacontology-international | Class | Support for multiple languages in international coordination. |
+| **MultimediaEducationContent** | ext.cac.cacontology-prevention | Class | Educational content incorporating multiple media types including audio, video, and interactive el... |
+| **MultipleAccountGrooming** | ext.cac.cacontology-grooming | Class | Grooming using multiple fake accounts to maintain deceptive identity. |
+| **MultiplePersonaOperation** | ext.cac.cacontology-undercover | Class | Undercover operation where agent poses as multiple fictitious minors (e.g., 14-year-old and 12-ye... |
+| **MultipleVictimTestimony** | ext.cac.cacontology-institutional-exploitation | Class | Coordination of testimony from multiple victims in institutional exploitation case. |
 | **Mutex** | uco.observable | Class | A mutex is a mechanism that enforces limits on access to a resource when there are many threads o... |
 | **MutexFacet** | uco.observable | Facet | A mutex facet is a grouping of characteristics unique to a mechanism that enforces limits on acce... |
+| **MutualAidRequest** | ext.cac.cacontology-multi-jurisdiction | Class | Formal request for assistance from another jurisdiction. |
+| **NCMECCybertipReport** | ext.cac.cacontology-us-ncmec | Class | A report submitted to NCMEC's CyberTipline. This class represents the root structure of a NCMEC r... |
+| **NCMECIncidentType** | ext.cac.cacontology-us-ncmec | Class | Types of incidents as defined by NCMEC Cybertip API (Section B.1.1). This class represents the st... |
+| **NCMECReportAnnotation** | ext.cac.cacontology-us-ncmec | Class | Tags to describe the NCMEC report. Source: NCMEC Cybertip API Section B.1.1, reportAnnotations el... |
+| **NGOPartner** | ext.cac.cacontology-partnerships | Class | Non-governmental organization participating in partnership with advocacy and support capabilities... |
+| **NameCuttingCoercion** | ext.cac.cacontology-extremist-enterprises | Class | Coercion of victims to cut enterprise member names into their bodies as ownership marking. |
+| **NamedMultiJurisdictionalOperation** | ext.cac.cacontology-multi-jurisdiction | Class | Formally named multi-phase operation coordinated across jurisdictions. |
 | **NamedPipe** | uco.observable | Class | A named pipe is a mechanism for FIFO (first-in-first-out) inter-process communication. It is pers... |
+| **Narrative** | ext.aeo.engagement | Class | A narrative is a script of all expected sequence of actions, events, entities and their interacti... |
+| **NationalCoordinatedOperation** | ext.cac.cacontology-multi-jurisdiction | Class | Operation coordinated across multiple CAC task forces nationally. |
+| **NationwideAwarenessInitiative** | ext.cac.cacontology-prevention | Class | Nationwide coordinated awareness campaign involving multiple agencies and communities. |
 | **NetworkAppliance** | uco.observable | Class | A network appliance is a purpose-built computer with software or firmware that is designed to pro... |
+| **NetworkCapture** | ext.cac.cacontology-forensics | Class | A capture of network traffic packets for forensic analysis. |
 | **NetworkConnection** | uco.observable | Class | A network connection is a connection (completed or attempted) across a digital network (a group o... |
 | **NetworkConnectionFacet** | uco.observable | Facet | A network connection facet is a grouping of characteristics unique to a connection (complete or a... |
 | **NetworkFlow** | uco.observable | Class | A network flow is a sequence of data transiting one or more digital network (a group or two or mo... |
 | **NetworkFlowFacet** | uco.observable | Facet | A network flow facet is a grouping of characteristics unique to a sequence of data transiting one... |
+| **NetworkForensicTool** | ext.cac.cacontology-forensics | Class | A tool specialized for network traffic analysis and packet capture (e.g., Wireshark, NetworkMiner... |
+| **NetworkInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Network topology and routing infrastructure supporting platform connectivity and distribution (gU... |
 | **NetworkInterface** | uco.observable | Class | A network interface is a software or hardware interface between two pieces of equipment or protoc... |
 | **NetworkInterfaceFacet** | uco.observable | Facet | A network interface facet is a grouping of characteristics unique to a software or hardware inter... |
+| **NetworkMappingInvestigation** | ext.cac.cacontology-extremist-enterprises | Class | Investigation mapping the structure and relationships within extremist child exploitation networks. |
+| **NetworkPerformance** | ext.cac.cacontology-taskforce | Class | Performance metrics for multi-agency network coordination. |
 | **NetworkProtocol** | uco.observable | Class | A network protocol is an established set of structured rules that determine how data is transmitt... |
 | **NetworkRoute** | uco.observable | Class | A network route is a specific path (of specific network nodes, connections and protocols) for tra... |
 | **NetworkSubnet** | uco.observable | Class | A network subnet is a logical subdivision of an IP network. [based on https://en.wikipedia.org/wi... |
+| **NetworkTopologyAnalysis** | ext.cac.cacontology-platform-infrastructure | Class | Analysis of network architecture and connectivity patterns within platform infrastructure (gUFO E... |
+| **NetworkTrafficAnalysis** | ext.cac.cacontology-forensics | Class | Analysis of network traffic patterns to identify suspicious communications and data transfers. |
+| **NihilisticViolentExtremismNetwork** | ext.cac.cacontology-extremist-enterprises | Class | Criminal network engaging in child exploitation as part of broader nihilistic violent extremism g... |
+| **NineOneOneCall** | ext.cac.cacontology-victim-impact | Class | Emergency call to 911 by trafficking victim seeking help and reporting forced prostitution. |
+| **NonOffendingCaregiverSupport** | ext.cac.cacontology-victim-impact | Class | Support services directed to the non-offending caregiver to stabilize the child-support system af... |
+| **Nudification** | ext.cac.cacontology-ai-csam | Class | AI content generation/manipulation process that produces synthetic nudity (e.g., 'nudifying apps'... |
+| **ObscenityImportation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of importing obscene materials into the United States. Modeled as gUFO Event. |
+| **ObscenityTransportation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of transporting obscene materials across state or international boundaries. Modeled... |
 | **Observable** | uco.observable | Class | An observable is a characterizable item or action within the digital domain. |
 | **ObservableAction** | uco.observable | Class | An observable action is a grouping of characteristics unique to something that may be done or per... |
 | **ObservableObject** | uco.observable | Class | An observable object is a grouping of characteristics unique to a distinct article or unit within... |
 | **ObservableRelationship** | uco.observable | Class | An observable relationship is a grouping of characteristics unique to an assertion of an associat... |
+| **OfficerWellnessProgram** | ext.cac.cacontology-specialized-units | Class | Program providing mental health and wellness support to CAC officers. Modeled as gUFO Organization. |
+| **OneOnOneAcademicExploitation** | ext.cac.cacontology-educational-exploitation | Class | Exploitation during individual academic assistance or tutoring sessions. Enhanced as gUFO Object. |
+| **OngoingDangerAssessment** | ext.cac.cacontology-victim-impact | Class | Assessment of victim's ongoing danger from trafficking network and need for protection. |
+| **OngoingImpactMonitoring** | ext.cac.cacontology-victim-impact | Class | Continuous monitoring of victim impact during investigation and recovery. |
+| **OnlineEnticementIncident** | ext.cac.cacontology-us-ncmec | Class | Incidents involving online enticement of children for sexual acts. Source: NCMEC Cybertip API Sec... |
+| **OnlineGroomingSituation** | ext.cac.cacontology-grooming | Class | Overall situation encompassing the grooming relationship and interactions. |
+| **OnlinePlatformSurveillance** | ext.cac.cacontology-undercover | Class | Covert monitoring of online platforms for criminal activity without direct participation. |
 | **OnlineService** | uco.observable | Class | An online service is a particular provision mechanism of information access, distribution or mani... |
 | **OnlineServiceFacet** | uco.observable | Facet | An online service facet is a grouping of characteristics unique to a particular provision mechani... |
+| **OntologicalConsistency** | ext.cac.cacontology-integration-patterns | Class | Validation ensuring proper use of gUFO meta-ontological categories and constraints across modules. |
 | **OperatingSystem** | uco.observable | Class | An operating system is the software that manages computer hardware, software resources, and provi... |
 | **OperatingSystemFacet** | uco.observable | Facet | An operating system facet is a grouping of characteristics unique to the software that manages co... |
+| **OperationSafeOnlineSummer** | ext.cac.cacontology-specialized-units | Class | National operation across 61 CAC Task Forces during summer months. Modeled as gUFO Event. |
+| **OperationalEvidence** | ext.cac.cacontology-undercover | Class | Evidence collected during undercover operations including recordings, communications, and observa... |
+| **OperationalSyncronization** | ext.cac.cacontology-international | Class | Real-time synchronization of operational activities across multiple countries for coordinated res... |
+| **OpportunisticExploitation** | ext.cac.cacontology-street-recruitment | Class | Exploitation of vulnerable individuals encountered in public spaces without prior planning or rel... |
+| **OpportunisticGrooming** | ext.cac.cacontology-grooming | Class | Grooming that exploits immediate opportunities rather than planned relationship development. |
+| **OpportunisticPredation** | ext.cac.cacontology-stranger-abduction | Class | Spontaneous targeting and exploitation of vulnerable children encountered by chance. |
+| **OpportunityBasedTargeting** | ext.cac.cacontology-stranger-abduction | Class | Targeting based on immediate opportunity rather than planned surveillance. |
 | **Organization** | uco.identity | Class | An organization is a grouping of identifying characteristics unique to a group of people who work... |
+| **OrganizationLikeEntity** | ext.cac.cac-core | Class | An enduring entity that represents an organization, institution, team, agency, or other collectiv... |
+| **OverClothingToUnderClothingEscalation** | ext.cac.cacontology-athletic-exploitation | Class | Progression from over-clothing to under-clothing contact during athletic activities. Enhanced as ... |
 | **PDFFile** | uco.observable | Class | A PDF file is a Portable Document Format (PDF) file. |
 | **PDFFileFacet** | uco.observable | Facet | A PDF file facet is a grouping of characteristics unique to a PDF (Portable Document Format) file. |
+| **ParallelEvidenceCollectionSituation** | ext.cac.cacontology-temporal | Class | Situation where multiple evidence collection activities occur simultaneously across different pha... |
+| **ParallelInvestigation** | ext.cac.cacontology-investigation-coordination | Class | Parallel investigation where multiple agencies investigate related aspects independently while ma... |
+| **ParentNetworkDiscovery** | ext.cac.cacontology-athletic-exploitation | Class | Discovery through parent community networks and team family communications. Enhanced as gUFO Event. |
+| **ParentPersona** | ext.cac.cacontology-undercover | Class | Undercover identity portraying a parent or guardian of a child victim. |
+| **ParentalVigilanceProgram** | ext.cac.cacontology-prevention | Class | Program educating parents on recognizing signs of child exploitation and reporting. |
+| **ParticipatingAgency** | ext.cac.cacontology-multi-jurisdiction | Class | Agency providing support or resources to multi-jurisdictional investigation. |
+| **PartnerRole** | ext.cac.cacontology-partnerships | Class | Role played by an organization within a public-private partnership framework. Modeled as anti-rig... |
+| **PartnershipFormationPhase** | ext.cac.cacontology-partnerships | Class | Phase of partnership formation including agreement negotiation and framework establishment. Model... |
 | **PaymentCard** | uco.observable | Class | A payment card is a physical token that is part of a payment system issued by financial instituti... |
+| **PaymentProcessing** | ext.cac.cacontology-platform-infrastructure | Class | Financial processing systems enabling platform monetization through subscription fees, content pu... |
+| **PeerPersonaGrooming** | ext.cac.cacontology-grooming | Class | Grooming using false peer identity to establish rapport with victims. |
+| **PeerRecruitmentNetwork** | ext.cac.cacontology-recruitment-networks | Class | Network of traffickers utilizing existing victims to recruit new victims through peer relationshi... |
+| **PeerSupport** | ext.cac.cacontology-specialized-units | Class | Peer-to-peer support programs for CAC personnel. Modeled as gUFO Organization. |
+| **PeerSupportService** | ext.cac.cacontology-victim-impact | Class | Support rooted in peer connection, mutuality, and survivor- or youth-informed encouragement. |
 | **Person** | uco.identity | Class | A person is a grouping of identifying characteristics unique to a human being regarded as an indi... |
+| **PersonLikeEntity** | ext.cac.cac-core | Class | An enduring entity that is person-like in the domain model. Use for natural persons and person-pr... |
+| **PersonnelSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of specialized personnel including investigators, analysts, technical experts, and suppor... |
+| **Phase** | ext.cac.cac-core | Class | A temporal stage of some enduring entity, process, or situation. The bearer remains the same enti... |
+| **Phase3Wave1** | ext.cac.cacontology-integration-patterns | Class | First wave implementing high-priority modules (forensics, multi-jurisdiction, legal outcomes, tas... |
+| **PhaseConsistency** | ext.cac.cacontology-integration-patterns | Class | Validation ensuring phase modeling follows gUFO intrinsic constraints and proper transition seman... |
+| **PhoneNumberTrace** | ext.cac.cacontology-us-ncmec | Class | Tracing of phone numbers linked to accounts in NCMEC tips. |
+| **PhysicalDescription** | ext.cac.cacontology-sex-offender-registry | Class | Physical description of registered sex offender (height, weight, scars, tattoos). |
 | **Pipe** | uco.observable | Class | A pipe is a mechanism for one-way inter-process communication using message passing where data wr... |
-| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
+| **PlaceLikeEntity** | ext.cac.cac-core | Class | An enduring entity used to represent places, venues, virtual environments treated as locatable co... |
+| **PlatformCooperation** | ext.cac.cacontology-us-ncmec | Class | Cooperation from digital platforms in providing information for NCMEC tips. |
+| **PlatformInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Technical infrastructure supporting child exploitation platforms, including servers, networks, an... |
+| **PlatformInvestigationCoordination** | ext.cac.cacontology-platforms | Class | Coordinated investigation across multiple platforms and devices. |
+| **PlatformSpecification** | ext.toolcap | Class | DEPRECATED in 0.4.0. Use first-class uco-observable:OperatingSystem instances linked via uco-core... |
+| **PocketLitter** | ext.aeo.engagement | Class | Pocket litter describes objects placed prior or during an adversary engagement operation for the ... |
+| **PolicyHarmonization** | ext.cac.cacontology-legal-harmonization | Class | Process of harmonizing policies across jurisdictions. |
+| **PortAuthorityYouthServices** | ext.cac.cacontology-victim-impact | Class | Specialized youth services unit within Port Authority Police Department. |
+| **PositionOfTrust** | ext.cac.cacontology-custodial | Class | Role or position that grants special access to or authority over children. Modeled as anti-rigid ... |
+| **PostAbductionReporting** | ext.cac.cacontology-stranger-abduction | Class | Victim's reporting of abduction and exploitation to authorities or family. |
+| **PracticeSessionExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation during regular practice sessions and training activities. Enhanced as gUFO Event. |
+| **PreventionMetrics** | ext.cac.cacontology-prevention | Class | Metrics for measuring prevention program effectiveness. |
+| **PrimaryTraffickerRole** | ext.cac.cacontology-sex-trafficking | Class | Leading role in trafficking operation, often controlling multiple victims and coordinating activi... |
+| **PrinceGeorgesCountyPolice** | ext.cac.cacontology-specialized-units | Class | Prince George's County Police Department supporting Maryland State Police computer crimes investi... |
+| **PrivilegedVictimTargeting** | ext.cac.cacontology-grooming | Class | Targeting of victims from privileged backgrounds who may be less likely to report. |
+| **ProbationaryCustodyPhase** | ext.cac.cacontology-custodial | Class | Phase when custodial relationship is under evaluation or supervision. Modeled as anti-rigid gUFO ... |
 | **ProcessThread** | uco.observable | Class | A process thread is the smallest sequence of programmed instructions that can be managed independ... |
+| **ProductionDistributionPhase** | ext.cac.cacontology-production | Class | Phase during which produced content is distributed or shared. |
+| **ProductionEquipment** | ext.cac.cacontology-production | Class | Devices and equipment used to produce child sexual abuse material. |
+| **ProductionOffense** | ext.cac.cacontology-production | Class | Criminal offense involving the production, creation, or manufacturing of child sexual abuse mater... |
+| **ProfessionalCareRelationship** | ext.cac.cacontology-custodial | Class | Professional relationship involving child care or supervision duties. Modeled as gUFO SubKind wit... |
 | **Profile** | uco.observable | Class | A profile is an explicit digital representation of identity and characteristics of the owner of a... |
 | **ProfileFacet** | uco.observable | Facet | A profile facet is a grouping of characteristics unique to an explicit digital representation of ... |
+| **ProsecutionCapacityAnalysis** | ext.cac.cacontology-multi-jurisdiction | Class | Analysis of prosecution capacity across jurisdictions to optimize case distribution for massive o... |
+| **ProtectiveGear** | ext.cac.cacontology-tactical | Class | Armor and protective equipment for tactical team members. |
 | **ProtocolConverter** | uco.observable | Class | A protocol converter is a device that converts from one protocol to another (e.g. SD to USB, SATA... |
 | **ProvenanceRecord** | case.investigation | Class | A provenance record is a grouping of characteristics unique to the provenantial (chronology of th... |
+| **PublicPrivatePartnership** | ext.cac.cacontology-partnerships | Class | Formal partnership between government/law enforcement agencies and private sector organizations f... |
+| **PublicReport** | ext.cac.cacontology-hotlines | Class | A report submitted by a member of the public. |
+| **PublicTip** | ext.cac.cacontology-partnerships | Class | Information provided by members of the public in response to crowdsourcing requests. Modeled as g... |
+| **QualityAssuranceReview** | ext.cac.cacontology-case-management | Class | Systematic quality assurance review ensuring compliance with standards and procedures. Enhanced a... |
+| **RandomVictimSelection** | ext.cac.cacontology-stranger-abduction | Class | Selection of victim based on opportunity rather than specific targeting or grooming. |
+| **RapidEscalationGrooming** | ext.cac.cacontology-grooming | Class | Grooming with accelerated timeline from initial contact to exploitation attempt, bypassing tradit... |
+| **ReactiveOperation** | ext.cac.cacontology-taskforce | Class | Operation in response to specific tips or reports. |
+| **RecantationNotification** | ext.cac.cacontology-recantation | Class | An action in which a family member, caregiver, professional, or other person reports that a child... |
+| **RecantationResponseTraining** | ext.cac.cacontology-training | Class | Training for multidisciplinary teams on anticipating recantation, strengthening support, and inve... |
+| **ReceiveCybertipAction** | ext.cac.cacontology | Class | The initial action of receiving a cybertip report from a reporting entity (e.g., NCMEC, INHOPE). |
+| **ReciprocityGrooming** | ext.cac.cacontology-grooming | Class | Grooming technique encouraging victim to reciprocate with sexual content. |
+| **Recommendation** | ext.cac.cacontology-synthesis | Class | A numbered recommendation stated by a report. |
+| **RecordingDevice** | ext.cac.cacontology-production | Class | Device capable of capturing video or photographic content. |
+| **RecordingEquipment** | ext.cac.cacontology-physical-evidence | Class | Devices used to create audio or video recordings of criminal activity (gUFO FunctionalComplex). |
+| **RecoveryPhase** | ext.cac.cacontology-asset-forfeiture | Class | Phase during which forfeited assets are recovered and transferred to appropriate authorities. Ant... |
+| **RegionalCoordination** | ext.cac.cacontology-investigation-coordination | Class | Coordination activities spanning regional areas and multiple local jurisdictions. |
+| **RegionalTaskForceCoordination** | ext.cac.cacontology-taskforce | Class | Coordination mechanism between multiple task forces within the same state. |
 | **Relationship** | uco.core | Class | A relationship is a grouping of characteristics unique to an assertion that one or more objects a... |
+| **RenewalPhase** | ext.cac.cacontology-partnerships | Class | Phase of partnership renewal or renegotiation. Modeled as anti-rigid gUFO Phase. |
 | **ReparsePoint** | uco.observable | Class | A reparse point is a type of NTFS (New Technology File System) object which is an optional attrib... |
+| **Report** | ext.cac.cacontology-synthesis | Class | A report or publication treated as a collected source document (an intellectual work), distinct f... |
+| **ReportArtifact** | ext.cac.cacontology-synthesis | Class | A concrete artifact that realizes a Report (e.g., a PDF file). Use this when you want a report-as... |
+| **ReportFigure** | ext.cac.cacontology-synthesis | Class | A figure within a report (e.g., PRISMA diagram, distribution charts). |
+| **ReportReviewAction** | ext.cac.cacontology-hotlines | Class | The action of reviewing and triaging a hotline report. Enhanced as gUFO Event with comprehensive ... |
+| **ReportSection** | ext.cac.cacontology-synthesis | Class | A logical section of a report (e.g., Synopsis, Methods, Findings). |
+| **ReporterRole** | ext.cac.cacontology-hotlines | Class | The role of a person or organization submitting a report to a hotline. Enhanced as anti-rigid gUF... |
+| **ReportingPhase** | ext.cac.cacontology-detection | Class | Phase of generating reports and notifications to authorities. Modeled as anti-rigid gUFO Phase. |
+| **ReportingPhase** | ext.cac.cacontology-forensics | Class | Phase involving preparation of forensic reports and findings. |
+| **ReportingResponse** | ext.cac.cacontology-sextortion | Class | Victim reports incident to authorities or trusted adults. |
+| **ReputationBasedSilencing** | ext.cac.cacontology-grooming | Class | Exploitation of institutional reputation to discourage victim reporting. |
+| **ResearchQuestion** | ext.cac.cacontology-synthesis | Class | A research question posed by a report. |
+| **ResourceSharing** | ext.cac.cacontology-investigation-coordination | Class | Systematic sharing of resources between agencies including personnel, equipment, facilities, and ... |
+| **ResourceSharing** | ext.cac.cacontology-multi-jurisdiction | Class | Sharing of personnel, equipment, or expertise between agencies. |
+| **ResourceUtilizationMetrics** | ext.cac.cacontology-investigation-coordination | Class | Metrics measuring efficiency of shared resource utilization and allocation. |
+| **ResponseTimeMetrics** | ext.cac.cacontology-investigation-coordination | Class | Metrics measuring response times for coordination requests and information sharing. |
+| **RestraintPhase** | ext.cac.cacontology-asset-forfeiture | Class | Phase during which property is restrained pending forfeiture proceedings. Anti-rigid gUFO Phase. |
+| **ReviewCybertipAction** | ext.cac.cacontology | Class | The action of reviewing and analyzing a cybertip report by an analyst. |
+| **ReviewPhase** | ext.cac.cacontology-hotlines | Class | The phase during which reports undergo detailed analysis and classification. |
+| **RiskStratificationResult** | ext.cac.cacontology-detection | Class | A risk-stratified output artifact (tier/score/rationale) produced from detection or tip signals t... |
+| **Role** | ext.cac.cac-core | Class | A non-rigid role borne by an enduring entity in a certain relational or contextual setting. A bea... |
+| **RoleConflictSituation** | ext.cac.cacontology-temporal | Class | Situation where person's multiple roles create potential conflict of interest. Modeled as gUFO Si... |
+| **RoleConsistency** | ext.cac.cacontology-integration-patterns | Class | Validation ensuring role modeling follows gUFO anti-rigidity constraints and proper inheritance. |
+| **RoutineActivityTargeting** | ext.cac.cacontology-stranger-abduction | Class | Targeting children during predictable routine activities (school, recreation, errands). |
 | **SIMCard** | uco.observable | Class | A SIM card is a subscriber identification module card intended to securely store the internationa... |
 | **SIMCardFacet** | uco.observable | Facet | A SIM card facet is a grouping of characteristics unique to a subscriber identification module ca... |
 | **SIPAddress** | uco.observable | Class | A SIP address is an identifier for Session Initiation Protocol (SIP) communication. |
@@ -358,23 +1102,141 @@ Classes for network connections, IP addresses, DNS records, URLs, and related ar
 | **SMSMessageFacet** | uco.observable | Facet | A SMS message facet is a grouping of characteristics unique to a message conformant to the short ... |
 | **SQLiteBlob** | uco.observable | Class | An SQLite blob is a blob (binary large object) of data within an SQLite database. [based on https... |
 | **SQLiteBlobFacet** | uco.observable | Facet | An SQLite blob facet is a grouping of characteristics unique to a blob (binary large object) of d... |
+| **SadisticOnlineExploitationNetwork** | ext.cac.cacontology-sadistic-online-exploitation | Class | A DHS/Know2Protect-defined online group (network/community) engaged in sadistic coercion and expl... |
+| **SadisticSextortion** | ext.cac.cacontology-sextortion | Class | Sextortion incident in which the coercive leverage includes threats compelling suffering, submiss... |
+| **SafetyProtocol** | ext.cac.cacontology-prevention | Class | Protocol designed to ensure child safety in various settings. |
+| **SchoolAllegationProtocol** | ext.cac.cacontology-prevention | Class | Protocol for managing allegations of abuse in school settings. Modeled as gUFO Object. |
+| **SchoolBasedInvestigation** | ext.cac.cacontology-athletic-exploitation | Class | Investigation initiated by educational institution following exploitation reports. Enhanced as gU... |
+| **SchoolBasedRecruitment** | ext.cac.cacontology-recruitment-networks | Class | Trafficking recruitment occurring within or through school environments and relationships. |
+| **SchoolBasedReporting** | ext.cac.cacontology-recruitment-networks | Class | Reporting of trafficking incidents through educational institution personnel. |
+| **SchoolHoursRecruitment** | ext.cac.cacontology-recruitment-networks | Class | Recruitment occurring during regular school hours through peer interactions. |
+| **SchoolSocialWorker** | ext.cac.cacontology-recruitment-networks | Class | Social worker employed by educational institution who receives victim reports. |
+| **SchoolStaffMember** | ext.cac.cacontology-recruitment-networks | Class | Employee of educational institution involved in reporting or responding to trafficking. |
+| **ScopeConstraint** | ext.cac.cacontology-synthesis | Class | A stated boundary on what the report includes/excludes (e.g., out-of-scope topics). |
+| **SecondaryInvestigatorAssignment** | ext.cac.cacontology-case-management | Class | Supporting investigator assignment providing specialized skills or additional resources. Enhanced... |
+| **SecondaryLiaison** | ext.cac.cacontology-investigation-coordination | Class | Secondary liaison officer providing backup and specialized coordination support. |
+| **SecrecyRequest** | ext.cac.cacontology-grooming | Class | Instruction to keep communication or relationship secret from parents or authorities. |
 | **SecurityAppliance** | uco.observable | Class | A security appliance is a purpose-built computer with software or firmware that is designed to pr... |
+| **SecurityInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Security systems protecting platform infrastructure from detection and takedown efforts (gUFO Fun... |
+| **SecurityOperatorRole** | ext.cac.cacontology-platform-infrastructure | Class | Role of person managing security infrastructure and operations (gUFO Role - anti-rigid). |
 | **Semaphore** | uco.observable | Class | A semaphore is a variable or abstract data type used to control access to a common resource by mu... |
+| **ServerInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Server and hosting infrastructure supporting platform operations, including web servers, database... |
+| **ServerSeizure** | ext.cac.cacontology-platform-infrastructure | Class | Physical or virtual seizure of servers hosting platform infrastructure (gUFO Event). |
+| **SexTourism** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of traveling abroad with intent to engage in sexual conduct with minors. Modeled as... |
+| **SexTraffickingOfMinors** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of sex trafficking involving minors, including recruitment, harboring, transportati... |
+| **SextortionAnnotation** | ext.cac.cacontology-us-ncmec | Class | Annotation indicating the report is associated with sextortion. Source: NCMEC Cybertip API Sectio... |
+| **SextortionResponse** | ext.cac.cacontology-prevention | Class | Response protocol for sextortion incidents. |
+| **SexualConsequenceGameGrooming** | ext.cac.cacontology-grooming | Class | Physical-space grooming pattern where the perpetrator frames sexualized contact as part of a game... |
+| **SexualExploitationOfMinorCharge** | ext.cac.cacontology-legal-outcomes | Class | Georgia state charge for sexual exploitation of a minor, as reported in a Georgia Attorney Genera... |
+| **SexualTopicGrooming** | ext.cac.cacontology-athletic-exploitation | Class | Grooming through inappropriate sexual discussions during athletic activities. Enhanced as gUFO Ev... |
+| **SheriffOfficeHost** | ext.cac.cacontology-taskforce | Class | County sheriff's office hosting CAC task force (Fresno County SO, Broward County SO, etc.). |
+| **SilentVictimization** | ext.cac.cacontology-sextortion | Class | Victim does not report due to shame, fear, or manipulation. |
+| **SimultaneousChildRescue** | ext.cac.cacontology-multi-jurisdiction | Class | Rescue of multiple children across different locations simultaneously. |
+| **SimultaneousRoleSituation** | ext.cac.cacontology-temporal | Class | Situation where person plays multiple roles simultaneously in investigation context. Modeled as g... |
+| **Situation** | ext.cac.cac-core | Class | A context, state, or configuration that holds at a time and may involve multiple participants. Al... |
+| **SkiMaskConcealment** | ext.cac.cacontology-stranger-abduction | Class | Use of ski mask or balaclava to conceal identity during approach. |
+| **SkippedGroomingPhases** | ext.cac.cacontology-grooming | Class | Grooming that bypasses traditional phases like trust building, isolation, and normalization. |
 | **SmartDevice** | uco.observable | Class | A smart device is a microprocessor IoT device that is expected to be connected directly to cloud-... |
 | **SmartPhone** | uco.observable | Class | A smartphone is a portable device that combines mobile telephone and computing functions into one... |
+| **SocialConnectionLeverage** | ext.cac.cacontology-recruitment-networks | Class | Leveraging existing social connections between victims to facilitate new recruitment. |
+| **SocialIndicator** | ext.cac.cacontology-victim-impact | Class | Changes in social behavior or relationships due to trauma. |
+| **SocialMediaPlatform** | ext.cac.cacontology-platforms | Class | A digital platform for social networking and content sharing (e.g., Facebook, Instagram, TikTok, ... |
+| **SocialMediaSextortion** | ext.cac.cacontology-sextortion | Class | Sextortion conducted through social media platforms and networks. |
+| **SocialWorkerReport** | ext.cac.cacontology-recruitment-networks | Class | Report made by school social worker to law enforcement regarding trafficking victim. |
+| **SocioeconomicVulnerabilityIndicator** | ext.cac.cacontology-street-recruitment | Class | Indicators of economic hardship or social disadvantage (clothing, possessions, location). |
 | **Socket** | uco.observable | Class | A socket is a special file used for inter-process communication, which enables communication betw... |
 | **SocketAddress** | uco.observable | Class | A socket address (combining and IP address and a port number) is a composite identifier for a net... |
 | **Software** | uco.observable | Class | Software is a definitely scoped instance of a collection of data or computer instructions that te... |
 | **SoftwareFacet** | uco.observable | Facet | A software facet is a grouping of characteristics unique to a software program (a definitively sc... |
+| **SpamAnnotation** | ext.cac.cacontology-us-ncmec | Class | Annotation indicating the report is associated with spam. Source: NCMEC Cybertip API Section B.1.... |
+| **SportsContextPhysicalAbuse** | ext.cac.cacontology-athletic-exploitation | Class | Physical abuse within sports training context disguised as coaching. Enhanced as gUFO Event. |
+| **StateAgency** | ext.cac.cacontology-multi-jurisdiction | Class | Law enforcement agency with state-level jurisdiction. |
+| **StateAgencyHost** | ext.cac.cacontology-taskforce | Class | Other state agency hosting CAC task force (Delaware DOJ, Hawaii DOA, etc.). |
+| **StateBureauHost** | ext.cac.cacontology-taskforce | Class | State bureau of investigation hosting CAC task force (Georgia BIA, North Carolina SBI, etc.). |
+| **StateCharge** | ext.cac.cacontology-legal-outcomes | Class | Criminal charge under state law and jurisdiction. Modeled as gUFO Object. |
+| **StateJurisdiction** | ext.cac.cacontology-multi-jurisdiction | Class | Legal authority under state law and courts. |
+| **StateLineCrossing** | ext.cac.cacontology-multi-jurisdiction | Class | Documented crossing of state boundaries during offense. |
+| **StatePoliceBarrack** | ext.cac.cacontology-specialized-units | Class | Regional state police barrack providing local law enforcement support and coordination. Modeled a... |
+| **StatePoliceHost** | ext.cac.cacontology-taskforce | Class | State police agency hosting CAC task force (Maryland State Police, Connecticut State Police, etc.). |
+| **StateSupremeCourt** | ext.cac.cacontology-asset-forfeiture | Class | State Supreme Court with jurisdiction over forfeiture proceedings. Enhanced as gUFO Organization ... |
+| **StatementChangeContext** | ext.cac.cacontology-recantation | Class | A situation capturing the social, familial, investigative, and coercive conditions surrounding a ... |
+| **StatewideCampaignMetrics** | ext.cac.cacontology-prevention | Class | Metrics for measuring statewide prevention campaign effectiveness. |
+| **StatewideSweep** | ext.cac.cacontology-multi-jurisdiction | Class | Statewide operation conducting compliance checks across all jurisdictions. |
+| **StatewideTaskForce** | ext.cac.cacontology-taskforce | Class | CAC task force with statewide jurisdiction and coordination responsibility. |
+| **StationaryCamera** | ext.cac.cacontology-production | Class | Fixed camera equipment including webcams, digital cameras, and video cameras. |
+| **Statute** | ext.cac.cacontology-legal-harmonization | Class | Enacted law within a jurisdiction. |
+| **StatutoryReporting** | ext.cac.cacontology-legal-harmonization | Class | Reporting required by statute. |
 | **StorageMediumFacet** | uco.observable | Facet | A storage medium facet is a grouping of characteristics unique to a the storage capabilities of a... |
+| **StrangerAbduction** | ext.cac.cacontology-stranger-abduction | Class | Abduction of child by unknown perpetrator without prior relationship or contact. |
+| **StreetBasedRecruitment** | ext.cac.cacontology-street-recruitment | Class | Trafficking recruitment occurring in public spaces through direct physical approach and opportuni... |
+| **StreetLevelAbduction** | ext.cac.cacontology-stranger-abduction | Class | Abduction occurring on public streets or sidewalks during victim's routine activities. |
+| **StrippingProposition** | ext.cac.cacontology-street-recruitment | Class | Specific proposition to engage in stripping or exotic dancing for money. |
+| **StudentNetworkExploitation** | ext.cac.cacontology-recruitment-networks | Class | Exploitation of student social networks and peer relationships for trafficking recruitment. |
 | **SubjectActionLifecycle** | case.investigation | Class | A subject action lifecycle is an action pattern consisting of an ordered set of multiple actions ... |
+| **SubscriptionManagement** | ext.cac.cacontology-platform-infrastructure | Class | Systems managing user subscriptions, access levels, and recurring payment processing (gUFO Functi... |
+| **SuicidalIdeationResponse** | ext.cac.cacontology-victim-impact | Class | Emergency response to trafficking victim reporting suicidal thoughts or intentions. |
+| **SupportEvent** | ext.cac.cac-core | Class | An event representing victim support, advocacy, training, or welfare-related activity. |
+| **SupportNetworkDeception** | ext.cac.cacontology-institutional-exploitation | Class | Deception of support networks about true nature of institutional operations. |
+| **SurveillanceEquipment** | ext.cac.cacontology-tactical | Class | Equipment for monitoring and observing tactical situations. |
+| **SurveillancePosition** | ext.cac.cacontology-undercover | Class | Position maintained by backup officers for observation and safety during physical sting operations. |
+| **SurveillanceRecording** | ext.cac.cacontology-physical-evidence | Class | Recording from surveillance or security cameras. Digital observable. |
+| **SuspectCommunicationAction** | ext.cac.cacontology-undercover | Class | Base class for criminal communication actions initiated by suspect during undercover operation. |
+| **SuspendedCustodyPhase** | ext.cac.cacontology-custodial | Class | Phase when custodial relationship is temporarily suspended but not terminated. Modeled as anti-ri... |
+| **SwattingThreat** | ext.cac.cacontology-sextortion | Class | Threat mechanism involving swatting (threatened or induced false emergency report leading to arme... |
+| **SweepOperation** | ext.cac.cacontology-taskforce | Class | Large-scale coordinated operation targeting multiple suspects. |
 | **SymbolicLink** | uco.observable | Class | A symbolic link is a file that contains a reference to another file or directory in the form of a... |
 | **SymbolicLinkFacet** | uco.observable | Facet | A symbolic link facet is a grouping of characteristics unique to a file that contains a reference... |
+| **SystemInterventionFear** | ext.cac.cacontology-recantation | Class | Fear of court, child-protection action, family breakup, or other multidisciplinary system consequ... |
+| **SystematicInstitutionalAbuse** | ext.cac.cacontology-institutional-exploitation | Class | Systematic pattern of abuse affecting multiple children over extended period. |
 | **TCPConnection** | uco.observable | Class | A TCP connection is a network connection that is conformant to the Transfer  |
 | **TCPConnectionFacet** | uco.observable | Facet | A TCP connection facet is a grouping of characteristics unique to portions of a network connectio... |
+| **TacticalEquipment** | ext.cac.cacontology-tactical | Class | Specialized equipment used in tactical operations. |
+| **TakedownRequestAction** | ext.cac.cacontology-hotlines | Class | The action of requesting content takedown from a hosting provider. Enhanced as gUFO Event for con... |
+| **TaskForceAlliance** | ext.cac.cacontology-taskforce | Class | Formal alliance between multiple CAC task forces. |
+| **TaskForceCoordination** | ext.cac.cacontology-investigation-coordination | Class | Coordination through specialized task forces bringing together personnel from multiple agencies f... |
+| **TaskForceHostOrganization** | ext.cac.cacontology-taskforce | Class | Organization that hosts and coordinates an CAC task force. |
+| **TaskForceHotline** | ext.cac.cacontology-taskforce | Class | Dedicated phone line for CAC task force operations and reporting. |
+| **TaskForceReferral** | ext.cac.cacontology-us-ncmec | Class | Referral of NCMEC tip to appropriate CAC task force for investigation. |
+| **TaskforceRolePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling roles within CAC taskforces with specialization and coordination relati... |
+| **TeacherReporter** | ext.cac.cacontology-recruitment-networks | Class | Teacher who identifies signs of trafficking or receives disclosures from students. |
+| **TeamDynamicsExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Contextual situation in which exploitation occurs using team membership, group dynamics, and athl... |
+| **TeamMembershipCoercion** | ext.cac.cacontology-athletic-exploitation | Class | Threats to team membership and participation as coercion for sexual compliance. Enhanced as gUFO ... |
+| **TechnicalEquipment** | ext.cac.cacontology-asset-forfeiture | Class | Technical equipment used in child exploitation offenses (cameras, computers, drones, etc.). Enhan... |
+| **TechnicalServiceProvider** | ext.cac.cacontology-platforms | Class | Organizations providing technical infrastructure (hosting, CDN, DNS, etc.) that may be involved i... |
+| **TechnicalSupport** | ext.cac.cacontology-undercover | Class | Personnel providing technical infrastructure and monitoring for undercover operations. |
+| **TechnologyPartner** | ext.cac.cacontology-partnerships | Class | Technology company or provider participating in partnership with technical capabilities and platf... |
+| **TemporalConsistency** | ext.cac.cacontology-integration-patterns | Class | Validation ensuring temporal relationships and constraints are properly modeled across modules. |
+| **TerminatedCustodyPhase** | ext.cac.cacontology-custodial | Class | Phase when custodial relationship has been formally ended. Modeled as anti-rigid gUFO Phase. |
+| **TherapyDog** | ext.cac.cacontology-specialized-units | Class | Trained therapy dog providing emotional support to officers. Modeled as gUFO Object. |
+| **TherapyParticipant** | ext.cac.cacontology-victim-impact | Class | Role of victim participating in therapeutic interventions. |
 | **Thread** | uco.types | Class | A semi-ordered array of items, that can be present in multiple copies.  Implemetation of a UCO Th... |
-| **ToolCapability** | ext.toolcap | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
+| **TipEnrichment** | ext.cac.cacontology-us-ncmec | Class | Enhancement of NCMEC tips with additional investigative information. |
+| **TipPrioritization** | ext.cac.cacontology-us-ncmec | Class | Priority assessment and ranking of NCMEC tips for investigation. |
+| **TipProcessing** | ext.cac.cacontology-us-ncmec | Class | Processing workflow for NCMEC tips from receipt to investigation referral. |
+| **TipValidation** | ext.cac.cacontology-us-ncmec | Class | Validation and verification of information in NCMEC tips. |
+| **ToolCapability** | ext.toolcap | Class | DEPRECATED in 0.4.0. Use capability:Capability (proposed uco-capability:Capability) instead, link... |
+| **TraffickingEnterprise** | ext.cac.cacontology-sex-trafficking | Class | Criminal organization engaged in systematic sex trafficking operations with multiple defendants a... |
+| **TraffickingNetworkSituation** | ext.cac.cacontology-sex-trafficking | Class | Complex situation encompassing active trafficking network operations across multiple jurisdictions. |
+| **TraffickingOfPersonsForSexualServitudeCharge** | ext.cac.cacontology-legal-outcomes | Class | Georgia state charge for trafficking of persons for sexual servitude, as reported in a Georgia At... |
+| **TraffickingOperation** | ext.cac.cacontology-sex-trafficking | Class | Coordinated trafficking activity involving multiple perpetrators, victims, and locations. Modeled... |
+| **TraffickingRing** | ext.cac.cacontology-sex-trafficking | Class | Coordinated group of traffickers operating across multiple jurisdictions with shared victims and ... |
+| **TraffickingVictimRescue** | ext.cac.cacontology-sex-trafficking | Class | Specialized rescue operation for trafficking victims involving multiple agencies and victim servi... |
+| **TrainingCampExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation during intensive training camps or extended athletic sessions. Enhanced as gUFO Event. |
+| **TrainingMetrics** | ext.cac.cacontology-training | Class | Metrics measuring training effectiveness and reach. Modeled as gUFO Object. |
+| **TrainingParticipant** | ext.cac.cacontology-training | Class | Professional participating in training programs. Modeled as anti-rigid gUFO Role. |
+| **TransitArea** | ext.cac.cacontology-street-recruitment | Class | Transportation hubs or transit areas where vulnerable individuals may be targeted. |
+| **TransportArrangementAction** | ext.cac.cacontology-undercover | Class | Suspect arranging to pick up and transport alleged minor to meeting location. |
+| **TransportationFacilitatorRole** | ext.cac.cacontology-sex-trafficking | Class | Role focused on transporting victims between locations for trafficking purposes. Modeled as anti-... |
+| **TransportationForIllegalPurpose** | ext.cac.cacontology-multi-jurisdiction | Class | Transportation with intent to engage in criminal sexual activity. |
+| **TransportationForSexualExploitation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of transporting minors across international boundaries for sexual exploitation. Mod... |
+| **TransportationOfferApproach** | ext.cac.cacontology-street-recruitment | Class | Offer of rides or transportation to isolated locations for exploitation. |
+| **TravelTeamCoachRole** | ext.cac.cacontology-athletic-exploitation | Class | Coaching role for travel or club sports teams with enhanced authority and access. Enhanced as ant... |
+| **TravelTeamExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation within travel or club sports teams where coach has enhanced authority and access to ... |
 | **TriggerType** | uco.observable | Class | A trigger type is a grouping of characterizes unique to a set of criteria that, when met, starts ... |
+| **TrustBuildingBehavior** | ext.cac.cacontology-grooming | Class | Early grooming stage focused on establishing emotional connection with the child victim. |
+| **TrustBuildingPhase** | ext.cac.cacontology-grooming | Class | Phase focused on building emotional connection and trust with victim. |
+| **TrustBuildingPhase** | ext.cac.cacontology-sextortion | Class | Phase focused on building trust and rapport with victim. |
+| **TrustViolation** | ext.cac.cacontology-custodial | Class | Action that violates a position of trust or custodial responsibility. Modeled as gUFO Event with ... |
 | **TwitterProfileFacet** | uco.observable | Facet | A twitter profile facet is a grouping of characteristics unique to an explicit digital representa... |
 | **UNIXVolumeFacet** | uco.observable | Facet | A UNIX volume facet is a grouping of characteristics unique to a single accessible storage area (... |
 | **URL** | uco.observable | Class | A URL is a uniform resource locator (URL) acting as a resolvable address to a particular WWW (Wor... |
@@ -382,18 +1244,47 @@ Classes for network connections, IP addresses, DNS records, URLs, and related ar
 | **URLHistory** | uco.observable | Class | A URL history characterizes the stored URL history for a particular web browser |
 | **URLHistoryEntry** | uco.observable | Class | A URL history entry is a grouping of characteristics unique to the properties of a single URL his... |
 | **URLHistoryFacet** | uco.observable | Facet | A URL history facet is a grouping of characteristics unique to the stored URL history for a parti... |
+| **URLReference** | ext.cac.cacontology-hotlines | Class | A URL submitted as evidence. |
 | **URLVisit** | uco.observable | Class | A URL visit characterizes the properties of a visit of a URL within a particular browser. |
 | **URLVisitFacet** | uco.observable | Facet | A URL visit facet is a grouping of characteristics unique to the properties of a visit of a URL w... |
+| **USAttorneyOfficeParticipation** | ext.cac.cacontology-multi-jurisdiction | Class | Participation of US Attorney's Offices around the country in coordinated operation. |
 | **UcoInherentCharacterizationThing** | uco.core | Class | A UCO inherent characterization thing is a grouping of characteristics unique to a particular inh... |
 | **UcoObject** | uco.core | Class | A UCO object is a representation of a fundamental concept either directly inherent to the cyber d... |
+| **UnitMaintenancePhase** | ext.cac.cacontology-specialized-units | Class | Phase for equipment maintenance and unit readiness. Modeled as anti-rigid gUFO Phase. |
+| **UnsupportiveFamilyResponse** | ext.cac.cacontology-recantation | Class | A family response that sides with the offender, undermines the child, or otherwise erodes support... |
 | **UserAccount** | uco.observable | Class | A user account is an account controlling a user's access to a network, system or platform. |
 | **UserAccountFacet** | uco.observable | Facet | A user account facet is a grouping of characteristics unique to an account controlling a user's a... |
 | **UserSession** | uco.observable | Class | A user session is a temporary and interactive information interchange between two or more communi... |
 | **UserSessionFacet** | uco.observable | Facet | A user session facet is a grouping of characteristics unique to a temporary and interactive infor... |
+| **ValidationStrategy** | ext.cac.cacontology-integration-patterns | Class | Framework for validating gUFO integration across CAC modules ensuring consistency and correctness. |
+| **VehicleBasedIsolation** | ext.cac.cacontology-street-recruitment | Class | Use of vehicle to isolate victim and transport to exploitation location. |
+| **VehicleLocation** | ext.cac.cacontology-street-recruitment | Class | Vehicle used as location for exploitation or transportation to exploitation site. |
 | **VictimActionLifecycle** | case.investigation | Class | A victim action lifecycle is an action pattern consisting of an ordered set of multiple actions o... |
+| **VictimAdvocateRole** | ext.cac.cacontology-victim-impact | Class | Role of professional providing advocacy support to victims. |
+| **VictimControlMechanism** | ext.cac.cacontology-stranger-abduction | Class | Methods used to maintain control over victim during abduction and exploitation. |
+| **VictimIdentificationProcess** | ext.cac.cacontology-forensics | Class | Systematic process for identifying child victims from seized images and videos during long-term i... |
+| **VictimInformation** | ext.cac.cacontology-sex-offender-registry | Class | Information about victims relevant to registration (age, relationship, count). |
+| **VictimInformationSharing** | ext.cac.cacontology-investigation-coordination | Class | Coordinated sharing of victim information while maintaining privacy and protection protocols. |
+| **VictimIsolation** | ext.cac.cacontology-sextortion | Class | Tactics to isolate victim from support systems and reporting mechanisms. |
+| **VictimPhase** | ext.cac.cacontology | Class | Phase focused on victim identification, rescue, and support. Deprecated: consider using the more ... |
+| **VictimProfileDevelopment** | ext.cac.cacontology-extremist-enterprises | Class | Development of detailed victim profiles including vulnerabilities and exploitation opportunities. |
+| **VictimReporting** | ext.cac.cacontology-street-recruitment | Class | Victim's decision to report trafficking recruitment or assault to authorities. |
+| **VictimRescueAction** | ext.cac.cacontology | Class | The action of rescuing and providing support to identified victims. |
+| **VictimSafetyAssessment** | ext.cac.cacontology-sex-trafficking | Class | Assessment of victim safety and ongoing threats from trafficking network. Modeled as gUFO Event. |
+| **VictimSelfReporting** | ext.cac.cacontology-victim-impact | Class | Victim's direct reporting of their trafficking or exploitation situation to authorities. |
+| **VictimServiceCoordination** | ext.cac.cacontology-victim-impact | Class | Coordination of victim services between multiple agencies and organizations. |
+| **VictimServiceUnit** | ext.cac.cacontology-taskforce | Class | Unit providing specialized services and support to child victims. |
+| **VictimServicesUnit** | ext.cac.cacontology-specialized-units | Class | Unit providing specialized victim services and support. Modeled as gUFO Organization. |
+| **VictimStatement** | ext.cac.cacontology-recantation | Class | A statement or account by a child victim concerning abuse, disclosure, denial, or recantation. Mo... |
+| **VictimSupport** | ext.cac.cacontology-victim-impact | Class | Support services provided to child victims and their families. |
+| **VictimTransportation** | ext.cac.cacontology-sex-trafficking | Class | Transportation of trafficking victims between locations for commercial sexual exploitation. Model... |
+| **VictimTransportationAssistance** | ext.cac.cacontology-victim-impact | Class | Provision of transportation assistance to trafficking victims (bus tickets, safe transport). |
 | **Volume** | uco.observable | Class | A volume is a single accessible storage area (volume) with a single file system. [based on https:... |
 | **VolumeFacet** | uco.observable | Facet | A volume facet is a grouping of characteristics unique to a single accessible storage area (volum... |
+| **VulnerabilityExploitation** | ext.cac.cacontology-stranger-abduction | Class | Exploitation of specific victim vulnerabilities during stranger abduction. |
+| **WeaponBasedCoercion** | ext.cac.cacontology-stranger-abduction | Class | Use of weapons to threaten, intimidate, and control victims during abduction and exploitation. |
 | **WebPage** | uco.observable | Class | A web page is a specific collection of information provided by a website and displayed to a user ... |
+| **WhistleblowerReport** | ext.cac.cacontology-law-enforcement-corruption | Class | Report by insider regarding corruption within law enforcement organization. |
 | **WhoIs** | uco.observable | Class | WhoIs is a response record conformant to the WHOIS protocol standard (RFC 3912). [based on https:... |
 | **WhoIsFacet** | uco.observable | Facet | A whois facet is a grouping of characteristics unique to a response record conformant to the WHOI... |
 | **WhoisContactFacet** | uco.observable | Facet | A Whois contact type is a grouping of characteristics unique to contact-related information prese... |
@@ -428,47 +1319,27 @@ Classes for network connections, IP addresses, DNS records, URLs, and related ar
 | **WirelessNetworkConnection** | uco.observable | Class | A wireless network connection is a connection (completed or attempted) across an IEEE 802.11 stan... |
 | **WirelessNetworkConnectionFacet** | uco.observable | Facet | A wireless network connection facet is a grouping of characteristics unique to a connection (comp... |
 
-**API** key properties:
+**AIContentDetection** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
+| detectionConfidence | decimal | No |
+| detectionMethod | string | No |
+| evidenceAdmissibility | string | No |
+| processingTime | decimal | No |
+| detectionTimePoint | dateTime | Yes |
+| startTime | dateTime | Yes |
 
-**ARPCache** key properties:
+**AIContentGeneration** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
-
-**ARPCacheEntry** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
+| generationComplexity | string | No |
+| generationTechnique | string | No |
+| technicalExpertiseRequired | string | No |
+| generationDuration | duration | No |
+| endTime | dateTime | No |
+| startTime | dateTime | Yes |
 
 **Example usage:**
 
@@ -512,8 +1383,7 @@ graph.add(obs);
 let facet = IPv4AddressFacet::builder()
     .address_value("192.168.1.100".into())
     .build();
-let obs = ObservableObject::builder().has_facet(vec![facet]).build();
-graph.create(&obs);
+graph.create(&ObservableObject::default());
 ```
 
 </details>
@@ -524,51 +1394,252 @@ Classes for physical and virtual devices, storage media, and hardware characteri
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
+| **AICSAMInvestigation** | ext.cac.cacontology-ai-csam | Class | Investigation specifically focused on AI-generated child sexual abuse material, requiring special... |
+| **AIContentDetection** | ext.cac.cacontology-ai-csam | Class | Process of identifying AI-generated or AI-altered content to distinguish from authentic material ... |
+| **AIContentGeneration** | ext.cac.cacontology-ai-csam | Class | Process of creating artificial CSAM using machine learning models, neural networks, or other AI t... |
+| **AICooperation** | ext.cac.cacontology-partnerships | Class | Cooperation in developing AI-based solutions for detection, analysis, and prevention of child exp... |
+| **AIDetectionTool** | ext.cac.cacontology-ai-csam | Class | Software tool specialized for detecting AI-generated content in digital media. Enhanced as gUFO O... |
+| **AIGeneratedCSAM** | ext.cac.cacontology-ai-csam | Class | Child sexual abuse material fully generated by artificial intelligence without depicting real vic... |
+| **AIGenerationPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling AI generation processes creating synthetic CSAM with algorithmic charac... |
+| **AIModelAnalyst** | ext.cac.cacontology-ai-csam | Class | Anti-rigid role of specialist identifying and analyzing AI models used for content generation. |
 | **API** | uco.observable | Class | An API (application programming interface) is a computing interface that defines interactions bet... |
 | **ARPCache** | uco.observable | Class | An ARP cache is a collection of Address Resolution Protocol (ARP) entries (mostly dynamic) that a... |
 | **ARPCacheEntry** | uco.observable | Class | An ARP cache entry is a single Address Resolution Protocol (ARP) response record that is created ... |
+| **AbusiveContactWithMinor** | ext.cac.cacontology-usa-federal-law | Class | Federal crime involving abusive sexual contact with minor victims. Modeled as gUFO Event. |
+| **AcademicPartner** | ext.cac.cacontology-partnerships | Class | Academic institution participating in partnership with research and training capabilities. Modele... |
+| **AcademicPartnership** | ext.cac.cacontology-partnerships | Class | Partnership with academic institutions for research, training, and technology development in chil... |
+| **AccountSuspensionAction** | ext.cac.cacontology-platforms | Class | An action to suspend or terminate a user account due to policy violations. Modeled as gUFO Event. |
+| **ActiveCooperationPhase** | ext.cac.cacontology-partnerships | Class | Phase of active cooperation with joint operations and information sharing. Modeled as anti-rigid ... |
+| **ActiveCustodyPhase** | ext.cac.cacontology-custodial | Class | Phase when custodial relationship is actively maintained and operational. Modeled as anti-rigid g... |
 | **Adaptor** | uco.observable | Class | An adaptor is a device that physically converts the pin outputs but does not alter the underlying... |
+| **AdultTraffickingVictimRole** | ext.cac.cacontology-sex-trafficking | Class | Role of adult being sex trafficked through force, fraud, or coercion. Modeled as anti-rigid gUFO ... |
+| **Age** | ext.cac.cacontology-temporal | Class | Age of a person modeled as a gUFO Quality whose concrete value is attributed in time-bounded situ... |
+| **AggravatedSexualAbuse** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of aggravated sexual abuse involving children in federal jurisdiction. Modeled as g... |
+| **AnalystRole** | ext.cac.cacontology | Class | Role of professional analyzing cybertips and digital evidence. Modeled as anti-rigid gUFO Role. |
+| **AnalystRole** | ext.cac.cacontology-specialized-units | Class | Role of analyst supporting specialized unit operations. Modeled as anti-rigid gUFO Role. |
 | **AnalyticTool** | uco.tool | Class | An analytic tool is an artifact of hardware and/or software utilized to accomplish a task or purp... |
 | **AndroidDevice** | uco.observable | Class | An Android device is a device running the Android operating system. [based on https://en.wikipedi... |
 | **AndroidDeviceFacet** | uco.observable | Facet | An Android device facet is a grouping of characteristics unique to an Android device. [based on h... |
 | **AndroidPhone** | uco.observable | Class | An android phone is a smart phone that applies the Android mobile operating system. |
+| **AppealProcess** | ext.cac.cacontology-legal-outcomes | Class | Legal process to challenge conviction or sentence in higher court. Modeled as gUFO Event. |
+| **AppellateDisposition** | ext.cac.cacontology-legal-outcomes | Class | Outcome of an appellate issue or appeal (e.g., affirmed, reversed, vacated, remanded). Modeled as... |
+| **AppellateIssue** | ext.cac.cacontology-legal-outcomes | Class | Issue raised on appeal to challenge a conviction or sentence (e.g., evidentiary admission, suffic... |
 | **AppleDevice** | uco.observable | Class | An apple device is a smart device that applies either the MacOS or iOS operating system. |
 | **Appliance** | uco.observable | Class | An appliance is a purpose-built computer with software or firmware that is designed to provide a ... |
 | **ArchiveFile** | uco.observable | Class | An archive file is a file that is composed of one or more computer files along with metadata. |
 | **ArchiveFileFacet** | uco.observable | Facet | An archive file facet is a grouping of characteristics unique to a file that is composed of one o... |
+| **ArraignmentProceeding** | ext.cac.cacontology-legal-outcomes | Class | Initial court appearance where charges are formally read and plea is entered. Modeled as gUFO Event. |
+| **AssessmentPhase** | ext.cac.cacontology-training | Class | Phase of participant assessment and competency evaluation. Modeled as anti-rigid gUFO Phase. |
+| **AssetForfeitureAction** | ext.cac.cacontology-asset-forfeiture | Class | Legal action to forfeit assets derived from or used in child exploitation crimes. Enhanced as gUF... |
+| **AssociateTraffickerRole** | ext.cac.cacontology-sex-trafficking | Class | Supporting role in trafficking operation, assisting primary traffickers. Modeled as anti-rigid gU... |
+| **AthleticCoachingExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Child sexual exploitation committed by athletic coaches using sports authority, team dynamics, an... |
+| **AuthorityAbuse** | ext.cac.cacontology-custodial | Class | Abuse of authority position to exploit or harm children. Modeled as gUFO SubKind with authority r... |
+| **AuthorityFigure** | ext.cac.cacontology-custodial | Class | Individual in position of authority, trust, or power over children. Modeled as anti-rigid gUFO Ro... |
+| **AutomatedDetectionAction** | ext.cac.cacontology-detection | Class | The action of using automated systems to detect potential CSAM content. Modeled as gUFO Event. |
+| **AutomatedReporterAgent** | ext.cac.cacontology-hotlines | Class | A software agent that automatically reports content to hotlines. Enhanced as gUFO Object for comp... |
+| **Babysitter** | ext.cac.cacontology-custodial | Class | Individual temporarily caring for children in parents' absence. Modeled as anti-rigid gUFO Role w... |
+| **BackgroundCheck** | ext.cac.cacontology-custodial | Class | Background verification conducted for custodial or care position. Modeled as gUFO Object with ver... |
 | **BlackberryPhone** | uco.observable | Class | A blackberry phone is a smart phone that applies the Blackberry OS mobile operating system. (Blac... |
 | **BlockDeviceNode** | uco.observable | Class | A block device node is a UNIX filesystem special file that serves as a conduit to communicate wit... |
 | **BluetoothAddress** | uco.observable | Class | A Bluetooth address is a Bluetooth standard conformant identifier assigned to a Bluetooth device ... |
 | **BluetoothAddressFacet** | uco.observable | Facet | A Bluetooth address facet is a grouping of characteristics unique to a Bluetooth standard conform... |
+| **BreachOfCare** | ext.cac.cacontology-custodial | Class | Failure to provide appropriate care while in custodial role. Modeled as gUFO SubKind with care ob... |
 | **BrowserCookie** | uco.observable | Class | A browser cookie is a piece of of data sent from a website and stored on the user's computer by t... |
 | **BrowserCookieFacet** | uco.observable | Facet | A browser cookie facet is a grouping of characteristics unique to a piece of data sent from a web... |
-| **CapabilityMatrix** | ext.toolcap | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
+| **CACInvestigation** | ext.cac.cacontology | Class | A child-protection investigation that follows a standard action lifecycle that commonly begins wi... |
+| **CEOSAttorneyRole** | ext.cac.cacontology-usa-federal-law | Class | Role of DOJ CEOS attorney specializing in child exploitation prosecution. Modeled as anti-rigid g... |
+| **CEOSdivision** | ext.cac.cacontology-usa-federal-law | Class | DOJ Child Exploitation and Obscenity Section serving unique and critical function in enforcement ... |
+| **CSAMModelLaw** | ext.cac.cacontology-legal-harmonization | Class | Model legislation for Child Sexual Abuse Material regulations. |
+| **CSAM_AccessingAndViewing** | ext.cac.cacontology-legal-outcomes | Class | Charge for intentionally accessing and viewing child sexual abuse material. Modeled as gUFO Object. |
+| **CSAM_CausingProduction** | ext.cac.cacontology-legal-outcomes | Class | Charge for causing or facilitating the production of child sexual abuse material, distinct from d... |
+| **CSAM_Distribution** | ext.cac.cacontology-legal-outcomes | Class | Charge for distribution of child sexual abuse material. Modeled as gUFO Object. |
+| **CSAM_Possession** | ext.cac.cacontology-legal-outcomes | Class | Charge for possession of child sexual abuse material. Modeled as gUFO Object. |
+| **CSAM_Production** | ext.cac.cacontology-legal-outcomes | Class | Charge for production of child sexual abuse material, typically carrying severe mandatory minimum... |
+| **CSAM_ReceivingOnCellularDevice** | ext.cac.cacontology-legal-outcomes | Class | Charge for receiving child sexual abuse material on cellular phone or mobile device. Modeled as g... |
+| **CapabilityPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling specialized capabilities as intrinsic properties of organizations or in... |
+| **CapacityBuildingPartner** | ext.cac.cacontology-training | Class | Partner organization supporting capacity building efforts. Modeled as gUFO Organization. |
+| **CapacityBuildingProgram** | ext.cac.cacontology-training | Class | Structured program for building organizational and individual capacity. Modeled as gUFO Organizat... |
+| **CapacityBuildingSituation** | ext.cac.cacontology-training | Class | Situation focused on building institutional and individual capacity for child protection. Modeled... |
+| **CaregiverRelationship** | ext.cac.cacontology-custodial | Class | Relationship involving responsibility for child's care, welfare, or supervision. Modeled as gUFO ... |
+| **CarriageServiceCSAMTransmission** | ext.cac.cacontology-legal-outcomes | Class | Use of carriage service to cause child abuse material to be transmitted to self, contrary to sect... |
+| **CarriageServiceIndecentCommunication** | ext.cac.cacontology-legal-outcomes | Class | Use of carriage service to transmit indecent communication to person under 16 years, contrary to ... |
+| **CaseManagement** | ext.cac.cacontology-case-management | Class | Comprehensive management framework for CAC cases including status tracking, priority assignment, ... |
+| **CaseWorkflow** | ext.cac.cacontology-case-management | Class | Structured workflow stages and processes for managing case progression from intake to disposition... |
+| **CellphoneSearch** | ext.cac.cacontology-physical-evidence | Class | Search of cellphone or mobile device for evidence. Typically requires consent or warrant (gUFO Ev... |
+| **CertificationBody** | ext.cac.cacontology-training | Class | Organization responsible for professional certification. Modeled as gUFO Organization. |
+| **CertificationPhase** | ext.cac.cacontology-training | Class | Phase of awarding certifications and credentials. Modeled as anti-rigid gUFO Phase. |
+| **CertifiedProfessional** | ext.cac.cacontology-training | Class | Professional who has achieved certification. Modeled as anti-rigid gUFO Role. |
 | **CharacterDeviceNode** | uco.observable | Class | A character device node is a UNIX filesystem special file that serves as a conduit to communicate... |
+| **ChildPornographyDistribution** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of distributing child pornography across state or international boundaries. Modeled... |
+| **ChildPornographyPossession** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of possessing child pornography that has traveled in interstate or foreign commerce... |
+| **ChildPornographyProduction** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of producing child pornography, carrying severe mandatory minimum sentences. Modele... |
+| **ChildPornographyReceipt** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of knowingly receiving child pornography through interstate or foreign commerce. Mo... |
+| **ChildProtectionTraining** | ext.cac.cacontology-training | Class | Training focused on child protection methodologies. Modeled as gUFO Event. |
+| **ChildSexualAbuseEvent** | ext.cac.cacontology | Class | A class representing any event involving child sexual abuse or exploitation. This is the base cla... |
+| **ChildSupportEvasion** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of willfully failing to pay child support across state lines. Modeled as gUFO Event. |
+| **ChildSupportExploitationLink** | ext.cac.cacontology-usa-federal-law | Class | Connection between child support violations and child exploitation crimes. Modeled as gUFO Situat... |
+| **ChildcareProvider** | ext.cac.cacontology-custodial | Class | Professional childcare or daycare provider. Modeled as anti-rigid gUFO Role with professional car... |
+| **CivilSocietyEngagement** | ext.cac.cacontology-partnerships | Class | Framework for engaging civil society, volunteers, and public participation in child protection in... |
+| **CivilSocietyPartner** | ext.cac.cacontology-partnerships | Class | Civil society organization participating in partnership with community engagement capabilities. M... |
+| **ClassroomExploitationContext** | ext.cac.cacontology-educational-exploitation | Class | Specific classroom situations and contexts where exploitation occurs. Enhanced as gUFO Object for... |
+| **ClientCommunicationInterception** | ext.cac.cacontology-undercover | Class | Interception of phone communications between traffickers, victims, and clients. |
+| **Coach** | ext.cac.cacontology-custodial | Class | Sports or activity coach with authority over young participants. Modeled as anti-rigid gUFO Role ... |
 | **Code** | uco.observable | Class | Code is a direct representation (source, byte or binary) of a collection of computer instructions... |
+| **CollaborativeInvestigationSituation** | ext.cac.cacontology-partnerships | Class | Complex situation involving multiple partners working together on investigations. Modeled as gUFO... |
+| **CollegeParkBarrack** | ext.cac.cacontology-specialized-units | Class | Maryland State Police College Park Barrack supporting computer crimes investigations. Modeled as ... |
+| **CommercialSexualExploitation** | ext.cac.cacontology-sex-trafficking | Class | Forced engagement in commercial sexual activities for the traffickers' profit. Modeled as gUFO Ev... |
+| **CommercialSexualExploitation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime involving commercial sexual exploitation of children through force, fraud, or coerc... |
+| **CommonwealthChildAbuseOffense** | ext.cac.cacontology-legal-outcomes | Class | Child abuse offense under Commonwealth law subject to mandatory minimum sentencing provisions. Mo... |
+| **CommunicationDevice** | ext.cac.cacontology-physical-evidence | Class | Devices used to communicate with victims or distribute illegal content (gUFO FunctionalComplex). |
+| **CommunicationEquipment** | ext.cac.cacontology-tactical | Class | Specialized communication devices for tactical operations. |
+| **CommunityAnalysis** | ext.cac.cacontology-partnerships | Class | Analysis performed by volunteer researchers and civil society organizations using open source int... |
+| **CommunityEngagementK9** | ext.cac.cacontology-specialized-units | Class | K9 utilized for community outreach and educational programs. Modeled as gUFO Organization. |
+| **CommunityOutreach** | ext.cac.cacontology-prevention | Class | Outreach programs to engage communities in child protection. Modeled as gUFO Event. |
+| **CommunityService** | ext.cac.cacontology-legal-outcomes | Class | Sentence requiring unpaid work for community benefit. Modeled as gUFO Object. |
+| **CompetencyAssessment** | ext.cac.cacontology-training | Class | Assessment of professional competencies acquired through training. Modeled as gUFO Object. |
 | **CompilerType** | uco.tool | Class | A compiler type is a grouping of characteristics unique to a specific program that translates com... |
+| **CompliancePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling compliance with registration requirements as temporal situation with mo... |
 | **Computer** | uco.observable | Class | A computer is an electronic device for storing and processing data, typically in binary, accordin... |
+| **ComputerEquipment** | ext.cac.cacontology-physical-evidence | Class | Digital devices including computers, laptops, tablets, and mobile phones seized as evidence (gUFO... |
+| **ComputerSeduceSolicitLure** | ext.cac.cacontology-legal-outcomes | Class | Florida state charge for using a computer to seduce, solicit, or lure a child to engage in sexual... |
 | **ComputerSpecification** | uco.observable | Class | A computer specification is the hardware and software of a programmable electronic device that ca... |
 | **ComputerSpecificationFacet** | uco.observable | Facet | A computer specificaiton facet is a grouping of characteristics unique to the hardware and softwa... |
+| **ConcurrentInvestigationSituation** | ext.cac.cacontology-temporal | Class | Situation where multiple investigations run simultaneously, potentially sharing resources or evid... |
+| **Condoms** | ext.cac.cacontology-physical-evidence | Class | Contraceptive devices found as evidence corroborating intent to engage in sexual activity. Extend... |
+| **ConsentToSearchAuthorization** | ext.cac.cacontology-physical-evidence | Class | Authorization obtained through suspect's consent to search property or devices. Extends investiga... |
 | **ContactPhone** | uco.observable | Class | A contact phone is a grouping of characteristics unique to details for contacting a contact entit... |
+| **ContentAnalystRole** | ext.cac.cacontology-detection | Class | Role of professional analyzing flagged content for classification. Modeled as anti-rigid gUFO Role. |
+| **ContentDetectionCooperation** | ext.cac.cacontology-partnerships | Class | Cooperation in developing and improving automated content detection systems. Modeled as gUFO Event. |
+| **ContentDevelopmentPhase** | ext.cac.cacontology-training | Class | Phase of developing training content and materials. Modeled as anti-rigid gUFO Phase. |
+| **ContentHashingAction** | ext.cac.cacontology-detection | Class | The action of generating cryptographic or perceptual hashes for content identification and matchi... |
+| **ContentHashingAction** | ext.cac.cacontology-platforms | Class | An action by a platform to generate hashes of content for detection and matching. Modeled as gUFO... |
+| **ContentHashingTool** | ext.cac.cacontology-detection | Class | A tool for generating perceptual or cryptographic hashes for content matching (e.g., PhotoDNA, pH... |
+| **ContentModerationAction** | ext.cac.cacontology-platforms | Class | An action taken by a platform to moderate content (review, remove, restrict, etc.). Modeled as gU... |
+| **ContentModerationCapability** | ext.cac.cacontology-platforms | Class | The ability and methods a platform uses to detect, review, and remove inappropriate content. Mode... |
+| **ContinuingEducation** | ext.cac.cacontology-training | Class | Ongoing education for certified professionals. Modeled as gUFO Organization. |
+| **ContributingToDelinquency** | ext.cac.cacontology-legal-outcomes | Class | Florida state charge for contributing to the delinquency or dependency of a child. Applies when a... |
+| **CoordinatedArrest** | ext.cac.cacontology-specialized-units | Class | Arrest coordinated as part of larger operation. Modeled as gUFO Event. |
+| **CoordinationMechanism** | ext.cac.cacontology-partnerships | Class | Mechanism for coordinating activities and sharing information between partners. Modeled as gUFO E... |
+| **CoordinationSituationPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling multi-jurisdiction coordination situations with participating organizat... |
+| **CountyPoliceSupport** | ext.cac.cacontology-specialized-units | Class | County-level police department providing support to state computer crimes investigations. Modeled... |
+| **CriminalCharge** | ext.cac.cacontology-legal-outcomes | Class | Formal accusation of criminal activity in CAC cases. Modeled as gUFO Object. |
+| **CriminalJusticeTraining** | ext.cac.cacontology-training | Class | Training for criminal justice professionals on child protection. Modeled as gUFO Event. |
+| **CriminalOrganizationPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling criminal enterprises with hierarchical structure and operational patterns. |
+| **CriminalSentence** | ext.cac.cacontology-legal-outcomes | Class | Punishment imposed by court for criminal conviction. Modeled as gUFO Object. |
+| **CriticalIncidentDebriefing** | ext.cac.cacontology-specialized-units | Class | Structured debriefing process following traumatic incidents. Modeled as gUFO Event. |
+| **CrossBorderDeviceSeizure** | ext.cac.cacontology-international | Class | Seizure of electronic devices across international borders with subsequent evidence sharing throu... |
+| **CrossBorderPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling cross-border investigations as complex situations spanning multiple jur... |
+| **CrossJurisdictionalControl** | ext.cac.cacontology-sex-trafficking | Class | Maintenance of victim control across multiple jurisdictions through coordinated trafficking netwo... |
+| **CrossPlatformDetectionSituation** | ext.cac.cacontology-detection | Class | Situation involving detection across multiple platforms and services. Modeled as gUFO Situation. |
+| **CrowdsourcingInvestigation** | ext.cac.cacontology-partnerships | Class | Investigation leveraging public participation for object identification, geolocation, and evidenc... |
+| **CryptocurrencyService** | ext.cac.cacontology-platforms | Class | A service for cryptocurrency transactions and exchanges (e.g., Bitcoin, Coinbase, Binance). Model... |
+| **CustodialAbuse** | ext.cac.cacontology-custodial | Class | Abuse committed by someone in custodial or caregiving role. Modeled as gUFO SubKind of TrustViola... |
+| **CustodialAuthorization** | ext.cac.cacontology-custodial | Class | Official authorization granting custodial rights or responsibilities. Modeled as gUFO Object with... |
+| **CustodialCrisisSituation** | ext.cac.cacontology-custodial | Class | Emergency situation requiring immediate custodial intervention. Modeled as gUFO Situation with cr... |
+| **CustodialRelationship** | ext.cac.cacontology-custodial | Class | Legal or informal relationship involving custody, care, or supervision of a child. Modeled as gUF... |
+| **CustodyArrangement** | ext.cac.cacontology-custodial | Class | Formal or informal arrangement for child custody or care. Modeled as gUFO Object with temporal ar... |
+| **CyberCrimeUnit** | ext.cac.cacontology-specialized-units | Class | Unit specialized in cyber crime investigations. Modeled as gUFO Organization. |
 | **DNSCache** | uco.observable | Class | An DNS cache is a temporary locally stored collection of previous Domain Name System (DNS) query ... |
+| **DarkWebService** | ext.cac.cacontology-platforms | Class | A service accessible through anonymizing networks like Tor, often used for illegal activities. Mo... |
+| **DataPreservationAction** | ext.cac.cacontology-platforms | Class | An action to preserve user data in response to legal requests. Modeled as gUFO Event. |
+| **DataRetentionPolicy** | ext.cac.cacontology-platforms | Class | A platform's policy for how long they retain user data and content. Modeled as gUFO Object. |
+| **DataSharingAgreement** | ext.cac.cacontology-partnerships | Class | Legal agreement governing data sharing between partners, including scope, limitations, and privac... |
+| **DatabaseMatchAction** | ext.cac.cacontology-detection | Class | The action of comparing content against known CSAM hash databases. Modeled as gUFO Event. |
+| **DatabaseMatchingTool** | ext.cac.cacontology-detection | Class | A tool for matching content against known CSAM databases (e.g., NCMEC hash database, INTERPOL ICS... |
+| **DefendantRole** | ext.cac.cacontology-legal-outcomes | Class | Role of individual charged with CAC crimes. Modeled as anti-rigid gUFO Role. |
+| **DefenseAttorneyRole** | ext.cac.cacontology-legal-outcomes | Class | Role of defense attorney representing CAC defendants. Modeled as anti-rigid gUFO Role. |
 | **DefensiveTool** | uco.tool | Class | A defensive tool is an artifact of hardware and/or software utilized to accomplish a task or purp... |
+| **DetectionDog** | ext.cac.cacontology-specialized-units | Class | Trained dog used for detection operations in CAC investigations. Modeled as gUFO Object. |
 | **Device** | uco.observable | Class | A device is a piece of equipment or a mechanism designed to serve a special purpose or perform a ... |
+| **DeviceConcealment** | ext.cac.cacontology-production | Class | Specific methods and techniques used to hide recording devices for covert surveillance operations. |
+| **DeviceConsentSearch** | ext.cac.cacontology-physical-evidence | Class | Consent authorization specific to electronic device search (cellphone, computer, etc.). |
+| **DeviceDetection** | ext.cac.cacontology-specialized-units | Class | Detection of electronic storage devices during search operations. Modeled as gUFO Event. |
 | **DeviceFacet** | uco.observable | Facet | A device facet is a grouping of characteristics unique to a piece of equipment or a mechanism des... |
+| **DeviceForensicAnalysis** | ext.cac.cacontology-sextortion | Class | Forensic examination of seized devices for sextortion evidence. |
+| **DeviceSocialMediaCorrelation** | ext.cac.cacontology-platforms | Class | Correlation between evidence found on devices and social media accounts. |
+| **DigitalEvidenceCorrelation** | ext.cac.cacontology-platforms | Class | Process of correlating evidence found across devices and platforms. |
+| **DigitalForensicsTraining** | ext.cac.cacontology-training | Class | Training on digital forensics techniques for child protection cases. Modeled as gUFO Event. |
+| **DigitalForensicsUnit** | ext.cac.cacontology-specialized-units | Class | Unit specialized in digital forensics analysis. Modeled as gUFO Organization. |
+| **DirectPromotionOfSexualPerformance** | ext.cac.cacontology-legal-outcomes | Class | Florida state charge for direct promotion of a sexual performance by a child. Applies when defend... |
 | **Directory** | uco.observable | Class | A directory is a file system cataloging structure which contains references to other computer fil... |
 | **Disk** | uco.observable | Class | A disk is a storage mechanism where data is recorded by various electronic, magnetic, optical, or... |
 | **DiskFacet** | uco.observable | Facet | A disk facet is a grouping of characteristics unique to a storage mechanism where data is recorde... |
 | **DiskPartition** | uco.observable | Class | A disk partition is a particular managed region on a storage mechanism where data is recorded by ... |
 | **DiskPartitionFacet** | uco.observable | Facet | A disk partition facet is a grouping of characteristics unique to a particular managed region on ... |
 | **EXIFFacet** | uco.observable | Facet | An EXIF (exchangeable image file format) facet is a grouping of characteristics unique to the for... |
+| **EarningsCollection** | ext.cac.cacontology-sex-trafficking | Class | Collection of money earned through victim exploitation by trafficking operation. Modeled as gUFO ... |
+| **EditingEquipment** | ext.cac.cacontology-production | Class | Computer hardware and software used to edit or enhance produced material. |
+| **EducationPortal** | ext.cac.cacontology-prevention | Class | Online portal providing educational resources for child protection. Modeled as gUFO Object. |
+| **EducationalInstitution** | ext.cac.cacontology-educational-exploitation | Class | Educational institution where child exploitation occurs, including schools, colleges, and educati... |
+| **EducationalPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling educational interventions as processes with learning outcomes and effec... |
+| **EducatorPerpetratedExploitation** | ext.cac.cacontology-educational-exploitation | Class | Child sexual exploitation committed by educational institution personnel using their position of ... |
+| **EducatorRole** | ext.cac.cacontology-educational-exploitation | Class | Professional role within educational institution with access to students. Enhanced as anti-rigid ... |
+| **ElectronicDeviceEvidence** | ext.cac.cacontology-platforms | Class | Digital evidence found on electronic devices including computers, phones, and storage media. |
+| **ElectronicServiceProvider** | ext.cac.cacontology-platforms | Class | An organization that provides digital services and platforms, with responsibilities for content m... |
+| **ElectronicStorageDeviceDetection** | ext.cac.cacontology-forensics | Class | Specialized detection of electronic storage devices using K9 or advanced scanning methods. |
+| **ElectronicStorageDeviceK9** | ext.cac.cacontology-specialized-units | Class | K9 trained to detect electronic storage devices during search operations. Modeled as gUFO Organiz... |
 | **EmbeddedDevice** | uco.observable | Class | An embedded device is a highly specialized microprocessor device meant for one or very few specif... |
+| **EmergencyCoordination** | ext.cac.cacontology-partnerships | Class | Rapid coordination mechanism for urgent situations requiring immediate partner response. Modeled ... |
+| **EmergencyCustody** | ext.cac.cacontology-custodial | Class | Temporary custody arrangement due to emergency circumstances. Modeled as anti-rigid gUFO Phase wi... |
+| **EmergencyDisclosureRequest** | ext.cac.cacontology-platforms | Class | Time-sensitive request by law enforcement/investigators to an electronic service provider for imm... |
+| **EncryptionInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Encryption systems protecting data transmission, storage, and user communications (gUFO Functiona... |
+| **EnduringEntity** | ext.cac.cac-core | Class | A thing that persists through time while potentially changing state. This is the CAC-facing root ... |
 | **EnvironmentVariable** | uco.observable | Class | An environment variable is a grouping of characteristics unique to a dynamic-named value that can... |
+| **EquipmentSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of specialized equipment including forensic tools, surveillance equipment, and technical ... |
+| **EvaluationPhase** | ext.cac.cacontology-partnerships | Class | Phase of partnership evaluation and effectiveness assessment. Modeled as anti-rigid gUFO Phase. |
+| **EventSequence** | ext.cac.cacontology-temporal | Class | Ordered sequence of investigation events with temporal dependencies. Modeled as gUFO structured e... |
+| **EvidenceItem** | ext.cac.cacontology-hotlines | Class | A piece of evidence associated with a hotline report. Enhanced as gUFO Object for comprehensive d... |
+| **EvidenceObjectPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling digital evidence as Objects with intrinsic properties and forensic life... |
+| **EvidenceRule** | ext.cac.cacontology-legal-outcomes | Class | A rule of evidence cited in an appellate issue or opinion (e.g., Federal Rule of Evidence 403, 40... |
+| **EvidenceStoragePhase** | ext.cac.cacontology-physical-evidence | Class | Phase during which physical evidence is in secure storage (gUFO Phase - anti-rigid). |
+| **EvidentiaryRuling** | ext.cac.cacontology-legal-outcomes | Class | Appellate issue concerning a trial court evidentiary ruling, including admission/exclusion decisi... |
+| **ExtraterritorialProduction** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of producing child pornography outside U.S. by U.S. citizens or residents. Modeled ... |
+| **FalsePositiveAnalysisAction** | ext.cac.cacontology-detection | Class | The action of analyzing and documenting false positive detections to improve accuracy. Modeled as... |
+| **FalsePositiveManagementSituation** | ext.cac.cacontology-detection | Class | Situation focused on managing and reducing false positive detection rates. Modeled as gUFO Situat... |
+| **FamilialRelationship** | ext.cac.cacontology-custodial | Class | Family-based relationship with natural or assumed custodial responsibilities. Modeled as gUFO Sub... |
+| **FamilyFriend** | ext.cac.cacontology-custodial | Class | Friend of family with trusted access to children. Modeled as anti-rigid gUFO Role with social tru... |
+| **FederalCharge** | ext.cac.cacontology-legal-outcomes | Class | Criminal charge under federal law and jurisdiction. Modeled as gUFO Object. |
+| **FederalChildExploitationLaw** | ext.cac.cacontology-usa-federal-law | Class | U.S. federal law related to child exploitation as enforced by CEOS. Modeled as gUFO Object provid... |
+| **FederalDefendantRole** | ext.cac.cacontology-usa-federal-law | Class | Role of individual charged in federal child exploitation case. Modeled as anti-rigid gUFO Role. |
+| **FederalInvestigation** | ext.cac.cacontology-usa-federal-law | Class | Federal investigation of child exploitation crimes. Modeled as gUFO Event with temporal boundarie... |
+| **FederalInvestigatorRole** | ext.cac.cacontology-usa-federal-law | Class | Role of federal investigator (FBI, ICE, etc.) investigating child exploitation. Modeled as anti-r... |
+| **FederalObscenityLaw** | ext.cac.cacontology-usa-federal-law | Class | U.S. federal law related to obscenity distribution and enforcement as managed by CEOS. Modeled as... |
+| **FederalProsecution** | ext.cac.cacontology-usa-federal-law | Class | Federal legal prosecution process for child exploitation crimes. Modeled as gUFO Event with tempo... |
+| **FederalProsecutorRole** | ext.cac.cacontology-usa-federal-law | Class | Role of federal prosecutor handling child exploitation cases. Modeled as anti-rigid gUFO Role. |
+| **FederalVictimRole** | ext.cac.cacontology-usa-federal-law | Class | Role of victim in federal child exploitation prosecution. Modeled as anti-rigid gUFO Role. |
 | **File** | uco.observable | Class | A file is a computer resource for recording data discretely on a computer storage device. |
 | **FileFacet** | uco.observable | Facet | A file facet is a grouping of characteristics unique to the storage of a file (computer resource ... |
+| **FileHostingService** | ext.cac.cacontology-platforms | Class | A service for storing and sharing files online (e.g., Google Drive, Dropbox, OneDrive, MEGA). Mod... |
 | **FileSystem** | uco.observable | Class | A file system is the process that manages how and where data on a storage medium is stored, acces... |
 | **FileSystemFacet** | uco.observable | Facet | A file system facet is a grouping of characteristics unique to the process that manages how and w... |
+| **FinancialAccount** | ext.cac.cacontology-asset-forfeiture | Class | Bank account or financial instrument subject to restraint or forfeiture. Enhanced as gUFO Object ... |
+| **FinancialFacilitatorRole** | ext.cac.cacontology-sex-trafficking | Class | Role managing financial aspects including collecting earnings and money laundering. Modeled as an... |
+| **FloridaStateCharge** | ext.cac.cacontology-legal-outcomes | Class | Criminal charge under Florida state law and jurisdiction for ICAC-related offenses. Modeled as gU... |
+| **ForeignCommerceExploitation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime involving sexual exploitation of children in foreign commerce. Modeled as gUFO Event. |
+| **ForensicsLifecyclePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling forensics process lifecycle with acquisition, analysis, and presentatio... |
+| **ForfeitureOutcome** | ext.cac.cacontology-asset-forfeiture | Class | Result of asset forfeiture proceedings. Enhanced as gUFO Object for outcome modeling. |
+| **FormalCustody** | ext.cac.cacontology-custodial | Class | Legally established custody arrangement with court orders or official documentation. Modeled as g... |
+| **ForwardToLEAction** | ext.cac.cacontology-hotlines | Class | The action of forwarding a report to law enforcement. Enhanced as gUFO Event for inter-agency coo... |
 | **GUI** | uco.observable | Class | A GUI is a graphical user interface that allows users to interact with electronic devices through... |
+| **GamePlatform** | ext.cac.cacontology-platforms | Class | A digital platform for gaming with communication features (e.g., Xbox Live, PlayStation Network, ... |
 | **GamingConsole** | uco.observable | Class | A gaming console (video game console or game console) is an electronic system that connects to a ... |
+| **GeolocationRequest** | ext.cac.cacontology-partnerships | Class | Request for public assistance in identifying geographic locations from visual evidence. Modeled a... |
+| **GeorgiaStateCharge** | ext.cac.cacontology-legal-outcomes | Class | Criminal charge under Georgia state law and jurisdiction for CAC-related offenses. Modeled as gUF... |
+| **GlobalTrainingSituation** | ext.cac.cacontology-training | Class | Situation involving global training initiatives across multiple countries and organizations. Mode... |
+| **Guardian** | ext.cac.cacontology-custodial | Class | Legal or appointed guardian responsible for child's welfare. Modeled as anti-rigid gUFO Role with... |
+| **HashAnalystRole** | ext.cac.cacontology-detection | Class | Role of specialist working with hash databases and matching systems. Modeled as anti-rigid gUFO R... |
+| **HashComparisonPhase** | ext.cac.cacontology-detection | Class | Phase of comparing content hashes against known databases. Modeled as anti-rigid gUFO Phase. |
+| **HashSharingProtocol** | ext.cac.cacontology-partnerships | Class | Protocol for sharing cryptographic hashes of illegal content between partners for detection and p... |
+| **HelpOfferApproach** | ext.cac.cacontology-street-recruitment | Class | Approach offering assistance such as phone charging, food, transportation, or shelter. |
+| **HiddenDeviceRecovery** | ext.cac.cacontology-forensics | Class | Recovery of concealed or hidden electronic storage devices during search operations. |
+| **HiddenRecordingDevice** | ext.cac.cacontology-production | Class | Covert recording equipment designed to capture content without victim awareness. |
 | **Hostname** | uco.observable | Class | A hostname is a label that is assigned to a device connected to a computer network and that is us... |
+| **HotlineAction** | ext.cac.cacontology-hotlines | Class | An action taken as part of processing a hotline report. Enhanced as gUFO Event for comprehensive ... |
+| **HotlineOrganization** | ext.cac.cacontology-hotlines | Class | An organization that operates a hotline for receiving and processing reports of child sexual abus... |
+| **HotlineTraining** | ext.cac.cacontology-training | Class | Training for hotline operators and managers. Modeled as gUFO Event. |
+| **HouseholdItems** | ext.cac.cacontology-asset-forfeiture | Class | High-value household items including electronics, furniture, and appliances subject to forfeiture... |
+| **HybridCSAM** | ext.cac.cacontology-ai-csam | Class | Content combining real and AI-generated elements, making it difficult to distinguish between auth... |
+| **HybridTraining** | ext.cac.cacontology-training | Class | Training combining online and in-person delivery. Modeled as gUFO Event. |
 | **IPAddress** | uco.observable | Class | An IP address is an Internet Protocol (IP) standards conformant identifier assigned to a device t... |
 | **IPAddressFacet** | uco.observable | Facet | An IP address facet is a grouping of characteristics unique to an Internet Protocol (IP) standard... |
 | **IPhone** | uco.observable | Class | An iPhone is a smart phone that applies the iOS mobile operating system. |
@@ -576,21 +1647,95 @@ Classes for physical and virtual devices, storage media, and hardware characteri
 | **IPv4AddressFacet** | uco.observable | Facet | An IPv4 (Internet Protocol version 4) address facet is a grouping of characteristics unique to an... |
 | **IPv6Address** | uco.observable | Class | An IPv6 (Internet Protocol version 6) address is an IPv6 standards conformant identifier assigned... |
 | **IPv6AddressFacet** | uco.observable | Facet | An IPv6 (Internet Protocol version 6) address facet is a grouping of characteristics unique to an... |
+| **IdeologyPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling extremist ideologies as belief systems influencing criminal behavior. |
 | **Image** | uco.observable | Class | An image is a complete copy of a hard disk, memory, or other digital media. |
 | **ImageFacet** | uco.observable | Facet | An image facet is a grouping of characteristics unique to a complete copy of a hard disk, memory,... |
+| **ImageGeneration** | ext.cac.cacontology-ai-csam | Class | Generation of static images using AI models such as diffusion models, GANs, or other generative t... |
+| **InPersonTraining** | ext.cac.cacontology-training | Class | Training delivered in physical classroom settings. Modeled as gUFO Event. |
+| **InformalCustody** | ext.cac.cacontology-custodial | Class | Informal custody arrangement without legal documentation. Modeled as gUFO SubKind with social agr... |
+| **InformationSharingFramework** | ext.cac.cacontology-partnerships | Class | Framework governing how information is shared between public and private partners while protectin... |
+| **InformationSharingSituation** | ext.cac.cacontology-partnerships | Class | Situation involving active information sharing between partnership entities. Modeled as gUFO Situ... |
+| **InitialDetectionPhase** | ext.cac.cacontology-detection | Class | Phase of initial automated content detection and flagging. Modeled as anti-rigid gUFO Phase. |
+| **InstitutionalRolePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling institutional roles in multi-jurisdiction contexts with authority and r... |
+| **IntakeChannel** | ext.cac.cacontology-hotlines | Class | A channel through which reports are received (web form, API, phone, etc.). Enhanced as gUFO Objec... |
+| **IntelligenceSharing** | ext.cac.cacontology-partnerships | Class | Sharing of actionable intelligence between partners while maintaining operational security. Model... |
+| **InteragencyOperationSituation** | ext.cac.cacontology-specialized-units | Class | Situation involving operations across multiple agencies and jurisdictions. Modeled as gUFO Situat... |
+| **InternationalTrainer** | ext.cac.cacontology-training | Class | Trainer delivering international training programs. Modeled as anti-rigid gUFO Role. |
+| **InternationalTraining** | ext.cac.cacontology-training | Class | Training program conducted across multiple countries. Modeled as gUFO Event. |
+| **InterstateVictimTransport** | ext.cac.cacontology-sex-trafficking | Class | Transportation of trafficking victims across state lines for commercial sexual exploitation. Mode... |
+| **InvestigationLifecycle** | ext.cac.cacontology-temporal | Class | Complete temporal structure of CAC investigation from initiation to closure. Modeled as gUFO Kind... |
+| **InvestigationTraining** | ext.cac.cacontology-training | Class | Training on investigation methodologies and techniques. Modeled as gUFO Event. |
+| **InvestigatorRole** | ext.cac.cacontology | Class | Role of law enforcement officer or analyst conducting CAC investigation. Modeled as anti-rigid gU... |
+| **JointOperation** | ext.cac.cacontology-partnerships | Class | Operation conducted jointly by multiple partners with shared resources and coordination. Modeled ... |
+| **JudgeRole** | ext.cac.cacontology-legal-outcomes | Class | Role of judge presiding over CAC legal proceedings. Modeled as anti-rigid gUFO Role. |
+| **JudicialPhasePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling judicial process phases (pre-trial, trial, sentencing, appeals) with le... |
+| **JudicialSystemSituation** | ext.cac.cacontology-legal-outcomes | Class | Broader situation involving judicial system processing of CAC cases. Modeled as gUFO Situation. |
+| **JurisdictionalCoordination** | ext.cac.cacontology-asset-forfeiture | Class | Complex coordination situation involving multiple legal jurisdictions for asset forfeiture operat... |
+| **JuryRole** | ext.cac.cacontology-legal-outcomes | Class | Role of jury members in CAC trial proceedings. Modeled as anti-rigid gUFO Role. |
+| **K9AssistedForensics** | ext.cac.cacontology-forensics | Class | Forensic process enhanced by K9 detection capabilities for electronic storage devices. |
+| **K9DetectionProgram** | ext.cac.cacontology-specialized-units | Class | Program utilizing trained detection dogs for CAC investigations. Modeled as gUFO Organization. |
+| **K9Officer** | ext.cac.cacontology-specialized-units | Class | Law enforcement officer handling and working with detection dogs. Modeled as anti-rigid gUFO Role. |
+| **K9SearchOperation** | ext.cac.cacontology-specialized-units | Class | Search operation utilizing K9 detection capabilities. Modeled as gUFO Event. |
+| **K9TrainingProgram** | ext.cac.cacontology-specialized-units | Class | Training program for K9 units and handlers. Modeled as gUFO Organization. |
 | **LanguagesFacet** | uco.identity | Facet | Languages is a grouping of characteristics unique to specific syntactically and grammatically sta... |
 | **Laptop** | uco.observable | Class | A laptop, laptop computer, or notebook computer is a small, portable personal computer with a scr... |
+| **LargeScalePlatformTakedown** | ext.cac.cacontology-platforms | Class | Coordinated takedown of major exploitation platforms with user bases exceeding 1 million accounts... |
+| **LawEnforcementPartner** | ext.cac.cacontology-partnerships | Class | Law enforcement agency participating in partnership with investigative and enforcement responsibi... |
+| **LegalCaseSituation** | ext.cac.cacontology-legal-outcomes | Class | Complex situation encompassing the entire legal case from charges to resolution. Modeled as gUFO ... |
+| **LegalComplianceCapability** | ext.cac.cacontology-platforms | Class | A platform's ability to respond to legal requests and cooperate with law enforcement. Modeled as ... |
+| **LegalDataDisclosureAction** | ext.cac.cacontology-platforms | Class | An action to disclose user data to law enforcement in response to legal process. Modeled as gUFO ... |
+| **LegalEventPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling legal events (hearings, sentencing, appeals) with temporal boundaries a... |
+| **LegalProceeding** | ext.cac.cacontology-legal-outcomes | Class | Formal judicial process for prosecuting cacontology-related crimes. Modeled as gUFO Event. |
+| **LegalTraining** | ext.cac.cacontology-training | Class | Training on legal aspects of child protection. Modeled as gUFO Event. |
+| **LifeImprisonmentSentence** | ext.cac.cacontology-legal-outcomes | Class | Prison sentence of life imprisonment (typically without a fixed term duration). Modeled as gUFO O... |
+| **LiveStreamingOffense** | ext.cac.cacontology-legal-outcomes | Class | Offense involving live streaming of child abuse, often carrying severe sentences. Modeled as gUFO... |
+| **LivestreamedCoercionShow** | ext.cac.cacontology-sadistic-online-exploitation | Class | A coordinated livestreamed coercion event (ritualized 'show') in which participants celebrate, wi... |
+| **MachineLearningDetectionTool** | ext.cac.cacontology-detection | Class | A tool using machine learning algorithms to detect CSAM content (e.g., Google's CSAI Classifier, ... |
+| **MachineLearningSpecialistRole** | ext.cac.cacontology-detection | Class | Role of specialist developing and maintaining ML detection systems. Modeled as anti-rigid gUFO Role. |
 | **MaliciousTool** | uco.tool | Class | A malicious tool is an artifact of hardware and/or software utilized to accomplish a malevolent t... |
+| **MandatoryMinimumSentencing** | ext.cac.cacontology-legal-outcomes | Class | Sentencing under mandatory minimum provisions for Commonwealth child sexual abuse offenses. Model... |
+| **ManualClassificationAction** | ext.cac.cacontology-detection | Class | The action of human review and classification of suspected CSAM content. Modeled as gUFO Event. |
+| **ManualReviewPhase** | ext.cac.cacontology-detection | Class | Phase of human expert review and classification. Modeled as anti-rigid gUFO Phase. |
+| **ManualReviewTool** | ext.cac.cacontology-detection | Class | A tool supporting human review and classification of potentially illegal content. Modeled as gUFO... |
 | **MarkingModel** | uco.marking | Class | A marking model is a grouping of characteristics unique to the expression of a particular form of... |
+| **MarylandICACtaskForce** | ext.cac.cacontology-taskforce | Class | Maryland state CAC task force coordinated by Maryland State Police Computer Crimes Unit with Gove... |
+| **MarylandStatePoliceComputerCrimesUnit** | ext.cac.cacontology-specialized-units | Class | Maryland State Police unit coordinating the Maryland Internet Crimes Against Children Task Force.... |
+| **MassContentAnalysisSituation** | ext.cac.cacontology-detection | Class | Situation involving analysis of large volumes of content requiring coordinated detection systems.... |
+| **MassUserBehaviorAnalysis** | ext.cac.cacontology-platforms | Class | Analysis of user behavior patterns across massive user bases for investigation prioritization and... |
+| **MassUserDatabase** | ext.cac.cacontology-platforms | Class | User database analysis for platforms with massive user bases requiring specialized processing tec... |
+| **MassivePlatformSituation** | ext.cac.cacontology-platforms | Class | Situation involving platforms with massive user bases requiring specialized investigation approac... |
 | **Memory** | uco.observable | Class | Memory is a particular region of temporary information storage (e.g., RAM (random access memory),... |
 | **MemoryFacet** | uco.observable | Facet | A memory facet is a grouping of characteristics unique to a particular region of temporary inform... |
+| **MentalHealthSupport** | ext.cac.cacontology-specialized-units | Class | Mental health services and support for officers dealing with traumatic content. Modeled as gUFO O... |
+| **Mentor** | ext.cac.cacontology-custodial | Class | Adult mentor or role model with trusted relationship with child. Modeled as anti-rigid gUFO Role ... |
+| **MentorshipProgram** | ext.cac.cacontology-training | Class | One-on-one mentorship for professional development. Modeled as gUFO Organization. |
+| **MessagingService** | ext.cac.cacontology-platforms | Class | A digital service for real-time communication and messaging (e.g., WhatsApp, Telegram, Signal, Di... |
+| **MinorTraffickingVictimRole** | ext.cac.cacontology-sex-trafficking | Class | Role of minor (under 18) being sex trafficked. Modeled as anti-rigid gUFO Role. Concrete victim a... |
+| **MissingChildRescueOperation** | ext.cac.cacontology-investigation-coordination | Class | Time-boxed, multi-party operation focused on locating missing children/teens at risk of endangerm... |
 | **MobileAccount** | uco.observable | Class | A mobile account is an arrangement with an entity to enable and control the provision of some cap... |
 | **MobileAccountFacet** | uco.observable | Facet | A mobile account facet is a grouping of characteristics unique to an arrangement with an entity t... |
 | **MobileDevice** | uco.observable | Class | A mobile device is a portable computing device. [based on https://www.lexico.com.definition/mobil... |
 | **MobileDeviceFacet** | uco.observable | Facet | A mobile device facet is a grouping of characteristics unique to a portable computing device. [ba... |
+| **MobileForensicTool** | ext.cac.cacontology-forensics | Class | A tool specialized for mobile device forensics including logical and physical extraction (e.g., C... |
 | **MobilePhone** | uco.observable | Class | A mobile phone is a portable telephone that at least can make and receive calls over a radio freq... |
+| **MobileRecordingDevice** | ext.cac.cacontology-production | Class | Mobile phone, tablet, or portable device used for recording. |
+| **ModelIdentification** | ext.cac.cacontology-ai-csam | Class | Process of identifying the specific AI model or algorithm used to generate illegal content. Enhan... |
+| **ModelTraining** | ext.cac.cacontology-ai-csam | Class | Process of training AI models on datasets that may include illegal content for the purpose of gen... |
+| **MonetaryPenalty** | ext.cac.cacontology-legal-outcomes | Class | Financial penalty including fines, restitution, or forfeiture. Modeled as gUFO Object. |
+| **MultiJurisdictionCoordinationSituation** | ext.cac.cacontology-temporal | Class | Situation where investigation requires coordination across multiple jurisdictions with timing syn... |
+| **MultiJurisdictionalCaseManagement** | ext.cac.cacontology-case-management | Class | Specialized management for cases spanning multiple jurisdictions with coordination requirements. ... |
+| **MultiJurisdictionalOperation** | ext.cac.cacontology-specialized-units | Class | Operation involving multiple jurisdictions and agencies. Modeled as gUFO Event. |
+| **MultiPlatformSituation** | ext.cac.cacontology-platforms | Class | Situation involving coordination across multiple platforms and service providers. Modeled as gUFO... |
+| **MultiStakeholderInitiative** | ext.cac.cacontology-partnerships | Class | Initiative involving multiple types of organizations including law enforcement, technology compan... |
+| **MultiStakeholderTrainingSituation** | ext.cac.cacontology-training | Class | Situation involving training coordination between multiple stakeholder organizations. Modeled as ... |
+| **MultiStateForfeiture** | ext.cac.cacontology-asset-forfeiture | Class | Asset forfeiture operation spanning multiple Australian states and territories. Subclasses AssetF... |
+| **MultiStateTraffickingConspiracy** | ext.cac.cacontology-sex-trafficking | Class | Criminal conspiracy spanning multiple states for trafficking operations (e.g., Brooklyn-North Car... |
+| **MultiUnitCoordinationSituation** | ext.cac.cacontology-specialized-units | Class | Complex situation involving coordination between multiple specialized units. Modeled as gUFO Situ... |
 | **Mutex** | uco.observable | Class | A mutex is a mechanism that enforces limits on access to a resource when there are many threads o... |
 | **MutexFacet** | uco.observable | Facet | A mutex facet is a grouping of characteristics unique to a mechanism that enforces limits on acce... |
+| **NGOCoordination** | ext.cac.cacontology-partnerships | Class | Coordination framework with non-governmental organizations specializing in child protection and v... |
+| **NGOPartner** | ext.cac.cacontology-partnerships | Class | Non-governmental organization participating in partnership with advocacy and support capabilities... |
+| **NamedOperation** | ext.cac.cacontology-specialized-units | Class | Formally named multi-phase operation with specific objectives. Modeled as gUFO Event. |
 | **NetworkAppliance** | uco.observable | Class | A network appliance is a purpose-built computer with software or firmware that is designed to pro... |
 | **NetworkConnection** | uco.observable | Class | A network connection is a connection (completed or attempted) across a digital network (a group o... |
 | **NetworkConnectionFacet** | uco.observable | Facet | A network connection facet is a grouping of characteristics unique to a connection (complete or a... |
@@ -599,37 +1744,239 @@ Classes for physical and virtual devices, storage media, and hardware characteri
 | **NetworkInterface** | uco.observable | Class | A network interface is a software or hardware interface between two pieces of equipment or protoc... |
 | **NetworkInterfaceFacet** | uco.observable | Facet | A network interface facet is a grouping of characteristics unique to a software or hardware inter... |
 | **NetworkProtocol** | uco.observable | Class | A network protocol is an established set of structured rules that determine how data is transmitt... |
+| **Nudification** | ext.cac.cacontology-ai-csam | Class | AI content generation/manipulation process that produces synthetic nudity (e.g., 'nudifying apps'... |
+| **NudifiedCSAM** | ext.cac.cacontology-ai-csam | Class | Child sexual abuse material created by AI-enabled nudification (synthetic nudity) of an existing ... |
+| **OSINTInvestigation** | ext.cac.cacontology-partnerships | Class | Open source intelligence investigation conducted by skilled volunteers and researchers. Modeled a... |
+| **ObjectIdentificationRequest** | ext.cac.cacontology-partnerships | Class | Request for public assistance in identifying objects, locations, or other evidence from case mate... |
+| **ObscenityDistribution** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of distributing obscene materials through interstate or foreign commerce. Modeled a... |
+| **ObscenityImportation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of importing obscene materials into the United States. Modeled as gUFO Event. |
+| **ObscenityTransportation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of transporting obscene materials across state or international boundaries. Modeled... |
+| **OffenderDeviceSearchWarrant** | ext.cac.cacontology-sex-offender-registry | Class | Search warrant executed on registered sex offender's residence and devices for digital evidence r... |
+| **OffenderRole** | ext.cac.cacontology | Class | Role of a person who commits child sexual abuse or exploitation. Modeled as anti-rigid gUFO Role.... |
+| **OfficerWellnessProgram** | ext.cac.cacontology-specialized-units | Class | Program providing mental health and wellness support to CAC officers. Modeled as gUFO Organization. |
+| **OngoingDangerResponse** | ext.cac.cacontology-sex-trafficking | Class | Response to situations where victims are identified as being in ongoing danger from traffickers. ... |
+| **OnlineDatingPlatform** | ext.cac.cacontology-platforms | Class | A platform for meeting and dating online (e.g., Tinder, Bumble, Grindr, dating websites). Modeled... |
+| **OnlineEnticement** | ext.cac.cacontology-legal-outcomes | Class | Charge for online enticement of minors for illegal sexual activity. Modeled as gUFO Object. |
+| **OnlineObscenityDistribution** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of distributing obscene materials through internet and digital platforms. Modeled a... |
+| **OnlineTraining** | ext.cac.cacontology-training | Class | Training delivered through online platforms. Modeled as gUFO Event. |
 | **OperatingSystem** | uco.observable | Class | An operating system is the software that manages computer hardware, software resources, and provi... |
 | **OperatingSystemFacet** | uco.observable | Facet | An operating system facet is a grouping of characteristics unique to the software that manages co... |
+| **OperationEvaluationPhase** | ext.cac.cacontology-specialized-units | Class | Phase of post-operation analysis and evaluation. Modeled as anti-rigid gUFO Phase. |
+| **OperationExecutionPhase** | ext.cac.cacontology-specialized-units | Class | Phase of active operation execution. Modeled as anti-rigid gUFO Phase. |
+| **OperationMetrics** | ext.cac.cacontology-specialized-units | Class | Metrics and performance data for specialized operations. Modeled as gUFO Object. |
+| **OperationPlanningPhase** | ext.cac.cacontology-specialized-units | Class | Phase of operation planning and preparation. Modeled as anti-rigid gUFO Phase. |
+| **OperationSafeOnlineSummer** | ext.cac.cacontology-specialized-units | Class | National operation across 61 CAC Task Forces during summer months. Modeled as gUFO Event. |
+| **OperationUnhinged** | ext.cac.cacontology-specialized-units | Class | Specific operation conducted by Idaho CAC resulting in 12 arrests. Modeled as gUFO Event. |
+| **OrganizationalPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling CAC taskforces and law enforcement organizations with structure and cap... |
+| **ParallelEventCluster** | ext.cac.cacontology-temporal | Class | Set of investigation events occurring simultaneously or with temporal overlap. Modeled as gUFO co... |
+| **ParallelEvidenceCollectionSituation** | ext.cac.cacontology-temporal | Class | Situation where multiple evidence collection activities occur simultaneously across different pha... |
+| **ParentalConsent** | ext.cac.cacontology-custodial | Class | Consent given by parent or guardian for custodial arrangement. Modeled as gUFO Object with author... |
+| **PartnerRole** | ext.cac.cacontology-partnerships | Class | Role played by an organization within a public-private partnership framework. Modeled as anti-rig... |
+| **PartnershipFormationPhase** | ext.cac.cacontology-partnerships | Class | Phase of partnership formation including agreement negotiation and framework establishment. Model... |
+| **PeerSupport** | ext.cac.cacontology-specialized-units | Class | Peer-to-peer support programs for CAC personnel. Modeled as gUFO Organization. |
+| **PerceptualHash** | ext.cac.cacontology-detection | Class | A hash that captures visual similarity rather than exact bit patterns (e.g., pHash, aHash, dHash)... |
+| **PersonLikeEntity** | ext.cac.cac-core | Class | An enduring entity that is person-like in the domain model. Use for natural persons and person-pr... |
+| **PhaseConsistency** | ext.cac.cacontology-integration-patterns | Class | Validation ensuring phase modeling follows gUFO intrinsic constraints and proper transition seman... |
+| **PhaseTransitionEvent** | ext.cac.cacontology-temporal | Class | Event marking transition between investigation phases. Modeled as gUFO Event with temporal bounda... |
 | **PhoneAccount** | uco.observable | Class | A phone account is an arrangement with an entity to enable and control the provision of a telepho... |
 | **PhoneAccountFacet** | uco.observable | Facet | A phone account facet is a grouping of characteristics unique to an arrangement with an entity to... |
-| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
+| **PhoneChargingOffer** | ext.cac.cacontology-street-recruitment | Class | Specific pretext offering to charge victim's phone in vehicle or location. |
+| **PhoneInstructionMonitoring** | ext.cac.cacontology-undercover | Class | Monitoring and interception of phone communications used to instruct victims in trafficking opera... |
+| **PhoneNumberTrace** | ext.cac.cacontology-us-ncmec | Class | Tracing of phone numbers linked to accounts in NCMEC tips. |
+| **PhotoDNAHash** | ext.cac.cacontology-detection | Class | A Microsoft PhotoDNA hash for robust image matching that survives common transformations. Modeled... |
+| **PhysicalDeviceModification** | ext.cac.cacontology-production | Class | Physical alterations made to recording devices to enable concealment. |
+| **PlatformCooperationSituation** | ext.cac.cacontology-platforms | Class | Situation involving cooperative efforts between platforms and law enforcement. Modeled as gUFO Si... |
+| **PlatformDeploymentPhase** | ext.cac.cacontology-platforms | Class | Phase when platform is deployed and becomes operational. Modeled as anti-rigid gUFO Phase. |
+| **PlatformGrowthPhase** | ext.cac.cacontology-platforms | Class | Phase of platform expansion and user base growth. Modeled as anti-rigid gUFO Phase. |
+| **PlatformInvestigationCoordination** | ext.cac.cacontology-platforms | Class | Coordinated investigation across multiple platforms and devices. |
+| **PlatformInvestigationPhase** | ext.cac.cacontology-platforms | Class | Phase when platform is under law enforcement investigation. Modeled as anti-rigid gUFO Phase. |
+| **PlatformModerationPhase** | ext.cac.cacontology-platforms | Class | Phase of active content moderation and policy enforcement. Modeled as anti-rigid gUFO Phase. |
+| **PlatformMonitoring** | ext.cac.cacontology-partnerships | Class | Cooperative monitoring of platforms and services for illegal content and activities. Modeled as g... |
+| **PlatformOperation** | ext.cac.cacontology-platforms | Class | Coordinated law enforcement operation targeting specific platforms or services. Modeled as gUFO E... |
+| **PlatformSpecification** | ext.toolcap | Class | DEPRECATED in 0.4.0. Use first-class uco-observable:OperatingSystem instances linked via uco-core... |
+| **PlatformTakedownPhase** | ext.cac.cacontology-platforms | Class | Phase of platform takedown and shutdown operations. Modeled as anti-rigid gUFO Phase. |
+| **PleaBargaining** | ext.cac.cacontology-legal-outcomes | Class | Negotiation process between prosecution and defense for plea agreement. Modeled as gUFO Event. |
+| **PositionOfTrust** | ext.cac.cacontology-custodial | Class | Role or position that grants special access to or authority over children. Modeled as anti-rigid ... |
+| **PostConvictionPhase** | ext.cac.cacontology-legal-outcomes | Class | Phase after conviction including appeals and compliance. Modeled as anti-rigid gUFO Phase. |
+| **PreTrialPhase** | ext.cac.cacontology-legal-outcomes | Class | Phase before trial including arraignment and plea bargaining. Modeled as anti-rigid gUFO Phase. |
+| **PreventionProgram** | ext.cac.cacontology-prevention | Class | Structured program designed to prevent child abuse and exploitation. Modeled as gUFO Event. |
+| **PreventiveActionPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling prevention activities as actions with preventive intent and outcome mea... |
+| **PrimaryTraffickerRole** | ext.cac.cacontology-sex-trafficking | Class | Leading role in trafficking operation, often controlling multiple victims and coordinating activi... |
+| **PrinceGeorgesCountyPolice** | ext.cac.cacontology-specialized-units | Class | Prince George's County Police Department supporting Maryland State Police computer crimes investi... |
+| **PrisonSentence** | ext.cac.cacontology-legal-outcomes | Class | Sentence involving incarceration in federal or state prison. Modeled as gUFO Object. |
+| **ProbationOfficerRole** | ext.cac.cacontology-legal-outcomes | Class | Role of probation officer supervising CAC offenders. Modeled as anti-rigid gUFO Role. |
+| **ProbationSentence** | ext.cac.cacontology-legal-outcomes | Class | Supervised release with conditions instead of or after incarceration. Modeled as gUFO Object. |
+| **ProbationaryCustodyPhase** | ext.cac.cacontology-custodial | Class | Phase when custodial relationship is under evaluation or supervision. Modeled as anti-rigid gUFO ... |
 | **Process** | uco.observable | Class | A process is an instance of a computer program executed on an operating system. |
 | **ProcessFacet** | uco.observable | Facet | A process facet is a grouping of characteristics unique to an instance of a computer program exec... |
 | **ProcessThread** | uco.observable | Class | A process thread is the smallest sequence of programmed instructions that can be managed independ... |
+| **ProductionEquipment** | ext.cac.cacontology-production | Class | Devices and equipment used to produce child sexual abuse material. |
+| **ProfessionalCareRelationship** | ext.cac.cacontology-custodial | Class | Professional relationship involving child care or supervision duties. Modeled as gUFO SubKind wit... |
+| **ProfessionalCertification** | ext.cac.cacontology-training | Class | Formal certification for child protection professionals. Modeled as gUFO Object. |
+| **ProfessionalDevelopment** | ext.cac.cacontology-training | Class | Career development for child protection professionals. Modeled as gUFO Object. |
+| **ProgramPlanningPhase** | ext.cac.cacontology-training | Class | Phase of training program planning and curriculum development. Modeled as anti-rigid gUFO Phase. |
+| **PropertyForfeitureAction** | ext.cac.cacontology-asset-forfeiture | Class | Legal action resulting in permanent forfeiture of property to the Commonwealth or state. Enhanced... |
+| **PropertyRestraintAction** | ext.cac.cacontology-asset-forfeiture | Class | Legal action to restrain property pending forfeiture proceedings, preventing disposal or transfer... |
+| **ProsecutorRole** | ext.cac.cacontology-legal-outcomes | Class | Role of prosecutor handling CAC criminal charges. Modeled as anti-rigid gUFO Role. |
 | **ProtocolConverter** | uco.observable | Class | A protocol converter is a device that converts from one protocol to another (e.g. SD to USB, SATA... |
+| **PublicAwareness** | ext.cac.cacontology-prevention | Class | Campaigns to raise public awareness about child protection. Modeled as gUFO Event. |
+| **PublicPrivatePartnership** | ext.cac.cacontology-partnerships | Class | Formal partnership between government/law enforcement agencies and private sector organizations f... |
+| **PublicTip** | ext.cac.cacontology-partnerships | Class | Information provided by members of the public in response to crowdsourcing requests. Modeled as g... |
+| **QualityAssuranceAnalystRole** | ext.cac.cacontology-detection | Class | Role focused on validating detection accuracy and managing quality metrics. Modeled as anti-rigid... |
+| **RecordingDevice** | ext.cac.cacontology-production | Class | Device capable of capturing video or photographic content. |
+| **RecordingEquipment** | ext.cac.cacontology-physical-evidence | Class | Devices used to create audio or video recordings of criminal activity (gUFO FunctionalComplex). |
+| **RecruitmentFacilitatorRole** | ext.cac.cacontology-sex-trafficking | Class | Role focused on recruiting and grooming new victims for trafficking. Modeled as anti-rigid gUFO R... |
+| **RegistrationPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling sex offender registration as ongoing situation with compliance requirem... |
+| **RegularMeeting** | ext.cac.cacontology-partnerships | Class | Regular meetings between partners for coordination, information sharing, and strategic planning. ... |
+| **Relative** | ext.cac.cacontology-custodial | Class | Family member in position of trust or authority over child. Modeled as anti-rigid gUFO Role with ... |
+| **RenewalPhase** | ext.cac.cacontology-partnerships | Class | Phase of partnership renewal or renegotiation. Modeled as anti-rigid gUFO Phase. |
 | **ReparsePoint** | uco.observable | Class | A reparse point is a type of NTFS (New Technology File System) object which is an optional attrib... |
+| **ReportReviewAction** | ext.cac.cacontology-hotlines | Class | The action of reviewing and triaging a hotline report. Enhanced as gUFO Event with comprehensive ... |
+| **ReportingPhase** | ext.cac.cacontology-detection | Class | Phase of generating reports and notifications to authorities. Modeled as anti-rigid gUFO Phase. |
+| **RescuerRole** | ext.cac.cacontology | Class | Role of a person involved in rescuing or protecting victims (e.g., law enforcement, NGO worker). ... |
+| **ResidentialProperty** | ext.cac.cacontology-asset-forfeiture | Class | Residential home subject to restraint or forfeiture in child exploitation cases. Enhanced as gUFO... |
+| **ResumptionEvent** | ext.cac.cacontology-temporal | Class | Event causing investigation to exit suspended state and resume active phase. Modeled as gUFO Even... |
+| **RiskPrevention** | ext.cac.cacontology-prevention | Class | Programs focused on preventing risk factors for child abuse. Modeled as gUFO Event. |
+| **RoleConflictSituation** | ext.cac.cacontology-temporal | Class | Situation where person's multiple roles create potential conflict of interest. Modeled as gUFO Si... |
+| **RoleConsistency** | ext.cac.cacontology-integration-patterns | Class | Validation ensuring role modeling follows gUFO anti-rigidity constraints and proper inheritance. |
+| **RoleTransition** | ext.cac.cacontology-temporal | Class | Event representing change in person's role within investigation. Modeled as gUFO Event with role ... |
 | **SIMCard** | uco.observable | Class | A SIM card is a subscriber identification module card intended to securely store the internationa... |
 | **SIMCardFacet** | uco.observable | Facet | A SIM card facet is a grouping of characteristics unique to a subscriber identification module ca... |
 | **SIPAddressFacet** | uco.observable | Facet | A SIP address facet is a grouping of characteristics unique to a Session Initiation Protocol (SIP... |
+| **SchoolAllegationProtocol** | ext.cac.cacontology-prevention | Class | Protocol for managing allegations of abuse in school settings. Modeled as gUFO Object. |
 | **SecurityAppliance** | uco.observable | Class | A security appliance is a purpose-built computer with software or firmware that is designed to pr... |
+| **SentencingHearing** | ext.cac.cacontology-legal-outcomes | Class | Court proceeding where sentence is determined and imposed. Modeled as gUFO Event. |
+| **SentencingPhase** | ext.cac.cacontology-usa-federal-law | Class | Sentencing phase of federal prosecution including penalty determination. Modeled as anti-rigid gU... |
+| **SentencingPhase** | ext.cac.cacontology-legal-outcomes | Class | Phase focused on sentencing determination and imposition. Modeled as anti-rigid gUFO Phase. |
+| **SentencingReasonablenessIssue** | ext.cac.cacontology-legal-outcomes | Class | Appellate issue challenging the procedural and/or substantive reasonableness of a sentence (e.g.,... |
 | **Server** | uco.observable | Class | A server is a server rack-mount based computer, minicomputer, supercomputer, etc. |
+| **SexTourism** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of traveling abroad with intent to engage in sexual conduct with minors. Modeled as... |
+| **SexTrafficking** | ext.cac.cacontology-legal-outcomes | Class | Charge for sex trafficking of minors. Modeled as gUFO Object. |
+| **SexTraffickingConspiracy** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of conspiracy to engage in sex trafficking of minors. Modeled as gUFO Event. |
+| **SexTraffickingOfMinors** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of sex trafficking involving minors, including recruitment, harboring, transportati... |
+| **SextortionCharge** | ext.cac.cacontology-legal-outcomes | Class | Criminal charge specifically related to sextortion involving sexual extortion of children through... |
+| **SexualAbuseOfMinor** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of sexual abuse specifically involving minor victims. Modeled as gUFO Event. |
+| **SexualExploitationOfMinorCharge** | ext.cac.cacontology-legal-outcomes | Class | Georgia state charge for sexual exploitation of a minor, as reported in a Georgia Attorney Genera... |
+| **SiblingSeparationConcern** | ext.cac.cacontology-recantation | Class | A concern that sibling removal, foster placement, or sibling separation may drive statement withd... |
+| **SimultaneousRoleSituation** | ext.cac.cacontology-temporal | Class | Situation where person plays multiple roles simultaneously in investigation context. Modeled as g... |
+| **SimultaneousSearchWarrant** | ext.cac.cacontology-platforms | Class | Coordinated search warrant execution on devices and platform accounts. |
+| **SkillsDevelopmentProgram** | ext.cac.cacontology-training | Class | Program focused on developing specific professional skills. Modeled as gUFO Organization. |
+| **SkillsValidation** | ext.cac.cacontology-training | Class | Validation of skills acquired through training programs. Modeled as gUFO Object. |
 | **SmartDevice** | uco.observable | Class | A smart device is a microprocessor IoT device that is expected to be connected directly to cloud-... |
 | **SmartPhone** | uco.observable | Class | A smartphone is a portable device that combines mobile telephone and computing functions into one... |
+| **SocialMediaAppData** | ext.cac.cacontology-platforms | Class | Application data from social media apps stored on devices. |
+| **SocialMediaPlatform** | ext.cac.cacontology-platforms | Class | A digital platform for social networking and content sharing (e.g., Facebook, Instagram, TikTok, ... |
 | **Software** | uco.observable | Class | Software is a definitely scoped instance of a collection of data or computer instructions that te... |
 | **SoftwareFacet** | uco.observable | Facet | A software facet is a grouping of characteristics unique to a software program (a definitively sc... |
+| **SolicitingExplicitMaterial** | ext.cac.cacontology-legal-outcomes | Class | Offense of soliciting sexually explicit material from children (e.g., from 10 foreign children vi... |
+| **SpecializedCapabilitySituation** | ext.cac.cacontology-specialized-units | Class | Situation requiring deployment of specialized unit capabilities. Modeled as gUFO Situation. |
+| **SpecializedInvestigativeUnit** | ext.cac.cacontology-specialized-units | Class | Specialized unit with unique capabilities for CAC investigations. Modeled as gUFO Organization. |
+| **SpecializedOperatorRole** | ext.cac.cacontology-specialized-units | Class | Role of specialized operator within unit. Modeled as anti-rigid gUFO Role. |
+| **SpecializedRolePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling specialized investigative roles with specific capabilities and training... |
+| **StandardOfReview** | ext.cac.cacontology-legal-outcomes | Class | Appellate standard of review applied to an appellate issue (e.g., de novo, abuse of discretion, p... |
+| **StateCharge** | ext.cac.cacontology-legal-outcomes | Class | Criminal charge under state law and jurisdiction. Modeled as gUFO Object. |
+| **StatePoliceBarrack** | ext.cac.cacontology-specialized-units | Class | Regional state police barrack providing local law enforcement support and coordination. Modeled a... |
+| **StatePoliceComputerCrimesUnit** | ext.cac.cacontology-specialized-units | Class | State police unit specialized in computer crimes and digital investigations involving child explo... |
+| **StateSupremeCourt** | ext.cac.cacontology-asset-forfeiture | Class | State Supreme Court with jurisdiction over forfeiture proceedings. Enhanced as gUFO Organization ... |
+| **StorageMedia** | ext.cac.cacontology-physical-evidence | Class | External storage devices including hard drives, USB drives, memory cards, and optical media (gUFO... |
 | **StorageMedium** | uco.observable | Class | A storage medium is any digital storage device that applies electromagnetic or optical surfaces, ... |
 | **StorageMediumFacet** | uco.observable | Facet | A storage medium facet is a grouping of characteristics unique to a the storage capabilities of a... |
+| **StoredSocialMediaContent** | ext.cac.cacontology-platforms | Class | Social media content downloaded and stored on electronic devices. |
+| **StressManagement** | ext.cac.cacontology-specialized-units | Class | Programs and techniques for managing work-related stress. Modeled as gUFO Organization. |
+| **SubjectMatterExpert** | ext.cac.cacontology-training | Class | Expert providing specialized knowledge in training. Modeled as anti-rigid gUFO Role. |
+| **SufficiencyOfEvidenceIssue** | ext.cac.cacontology-legal-outcomes | Class | Appellate issue challenging whether the evidence was sufficient to sustain a conviction under the... |
+| **SupervisedRelease** | ext.cac.cacontology-legal-outcomes | Class | Period of supervision following completion of prison sentence. Modeled as gUFO Object. |
+| **SupervisionBreakdownSituation** | ext.cac.cacontology-custodial | Class | Situation where supervision systems have failed or become inadequate. Modeled as gUFO Situation w... |
+| **SupervisionFailure** | ext.cac.cacontology-custodial | Class | Failure to properly supervise or protect child while in position of authority. Modeled as gUFO Su... |
+| **SuspendedCustodyPhase** | ext.cac.cacontology-custodial | Class | Phase when custodial relationship is temporarily suspended but not terminated. Modeled as anti-ri... |
+| **SuspendedSituation** | ext.cac.cacontology-temporal | Class | Situation where investigation is temporarily suspended pending resources, legal decisions, or ext... |
+| **SuspensionEvent** | ext.cac.cacontology-temporal | Class | Event causing investigation to enter suspended state. Modeled as gUFO Event creating suspension s... |
+| **SyntheticArtifactPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling AI-generated artifacts with synthetic properties and detection characte... |
+| **SyntheticMediaCSAM** | ext.cac.cacontology-ai-csam | Class | Completely synthetic media generated using AI models trained on large datasets, creating realisti... |
 | **Tablet** | uco.observable | Class | A tablet is a mobile computer that is primarily operated by touching the screen. (Devices categor... |
+| **TacticalUnit** | ext.cac.cacontology-specialized-units | Class | Unit handling high-risk tactical operations. Modeled as gUFO Organization. |
+| **TaskForceContactInformation** | ext.cac.cacontology-taskforce | Class | Contact information for CAC task force including phone, email, and website. |
+| **TaskForceCoordination** | ext.cac.cacontology-partnerships | Class | Coordination through multi-partner task forces with representatives from different organizations.... |
+| **TaskForceHotline** | ext.cac.cacontology-taskforce | Class | Dedicated phone line for CAC task force operations and reporting. |
+| **TaskforceRolePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling roles within CAC taskforces with specialization and coordination relati... |
+| **Teacher** | ext.cac.cacontology-custodial | Class | Educational professional with authority over students. Modeled as anti-rigid gUFO Role with insti... |
+| **TechIndustryCooperation** | ext.cac.cacontology-partnerships | Class | Cooperation framework between law enforcement and technology companies for content detection, pla... |
+| **TechnicalEquipment** | ext.cac.cacontology-asset-forfeiture | Class | Technical equipment used in child exploitation offenses (cameras, computers, drones, etc.). Enhan... |
+| **TechnicalIntegration** | ext.cac.cacontology-partnerships | Class | Technical integration between partner systems for automated information sharing and analysis. Mod... |
+| **TechnicalServiceProvider** | ext.cac.cacontology-platforms | Class | Organizations providing technical infrastructure (hosting, CDN, DNS, etc.) that may be involved i... |
+| **TechnicalSpecialistRole** | ext.cac.cacontology-specialized-units | Class | Role of technical specialist providing specialized capabilities. Modeled as anti-rigid gUFO Role. |
+| **TechnologyCooperation** | ext.cac.cacontology-partnerships | Class | Cooperation in developing and deploying technology solutions for child protection. Modeled as gUF... |
+| **TechnologyPartner** | ext.cac.cacontology-partnerships | Class | Technology company or provider participating in partnership with technical capabilities and platf... |
+| **TemporalConsistency** | ext.cac.cacontology-integration-patterns | Class | Validation ensuring temporal relationships and constraints are properly modeled across modules. |
+| **TemporaryCustody** | ext.cac.cacontology-custodial | Class | Short-term custody arrangement or supervision of a child. Modeled as anti-rigid gUFO Phase with t... |
+| **TerminatedCustodyPhase** | ext.cac.cacontology-custodial | Class | Phase when custodial relationship has been formally ended. Modeled as anti-rigid gUFO Phase. |
+| **TherapyDog** | ext.cac.cacontology-specialized-units | Class | Trained therapy dog providing emotional support to officers. Modeled as gUFO Object. |
 | **Tool** | uco.tool | Class | A tool is an element of hardware and/or software utilized to carry out a particular function. |
+| **ToolDevelopment** | ext.cac.cacontology-partnerships | Class | Joint development of investigative tools and technologies for law enforcement use. Modeled as gUF... |
+| **TraffickerRole** | ext.cac.cacontology-sex-trafficking | Class | Role of individual involved in sex trafficking operations. Modeled as anti-rigid gUFO Role. |
+| **TraffickingCell** | ext.cac.cacontology-sex-trafficking | Class | Smaller operational unit within trafficking ring, often controlling specific victims or geographi... |
+| **TraffickingEnterprise** | ext.cac.cacontology-sex-trafficking | Class | Criminal organization engaged in systematic sex trafficking operations with multiple defendants a... |
+| **TraffickingOfPersonsForSexualServitudeCharge** | ext.cac.cacontology-legal-outcomes | Class | Georgia state charge for trafficking of persons for sexual servitude, as reported in a Georgia At... |
+| **TraffickingOperation** | ext.cac.cacontology-sex-trafficking | Class | Coordinated trafficking activity involving multiple perpetrators, victims, and locations. Modeled... |
+| **TraffickingRing** | ext.cac.cacontology-sex-trafficking | Class | Coordinated group of traffickers operating across multiple jurisdictions with shared victims and ... |
+| **TraffickingVictimRescue** | ext.cac.cacontology-sex-trafficking | Class | Specialized rescue operation for trafficking victims involving multiple agencies and victim servi... |
+| **TraffickingVictimRole** | ext.cac.cacontology-sex-trafficking | Class | Role of person being exploited through sex trafficking. Modeled as anti-rigid gUFO Role. |
+| **TrainingCertificate** | ext.cac.cacontology-training | Class | Certificate awarded upon successful completion of training. Modeled as gUFO Object. |
+| **TrainingCoordinator** | ext.cac.cacontology-training | Class | Coordinator responsible for organizing training programs. Modeled as anti-rigid gUFO Role. |
+| **TrainingCurriculum** | ext.cac.cacontology-training | Class | Structured curriculum for child protection training. Modeled as gUFO Object. |
+| **TrainingDataAnalysis** | ext.cac.cacontology-ai-csam | Class | Analysis of datasets potentially used to train AI models for generating illegal content. Enhanced... |
+| **TrainingDeliveryPhase** | ext.cac.cacontology-training | Class | Phase of active training delivery and instruction. Modeled as anti-rigid gUFO Phase. |
+| **TrainingInstitution** | ext.cac.cacontology-training | Class | Institution providing child protection training. Modeled as gUFO Organization. |
+| **TrainingMetrics** | ext.cac.cacontology-training | Class | Metrics measuring training effectiveness and reach. Modeled as gUFO Object. |
+| **TrainingModule** | ext.cac.cacontology-training | Class | Individual training module covering specific topics. Modeled as gUFO Object. |
+| **TrainingParticipant** | ext.cac.cacontology-training | Class | Professional participating in training programs. Modeled as anti-rigid gUFO Role. |
+| **TransportationFacilitatorRole** | ext.cac.cacontology-sex-trafficking | Class | Role focused on transporting victims between locations for trafficking purposes. Modeled as anti-... |
+| **TransportationForSexualExploitation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of transporting minors across international boundaries for sexual exploitation. Mod... |
+| **TravelingToMeetAfterComputerLure** | ext.cac.cacontology-legal-outcomes | Class | Florida state charge for traveling to meet after using a computer to lure a child. Applies when d... |
+| **TreatyPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling international treaties and agreements as normative frameworks governing... |
+| **TrialPhase** | ext.cac.cacontology-legal-outcomes | Class | Active trial phase with proceedings and evidence presentation. Modeled as anti-rigid gUFO Phase. |
+| **TrialProceeding** | ext.cac.cacontology-legal-outcomes | Class | Formal trial process with jury or judge determining guilt or innocence. Modeled as gUFO Event. |
+| **TrustBreachSituation** | ext.cac.cacontology-custodial | Class | Situation arising from violation of trust or authority position. Modeled as gUFO Situation with t... |
+| **TrustViolation** | ext.cac.cacontology-custodial | Class | Action that violates a position of trust or custodial responsibility. Modeled as gUFO Event with ... |
 | **UNIXProcess** | uco.observable | Class | A UNIX process is an instance of a computer program executed on a UNIX operating system. |
 | **UNIXProcessFacet** | uco.observable | Facet | A UNIX process facet is a grouping of characteristics unique to an instance of a computer program... |
 | **UNIXVolumeFacet** | uco.observable | Facet | A UNIX volume facet is a grouping of characteristics unique to a single accessible storage area (... |
+| **UndercoverUnit** | ext.cac.cacontology-specialized-units | Class | Unit conducting undercover operations. Modeled as gUFO Organization. |
+| **UnitCommanderRole** | ext.cac.cacontology-specialized-units | Class | Role of commanding officer for specialized unit. Modeled as anti-rigid gUFO Role. |
+| **UnitDeploymentPhase** | ext.cac.cacontology-specialized-units | Class | Phase when specialized unit is deployed for operations. Modeled as anti-rigid gUFO Phase. |
+| **UnitMaintenancePhase** | ext.cac.cacontology-specialized-units | Class | Phase for equipment maintenance and unit readiness. Modeled as anti-rigid gUFO Phase. |
+| **UnitTrainingPhase** | ext.cac.cacontology-specialized-units | Class | Phase focused on specialized unit training and preparation. Modeled as anti-rigid gUFO Phase. |
+| **UserRiskClassification** | ext.cac.cacontology-platforms | Class | Automated classification of user risk levels based on platform activity patterns, content sharing... |
+| **UserScaleClassification** | ext.cac.cacontology-platforms | Class | Classification system for platform size based on user base: small (<1K), medium (1K-100K), large ... |
 | **UserSession** | uco.observable | Class | A user session is a temporary and interactive information interchange between two or more communi... |
 | **UserSessionFacet** | uco.observable | Facet | A user session facet is a grouping of characteristics unique to a temporary and interactive infor... |
+| **UserVerificationSystem** | ext.cac.cacontology-platforms | Class | Systems used by platforms to verify user identity and age. Modeled as gUFO Object. |
+| **ValidationPhase** | ext.cac.cacontology-detection | Class | Phase of validating detection results and reducing false positives. Modeled as anti-rigid gUFO Ph... |
+| **VapeDevice** | ext.cac.cacontology-physical-evidence | Class | Electronic vaporizer or e-cigarette found as evidence. Often brought to lure or facilitate abuse ... |
+| **Vehicle** | ext.cac.cacontology-asset-forfeiture | Class | Vehicle used in or purchased with proceeds from child exploitation offenses. Enhanced as gUFO Obj... |
+| **VehicleConcealment** | ext.cac.cacontology-stranger-abduction | Class | Use of vehicles to conceal approach or provide mobile concealment. |
+| **VictimControl** | ext.cac.cacontology-sex-trafficking | Class | Methods used to maintain psychological and physical control over trafficking victims. Modeled as ... |
+| **VictimDeviceForensics** | ext.cac.cacontology-sex-offender-registry | Class | Forensic examination of victim's device to recover evidence of digital exploitation. |
+| **VictimEmergencyResponse** | ext.cac.cacontology-sex-trafficking | Class | Emergency response to 911 calls from trafficking victims seeking help. Modeled as gUFO Event. |
+| **VictimInstructionEvidence** | ext.cac.cacontology-undercover | Class | Evidence of traffickers providing phones and instructions to victims for client communication. |
+| **VictimRecruitment** | ext.cac.cacontology-sex-trafficking | Class | Process of identifying, targeting, and acquiring new victims for trafficking operations. Modeled ... |
+| **VictimRole** | ext.cac.cacontology | Class | Role of a person who is a victim of child sexual abuse or exploitation. Modeled as anti-rigid gUF... |
+| **VictimRole** | ext.cac.cacontology-legal-outcomes | Class | Role of victim in CAC legal proceedings. Modeled as anti-rigid gUFO Role. |
+| **VictimRotation** | ext.cac.cacontology-sex-trafficking | Class | Systematic movement of victims between different locations to avoid detection and maintain contro... |
+| **VictimSafetyAssessment** | ext.cac.cacontology-sex-trafficking | Class | Assessment of victim safety and ongoing threats from trafficking network. Modeled as gUFO Event. |
+| **VictimServiceTraining** | ext.cac.cacontology-training | Class | Training for professionals providing victim services. Modeled as gUFO Event. |
+| **VictimServicesUnit** | ext.cac.cacontology-specialized-units | Class | Unit providing specialized victim services and support. Modeled as gUFO Organization. |
+| **VictimStatement** | ext.cac.cacontology-recantation | Class | A statement or account by a child victim concerning abuse, disclosure, denial, or recantation. Mo... |
+| **VictimTransportation** | ext.cac.cacontology-sex-trafficking | Class | Transportation of trafficking victims between locations for commercial sexual exploitation. Model... |
+| **VictimVulnerabilityProfile** | ext.cac.cacontology-sex-trafficking | Class | Profile of factors that make individuals vulnerable to trafficking recruitment. Modeled as gUFO O... |
+| **VideoGeneration** | ext.cac.cacontology-ai-csam | Class | Generation of video content using AI models capable of creating temporal sequences and motion. En... |
+| **VideoStreamingPlatform** | ext.cac.cacontology-platforms | Class | A platform for video content streaming and sharing (e.g., YouTube, Twitch, OnlyFans, Periscope). ... |
+| **VisitationArrangement** | ext.cac.cacontology-custodial | Class | Scheduled visitation or contact arrangement with child. Modeled as gUFO SubKind with temporal sch... |
 | **Volume** | uco.observable | Class | A volume is a single accessible storage area (volume) with a single file system. [based on https:... |
 | **VolumeFacet** | uco.observable | Facet | A volume facet is a grouping of characteristics unique to a single accessible storage area (volum... |
+| **VulnerabilityExposureSituation** | ext.cac.cacontology-custodial | Class | Situation where child vulnerability factors create elevated risk. Modeled as gUFO Situation with ... |
 | **WearableDevice** | uco.observable | Class | A wearable device is an electronic device that is designed to be worn on a person's body. |
+| **WellnessCheck** | ext.cac.cacontology-specialized-units | Class | Regular check on officer mental health and wellbeing. Modeled as gUFO Event. |
 | **WifiAddress** | uco.observable | Class | A Wi-Fi address is a media access control (MAC) standards-conformant identifier assigned to a dev... |
 | **WifiAddressFacet** | uco.observable | Facet | A Wi-Fi address facet is a grouping of characteristics unique to a media access control (MAC) sta... |
 | **WindowsComputerSpecification** | uco.observable | Class | A Windows computer specification is the hardware ans software of a programmable electronic device... |
@@ -645,7 +1992,7 @@ Classes for physical and virtual devices, storage media, and hardware characteri
 | **WirelessNetworkConnectionFacet** | uco.observable | Facet | A wireless network connection facet is a grouping of characteristics unique to a connection (comp... |
 | **WriteBlocker** | uco.observable | Class | A write blocker is a device that allows read-only access to storage mediums in order to preserve ... |
 
-**API** key properties:
+**AICSAMInvestigation** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
@@ -657,35 +2004,29 @@ Classes for physical and virtual devices, storage media, and hardware characteri
 | name | string | No |
 | objectCreatedTime | dateTime | No |
 | objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
+| *... 14 more* | | |
 
-**ARPCache** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
-
-**ARPCacheEntry** key properties:
+**AIContentDetection** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
+| detectionConfidence | decimal | No |
+| detectionMethod | string | No |
+| evidenceAdmissibility | string | No |
+| processingTime | decimal | No |
+| detectionTimePoint | dateTime | Yes |
+| startTime | dateTime | Yes |
+
+**AIContentGeneration** key properties:
+
+| Property | Type | Required |
+|----------|------|----------|
+| generationComplexity | string | No |
+| generationTechnique | string | No |
+| technicalExpertiseRequired | string | No |
+| generationDuration | duration | No |
+| endTime | dateTime | No |
+| startTime | dateTime | Yes |
 
 **Example usage:**
 
@@ -731,8 +2072,7 @@ let facet = DeviceFacet::builder()
     .manufacturer("ExampleCorp".into())
     .model("X1000".into())
     .build();
-let obs = ObservableObject::builder().has_facet(vec![facet]).build();
-graph.create(&obs);
+graph.create(&ObservableObject::default());
 ```
 
 </details>
@@ -743,10 +2083,21 @@ Classes for installed applications, operating systems, software packages, and pr
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
+| **AIContentDetection** | ext.cac.cacontology-ai-csam | Class | Process of identifying AI-generated or AI-altered content to distinguish from authentic material ... |
+| **AIContentGeneration** | ext.cac.cacontology-ai-csam | Class | Process of creating artificial CSAM using machine learning models, neural networks, or other AI t... |
+| **AIDetectionPhase** | ext.cac.cacontology-ai-csam | Class | Anti-rigid phase during which AI-generated content undergoes detection and analysis processes. |
+| **AIDetectionTool** | ext.cac.cacontology-ai-csam | Class | Software tool specialized for detecting AI-generated content in digital media. Enhanced as gUFO O... |
+| **AIGenerationPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling AI generation processes creating synthetic CSAM with algorithmic charac... |
 | **API** | uco.observable | Class | An API (application programming interface) is a computing interface that defines interactions bet... |
+| **AccountLinking** | ext.cac.cacontology-us-ncmec | Class | Process of linking digital accounts to suspects through NCMEC tip analysis. |
+| **AdvocacyProcess** | ext.cac.cacontology-legal-harmonization | Class | Process used in legislative advocacy. |
+| **AgeTargetedEducation** | ext.cac.cacontology-prevention | Class | Education programs targeted to specific age groups. |
+| **AmendmentProcess** | ext.cac.cacontology-legal-harmonization | Class | Process of amending legislation. |
 | **AnalyticTool** | uco.tool | Class | An analytic tool is an artifact of hardware and/or software utilized to accomplish a task or purp... |
 | **AndroidDevice** | uco.observable | Class | An Android device is a device running the Android operating system. [based on https://en.wikipedi... |
 | **AndroidPhone** | uco.observable | Class | An android phone is a smart phone that applies the Android mobile operating system. |
+| **AnnualReview** | ext.cac.cacontology-legal-harmonization | Class | Annual compliance review process. |
+| **AppealProcess** | ext.cac.cacontology-legal-outcomes | Class | Legal process to challenge conviction or sentence in higher court. Modeled as gUFO Event. |
 | **AppleDevice** | uco.observable | Class | An apple device is a smart device that applies either the MacOS or iOS operating system. |
 | **Appliance** | uco.observable | Class | An appliance is a purpose-built computer with software or firmware that is designed to provide a ... |
 | **Application** | uco.observable | Class | An application is a particular software program designed for end users. |
@@ -754,8 +2105,15 @@ Classes for installed applications, operating systems, software packages, and pr
 | **ApplicationAccountFacet** | uco.observable | Facet | An application account facet is a grouping of characteristics unique to an account within a parti... |
 | **ApplicationFacet** | uco.observable | Facet | An application facet is a grouping of characteristics unique to a particular software program des... |
 | **ApplicationVersion** | uco.observable | Class | An application version is a grouping of characteristics unique to a particular software program v... |
-| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
+| **ArrestWarrant** | ext.cac.cacontology-case-management | Class | Legal documentation for arrest warrants including applications, approvals, and execution records.... |
+| **AssessmentResult** | ext.cac.cac-core | Class | An output or conclusion of some evaluative, analytic, classification, or decision-making process.... |
+| **AuditProcess** | ext.cac.cacontology-legal-harmonization | Class | Audit for compliance verification. |
+| **AutomatedEvidenceDistribution** | ext.cac.cacontology-multi-jurisdiction | Class | Automated system for distributing evidence packages to appropriate jurisdictions based on user lo... |
+| **AutomatedReporterAgent** | ext.cac.cacontology-hotlines | Class | A software agent that automatically reports content to hotlines. Enhanced as gUFO Object for comp... |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability.... |
+| **BillDrafting** | ext.cac.cacontology-legal-harmonization | Class | Process of drafting legislation. |
 | **BlackberryPhone** | uco.observable | Class | A blackberry phone is a smart phone that applies the Blackberry OS mobile operating system. (Blac... |
+| **BookingAction** | ext.cac.cacontology-tactical | Class | Process of booking a suspect into a correctional facility including fingerprinting, photography, ... |
 | **BotConfiguration** | uco.observable | Class | A bot configuration is a set of contextual settings for a software application that runs automate... |
 | **BrowserBookmark** | uco.observable | Class | A browser bookmark is a saved shortcut that directs a WWW (World Wide Web) browser software progr... |
 | **BrowserBookmarkFacet** | uco.observable | Facet | A browser bookmark facet is a grouping of characteristics unique to a saved shortcut that directs... |
@@ -764,9 +2122,22 @@ Classes for installed applications, operating systems, software packages, and pr
 | **BuildFacet** | uco.tool | Facet | A build facet is a grouping of characteristics unique to a particular version of a software. |
 | **BuildInformationType** | uco.tool | Class | A build information type is a grouping of characteristics that describe how a particular version ... |
 | **BuildUtilityType** | uco.tool | Class | A build utility type characterizes the tool used to convert from source code to executable code f... |
-| **CapabilityMatrix** | ext.toolcap | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
+| **BullyingPrevention** | ext.cac.cacontology-prevention | Class | Prevention programs focused on reducing bullying and shaming. |
+| **CapacityBuildingProgram** | ext.cac.cacontology-training | Class | Structured program for building organizational and individual capacity. Modeled as gUFO Organizat... |
+| **CaseAnalystRole** | ext.cac.cacontology-case-management | Class | Role responsible for case analysis, intelligence gathering, and data processing. Enhanced as anti... |
+| **CaseClosure** | ext.cac.cacontology-case-management | Class | Formal case closure process including disposition, appeals status, and archival procedures. Enhan... |
+| **CaseReview** | ext.cac.cacontology-case-management | Class | Formal review processes for case quality assurance, supervisory oversight, and legal compliance. ... |
+| **CaseWorkflow** | ext.cac.cacontology-case-management | Class | Structured workflow stages and processes for managing case progression from intake to disposition... |
+| **CertificationProcess** | ext.cac.cacontology-legal-harmonization | Class | Process for obtaining compliance certification. |
+| **ChildSafetyEducation** | ext.cac.cacontology-prevention | Class | Education programs teaching children about safety. |
 | **Code** | uco.observable | Class | Code is a direct representation (source, byte or binary) of a collection of computer instructions... |
+| **CommunityEducation** | ext.cac.cacontology-prevention | Class | Education programs for community members. |
+| **CommunityEducator** | ext.cac.cacontology-prevention | Class | Educator working in community prevention programs. |
+| **CommunityEngagementK9** | ext.cac.cacontology-specialized-units | Class | K9 utilized for community outreach and educational programs. Modeled as gUFO Organization. |
+| **CommunityOutreach** | ext.cac.cacontology-prevention | Class | Outreach programs to engage communities in child protection. Modeled as gUFO Event. |
+| **CommunityOutreachEffectiveness** | ext.cac.cacontology-prevention | Class | Measurement of community outreach program effectiveness in generating victim disclosures and arre... |
 | **CompilerType** | uco.tool | Class | A compiler type is a grouping of characteristics unique to a specific program that translates com... |
+| **ComplianceProcess** | ext.cac.cacontology-legal-harmonization | Class | Process for ensuring legal compliance. |
 | **CompressedStreamFacet** | uco.observable | Facet | A compressed stream facet is a grouping of characteristics unique to the application of a size-re... |
 | **Computer** | uco.observable | Class | A computer is an electronic device for storing and processing data, typically in binary, accordin... |
 | **ComputerSpecification** | uco.observable | Class | A computer specification is the hardware and software of a programmable electronic device that ca... |
@@ -774,55 +2145,155 @@ Classes for installed applications, operating systems, software packages, and pr
 | **Configuration** | uco.configuration | Class | A configuration is a grouping of characteristics unique to a set of parameters or initial setting... |
 | **ConfigurationEntry** | uco.configuration | Class | A configuration entry is a grouping of characteristics unique to a particular parameter or initia... |
 | **ConfiguredSoftware** | uco.observable | Class | A ConfiguredSoftware is a Software that is known to be configured to run in a more specified mann... |
+| **ContentCreation** | ext.cac.cacontology-production | Class | Process of creating, editing, or enhancing child sexual abuse material. |
+| **ContentEditingProcess** | ext.cac.cacontology-extremist-enterprises | Class | Process of editing and organizing victim content into compilations for enterprise distribution. |
 | **CookieHistory** | uco.observable | Class | A cookie history is the stored web cookie history for a particular web browser. |
+| **CriticalIncidentDebriefing** | ext.cac.cacontology-specialized-units | Class | Structured debriefing process following traumatic incidents. Modeled as gUFO Event. |
+| **CrossBorderDeviceSeizure** | ext.cac.cacontology-international | Class | Seizure of electronic devices across international borders with subsequent evidence sharing throu... |
+| **CrossBorderForensics** | ext.cac.cacontology-international | Class | Forensic analysis requiring coordination across multiple countries for large-scale evidence proce... |
+| **CryptocurrencyInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Cryptocurrency wallets, exchanges, and payment processing systems used for anonymous financial tr... |
+| **CyberTipAnalysis** | ext.cac.cacontology-us-ncmec | Class | Analytical processing and assessment of NCMEC CyberTip reports by law enforcement. |
+| **CyberTipMetrics** | ext.cac.cacontology-taskforce | Class | Metrics tracking CyberTip processing and analysis by task force. |
 | **DefensiveTool** | uco.tool | Class | A defensive tool is an artifact of hardware and/or software utilized to accomplish a task or purp... |
 | **Dependency** | uco.configuration | Class | A dependency is a grouping of characteristics unique to something that a tool or other software r... |
+| **DigitalEvidenceCorrelation** | ext.cac.cacontology-platforms | Class | Process of correlating evidence found across devices and platforms. |
+| **DigitalSafety** | ext.cac.cacontology-prevention | Class | Prevention programs focused on digital safety. |
+| **DigitalSystemEntity** | ext.cac.cac-core | Class | An enduring entity representing a software or system-level resource such as an online service pla... |
+| **DistributedForensicProcessing** | ext.cac.cacontology-forensics | Class | Forensic processing distributed across multiple systems and locations for handling massive eviden... |
+| **DistributedIntelligenceProcessing** | ext.cac.cacontology-international | Class | Distributed processing of intelligence across multiple international systems for scalable analysis. |
+| **EditingEquipment** | ext.cac.cacontology-production | Class | Computer hardware and software used to edit or enhance produced material. |
+| **EducationalInstitution** | ext.cac.cacontology-educational-exploitation | Class | Educational institution where child exploitation occurs, including schools, colleges, and educati... |
+| **EducationalPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling educational interventions as processes with learning outcomes and effec... |
+| **EducatorTraining** | ext.cac.cacontology-prevention | Class | Training programs specifically designed for educators. |
 | **EmbeddedDevice** | uco.observable | Class | An embedded device is a highly specialized microprocessor device meant for one or very few specif... |
 | **EnvironmentVariable** | uco.observable | Class | An environment variable is a grouping of characteristics unique to a dynamic-named value that can... |
+| **Event** | ext.cac.cac-core | Class | Something that happens or unfolds in time — an action, interaction, incident, hearing, or process... |
 | **EventRecord** | uco.observable | Class | An event record is something that happens in a digital context (e.g., operating system events). |
 | **EventRecordFacet** | uco.observable | Facet | An event record facet is a grouping of characteristics unique to something that happens in a digi... |
+| **EvidenceTransitionEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from Legal Process to Evidence Phase. |
+| **FamilyReunification** | ext.cac.cacontology-victim-impact | Class | Process of reuniting trafficking victims with their families. |
+| **FederalProsecution** | ext.cac.cacontology-usa-federal-law | Class | Federal legal prosecution process for child exploitation crimes. Modeled as gUFO Event with tempo... |
 | **FileFacet** | uco.observable | Facet | A file facet is a grouping of characteristics unique to the storage of a file (computer resource ... |
 | **FileSystem** | uco.observable | Class | A file system is the process that manages how and where data on a storage medium is stored, acces... |
 | **FileSystemFacet** | uco.observable | Facet | A file system facet is a grouping of characteristics unique to the process that manages how and w... |
+| **ForensicsLifecyclePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling forensics process lifecycle with acquisition, analysis, and presentatio... |
+| **FundingStream** | ext.cac.cacontology-usa-legislative | Class | Source of funding for CAC programs. |
+| **GenerationSourceTracking** | ext.cac.cacontology-ai-csam | Class | Investigation process to identify the source, tools, and methods used to generate AI-CSAM. Enhanc... |
 | **GeoLocationEntry** | uco.observable | Class | A geolocation entry is a single application-specific geolocation entry. |
 | **GeoLocationEntryFacet** | uco.observable | Facet | A geolocation entry facet is a grouping of characteristics unique to a single application-specifi... |
 | **GlobalFlagType** | uco.observable | Class | A global flag type is a grouping of characteristics unique to the Windows systemwide global varia... |
+| **GroomingPhase** | ext.cac.cacontology-grooming | Class | A temporal phase within the grooming process. |
+| **HighPriorityCaseManagement** | ext.cac.cacontology-case-management | Class | Enhanced management protocols for critical and high-priority cases requiring expedited processing... |
+| **HotlineAction** | ext.cac.cacontology-hotlines | Class | An action taken as part of processing a hotline report. Enhanced as gUFO Event for comprehensive ... |
+| **HotlineOrganization** | ext.cac.cacontology-hotlines | Class | An organization that operates a hotline for receiving and processing reports of child sexual abus... |
+| **HotlineReport** | ext.cac.cacontology-hotlines | Class | A report submitted to a hotline about potential child sexual abuse material. Enhanced as gUFO Sit... |
 | **IExecActionType** | uco.observable | Class | An IExec action type is a grouping of characteristics unique to an action that executes a command... |
 | **IPhone** | uco.observable | Class | An iPhone is a smart phone that applies the iOS mobile operating system. |
+| **InappropriateGift** | ext.cac.cacontology-grooming | Class | Offer or provision of gifts, money, or favors as part of grooming process. |
+| **IndependentSchool** | ext.cac.cacontology-educational-exploitation | Class | Private independent school, often with elite status and specialized educational programs. Enhance... |
+| **InternationalEvidenceProcessing** | ext.cac.cacontology-forensics | Class | Processing of evidence collected from international operations requiring coordination across mult... |
+| **InternationalImpact** | ext.cac.cacontology-international | Class | Assessment of international program effectiveness. |
+| **InternationalTrainer** | ext.cac.cacontology-training | Class | Trainer delivering international training programs. Modeled as anti-rigid gUFO Role. |
+| **InternationalTraining** | ext.cac.cacontology-training | Class | Training program conducted across multiple countries. Modeled as gUFO Event. |
+| **JudicialPhasePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling judicial process phases (pre-trial, trial, sentencing, appeals) with le... |
+| **JudicialSystemSituation** | ext.cac.cacontology-legal-outcomes | Class | Broader situation involving judicial system processing of CAC cases. Modeled as gUFO Situation. |
 | **Junction** | uco.observable | Class | A junction is a specific NTFS (New Technology File System) reparse point to redirect a directory ... |
+| **K9AssistedForensics** | ext.cac.cacontology-forensics | Class | Forensic process enhanced by K9 detection capabilities for electronic storage devices. |
+| **K9DetectionProgram** | ext.cac.cacontology-specialized-units | Class | Program utilizing trained detection dogs for CAC investigations. Modeled as gUFO Organization. |
+| **K9TrainingProgram** | ext.cac.cacontology-specialized-units | Class | Training program for K9 units and handlers. Modeled as gUFO Organization. |
+| **LargeScalePlatformTakedown** | ext.cac.cacontology-platforms | Class | Coordinated takedown of major exploitation platforms with user bases exceeding 1 million accounts... |
+| **LegalDataDisclosureAction** | ext.cac.cacontology-platforms | Class | An action to disclose user data to law enforcement in response to legal process. Modeled as gUFO ... |
+| **LegalProceeding** | ext.cac.cacontology-legal-outcomes | Class | Formal judicial process for prosecuting cacontology-related crimes. Modeled as gUFO Event. |
+| **LegalProceedingsSituation** | ext.cac.cacontology-asset-forfeiture | Class | Complex situation involving courts, legal counsel, and multiple parties in forfeiture proceedings... |
+| **LegalProcessAction** | ext.cac.cacontology | Class | The action of initiating legal processes such as search warrants, subpoenas, or MLAT requests. |
+| **LegalProcessPhase** | ext.cac.cacontology | Class | Phase involving legal processes such as search warrants and subpoenas. |
+| **LegalProcessTransitionEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from Analysis to Legal Process Phase. |
+| **LegalReform** | ext.cac.cacontology-legal-harmonization | Class | Process of reforming child protection legislation. |
+| **LegislativeDrafting** | ext.cac.cacontology-legal-harmonization | Class | Process of drafting child protection legislation. |
+| **LegislativeProcess** | ext.cac.cacontology-legal-harmonization | Class | A step in the legislative lifecycle - applicable across jurisdictions. |
+| **LegislativeStage** | ext.cac.cacontology-usa-legislative | Class | Stage in the U.S. legislative process. |
 | **Library** | uco.observable | Class | A library is a suite of data and programming code that is used to develop software programs and a... |
 | **LibraryFacet** | uco.observable | Facet | A library facet is a grouping of characteristics unique to a suite of data and programming code t... |
 | **LibraryType** | uco.tool | Class | A library type is a grouping of characteristics unique to a collection of resources incorporated ... |
 | **MaliciousTool** | uco.tool | Class | A malicious tool is an artifact of hardware and/or software utilized to accomplish a malevolent t... |
+| **MassDigitalEvidenceProcessing** | ext.cac.cacontology-forensics | Class | Processing of massive volumes of digital evidence requiring specialized automated tools and distr... |
+| **MassUserAnalysis** | ext.cac.cacontology-international | Class | Analysis of massive user databases requiring international coordination for processing users acro... |
+| **MassUserDatabase** | ext.cac.cacontology-platforms | Class | User database analysis for platforms with massive user bases requiring specialized processing tec... |
+| **MentorshipProgram** | ext.cac.cacontology-training | Class | One-on-one mentorship for professional development. Modeled as gUFO Organization. |
+| **MetadataExtractionAction** | ext.cac.cacontology-forensics | Class | The action of extracting metadata from digital artifacts including EXIF, file system timestamps, ... |
+| **ModelIdentification** | ext.cac.cacontology-ai-csam | Class | Process of identifying the specific AI model or algorithm used to generate illegal content. Enhan... |
+| **ModelTraining** | ext.cac.cacontology-ai-csam | Class | Process of training AI models on datasets that may include illegal content for the purpose of gen... |
 | **Mutex** | uco.observable | Class | A mutex is a mechanism that enforces limits on access to a resource when there are many threads o... |
 | **MutexFacet** | uco.observable | Facet | A mutex facet is a grouping of characteristics unique to a mechanism that enforces limits on acce... |
+| **MutualLegalAssistanceTreatyOperation** | ext.cac.cacontology-international | Class | Operational process using Mutual Legal Assistance Treaty (MLAT) for international evidence sharin... |
 | **NamedPipe** | uco.observable | Class | A named pipe is a mechanism for FIFO (first-in-first-out) inter-process communication. It is pers... |
 | **NetworkAppliance** | uco.observable | Class | A network appliance is a purpose-built computer with software or firmware that is designed to pro... |
 | **NetworkInterface** | uco.observable | Class | A network interface is a software or hardware interface between two pieces of equipment or protoc... |
 | **NetworkInterfaceFacet** | uco.observable | Facet | A network interface facet is a grouping of characteristics unique to a software or hardware inter... |
 | **NetworkProtocol** | uco.observable | Class | A network protocol is an established set of structured rules that determine how data is transmitt... |
+| **Nudification** | ext.cac.cacontology-ai-csam | Class | AI content generation/manipulation process that produces synthetic nudity (e.g., 'nudifying apps'... |
+| **NudificationTool** | ext.cac.cacontology-ai-csam | Class | Software tool or functionality capable of performing AI-enabled nudification (synthetic nudity) o... |
+| **OfficerWellnessProgram** | ext.cac.cacontology-specialized-units | Class | Program providing mental health and wellness support to CAC officers. Modeled as gUFO Organization. |
 | **OperatingSystem** | uco.observable | Class | An operating system is the software that manages computer hardware, software resources, and provi... |
 | **OperatingSystemFacet** | uco.observable | Facet | An operating system facet is a grouping of characteristics unique to the software that manages co... |
+| **ParentEducation** | ext.cac.cacontology-prevention | Class | Education programs for parents and caregivers. |
+| **ParentalVigilanceProgram** | ext.cac.cacontology-prevention | Class | Program educating parents on recognizing signs of child exploitation and reporting. |
+| **PaymentProcessing** | ext.cac.cacontology-platform-infrastructure | Class | Financial processing systems enabling platform monetization through subscription fees, content pu... |
+| **PeerReview** | ext.cac.cacontology-case-management | Class | Peer review process for case methodology, analysis, and conclusions. Enhanced as gUFO Event. |
+| **PeerSupport** | ext.cac.cacontology-specialized-units | Class | Peer-to-peer support programs for CAC personnel. Modeled as gUFO Organization. |
+| **Phase** | ext.cac.cac-core | Class | A temporal stage of some enduring entity, process, or situation. The bearer remains the same enti... |
 | **Pipe** | uco.observable | Class | A pipe is a mechanism for one-way inter-process communication using message passing where data wr... |
-| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
+| **PlatformSpecification** | ext.toolcap | Class | DEPRECATED in 0.4.0. Use first-class uco-observable:OperatingSystem instances linked via uco-core... |
+| **PleaBargaining** | ext.cac.cacontology-legal-outcomes | Class | Negotiation process between prosecution and defense for plea agreement. Modeled as gUFO Event. |
+| **PolicyHarmonization** | ext.cac.cacontology-legal-harmonization | Class | Process of harmonizing policies across jurisdictions. |
+| **PreventionEffectiveness** | ext.cac.cacontology-prevention | Class | Assessment of prevention program effectiveness. |
+| **PreventionMetrics** | ext.cac.cacontology-prevention | Class | Metrics for measuring prevention program effectiveness. |
+| **PreventionProgram** | ext.cac.cacontology-prevention | Class | Structured program designed to prevent child abuse and exploitation. Modeled as gUFO Event. |
+| **PreventionSpecialist** | ext.cac.cacontology-prevention | Class | Professional specializing in prevention programs. |
 | **Process** | uco.observable | Class | A process is an instance of a computer program executed on an operating system. |
 | **ProcessFacet** | uco.observable | Facet | A process facet is a grouping of characteristics unique to an instance of a computer program exec... |
 | **ProcessThread** | uco.observable | Class | A process thread is the smallest sequence of programmed instructions that can be managed independ... |
 | **Profile** | uco.observable | Class | A profile is an explicit digital representation of identity and characteristics of the owner of a... |
 | **ProfileFacet** | uco.observable | Facet | A profile facet is a grouping of characteristics unique to an explicit digital representation of ... |
+| **ProgramPlanningPhase** | ext.cac.cacontology-training | Class | Phase of training program planning and curriculum development. Modeled as anti-rigid gUFO Phase. |
 | **PropertiesEnumeratedEffectFacet** | uco.observable | Facet | A properties enumerated effect facet is a grouping of characteristics unique to the effects of ac... |
 | **PropertyReadEffectFacet** | uco.observable | Facet | A properties read effect facet is a grouping of characteristics unique to the effects of actions ... |
+| **RecoveryProcess** | ext.cac.cacontology-victim-impact | Class | Process of healing and recovery from victimization. |
 | **ReparsePoint** | uco.observable | Class | A reparse point is a type of NTFS (New Technology File System) object which is an optional attrib... |
+| **RiskPrevention** | ext.cac.cacontology-prevention | Class | Programs focused on preventing risk factors for child abuse. Modeled as gUFO Event. |
+| **SafetyCoordinator** | ext.cac.cacontology-prevention | Class | Coordinator responsible for safety programs. |
+| **ScalableHashAnalysis** | ext.cac.cacontology-forensics | Class | Hash analysis systems capable of processing millions of files against large databases of known il... |
+| **SchoolAthleticCoachRole** | ext.cac.cacontology-athletic-exploitation | Class | Coaching role within school-based athletic programs with institutional authority. Enhanced as ant... |
+| **SchoolAthleticExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation within school-based athletic programs leveraging institutional authority. Enhanced a... |
+| **SchoolCounselorTraining** | ext.cac.cacontology-prevention | Class | Training program for school counselors. |
+| **SchoolPresentationProgram** | ext.cac.cacontology-prevention | Class | FBI school presentation program for child safety education and disclosure encouragement. |
+| **SchoolSafetyProgram** | ext.cac.cacontology-prevention | Class | Safety program implemented in school settings. |
+| **SearchWarrant** | ext.cac.cacontology-case-management | Class | Legal documentation for search warrants including applications, approvals, and execution records.... |
 | **SecurityAppliance** | uco.observable | Class | A security appliance is a purpose-built computer with software or firmware that is designed to pr... |
 | **Semaphore** | uco.observable | Class | A semaphore is a variable or abstract data type used to control access to a common resource by mu... |
 | **SendControlCodeEffectFacet** | uco.observable | Facet | A send control code effect facet is a grouping of characteristics unique to the effects of action... |
+| **ServerInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Server and hosting infrastructure supporting platform operations, including web servers, database... |
+| **SextortionAwareness** | ext.cac.cacontology-prevention | Class | Prevention program focused on sextortion education and awareness. |
+| **SkillsDevelopmentProgram** | ext.cac.cacontology-training | Class | Program focused on developing specific professional skills. Modeled as gUFO Organization. |
+| **SkillsValidation** | ext.cac.cacontology-training | Class | Validation of skills acquired through training programs. Modeled as gUFO Object. |
 | **SmartDevice** | uco.observable | Class | A smart device is a microprocessor IoT device that is expected to be connected directly to cloud-... |
+| **SocialMediaAppData** | ext.cac.cacontology-platforms | Class | Application data from social media apps stored on devices. |
 | **Socket** | uco.observable | Class | A socket is a special file used for inter-process communication, which enables communication betw... |
 | **Software** | uco.observable | Class | Software is a definitely scoped instance of a collection of data or computer instructions that te... |
 | **SoftwareFacet** | uco.observable | Facet | A software facet is a grouping of characteristics unique to a software program (a definitively sc... |
+| **StressManagement** | ext.cac.cacontology-specialized-units | Class | Programs and techniques for managing work-related stress. Modeled as gUFO Organization. |
+| **StudentEducation** | ext.cac.cacontology-prevention | Class | Safety education program for students. |
+| **SubscriptionManagement** | ext.cac.cacontology-platform-infrastructure | Class | Systems managing user subscriptions, access levels, and recurring payment processing (gUFO Functi... |
+| **TeacherTraining** | ext.cac.cacontology-prevention | Class | Training program specifically for teachers. |
+| **TechnologySharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of technology resources including software, databases, communication systems, and analyti... |
+| **TipProcessing** | ext.cac.cacontology-us-ncmec | Class | Processing workflow for NCMEC tips from receipt to investigation referral. |
 | **Tool** | uco.tool | Class | A tool is an element of hardware and/or software utilized to carry out a particular function. |
-| **ToolCapability** | ext.toolcap | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
+| **ToolCapability** | ext.toolcap | Class | DEPRECATED in 0.4.0. Use capability:Capability (proposed uco-capability:Capability) instead, link... |
+| **TrainingCoordinator** | ext.cac.cacontology-training | Class | Coordinator responsible for organizing training programs. Modeled as anti-rigid gUFO Role. |
+| **TrainingParticipant** | ext.cac.cacontology-training | Class | Professional participating in training programs. Modeled as anti-rigid gUFO Role. |
+| **TrialProceeding** | ext.cac.cacontology-legal-outcomes | Class | Formal trial process with jury or judge determining guilt or innocence. Modeled as gUFO Event. |
 | **TriggerType** | uco.observable | Class | A trigger type is a grouping of characterizes unique to a set of criteria that, when met, starts ... |
+| **TrustBuildingProcess** | ext.cac.cacontology-extremist-enterprises | Class | Process of building trust with vulnerable victims before exploitation begins. |
 | **UNIXAccount** | uco.observable | Class | A UNIX account is an account on a UNIX operating system. |
 | **UNIXAccountFacet** | uco.observable | Facet | A UNIX account facet is a grouping of characteristics unique to an account on a UNIX operating sy... |
 | **UNIXFile** | uco.observable | Class | A UNIX file is a file pertaining to the UNIX operating system. |
@@ -833,6 +2304,16 @@ Classes for installed applications, operating systems, software packages, and pr
 | **URLHistoryFacet** | uco.observable | Facet | A URL history facet is a grouping of characteristics unique to the stored URL history for a parti... |
 | **URLVisit** | uco.observable | Class | A URL visit characterizes the properties of a visit of a URL within a particular browser. |
 | **URLVisitFacet** | uco.observable | Facet | A URL visit facet is a grouping of characteristics unique to the properties of a visit of a URL w... |
+| **USConferenceCommittee** | ext.cac.cacontology-usa-legislative | Class | Bicameral reconciliation process between House and Senate versions. |
+| **USReconciliation** | ext.cac.cacontology-usa-legislative | Class | Special budget reconciliation process in U.S. Congress. |
+| **USRulemakingProcess** | ext.cac.cacontology-usa-legislative | Class | Administrative Procedure Act rulemaking process. |
+| **UrgentRescueLifecycle** | ext.cac.cacontology-temporal | Class | Accelerated investigation lifecycle for urgent child rescue situations. Compressed phase duration... |
+| **VictimIdentification** | ext.cac.cacontology-sextortion | Class | Process of identifying and locating sextortion victims. |
+| **VictimIdentificationProcess** | ext.cac.cacontology-forensics | Class | Systematic process for identifying child victims from seized images and videos during long-term i... |
+| **VictimInRecovery** | ext.cac.cacontology-victim-impact | Class | Role of a victim actively engaged in recovery process. |
+| **VictimRecruitment** | ext.cac.cacontology-sex-trafficking | Class | Process of identifying, targeting, and acquiring new victims for trafficking operations. Modeled ... |
+| **VictimReintegration** | ext.cac.cacontology-victim-impact | Class | Process of reintegrating trafficking victims back into their communities and families. |
+| **VictimTargeting** | ext.cac.cacontology-grooming | Class | The process by which an offender identifies and selects a potential victim. |
 | **WebPage** | uco.observable | Class | A web page is a specific collection of information provided by a website and displayed to a user ... |
 | **Wiki** | uco.observable | Class | A wiki is an online hypertext publication collaboratively edited and managed by its own audience ... |
 | **WindowsAccount** | uco.observable | Class | A Windows account is a user account on a Windows operating system. |
@@ -870,47 +2351,33 @@ Classes for installed applications, operating systems, software packages, and pr
 | **WindowsThreadFacet** | uco.observable | Facet | A Windows thread facet is a grouping os characteristics unique to a single thread of execution wi... |
 | **WindowsWaitableTime** | uco.observable | Class | A Windows waitable timer is a synchronization object within the Windows operating system whose st... |
 
-**API** key properties:
+**AIContentDetection** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
+| detectionConfidence | decimal | No |
+| detectionMethod | string | No |
+| evidenceAdmissibility | string | No |
+| processingTime | decimal | No |
+| detectionTimePoint | dateTime | Yes |
+| startTime | dateTime | Yes |
 
-**AnalyticTool** key properties:
+**AIContentGeneration** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 8 more* | | |
+| generationComplexity | string | No |
+| generationTechnique | string | No |
+| technicalExpertiseRequired | string | No |
+| generationDuration | duration | No |
+| endTime | dateTime | No |
+| startTime | dateTime | Yes |
 
-**AndroidDevice** key properties:
+**AIDetectionPhase** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
+| beginTimePoint | dateTime | Yes |
 
 **Example usage:**
 
@@ -954,8 +2421,7 @@ graph.add(obs);
 let facet = ApplicationFacet::builder()
     .application_identifier("com.example.app".into())
     .build();
-let obs = ObservableObject::builder().has_facet(vec![facet]).build();
-graph.create(&obs);
+graph.create(&ObservableObject::default());
 ```
 
 </details>
@@ -966,78 +2432,326 @@ Classes for user accounts, identities, organizations, and authentication artifac
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
-| **AccessRestriction** | ext.toolcap | Class | An access restriction describes a security, licensing, classification, operational security, or l... |
+| **AcademicPartnership** | ext.cac.cacontology-partnerships | Class | Partnership with academic institutions for research, training, and technology development in chil... |
+| **AccessPrivilegeAbuse** | ext.cac.cacontology-law-enforcement-corruption | Class | Abuse of special access privileges granted to law enforcement personnel. |
 | **Account** | uco.observable | Class | An account is an arrangement with an entity to enable and control the provision of some capabilit... |
 | **AccountAuthenticationFacet** | uco.observable | Facet | An account authentication facet is a grouping of characteristics unique to the mechanism of acces... |
 | **AccountFacet** | uco.observable | Facet | An account facet is a grouping of characteristics unique to an arrangement with an entity to enab... |
+| **AccountFreezing** | ext.cac.cacontology-platform-infrastructure | Class | Freezing financial accounts and cryptocurrency wallets associated with platform operations (gUFO ... |
+| **AccountLinking** | ext.cac.cacontology-us-ncmec | Class | Process of linking digital accounts to suspects through NCMEC tip analysis. |
+| **AccountMetadata** | ext.cac.cacontology-platforms | Class | Account-level metadata including creation date, profile information, and activity patterns. |
+| **AccountSuspensionAction** | ext.cac.cacontology-platforms | Class | An action to suspend or terminate a user account due to policy violations. Modeled as gUFO Event. |
 | **AddressFacet** | uco.identity | Facet | An address facet is a grouping of characteristics unique to an administrative identifier for a ge... |
+| **AffiliateCoordination** | ext.cac.cacontology-prevention | Class | Coordination activities between CAC affiliate organizations for unified prevention efforts. |
 | **AffiliationFacet** | uco.identity | Facet | An affiliation is a grouping of characteristics unique to the established affiliations of an entity. |
+| **Age** | ext.cac.cacontology-temporal | Class | Age of a person modeled as a gUFO Quality whose concrete value is attributed in time-bounded situ... |
+| **AgeAcknowledgment** | ext.cac.cacontology-undercover | Class | Suspect explicitly acknowledging the stated age of the minor persona during communication. |
+| **AgeAtTimeSituation** | ext.cac.cacontology-temporal | Class | gUFO QualityValueAttributionSituation specializing in attribution of an Age quality value to a sp... |
+| **AgingOutVictimProfile** | ext.cac.cacontology-sex-trafficking | Class | Vulnerability profile for youth aging out of foster care system. |
+| **AlternateAccountSystem** | ext.cac.cacontology-extremist-enterprises | Class | System of alternate accounts (alts) used to evade platform restrictions and maintain operations. |
+| **AnalystRole** | ext.cac.cacontology-platform-infrastructure | Class | Role of person conducting infrastructure analysis (gUFO Role - anti-rigid). |
+| **AnonymityInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Systems providing anonymity to users and operators, including Tor integration and VPN services (g... |
+| **AnonymousChatPlatform** | ext.cac.cacontology-platforms | Class | Platform that allows anonymous or minimally verified communication, enabling contact without iden... |
+| **AnonymousContactOpportunity** | ext.cac.cacontology-platforms | Class | Opportunities provided by platform for anonymous users to initiate contact with other users. |
+| **AnonymousInitiation** | ext.cac.cacontology-grooming | Class | Starting contact without revealing true identity or personal information. |
+| **AnonymousPlatformContact** | ext.cac.cacontology-grooming | Class | Initial contact made through platforms that allow anonymous messaging or minimal user verification. |
 | **Application** | uco.observable | Class | An application is a particular software program designed for end users. |
 | **ApplicationAccount** | uco.observable | Class | An application account is an account within a particular software program designed for end users. |
 | **ApplicationAccountFacet** | uco.observable | Facet | An application account facet is a grouping of characteristics unique to an account within a parti... |
 | **ApplicationFacet** | uco.observable | Facet | An application facet is a grouping of characteristics unique to a particular software program des... |
+| **AssessmentResult** | ext.cac.cac-core | Class | An output or conclusion of some evaluative, analytic, classification, or decision-making process.... |
+| **AttackPattern** | ext.aeo.attack | Class | An attack pattern is a common approach (set of actions) utilized by a person or organization to c... |
+| **AutomatedEvidenceDistribution** | ext.cac.cacontology-multi-jurisdiction | Class | Automated system for distributing evidence packages to appropriate jurisdictions based on user lo... |
+| **BehavioralFingerprinting** | ext.cac.cacontology-forensics | Class | Analysis creating unique behavioral fingerprints from user activities to identify individuals acr... |
 | **BirthInformationFacet** | uco.identity | Facet | Birth information is a grouping of characteristics unique to information pertaining to the birth ... |
 | **BrowserCookie** | uco.observable | Class | A browser cookie is a piece of of data sent from a website and stored on the user's computer by t... |
 | **BrowserCookieFacet** | uco.observable | Facet | A browser cookie facet is a grouping of characteristics unique to a piece of data sent from a web... |
-| **CapabilityMatrix** | ext.toolcap | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
+| **CEOSdivision** | ext.cac.cacontology-usa-federal-law | Class | DOJ Child Exploitation and Obscenity Section serving unique and critical function in enforcement ... |
+| **CapabilityPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling specialized capabilities as intrinsic properties of organizations or in... |
+| **CapacityBuildingPartner** | ext.cac.cacontology-training | Class | Partner organization supporting capacity building efforts. Modeled as gUFO Organization. |
+| **CapacityBuildingProgram** | ext.cac.cacontology-training | Class | Structured program for building organizational and individual capacity. Modeled as gUFO Organizat... |
+| **CarriageServiceIndecentCommunication** | ext.cac.cacontology-legal-outcomes | Class | Use of carriage service to transmit indecent communication to person under 16 years, contrary to ... |
+| **CaseAssignment** | ext.cac.cacontology-case-management | Class | Assignment of personnel and resources to specific cases with defined roles and responsibilities. ... |
+| **CertificationBody** | ext.cac.cacontology-training | Class | Organization responsible for professional certification. Modeled as gUFO Organization. |
+| **CertificationPhase** | ext.cac.cacontology-training | Class | Phase of awarding certifications and credentials. Modeled as anti-rigid gUFO Phase. |
+| **CharitableCoverExploitation** | ext.cac.cacontology-institutional-exploitation | Class | Use of charitable organization facade to conceal systematic child exploitation. |
+| **CharitableOrganization** | ext.cac.cacontology-institutional-exploitation | Class | Charitable or humanitarian organization providing services to vulnerable populations. |
+| **CharitableOrganizationLeader** | ext.cac.cacontology-institutional-exploitation | Class | Leadership role within charitable organization serving children. |
+| **ChildPersona** | ext.cac.cacontology-undercover | Class | Undercover identity portraying a minor child for investigative purposes. |
+| **ChildVictim** | ext.cac.cacontology-grooming | Class | Minor child who is the target of grooming behavior. When analysis depends on the victim’s exact a... |
+| **CivilSocietyEngagement** | ext.cac.cacontology-partnerships | Class | Framework for engaging civil society, volunteers, and public participation in child protection in... |
+| **CivilSocietyPartner** | ext.cac.cacontology-partnerships | Class | Civil society organization participating in partnership with community engagement capabilities. M... |
+| **CollegeParkBarrack** | ext.cac.cacontology-specialized-units | Class | Maryland State Police College Park Barrack supporting computer crimes investigations. Modeled as ... |
+| **CommunityAnalysis** | ext.cac.cacontology-partnerships | Class | Analysis performed by volunteer researchers and civil society organizations using open source int... |
+| **CommunityEngagementK9** | ext.cac.cacontology-specialized-units | Class | K9 utilized for community outreach and educational programs. Modeled as gUFO Organization. |
+| **CommunityPartnershipInitiative** | ext.cac.cacontology-prevention | Class | Initiative building partnerships with community organizations for child protection. |
 | **ContactAffiliation** | uco.observable | Class | A contact affiliation is a grouping of characteristics unique to details of an organizational aff... |
 | **ContactProfile** | uco.observable | Class | A contact profile is a grouping of characteristics unique to details for contacting a contact ent... |
+| **ContentCorrelationAnalysis** | ext.cac.cacontology-forensics | Class | Analysis correlating content across multiple users and platforms for identifying networks and rel... |
 | **ContextualCompilation** | uco.core | Class | A contextual compilation is a grouping of things sharing some context (e.g., a set of network con... |
+| **ContinuingEducation** | ext.cac.cacontology-training | Class | Ongoing education for certified professionals. Modeled as gUFO Organization. |
+| **ControlledMeeting** | ext.cac.cacontology-undercover | Class | Planned in-person meeting between undercover agents and suspects under controlled conditions. |
+| **CoordinatingAgent** | ext.cac.cacontology-multi-jurisdiction | Class | Personnel responsible for coordinating multi-jurisdictional activities. |
+| **CoordinationSituationPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling multi-jurisdiction coordination situations with participating organizat... |
 | **CountryOfResidenceFacet** | uco.identity | Facet | Country of residence is a grouping of characteristics unique to information related to the countr... |
+| **CountyPoliceSupport** | ext.cac.cacontology-specialized-units | Class | County-level police department providing support to state computer crimes investigations. Modeled... |
+| **CourtroomAccommodationPlan** | ext.cac.cacontology-case-management | Class | Case documentation specifying planned courtroom accommodations for a child witness, including sup... |
 | **Credential** | uco.observable | Class | A credential is a single specific login and password combination for authorization of access to a... |
 | **CredentialDump** | uco.observable | Class | A credential dump is a collection (typically forcibly extracted from a system) of specific login ... |
+| **CriminalAssetsConfiscationTaskforce** | ext.cac.cacontology-asset-forfeiture | Class | Specialized taskforce responsible for asset restraint and forfeiture in child exploitation cases.... |
+| **CriminalOrganizationPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling criminal enterprises with hierarchical structure and operational patterns. |
+| **CrossBorderPersonalTravel** | ext.cac.cacontology-institutional-exploitation | Class | Personal travel across national borders specifically for child exploitation purposes. |
+| **CrossPlatformEvidence** | ext.cac.cacontology-platforms | Class | Evidence found across multiple social media platforms by the same user. |
+| **CrossPlatformEvidenceCorrelation** | ext.cac.cacontology-extremist-enterprises | Class | Correlation of evidence across multiple platforms to establish identity and network connections. |
+| **CustodialRelationship** | ext.cac.cacontology-custodial | Class | Legal or informal relationship involving custody, care, or supervision of a child. Modeled as gUF... |
+| **CyberCrimeUnit** | ext.cac.cacontology-specialized-units | Class | Unit specialized in cyber crime investigations. Modeled as gUFO Organization. |
+| **DataPreservationAction** | ext.cac.cacontology-platforms | Class | An action to preserve user data in response to legal requests. Modeled as gUFO Event. |
+| **DataProtectionForMinorsLaw** | ext.cac.cacontology-legal-harmonization | Class | Laws protecting children's personal data. |
+| **DataRetentionPolicy** | ext.cac.cacontology-platforms | Class | A platform's policy for how long they retain user data and content. Modeled as gUFO Object. |
+| **DatabaseAccessAbuse** | ext.cac.cacontology-law-enforcement-corruption | Class | Misuse of law enforcement database access for personal exploitation activities. |
+| **DatabaseInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Database systems storing user accounts, content metadata, and platform operational data (gUFO Fun... |
+| **DefensePattern** | ext.aeo.attack | Class | A defense pattern is a common approach (set of actions) utilized by a person or organization to c... |
+| **DeploymentPhase** | ext.cac.cacontology-taskforce | Class | Phase involving deployment of personnel and resources. |
+| **DeviceSocialMediaCorrelation** | ext.cac.cacontology-platforms | Class | Correlation between evidence found on devices and social media accounts. |
 | **DigitalAccount** | uco.observable | Class | A digital account is an arrangement with an entity to enable and control the provision of some ca... |
 | **DigitalAccountFacet** | uco.observable | Facet | A digital account facet is a grouping of characteristics unique to an arrangement with an entity ... |
+| **DigitalForensicsUnit** | ext.cac.cacontology-specialized-units | Class | Unit specialized in digital forensics analysis. Modeled as gUFO Organization. |
 | **Directory** | uco.observable | Class | A directory is a file system cataloging structure which contains references to other computer fil... |
+| **DisguiseBasedConcealment** | ext.cac.cacontology-stranger-abduction | Class | Use of disguises or concealment methods to hide identity during approach and abduction. |
+| **DisguiseItem** | ext.cac.cacontology-physical-evidence | Class | Items used to conceal identity or change appearance (gUFO Object). |
+| **DoxxingThreat** | ext.cac.cacontology-sextortion | Class | Threat mechanism involving doxxing (threatened release of identifying/personal information) to in... |
+| **EducationalInstitution** | ext.cac.cacontology-educational-exploitation | Class | Educational institution where child exploitation occurs, including schools, colleges, and educati... |
+| **EducatorGrooming** | ext.cac.cacontology-grooming | Class | Grooming behavior by educational personnel leveraging position of trust and authority. |
+| **EducatorPerpetratedExploitation** | ext.cac.cacontology-educational-exploitation | Class | Child sexual exploitation committed by educational institution personnel using their position of ... |
+| **ElectronicServiceProvider** | ext.cac.cacontology-platforms | Class | An organization that provides digital services and platforms, with responsibilities for content m... |
+| **ElectronicStorageDeviceK9** | ext.cac.cacontology-specialized-units | Class | K9 trained to detect electronic storage devices during search operations. Modeled as gUFO Organiz... |
+| **EliteEducationalInstitution** | ext.cac.cacontology-educational-exploitation | Class | High-status educational institution with selective admission and affluent student body. Enhanced ... |
 | **EmailAccount** | uco.observable | Class | An email account is an arrangement with an entity to enable and control the provision of electron... |
 | **EmailAccountFacet** | uco.observable | Facet | An email account facet is a grouping of characteristics unique to an arrangement with an entity t... |
 | **EmailAddress** | uco.observable | Class | An email address is an identifier for an electronic mailbox to which electronic mail messages (co... |
 | **EmailAddressFacet** | uco.observable | Facet | An email address facet is a grouping of characteristics unique to an identifier for an electronic... |
+| **EncryptionInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Encryption systems protecting data transmission, storage, and user communications (gUFO Functiona... |
+| **EnduringEntity** | ext.cac.cac-core | Class | A thing that persists through time while potentially changing state. This is the CAC-facing root ... |
+| **EnterpriseHierarchy** | ext.cac.cacontology-extremist-enterprises | Class | Organizational hierarchy within child exploitation enterprise defining leadership and member roles. |
 | **EventsFacet** | uco.identity | Facet | Events is a grouping of characteristics unique to information related to specific relevant things... |
+| **EvidenceCustodianRole** | ext.cac.cacontology-forensics | Class | Role of a person responsible for evidence custody and security. |
+| **EvidenceCustodianRole** | ext.cac.cacontology-physical-evidence | Class | Role of person responsible for evidence custody and chain of custody (gUFO Role - anti-rigid). Ro... |
+| **ExplicitMessageRequestAction** | ext.cac.cacontology-undercover | Class | Suspect requesting explicit pictures or content from undercover persona. |
+| **FalseProfileCreation** | ext.cac.cacontology-sextortion | Class | Creating fake profiles on platforms with false age and personal information. |
+| **FearlessHudsonValleySupport** | ext.cac.cacontology-victim-impact | Class | Support services provided by Fearless! Hudson Valley organization for trafficking victims. |
+| **FinancialAccount** | ext.cac.cacontology-asset-forfeiture | Class | Bank account or financial instrument subject to restraint or forfeiture. Enhanced as gUFO Object ... |
+| **ForensicAccountant** | ext.cac.cacontology-asset-forfeiture | Class | Specialist in tracing financial assets and determining proceeds of crime. |
+| **ForensicAnalystRole** | ext.cac.cacontology-physical-evidence | Class | Role of person conducting forensic analysis of physical evidence (gUFO Role - anti-rigid). Roles ... |
+| **ForensicExaminerRole** | ext.cac.cacontology-forensics | Class | Role of a person conducting digital forensic examination and analysis. |
 | **ForumPost** | uco.observable | Class | A forum post is message submitted by a user account to an online forum where the message content ... |
 | **ForumPrivateMessage** | uco.observable | Class | A forum private message (aka PM or DM (direct message)) is a one-to-one message from one specific... |
 | **GUI** | uco.observable | Class | A GUI is a graphical user interface that allows users to interact with electronic devices through... |
+| **GlobalPlatformTakedown** | ext.cac.cacontology-international | Class | Takedown of global platforms with international user bases requiring coordinated action across mu... |
+| **GlobalTrainingSituation** | ext.cac.cacontology-training | Class | Situation involving global training initiatives across multiple countries and organizations. Mode... |
+| **GuestChatFeature** | ext.cac.cacontology-platforms | Class | Platform feature allowing users to chat without creating accounts or verifying identity. |
+| **HoodedConcealment** | ext.cac.cacontology-stranger-abduction | Class | Use of hooded clothing to partially conceal identity. |
+| **HostingProvider** | ext.cac.cacontology-platform-infrastructure | Class | Organizations providing server hosting, cloud services, or infrastructure-as-a-service for platfo... |
+| **HotlineOrganization** | ext.cac.cacontology-hotlines | Class | An organization that operates a hotline for receiving and processing reports of child sexual abus... |
+| **HotlineReport** | ext.cac.cacontology-hotlines | Class | A report submitted to a hotline about potential child sexual abuse material. Enhanced as gUFO Sit... |
+| **HouseholdItems** | ext.cac.cacontology-asset-forfeiture | Class | High-value household items including electronics, furniture, and appliances subject to forfeiture... |
+| **HumanitarianOrganization** | ext.cac.cacontology-institutional-exploitation | Class | International humanitarian organization working with vulnerable populations. |
+| **HybridTraining** | ext.cac.cacontology-training | Class | Training combining online and in-person delivery. Modeled as gUFO Event. |
+| **ICACAffiliateNetwork** | ext.cac.cacontology-prevention | Class | Network of formally affiliated CAC organizations for coordinated child protection efforts. |
 | **IdentifierFacet** | uco.identity | Facet | Identifier is a grouping of characteristics unique to information that uniquely and specifically ... |
 | **Identity** | uco.identity | Class | An identity is a grouping of identifying characteristics unique to an individual or organization. |
 | **IdentityAbstraction** | uco.core | Class | An identity abstraction is a grouping of identifying characteristics unique to an individual or o... |
+| **IdentityCorrelationAnalysis** | ext.cac.cacontology-extremist-enterprises | Class | Analysis correlating multiple accounts and identities across platforms to establish single indivi... |
+| **IdentityDisclosurePolicy** | ext.cac.cacontology-platforms | Class | Platform policy regarding when and how user identities may be disclosed to other users or authori... |
 | **IdentityFacet** | uco.identity | Facet | An identity facet is a grouping of characteristics unique to a particular aspect of an identity. |
+| **IdentityImpersonation** | ext.cac.cacontology-sextortion | Class | Creating false identity or persona to deceive victims. |
+| **InPersonMeetingSolicitation** | ext.cac.cacontology-undercover | Class | Targeting individuals who seek to arrange in-person meetings with minors for illegal purposes. |
+| **InPersonTraining** | ext.cac.cacontology-training | Class | Training delivered in physical classroom settings. Modeled as gUFO Event. |
+| **IndependentSchool** | ext.cac.cacontology-educational-exploitation | Class | Private independent school, often with elite status and specialized educational programs. Enhance... |
+| **InitialDeceptionPhase** | ext.cac.cacontology-sextortion | Class | First phase involving age deception and false identity establishment. |
+| **InsiderThreatDetection** | ext.cac.cacontology-law-enforcement-corruption | Class | Detection of corruption within law enforcement or military personnel. |
+| **IntermediateSchool** | ext.cac.cacontology-educational-exploitation | Class | Intermediate or middle school serving grades 6-8, typically ages 11-14. Enhanced as gUFO Organiza... |
+| **InternationalCoordination** | ext.cac.cacontology-hotlines | Class | A coordination situation involving multiple countries or international organizations. |
+| **InternationalCoordination** | ext.cac.cacontology-international | Class | Coordination activities between international law enforcement and child protection organizations. |
+| **InternationalLegalHarmonization** | ext.cac.cacontology-multi-jurisdiction | Class | Harmonization of legal approaches across countries for consistent prosecution of global platform ... |
+| **InternationalPartnership** | ext.cac.cacontology-international | Class | A formal partnership between countries or organizations for child protection cooperation. |
+| **InternationalProsecution** | ext.cac.cacontology-international | Class | Prosecution strategy coordinated across multiple countries for users identified in large-scale op... |
+| **InvestigationCoordination** | ext.cac.cacontology-investigation-coordination | Class | Comprehensive framework for coordinating investigations across multiple agencies, jurisdictions, ... |
+| **K9DetectionProgram** | ext.cac.cacontology-specialized-units | Class | Program utilizing trained detection dogs for CAC investigations. Modeled as gUFO Organization. |
+| **K9TrainingProgram** | ext.cac.cacontology-specialized-units | Class | Training program for K9 units and handlers. Modeled as gUFO Organization. |
 | **LanguagesFacet** | uco.identity | Facet | Languages is a grouping of characteristics unique to specific syntactically and grammatically sta... |
 | **Laptop** | uco.observable | Class | A laptop, laptop computer, or notebook computer is a small, portable personal computer with a scr... |
+| **LargeScalePlatformTakedown** | ext.cac.cacontology-platforms | Class | Coordinated takedown of major exploitation platforms with user bases exceeding 1 million accounts... |
+| **LawEnforcementAgency** | ext.cac.cacontology-multi-jurisdiction | Class | Government organization responsible for law enforcement within a jurisdiction. |
+| **LawEnforcementCorruption** | ext.cac.cacontology-law-enforcement-corruption | Class | Corruption involving law enforcement personnel in child exploitation activities. |
+| **LegalDataDisclosureAction** | ext.cac.cacontology-platforms | Class | An action to disclose user data to law enforcement in response to legal process. Modeled as gUFO ... |
+| **LegislativeAdvocate** | ext.cac.cacontology-legal-harmonization | Class | Person who advocates for legislative change. |
+| **Lorebook** | ext.cac.cacontology-extremist-enterprises | Class | Edited compilation of victim content including images, videos, and personal information organized... |
+| **MandatoryReportingActivation** | ext.cac.cacontology-recruitment-networks | Class | Activation of mandatory reporting requirements by school personnel. |
+| **MarylandStatePoliceComputerCrimesUnit** | ext.cac.cacontology-specialized-units | Class | Maryland State Police unit coordinating the Maryland Internet Crimes Against Children Task Force.... |
+| **MaskConcealment** | ext.cac.cacontology-stranger-abduction | Class | Use of masks or face coverings to hide identity. |
+| **MassDigitalEvidenceProcessing** | ext.cac.cacontology-forensics | Class | Processing of massive volumes of digital evidence requiring specialized automated tools and distr... |
+| **MassProsecutionCoordination** | ext.cac.cacontology-multi-jurisdiction | Class | Coordination of prosecutions for massive user bases from large-scale platform takedowns requiring... |
+| **MassUserAnalysis** | ext.cac.cacontology-international | Class | Analysis of massive user databases requiring international coordination for processing users acro... |
+| **MassUserBehaviorAnalysis** | ext.cac.cacontology-platforms | Class | Analysis of user behavior patterns across massive user bases for investigation prioritization and... |
+| **MassUserDatabase** | ext.cac.cacontology-platforms | Class | User database analysis for platforms with massive user bases requiring specialized processing tec... |
+| **MassUserJurisdictionMapping** | ext.cac.cacontology-multi-jurisdiction | Class | Mapping of massive user bases to appropriate jurisdictions for prosecution based on location and ... |
+| **MassivePlatformSituation** | ext.cac.cacontology-platforms | Class | Situation involving platforms with massive user bases requiring specialized investigation approac... |
+| **MentalHealthSupport** | ext.cac.cacontology-specialized-units | Class | Mental health services and support for officers dealing with traumatic content. Modeled as gUFO O... |
+| **MentorshipProgram** | ext.cac.cacontology-training | Class | One-on-one mentorship for professional development. Modeled as gUFO Organization. |
+| **MiddleSchool** | ext.cac.cacontology-educational-exploitation | Class | Middle school serving grades 6-8 or similar intermediate grade levels. Enhanced as gUFO Organizat... |
+| **MinimalVerificationRequirement** | ext.cac.cacontology-platforms | Class | Verification requirements that are easily bypassed or minimal (email only, no identity check). |
+| **MinorPersonaAgent** | ext.cac.cacontology-undercover | Class | Undercover agent operating with minor persona identity on social media platforms. |
+| **MinorPersonaOperation** | ext.cac.cacontology-undercover | Class | Undercover operation where agents pose as minors to identify individuals seeking inappropriate co... |
+| **MinorTraffickingVictimRole** | ext.cac.cacontology-sex-trafficking | Class | Role of minor (under 18) being sex trafficked. Modeled as anti-rigid gUFO Role. Concrete victim a... |
 | **MobileAccount** | uco.observable | Class | A mobile account is an arrangement with an entity to enable and control the provision of some cap... |
 | **MobileAccountFacet** | uco.observable | Facet | A mobile account facet is a grouping of characteristics unique to an arrangement with an entity t... |
 | **MobilePhone** | uco.observable | Class | A mobile phone is a portable telephone that at least can make and receive calls over a radio freq... |
+| **MultiStakeholderInitiative** | ext.cac.cacontology-partnerships | Class | Initiative involving multiple types of organizations including law enforcement, technology compan... |
+| **MultiStakeholderTrainingSituation** | ext.cac.cacontology-training | Class | Situation involving training coordination between multiple stakeholder organizations. Modeled as ... |
+| **MultipleAccountGrooming** | ext.cac.cacontology-grooming | Class | Grooming using multiple fake accounts to maintain deceptive identity. |
+| **MultiplePersonaOperation** | ext.cac.cacontology-undercover | Class | Undercover operation where agent poses as multiple fictitious minors (e.g., 14-year-old and 12-ye... |
+| **NGOCoordination** | ext.cac.cacontology-partnerships | Class | Coordination framework with non-governmental organizations specializing in child protection and v... |
+| **NGOPartner** | ext.cac.cacontology-partnerships | Class | Non-governmental organization participating in partnership with advocacy and support capabilities... |
 | **NationalityFacet** | uco.identity | Facet | Nationality is a grouping of characteristics unique to the condition of an entity belonging to a ... |
 | **OccupationFacet** | uco.identity | Facet | Occupation is a grouping of characteristics unique to the job or profession of an entity. |
+| **OffenderProfile** | ext.cac.cacontology-sex-offender-registry | Class | Comprehensive profile of registered sex offender including all required information. |
+| **OffenderRole** | ext.cac.cacontology | Class | Role of a person who commits child sexual abuse or exploitation. Modeled as anti-rigid gUFO Role.... |
+| **OfficerWellnessProgram** | ext.cac.cacontology-specialized-units | Class | Program providing mental health and wellness support to CAC officers. Modeled as gUFO Organization. |
+| **OnlineIdentifier** | ext.cac.cacontology-sex-offender-registry | Class | Online username, email, or identifier used by registered sex offender. |
+| **OpenChatRooms** | ext.cac.cacontology-platforms | Class | Chat rooms open to anonymous users without verification or moderation. |
 | **Organization** | uco.identity | Class | An organization is a grouping of identifying characteristics unique to a group of people who work... |
 | **OrganizationDetailsFacet** | uco.identity | Facet | Organization details is a grouping of characteristics unique to an identity representing an admin... |
+| **OrganizationLikeEntity** | ext.cac.cac-core | Class | An enduring entity that represents an organization, institution, team, agency, or other collectiv... |
+| **OrganizationalPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling CAC taskforces and law enforcement organizations with structure and cap... |
+| **ParentPersona** | ext.cac.cacontology-undercover | Class | Undercover identity portraying a parent or guardian of a child victim. |
+| **PartnerRole** | ext.cac.cacontology-partnerships | Class | Role played by an organization within a public-private partnership framework. Modeled as anti-rig... |
 | **PaymentCard** | uco.observable | Class | A payment card is a physical token that is part of a payment system issued by financial instituti... |
+| **PeerImpersonation** | ext.cac.cacontology-sextortion | Class | Posing as age-appropriate peer to gain victim trust. |
+| **PeerPersonaGrooming** | ext.cac.cacontology-grooming | Class | Grooming using false peer identity to establish rapport with victims. |
+| **PeerSupport** | ext.cac.cacontology-specialized-units | Class | Peer-to-peer support programs for CAC personnel. Modeled as gUFO Organization. |
 | **Person** | uco.identity | Class | A person is a grouping of identifying characteristics unique to a human being regarded as an indi... |
+| **PersonLikeEntity** | ext.cac.cac-core | Class | An enduring entity that is person-like in the domain model. Use for natural persons and person-pr... |
+| **Persona** | ext.aeo.identity | Class |  An persona is a facticious entity created to serve a purpose in a deception operation. |
 | **PersonalDetailsFacet** | uco.identity | Facet | Personal details is a grouping of characteristics unique to an identity representing an individua... |
+| **PersonalIdentifiers** | ext.cac.cacontology-sex-offender-registry | Class | Collection of identifiers for registered sex offender (SSN, DOB, aliases, etc.). |
+| **PersonalItem** | ext.cac.cacontology-physical-evidence | Class | Personal belongings that may contain evidence or indicate criminal behavior (gUFO Object). |
+| **PersonalMeetingDemand** | ext.cac.cacontology-sextortion | Class | Demand for in-person meeting or physical contact. |
+| **PersonnelSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of specialized personnel including investigators, analysts, technical experts, and suppor... |
+| **PersonnelSharing** | ext.cac.cacontology-taskforce | Class | Sharing of specialized personnel between task forces. |
 | **PhoneAccount** | uco.observable | Class | A phone account is an arrangement with an entity to enable and control the provision of a telepho... |
 | **PhoneAccountFacet** | uco.observable | Facet | A phone account facet is a grouping of characteristics unique to an arrangement with an entity to... |
+| **PhoneNumberTrace** | ext.cac.cacontology-us-ncmec | Class | Tracing of phone numbers linked to accounts in NCMEC tips. |
 | **PhysicalInfoFacet** | uco.identity | Facet | Physical info is a grouping of characteristics unique to the outwardly observable nature of an in... |
+| **PhysicalMeetingArrangement** | ext.cac.cacontology-grooming | Class | Coordination of in-person meeting between predator and victim. |
+| **PhysicalPurchase** | ext.cac.cacontology-physical-evidence | Class | In-person purchase of items for criminal purposes (gUFO Event). |
+| **PlatformAccount** | ext.cac.cacontology-undercover | Class | Account created on digital platforms for undercover operations. |
+| **PlatformAccountabilityLaw** | ext.cac.cacontology-legal-harmonization | Class | Laws holding online platforms accountable for child safety. |
+| **PlatformAnonymityFeature** | ext.cac.cacontology-grooming | Class | Platform features that enable anonymous communication (guest messaging, temporary accounts, no pr... |
+| **PlatformGrowthPhase** | ext.cac.cacontology-platforms | Class | Phase of platform expansion and user base growth. Modeled as anti-rigid gUFO Phase. |
+| **PlatformMigrationStrategy** | ext.cac.cacontology-extremist-enterprises | Class | Strategy for migrating operations between platforms when accounts are terminated or restricted. |
+| **PolicyAnalyst** | ext.cac.cacontology-legal-harmonization | Class | Person who analyzes and develops policy recommendations. |
+| **PrinceGeorgesCountyPolice** | ext.cac.cacontology-specialized-units | Class | Prince George's County Police Department supporting Maryland State Police computer crimes investi... |
+| **PriorityProsecutionTrack** | ext.cac.cacontology-multi-jurisdiction | Class | High-priority prosecution track for most serious offenders identified in mass user analysis. |
+| **PrivateSchool** | ext.cac.cacontology-educational-exploitation | Class | Private educational institution with tuition-based funding. Enhanced as gUFO Organization. |
 | **Profile** | uco.observable | Class | A profile is an explicit digital representation of identity and characteristics of the owner of a... |
+| **ProfileBrowsingAnonymous** | ext.cac.cacontology-platforms | Class | Ability to browse and contact user profiles anonymously without revealing identity. |
 | **ProfileFacet** | uco.observable | Facet | A profile facet is a grouping of characteristics unique to an explicit digital representation of ... |
+| **PublicIntegrityInvestigation** | ext.cac.cacontology-law-enforcement-corruption | Class | Investigation into public integrity violations by law enforcement personnel. |
+| **PublicPrivatePartnership** | ext.cac.cacontology-partnerships | Class | Formal partnership between government/law enforcement agencies and private sector organizations f... |
+| **PublicSchool** | ext.cac.cacontology-educational-exploitation | Class | Public educational institution funded by government entities. Enhanced as gUFO Organization. |
 | **QualificationFacet** | uco.identity | Facet | Qualification is a grouping of characteristics unique to particular skills, capabilities or their... |
+| **RandomUserMatching** | ext.cac.cacontology-platforms | Class | Platform feature that randomly matches users for anonymous conversations. |
+| **RecantationNotification** | ext.cac.cacontology-recantation | Class | An action in which a family member, caregiver, professional, or other person reports that a child... |
+| **RegisteredSexOffender** | ext.cac.cacontology-sex-offender-registry | Class | Legal status/role that a person can gain or lose; individual required to register as a sex offender. |
 | **RelatedIdentityFacet** | uco.identity | Facet | <Needs fleshed out from CIQ> |
 | **ReleaseToMarking** | uco.marking | Class | A release-to marking is a grouping of characteristics unique to the expression of data marking de... |
+| **ReligiousInstitution** | ext.cac.cacontology-institutional-exploitation | Class | Religious organization providing child care or educational services. |
+| **ReporterRole** | ext.cac.cacontology-hotlines | Class | The role of a person or organization submitting a report to a hotline. Enhanced as anti-rigid gUF... |
+| **RescuerRole** | ext.cac.cacontology | Class | Role of a person involved in rescuing or protecting victims (e.g., law enforcement, NGO worker). ... |
+| **ResourceSharing** | ext.cac.cacontology-investigation-coordination | Class | Systematic sharing of resources between agencies including personnel, equipment, facilities, and ... |
+| **ResourceSharing** | ext.cac.cacontology-multi-jurisdiction | Class | Sharing of personnel, equipment, or expertise between agencies. |
+| **ResourceSharing** | ext.cac.cacontology-taskforce | Class | Sharing of resources, personnel, or expertise between task forces. |
+| **RoleConflictSituation** | ext.cac.cacontology-temporal | Class | Situation where person's multiple roles create potential conflict of interest. Modeled as gUFO Si... |
+| **RoleTransition** | ext.cac.cacontology-temporal | Class | Event representing change in person's role within investigation. Modeled as gUFO Event with role ... |
+| **RunawayVictimProfile** | ext.cac.cacontology-sex-trafficking | Class | Vulnerability profile for runaway or homeless youth targeted by traffickers. |
 | **SIMCard** | uco.observable | Class | A SIM card is a subscriber identification module card intended to securely store the internationa... |
 | **SIMCardFacet** | uco.observable | Facet | A SIM card facet is a grouping of characteristics unique to a subscriber identification module ca... |
 | **SIPAddressFacet** | uco.observable | Facet | A SIP address facet is a grouping of characteristics unique to a Session Initiation Protocol (SIP... |
+| **SchoolBasedReporting** | ext.cac.cacontology-recruitment-networks | Class | Reporting of trafficking incidents through educational institution personnel. |
+| **SchoolPoliceContact** | ext.cac.cacontology-recruitment-networks | Class | Contact made by school personnel to law enforcement regarding trafficking concerns. |
+| **SearchOfficerRole** | ext.cac.cacontology-physical-evidence | Class | Role of law enforcement officer conducting physical searches (gUFO Role - anti-rigid). Roles are ... |
+| **SecurityOperatorRole** | ext.cac.cacontology-platform-infrastructure | Class | Role of person managing security infrastructure and operations (gUFO Role - anti-rigid). |
+| **SiblingPersonaOperation** | ext.cac.cacontology-undercover | Class | Undercover operation where agent creates related minor personas (siblings). |
 | **SimpleNameFacet** | uco.identity | Facet | A simple name facet is a grouping of characteristics unique to the personal name (e.g., Dr. John ... |
+| **SimultaneousRoleSituation** | ext.cac.cacontology-temporal | Class | Situation where person plays multiple roles simultaneously in investigation context. Modeled as g... |
+| **SimultaneousSearchWarrant** | ext.cac.cacontology-platforms | Class | Coordinated search warrant execution on devices and platform accounts. |
+| **SkiMaskConcealment** | ext.cac.cacontology-stranger-abduction | Class | Use of ski mask or balaclava to conceal identity during approach. |
+| **SkillsDevelopmentProgram** | ext.cac.cacontology-training | Class | Program focused on developing specific professional skills. Modeled as gUFO Organization. |
+| **SocialMediaAccount** | ext.cac.cacontology-platforms | Class | User account on a social media platform potentially containing evidence. |
+| **SocialMediaAccount** | ext.cac.cacontology-sex-offender-registry | Class | Social media account belonging to registered sex offender. |
+| **SocialMediaEvidence** | ext.cac.cacontology-platforms | Class | Digital evidence collected from social media platforms, including posts, messages, and account in... |
+| **SpecializedInvestigativeUnit** | ext.cac.cacontology-specialized-units | Class | Specialized unit with unique capabilities for CAC investigations. Modeled as gUFO Organization. |
+| **StatePoliceBarrack** | ext.cac.cacontology-specialized-units | Class | Regional state police barrack providing local law enforcement support and coordination. Modeled a... |
+| **StatePoliceComputerCrimesUnit** | ext.cac.cacontology-specialized-units | Class | State police unit specialized in computer crimes and digital investigations involving child explo... |
+| **StateSupremeCourt** | ext.cac.cacontology-asset-forfeiture | Class | State Supreme Court with jurisdiction over forfeiture proceedings. Enhanced as gUFO Organization ... |
+| **StressManagement** | ext.cac.cacontology-specialized-units | Class | Programs and techniques for managing work-related stress. Modeled as gUFO Organization. |
+| **SubscriptionManagement** | ext.cac.cacontology-platform-infrastructure | Class | Systems managing user subscriptions, access levels, and recurring payment processing (gUFO Functi... |
+| **SuspectProfile** | ext.cac.cacontology-tactical | Class | Assessment of suspect behavior, capabilities, and threat level. |
+| **SystemAdministratorRole** | ext.cac.cacontology-platform-infrastructure | Class | Role of person responsible for infrastructure system administration (gUFO Role - anti-rigid). |
+| **TacticalUnit** | ext.cac.cacontology-specialized-units | Class | Unit handling high-risk tactical operations. Modeled as gUFO Organization. |
+| **TakedownOperatorRole** | ext.cac.cacontology-platform-infrastructure | Class | Role of law enforcement personnel conducting takedown operations (gUFO Role - anti-rigid). |
+| **TaskForce** | ext.cac.cacontology-multi-jurisdiction | Class | Temporary multi-agency organization formed for specific operations. |
+| **TaskForceCoordination** | ext.cac.cacontology-investigation-coordination | Class | Coordination through specialized task forces bringing together personnel from multiple agencies f... |
+| **TaskForceCoordination** | ext.cac.cacontology-partnerships | Class | Coordination through multi-partner task forces with representatives from different organizations.... |
+| **TaskForceHostOrganization** | ext.cac.cacontology-taskforce | Class | Organization that hosts and coordinates an CAC task force. |
+| **TaskForceLiaison** | ext.cac.cacontology-legal-harmonization | Class | Person who coordinates between task forces and other entities. |
+| **Team** | ext.aeo.identity | Class | The conventional reference to group of identities that are associated with some unified identity ... |
+| **TechIndustryCooperation** | ext.cac.cacontology-partnerships | Class | Cooperation framework between law enforcement and technology companies for content detection, pla... |
+| **TechnicalServiceProvider** | ext.cac.cacontology-platforms | Class | Organizations providing technical infrastructure (hosting, CDN, DNS, etc.) that may be involved i... |
+| **TechnicalSupport** | ext.cac.cacontology-undercover | Class | Personnel providing technical infrastructure and monitoring for undercover operations. |
+| **TeenageImpersonationGrooming** | ext.cac.cacontology-grooming | Class | Grooming involving impersonation of teenage peer to gain victim trust. |
+| **TemporaryAccountSystem** | ext.cac.cacontology-platforms | Class | System allowing creation of temporary accounts with minimal verification requirements. |
+| **TraffickingCell** | ext.cac.cacontology-sex-trafficking | Class | Smaller operational unit within trafficking ring, often controlling specific victims or geographi... |
+| **TraffickingEnterprise** | ext.cac.cacontology-sex-trafficking | Class | Criminal organization engaged in systematic sex trafficking operations with multiple defendants a... |
+| **TraffickingHierarchy** | ext.cac.cacontology-sex-trafficking | Class | Organizational structure within trafficking enterprise defining roles and authority levels. |
+| **TraffickingOfPersonsForSexualServitudeCharge** | ext.cac.cacontology-legal-outcomes | Class | Georgia state charge for trafficking of persons for sexual servitude, as reported in a Georgia At... |
+| **TraffickingRing** | ext.cac.cacontology-sex-trafficking | Class | Coordinated group of traffickers operating across multiple jurisdictions with shared victims and ... |
+| **TraffickingVictimRole** | ext.cac.cacontology-sex-trafficking | Class | Role of person being exploited through sex trafficking. Modeled as anti-rigid gUFO Role. |
+| **TrainingInstitution** | ext.cac.cacontology-training | Class | Institution providing child protection training. Modeled as gUFO Organization. |
 | **Tweet** | uco.observable | Class | A tweet is message submitted by a Twitter user account to the Twitter microblogging platform. |
 | **TwitterProfileFacet** | uco.observable | Facet | A twitter profile facet is a grouping of characteristics unique to an explicit digital representa... |
 | **UNIXAccount** | uco.observable | Class | A UNIX account is an account on a UNIX operating system. |
 | **UNIXAccountFacet** | uco.observable | Facet | A UNIX account facet is a grouping of characteristics unique to an account on a UNIX operating sy... |
+| **UndercoverAgent** | ext.cac.cacontology-undercover | Class | Law enforcement officer or authorized civilian operating under false identity in an investigation. |
+| **UndercoverCommunication** | ext.cac.cacontology-undercover | Class | Communication conducted while using an undercover identity. |
+| **UndercoverIdentity** | ext.cac.cacontology-undercover | Class | A fictitious identity created and maintained by law enforcement for undercover operations. |
+| **UndercoverUnit** | ext.cac.cacontology-specialized-units | Class | Unit conducting undercover operations. Modeled as gUFO Organization. |
+| **UnverifiedUserProfile** | ext.cac.cacontology-grooming | Class | User account with minimal or no identity verification enabling anonymous contact. |
+| **UserAccessPatternAnalysis** | ext.cac.cacontology-platform-infrastructure | Class | Analysis of user access patterns and geographic distribution based on infrastructure logs (gUFO E... |
 | **UserAccount** | uco.observable | Class | A user account is an account controlling a user's access to a network, system or platform. |
 | **UserAccountFacet** | uco.observable | Facet | A user account facet is a grouping of characteristics unique to an account controlling a user's a... |
+| **UserBehaviorForensics** | ext.cac.cacontology-forensics | Class | Forensic analysis of user behavior patterns across massive user databases for investigation prior... |
+| **UserRiskClassification** | ext.cac.cacontology-platforms | Class | Automated classification of user risk levels based on platform activity patterns, content sharing... |
+| **UserScaleClassification** | ext.cac.cacontology-platforms | Class | Classification system for platform size based on user base: small (<1K), medium (1K-100K), large ... |
 | **UserSession** | uco.observable | Class | A user session is a temporary and interactive information interchange between two or more communi... |
 | **UserSessionFacet** | uco.observable | Facet | A user session facet is a grouping of characteristics unique to a temporary and interactive infor... |
+| **UserTriageProsecution** | ext.cac.cacontology-multi-jurisdiction | Class | Prosecution strategy based on automated triage of user risk levels and evidence strength for mass... |
+| **UserVerificationSystem** | ext.cac.cacontology-platforms | Class | Systems used by platforms to verify user identity and age. Modeled as gUFO Object. |
 | **Victim** | uco.victim | Class | A victim is a role played by a person or organization that is/was the target of some malicious ac... |
+| **VictimAdvocate** | ext.cac.cacontology-legal-harmonization | Class | Person who advocates on behalf of crime victims. |
+| **VictimProfileDevelopment** | ext.cac.cacontology-extremist-enterprises | Class | Development of detailed victim profiles including vulnerabilities and exploitation opportunities. |
+| **VictimRole** | ext.cac.cacontology | Class | Role of a person who is a victim of child sexual abuse or exploitation. Modeled as anti-rigid gUF... |
+| **VictimSchoolDisclosure** | ext.cac.cacontology-recruitment-networks | Class | Disclosure by trafficking victim to school personnel about their situation. |
+| **VictimServiceCoordination** | ext.cac.cacontology-victim-impact | Class | Coordination of victim services between multiple agencies and organizations. |
+| **VictimServicesUnit** | ext.cac.cacontology-specialized-units | Class | Unit providing specialized victim services and support. Modeled as gUFO Organization. |
+| **VictimStatement** | ext.cac.cacontology-recantation | Class | A statement or account by a child victim concerning abuse, disclosure, denial, or recantation. Mo... |
 | **VictimTargeting** | uco.victim | Class | A victim targeting is a grouping of characteristics unique to people or organizations that are th... |
+| **VictimVulnerabilityProfile** | ext.cac.cacontology-sex-trafficking | Class | Profile of factors that make individuals vulnerable to trafficking recruitment. Modeled as gUFO O... |
+| **VideoCallRequestAction** | ext.cac.cacontology-undercover | Class | Suspect requesting video call with undercover persona, often to confirm alone or for explicit pur... |
 | **VisaFacet** | uco.identity | Facet | Visa is a grouping of characteristics unique to information related to a person's ability to ente... |
 | **WearableDevice** | uco.observable | Class | A wearable device is an electronic device that is designed to be worn on a person's body. |
 | **WebPage** | uco.observable | Class | A web page is a specific collection of information provided by a website and displayed to a user ... |
+| **WhistleblowerReport** | ext.cac.cacontology-law-enforcement-corruption | Class | Report by insider regarding corruption within law enforcement organization. |
 | **Wiki** | uco.observable | Class | A wiki is an online hypertext publication collaboratively edited and managed by its own audience ... |
 | **WindowsAccount** | uco.observable | Class | A Windows account is a user account on a Windows operating system. |
 | **WindowsAccountFacet** | uco.observable | Facet | A Windows account facet is a grouping of characteristics unique to a user account on a Windows op... |
@@ -1048,7 +2762,7 @@ Classes for user accounts, identities, organizations, and authentication artifac
 | **X509V3Certificate** | uco.observable | Class | An X.509 v3 certificate is a public key digital identity certificate conformant to the X.509 v3 P... |
 | **X509V3ExtensionsFacet** | uco.observable | Facet | An X.509 v3 certificate extensions facet is a grouping of characteristics unique to a public key ... |
 
-**AccessRestriction** key properties:
+**AcademicPartnership** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
@@ -1060,23 +2774,9 @@ Classes for user accounts, identities, organizations, and authentication artifac
 | name | string | No |
 | objectCreatedTime | dateTime | No |
 | objectMarking | MarkingDefinitionAbstraction | No |
-| *... 7 more* | | |
+| *... 3 more* | | |
 
 **Account** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
-
-**Application** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
@@ -1132,8 +2832,7 @@ graph.add(obs);
 let facet = AccountFacet::builder()
     .account_identifier("user123".into())
     .build();
-let obs = ObservableObject::builder().has_facet(vec![facet]).build();
-graph.create(&obs);
+graph.create(&ObservableObject::default());
 ```
 
 </details>
@@ -1144,38 +2843,96 @@ Classes for email messages, SMS/MMS, chat messages, and communication metadata. 
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
+| **AgeProgression** | ext.cac.cacontology-ai-csam | Class | AI technique for artificially aging or de-aging subjects in content, potentially creating illegal... |
 | **AlternateDataStream** | uco.observable | Class | An alternate data stream is data content stored within an NTFS file that is independent of the st... |
 | **AlternateDataStreamFacet** | uco.observable | Facet | An alternate data stream facet is a grouping of characteristics unique to data content stored wit... |
+| **AnonymousChatPlatform** | ext.cac.cacontology-platforms | Class | Platform that allows anonymous or minimally verified communication, enabling contact without iden... |
+| **AthleticCoachingExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Child sexual exploitation committed by athletic coaches using sports authority, team dynamics, an... |
+| **AthleticExploitationDiscovery** | ext.cac.cacontology-athletic-exploitation | Class | Discovery of athletic coaching exploitation through various reporting mechanisms. Enhanced as gUF... |
+| **CasualConversationApproach** | ext.cac.cacontology-street-recruitment | Class | Approach through seemingly innocent casual conversation to assess vulnerability. |
+| **ChatInvestigationAgent** | ext.cac.cacontology-undercover | Class | Agent specialized in chat-based undercover investigations for predator identification. |
+| **ChatRoomInfiltration** | ext.cac.cacontology-undercover | Class | Undercover operation involving infiltration of online chat rooms or messaging platforms to invest... |
+| **CommonwealthChildAbuseOffense** | ext.cac.cacontology-legal-outcomes | Class | Child abuse offense under Commonwealth law subject to mandatory minimum sentencing provisions. Mo... |
+| **CommunityEmailList** | ext.cac.cacontology-prevention | Class | Organized email communication system for ongoing safety updates to parents and community members. |
 | **ContactEmail** | uco.observable | Class | A contact email is a grouping of characteristics unique to details for contacting a contact entit... |
+| **ConversationReconstruction** | ext.cac.cacontology-sextortion | Class | Reconstruction of conversation patterns and progression timelines. |
+| **DemandMessage** | ext.cac.cacontology-sextortion | Class | Message making specific demands backed by threats. |
 | **DigitalSignatureInfo** | uco.observable | Class | A digital signature info is a value calculated via a mathematical scheme for demonstrating the au... |
 | **DigitalSignatureInfoFacet** | uco.observable | Facet | A digital signature info facet is a grouping of characteristics unique to a value calculated via ... |
+| **DisappearingMessageFeature** | ext.cac.cacontology-sextortion | Class | Platform feature where messages automatically delete after viewing. |
+| **DiscoveryPhase** | ext.cac.cacontology-athletic-exploitation | Class | Phase during which exploitation is discovered through various reporting mechanisms. Anti-rigid gU... |
 | **EmailAccount** | uco.observable | Class | An email account is an arrangement with an entity to enable and control the provision of electron... |
 | **EmailAccountFacet** | uco.observable | Facet | An email account facet is a grouping of characteristics unique to an arrangement with an entity t... |
 | **EmailAddress** | uco.observable | Class | An email address is an identifier for an electronic mailbox to which electronic mail messages (co... |
 | **EmailAddressFacet** | uco.observable | Facet | An email address facet is a grouping of characteristics unique to an identifier for an electronic... |
+| **EmailListEngagementMetrics** | ext.cac.cacontology-prevention | Class | Metrics tracking email list subscription rates, open rates, and engagement patterns. |
 | **EmailMessage** | uco.observable | Class | An email message is a message that is an instance of an electronic mail correspondence conformant... |
 | **EmailMessageFacet** | uco.observable | Facet | An email message facet is a grouping of characteristics unique to a message that is an instance o... |
+| **ExpertiseSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of specialized expertise including subject matter experts, consultants, and technical spe... |
+| **ExplicitMessageRequestAction** | ext.cac.cacontology-undercover | Class | Suspect requesting explicit pictures or content from undercover persona. |
+| **ExploitationPhase** | ext.cac.cacontology-athletic-exploitation | Class | Active exploitation phase using established authority and coercion mechanisms. Anti-rigid gUFO Ph... |
+| **FinancialAccount** | ext.cac.cacontology-asset-forfeiture | Class | Bank account or financial instrument subject to restraint or forfeiture. Enhanced as gUFO Object ... |
 | **ForumPost** | uco.observable | Class | A forum post is message submitted by a user account to an online forum where the message content ... |
 | **ForumPrivateMessage** | uco.observable | Class | A forum private message (aka PM or DM (direct message)) is a one-to-one message from one specific... |
 | **GlobalFlagType** | uco.observable | Class | A global flag type is a grouping of characteristics unique to the Windows systemwide global varia... |
+| **GraphicConversationGrooming** | ext.cac.cacontology-grooming | Class | Grooming involving progressively graphic sexual conversations. |
+| **GroomingMessage** | ext.cac.cacontology-grooming | Class | Communication containing grooming behavior or inappropriate content directed at a child. |
+| **GuestChatFeature** | ext.cac.cacontology-platforms | Class | Platform feature allowing users to chat without creating accounts or verifying identity. |
+| **HighVolumeDigitalExploitation** | ext.cac.cacontology-sex-offender-registry | Class | Digital exploitation involving thousands of messages or communications over extended period. |
+| **HouseholdItems** | ext.cac.cacontology-asset-forfeiture | Class | High-value household items including electronics, furniture, and appliances subject to forfeiture... |
 | **ICMPConnection** | uco.observable | Class | An ICMP connection is a network connection that is conformant to the Internet Control Message Pro... |
 | **ICMPConnectionFacet** | uco.observable | Facet | An ICMP connection facet is a grouping of characteristics unique to portions of a network connect... |
 | **IShowMessageActionType** | uco.observable | Class | An IShow message action type is a grouping of characteristics unique to an action that shows a me... |
+| **ImageSharingFeature** | ext.cac.cacontology-sextortion | Class | Platform feature enabling image sharing in private conversations. |
+| **ImageSolicitationMessage** | ext.cac.cacontology-sextortion | Class | Message requesting intimate images from victim. |
+| **InternationalEvidenceSharing** | ext.cac.cacontology-international | Class | Sharing of evidence between countries through formal legal assistance mechanisms and treaties. |
+| **MathTeacherRole** | ext.cac.cacontology-educational-exploitation | Class | Mathematics teacher role with specialized subject matter expertise. Enhanced as anti-rigid gUFO R... |
 | **Message** | uco.observable | Class | A message is a discrete unit of electronic communication intended by the source for consumption b... |
 | **MessageFacet** | uco.observable | Facet | A message facet is a grouping of characteristics unique to a discrete unit of electronic communic... |
 | **MessageThread** | uco.observable | Class | A message thread is a running commentary of electronic messages pertaining to one topic or question. |
 | **MessageThreadFacet** | uco.observable | Facet | A message thread facet is a grouping of characteristics unique to a running commentary of electro... |
 | **MimePartType** | uco.observable | Class | A mime part type is a grouping of characteristics unique to a component of a multi-part email body. |
+| **MinimalVerificationRequirement** | ext.cac.cacontology-platforms | Class | Verification requirements that are easily bypassed or minimal (email only, no identity check). |
+| **NormalizationGrooming** | ext.cac.cacontology-grooming | Class | Grooming technique to normalize sexual conversations and content sharing. |
+| **OnlineIdentifier** | ext.cac.cacontology-sex-offender-registry | Class | Online username, email, or identifier used by registered sex offender. |
+| **OpenChatRooms** | ext.cac.cacontology-platforms | Class | Chat rooms open to anonymous users without verification or moderation. |
+| **ParentCommunityEmailList** | ext.cac.cacontology-prevention | Class | Specialized email list for parent and community safety updates and archived publication access. |
 | **Pipe** | uco.observable | Class | A pipe is a mechanism for one-way inter-process communication using message passing where data wr... |
 | **Post** | uco.observable | Class | A post is message submitted to an online discussion/publishing site (forum, blog, etc.). |
+| **PrivateMessage** | ext.cac.cacontology-platforms | Class | Private messages or direct communications on social media platforms. |
+| **RandomUserMatching** | ext.cac.cacontology-platforms | Class | Platform feature that randomly matches users for anonymous conversations. |
+| **RegionalCoordination** | ext.cac.cacontology-international | Class | Coordination mechanisms within specific geographic regions. |
+| **ResidentialProperty** | ext.cac.cacontology-asset-forfeiture | Class | Residential home subject to restraint or forfeiture in child exploitation cases. Enhanced as gUFO... |
 | **SMSMessage** | uco.observable | Class | An SMS message is a message conformant to the short message service (SMS) communication protocol ... |
 | **SMSMessageFacet** | uco.observable | Facet | A SMS message facet is a grouping of characteristics unique to a message conformant to the short ... |
+| **SexualSolicitation** | ext.cac.cacontology-grooming | Class | Message explicitly requesting sexual activity, images, or meetings from a child. |
+| **SexualSolicitationPhase** | ext.cac.cacontology-sextortion | Class | Phase involving sexually explicit conversations and image solicitation. |
+| **SexuallyExplicitConversation** | ext.cac.cacontology-sextortion | Class | Conversation containing sexually explicit content directed at children. |
+| **SocialMediaEvidence** | ext.cac.cacontology-platforms | Class | Digital evidence collected from social media platforms, including posts, messages, and account in... |
 | **Subject** | case.investigation | Class | Subject is a role whose conduct is within the scope of an investigation. |
 | **SubjectActionLifecycle** | case.investigation | Class | A subject action lifecycle is an action pattern consisting of an ordered set of multiple actions ... |
+| **SubjectMatterExpert** | ext.cac.cacontology-training | Class | Expert providing specialized knowledge in training. Modeled as anti-rigid gUFO Role. |
+| **TaskForceContactInformation** | ext.cac.cacontology-taskforce | Class | Contact information for CAC task force including phone, email, and website. |
+| **TextMessageFollowUp** | ext.cac.cacontology-street-recruitment | Class | Follow-up through text messaging to reinforce trafficking proposition. |
+| **ThreatMessage** | ext.cac.cacontology-sextortion | Class | Message containing explicit threats about sharing images. |
+| **TraffickerControlBarrier** | ext.cac.cacontology-victim-impact | Class | Control mechanisms used by traffickers that prevent victims from seeking help. |
 | **Tweet** | uco.observable | Class | A tweet is message submitted by a Twitter user account to the Twitter microblogging platform. |
+| **UndercoverChatInvestigation** | ext.cac.cacontology-undercover | Class | Investigation using chat communications on various platforms with agents posing as minors. |
+| **VictimIsolation** | ext.cac.cacontology-sextortion | Class | Tactics to isolate victim from support systems and reporting mechanisms. |
 | **Wiki** | uco.observable | Class | A wiki is an online hypertext publication collaboratively edited and managed by its own audience ... |
 | **WindowsHook** | uco.observable | Class | A Windows hook is a mechanism by which an application can intercept events, such as messages, mou... |
 | **WindowsMailslot** | uco.observable | Class | A Windows mailslot is is a pseudofile that resides in memory, and may be accessed using standard ... |
+
+**AgeProgression** key properties:
+
+| Property | Type | Required |
+|----------|------|----------|
+| generationComplexity | string | No |
+| generationTechnique | string | No |
+| technicalExpertiseRequired | string | No |
+| generationDuration | duration | No |
+| endTime | dateTime | No |
+| startTime | dateTime | Yes |
 
 **AlternateDataStream** key properties:
 
@@ -1191,14 +2948,7 @@ Classes for email messages, SMS/MMS, chat messages, and communication metadata. 
 | objectMarking | MarkingDefinitionAbstraction | No |
 | *... 5 more* | | |
 
-**ContactEmail** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| contactEmailScope | string | No |
-| emailAddress | ObservableObject | No |
-
-**DigitalSignatureInfo** key properties:
+**AnonymousChatPlatform** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
@@ -1207,10 +2957,10 @@ Classes for email messages, SMS/MMS, chat messages, and communication metadata. 
 | externalReference | ExternalReference | No |
 | hasFacet | Facet | No |
 | modifiedTime | dateTime | No |
-| name | string | No |
+| name | string | Yes |
 | objectCreatedTime | dateTime | No |
 | objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
+| *... 8 more* | | |
 
 **Example usage:**
 
@@ -1254,8 +3004,7 @@ graph.add(obs);
 let facet = EmailMessageFacet::builder()
     .subject("Important evidence".into())
     .build();
-let obs = ObservableObject::builder().has_facet(vec![facet]).build();
-graph.create(&obs);
+graph.create(&ObservableObject::default());
 ```
 
 </details>
@@ -1266,25 +3015,46 @@ Classes specific to mobile device forensics: SIM cards, contacts, call logs, cal
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
+| **AICSAMInvestigation** | ext.cac.cacontology-ai-csam | Class | Investigation specifically focused on AI-generated child sexual abuse material, requiring special... |
 | **API** | uco.observable | Class | An API (application programming interface) is a computing interface that defines interactions bet... |
+| **AbusiveContactWithMinor** | ext.cac.cacontology-usa-federal-law | Class | Federal crime involving abusive sexual contact with minor victims. Modeled as gUFO Event. |
 | **Adaptor** | uco.observable | Class | An adaptor is a device that physically converts the pin outputs but does not alter the underlying... |
 | **AddressFacet** | uco.identity | Facet | An address facet is a grouping of characteristics unique to an administrative identifier for a ge... |
+| **AdministrativeReview** | ext.cac.cacontology-case-management | Class | Administrative review of case management, resource allocation, and procedural compliance. Enhance... |
 | **AndroidPhone** | uco.observable | Class | An android phone is a smart phone that applies the Android mobile operating system. |
+| **AnonymousChatPlatform** | ext.cac.cacontology-platforms | Class | Platform that allows anonymous or minimally verified communication, enabling contact without iden... |
+| **AnonymousContactOpportunity** | ext.cac.cacontology-platforms | Class | Opportunities provided by platform for anonymous users to initiate contact with other users. |
+| **AnonymousInitiation** | ext.cac.cacontology-grooming | Class | Starting contact without revealing true identity or personal information. |
+| **AnonymousPlatformContact** | ext.cac.cacontology-grooming | Class | Initial contact made through platforms that allow anonymous messaging or minimal user verification. |
 | **AntennaFacet** | uco.observable | Facet | An antenna alignment facet contains the metadata surrounding the cell tower's antenna position. |
-| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
+| **ApartmentStingOperation** | ext.cac.cacontology-undercover | Class | Undercover operation using residential apartment as location for sting operation targeting traffi... |
+| **AthleticContactEscalation** | ext.cac.cacontology-athletic-exploitation | Class | Escalation of physical contact within legitimate athletic training context. Enhanced as gUFO Event. |
+| **AutomatedEvidenceDistribution** | ext.cac.cacontology-multi-jurisdiction | Class | Automated system for distributing evidence packages to appropriate jurisdictions based on user lo... |
+| **AutomatedReporterAgent** | ext.cac.cacontology-hotlines | Class | A software agent that automatically reports content to hotlines. Enhanced as gUFO Object for comp... |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability.... |
 | **BlackberryPhone** | uco.observable | Class | A blackberry phone is a smart phone that applies the Blackberry OS mobile operating system. (Blac... |
 | **BluetoothAddress** | uco.observable | Class | A Bluetooth address is a Bluetooth standard conformant identifier assigned to a Bluetooth device ... |
 | **BluetoothAddressFacet** | uco.observable | Facet | A Bluetooth address facet is a grouping of characteristics unique to a Bluetooth standard conform... |
+| **CACInvestigation** | ext.cac.cacontology | Class | A child-protection investigation that follows a standard action lifecycle that commonly begins wi... |
+| **CSAM_Production** | ext.cac.cacontology-legal-outcomes | Class | Charge for production of child sexual abuse material, typically carrying severe mandatory minimum... |
+| **CSAM_ReceivingOnCellularDevice** | ext.cac.cacontology-legal-outcomes | Class | Charge for receiving child sexual abuse material on cellular phone or mobile device. Modeled as g... |
 | **Calendar** | uco.observable | Class | A calendar is a collection of appointments, meetings, and events. |
 | **CalendarEntry** | uco.observable | Class | A calendar entry is an appointment, meeting or event within a collection of appointments, meeting... |
 | **CalendarEntryFacet** | uco.observable | Facet | A calendar entry facet is a grouping of characteristics unique to an appointment, meeting, or eve... |
 | **CalendarFacet** | uco.observable | Facet | A calendar facet is a grouping of characteristics unique to a collection of appointments, meeting... |
 | **Call** | uco.observable | Class | A call is a connection as part of a realtime cyber communication between one or more parties. |
 | **CallFacet** | uco.observable | Facet | A call facet is a grouping of characteristics unique to a connection as part of a realtime cyber ... |
+| **CaseManagement** | ext.cac.cacontology-case-management | Class | Comprehensive management framework for CAC cases including status tracking, priority assignment, ... |
 | **CellSite** | uco.observable | Class |  |
 | **CellSiteFacet** | uco.observable | Facet | A cell site facet contains the metadata surrounding the cell site. |
+| **CellphoneSearch** | ext.cac.cacontology-physical-evidence | Class | Search of cellphone or mobile device for evidence. Typically requires consent or warrant (gUFO Ev... |
+| **ChildTargetedItem** | ext.cac.cacontology-physical-evidence | Class | Items specifically designed to appeal to or attract children (gUFO Object). |
+| **ClientCommunicationInterception** | ext.cac.cacontology-undercover | Class | Interception of phone communications between traffickers, victims, and clients. |
 | **CompilerType** | uco.tool | Class | A compiler type is a grouping of characteristics unique to a specific program that translates com... |
+| **ComplianceIntelligenceFramework** | ext.cac.cacontology-legal-harmonization | Class | A verified compliance intelligence framework used to document good-faith content moderation and r... |
 | **Computer** | uco.observable | Class | A computer is an electronic device for storing and processing data, typically in binary, accordin... |
+| **ComputerEquipment** | ext.cac.cacontology-physical-evidence | Class | Digital devices including computers, laptops, tablets, and mobile phones seized as evidence (gUFO... |
+| **ConcurrentInvestigationSituation** | ext.cac.cacontology-temporal | Class | Situation where multiple investigations run simultaneously, potentially sharing resources or evid... |
 | **Contact** | uco.observable | Class | A contact is a set of identification and communication related details for a single entity. |
 | **ContactAddress** | uco.observable | Class | A contact address is a grouping of characteristics unique to a geolocation address of a contact e... |
 | **ContactAffiliation** | uco.observable | Class | A contact affiliation is a grouping of characteristics unique to details of an organizational aff... |
@@ -1292,17 +3062,44 @@ Classes specific to mobile device forensics: SIM cards, contacts, call logs, cal
 | **ContactFacet** | uco.observable | Facet | A contact facet is a grouping of characteristics unique to a set of identification and communicat... |
 | **ContactList** | uco.observable | Class | A contact list is a set of multiple individual contacts such as that found in a digital address b... |
 | **ContactListFacet** | uco.observable | Facet | A contact list facet is a grouping of characteristics unique to a set of multiple individual cont... |
+| **ContactListThreat** | ext.cac.cacontology-sextortion | Class | Threat to send intimate images to victim's contact list. |
 | **ContactMessaging** | uco.observable | Class | A contact messaging is a grouping of characteristics unique to details for contacting a contact e... |
 | **ContactPhone** | uco.observable | Class | A contact phone is a grouping of characteristics unique to details for contacting a contact entit... |
 | **ContactProfile** | uco.observable | Class | A contact profile is a grouping of characteristics unique to details for contacting a contact ent... |
+| **ContactRestriction** | ext.cac.cacontology-sex-offender-registry | Class | Restriction on contact with certain individuals or groups. |
 | **ContactSIP** | uco.observable | Class | A contact SIP is a grouping of characteristics unique to details for contacting a contact entity ... |
 | **ContactURL** | uco.observable | Class | A contact URL is a grouping of characteristics unique to details for contacting a contact entity ... |
+| **ControlledEnvironment** | ext.cac.cacontology-production | Class | Location specifically prepared or modified for production activities. |
+| **CoordinatedOffensePattern** | ext.cac.cacontology | Class | Pattern of coordinated criminal activities involving multiple perpetrators working together acros... |
+| **CorrectionalFacility** | ext.cac.cacontology-tactical | Class | Physical correctional facility where suspects are booked and held. Examples include county jails ... |
 | **CredentialDump** | uco.observable | Class | A credential dump is a collection (typically forcibly extracted from a system) of specific login ... |
+| **CriminalProcurement** | ext.cac.cacontology-physical-evidence | Class | Action of acquiring items specifically for criminal purposes (gUFO Event). |
+| **CrossBorderPersonalTravel** | ext.cac.cacontology-institutional-exploitation | Class | Personal travel across national borders specifically for child exploitation purposes. |
+| **CrowdsourcingInvestigation** | ext.cac.cacontology-partnerships | Class | Investigation leveraging public participation for object identification, geolocation, and evidenc... |
 | **DNSCache** | uco.observable | Class | An DNS cache is a temporary locally stored collection of previous Domain Name System (DNS) query ... |
+| **DeepfakeDetectionTool** | ext.cac.cacontology-ai-csam | Class | Tool specifically designed to identify deepfake content and face manipulation techniques. Enhance... |
+| **DeviceConsentSearch** | ext.cac.cacontology-physical-evidence | Class | Consent authorization specific to electronic device search (cellphone, computer, etc.). |
+| **DigitalFollowUp** | ext.cac.cacontology-street-recruitment | Class | Follow-up through digital communication channels (text, social media, calls). |
+| **DisappearingMessageFeature** | ext.cac.cacontology-sextortion | Class | Platform feature where messages automatically delete after viewing. |
+| **DistributedForensicProcessing** | ext.cac.cacontology-forensics | Class | Forensic processing distributed across multiple systems and locations for handling massive eviden... |
 | **Drone** | uco.observable | Class | A drone, unmanned aerial vehicle (UAV), is an aircraft without a human pilot, crew, or passengers... |
+| **DynamicEntry** | ext.cac.cacontology-tactical | Class | Rapid forced entry into a location to apprehend suspects and secure evidence. |
 | **EXIFFacet** | uco.observable | Facet | An EXIF (exchangeable image file format) facet is a grouping of characteristics unique to the for... |
+| **EducatorTraining** | ext.cac.cacontology-prevention | Class | Training programs specifically designed for educators. |
+| **ElectronicDeviceEvidence** | ext.cac.cacontology-platforms | Class | Digital evidence found on electronic devices including computers, phones, and storage media. |
 | **EmailAddress** | uco.observable | Class | An email address is an identifier for an electronic mailbox to which electronic mail messages (co... |
 | **EmailAddressFacet** | uco.observable | Facet | An email address facet is a grouping of characteristics unique to an identifier for an electronic... |
+| **EmergencyHelpSeeking** | ext.cac.cacontology-victim-impact | Class | Victim's attempt to seek emergency help during trafficking or exploitation, such as calling 911 (... |
+| **ExpansionPhase** | ext.cac.cacontology-sex-trafficking | Class | Phase of trafficking enterprise growth, adding victims and locations. |
+| **ExploitationSceneEvidence** | ext.cac.cacontology-stranger-abduction | Class | Physical evidence collected from exploitation location. |
+| **ExtremistNetworkCell** | ext.cac.cacontology-extremist-enterprises | Class | Operational cell within larger extremist network conducting specialized activities. |
+| **FailureToRegisterOffense** | ext.cac.cacontology-sex-offender-registry | Class | Criminal offense for failing to register or update required information in a sex offender registr... |
+| **FalseInformationRegistrationOffense** | ext.cac.cacontology-sex-offender-registry | Class | Criminal offense for knowingly providing false or misleading information in connection with sex o... |
+| **FederatedDatabaseQuery** | ext.cac.cacontology-international | Class | Query system enabling simultaneous searches across multiple international databases. |
+| **ForcedLocationEntry** | ext.cac.cacontology-stranger-abduction | Class | Forcing victim to enter buildings, apartments, or other locations for exploitation. |
+| **ForensicAcquisitionAction** | ext.cac.cacontology-forensics | Class | The action of creating a forensically sound copy of digital evidence using write-blocking and ver... |
+| **ForensicImage** | ext.cac.cacontology-forensics | Class | A bit-for-bit copy of digital media created using forensically sound methods, maintaining evidenc... |
+| **FormerLawEnforcementOfficer** | ext.cac.cacontology-law-enforcement-corruption | Class | Former law enforcement officer using previous position and contacts for exploitation. |
 | **ForumPost** | uco.observable | Class | A forum post is message submitted by a user account to an online forum where the message content ... |
 | **GPSCoordinatesFacet** | uco.location | Facet | A GPS coordinates facet is a grouping of characteristics unique to the expression of quantified d... |
 | **GamingConsole** | uco.observable | Class | A gaming console (video game console or game console) is an electronic system that connects to a ... |
@@ -1312,75 +3109,181 @@ Classes specific to mobile device forensics: SIM cards, contacts, call logs, cal
 | **GeoLocationLogFacet** | uco.observable | Facet | A geolocation log facet is a grouping of characteristics unique to a record containing geolocatio... |
 | **GeoLocationTrack** | uco.observable | Class | A geolocation track is a set of contiguous geolocation entries representing a path/track taken. |
 | **GeoLocationTrackFacet** | uco.observable | Facet | A geolocation track facet is a grouping of characteristics unique to a set of contiguous geolocat... |
+| **GeolocationRequest** | ext.cac.cacontology-partnerships | Class | Request for public assistance in identifying geographic locations from visual evidence. Modeled a... |
+| **GeospatialCorrelation** | ext.cac.cacontology-forensics | Class | Correlation analysis based on geographic and location data from multiple sources. |
+| **GlobalTakedownCoordination** | ext.cac.cacontology-international | Class | Real-time coordination for simultaneous takedown operations across multiple countries. |
+| **GloveCompartmentSearch** | ext.cac.cacontology-physical-evidence | Class | Search of vehicle glove compartment as specific evidence location (gUFO Event). |
+| **GroomingBehavior** | ext.cac.cacontology-grooming | Class | Predatory behavior designed to prepare a child for abuse by building trust, isolating them, and n... |
+| **HandsOnOffenseInvestigation** | ext.cac.cacontology-multi-jurisdiction | Class | Investigation specifically targeting hands-on sexual offenses against children. |
 | **Hash** | uco.types | Class | A hash is a grouping of characteristics unique to the result of applying a mathematical algorithm... |
+| **HelpOfferApproach** | ext.cac.cacontology-street-recruitment | Class | Approach offering assistance such as phone charging, food, transportation, or shelter. |
+| **HighwayLocation** | ext.cac.cacontology-street-recruitment | Class | Location near or alongside highways used for isolated exploitation. |
+| **HospitalIntervention** | ext.cac.cacontology-victim-impact | Class | Medical intervention and assessment of trafficking victim at hospital following emergency call. |
+| **Hotel** | ext.cac.cacontology-undercover | Class | Hotel used or intended for sexual exploitation of minors. Physical location. |
 | **IComHandlerActionType** | uco.observable | Class | An IComHandler action type is a grouping of characteristics unique to a Windows Task-related acti... |
 | **IPhone** | uco.observable | Class | An iPhone is a smart phone that applies the iOS mobile operating system. |
 | **IdentifierFacet** | uco.identity | Facet | Identifier is a grouping of characteristics unique to information that uniquely and specifically ... |
+| **ImmediateIsolation** | ext.cac.cacontology-street-recruitment | Class | Rapid removal of victim from public space to isolated location for exploitation. |
+| **ImmediatePhysicalContactExploitation** | ext.cac.cacontology-educational-exploitation | Class | Sexual exploitation involving immediate physical contact without prior grooming or relationship b... |
+| **InfiltrationPhase** | ext.cac.cacontology-undercover | Class | Phase involving initial contact and establishment of undercover presence. |
+| **InitialContactPhase** | ext.cac.cacontology-grooming | Class | First phase of grooming involving initial contact and relationship establishment. |
+| **InitialCoordinationPhase** | ext.cac.cacontology-multi-jurisdiction | Class | Phase involving initial contact and coordination between jurisdictions. |
+| **InitialStreetContact** | ext.cac.cacontology-street-recruitment | Class | First contact between trafficker and victim occurring in public space. |
+| **IntakeChannel** | ext.cac.cacontology-hotlines | Class | A channel through which reports are received (web form, API, phone, etc.). Enhanced as gUFO Objec... |
+| **IntermediateSchool** | ext.cac.cacontology-educational-exploitation | Class | Intermediate or middle school serving grades 6-8, typically ages 11-14. Enhanced as gUFO Organiza... |
+| **InvestigativeAction** | ext.cac.cac-core | Class | An event that is specifically an investigative action within a CAC investigation. Aligned to both... |
 | **InvestigativeAction** | case.investigation | Class | An investigative action is something that may be done or performed within the context of an inves... |
+| **IsolatedLocation** | ext.cac.cacontology-street-recruitment | Class | Secluded location used for exploitation away from public view. |
 | **Junction** | uco.observable | Class | A junction is a specific NTFS (New Technology File System) reparse point to redirect a directory ... |
 | **LanguagesFacet** | uco.identity | Facet | Languages is a grouping of characteristics unique to specific syntactically and grammatically sta... |
 | **Laptop** | uco.observable | Class | A laptop, laptop computer, or notebook computer is a small, portable personal computer with a scr... |
 | **LatLongCoordinatesFacet** | uco.location | Facet | A lat long coordinates facet is a grouping of characteristics unique to the expression of a geolo... |
+| **LegitimateContactExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation of legitimate athletic physical contact for sexual purposes. Enhanced as gUFO Event. |
+| **LifeImprisonmentSentence** | ext.cac.cacontology-legal-outcomes | Class | Prison sentence of life imprisonment (typically without a fixed term duration). Modeled as gUFO O... |
+| **LocalLawEnforcementReferral** | ext.cac.cacontology-us-ncmec | Class | Referral of NCMEC tip to local law enforcement agency. |
 | **Location** | uco.location | Class | A location is a geospatial place, site, or position. |
+| **LocationBasedExploitation** | ext.cac.cacontology-stranger-abduction | Class | Exploitation occurring at specific location following victim transportation. |
+| **LocationIntelligence** | ext.cac.cacontology-tactical | Class | Information about the physical location of tactical operation. |
+| **LocationIsolation** | ext.cac.cacontology-stranger-abduction | Class | Use of isolated or secluded locations to prevent victim escape or discovery. |
+| **LocationSpecificGrooming** | ext.cac.cacontology-grooming | Class | Grooming that references or prepares for specific physical locations. |
+| **LocationTransition** | ext.cac.cacontology-street-recruitment | Class | Movement of victim from initial contact location to exploitation location. |
+| **MassProsecutionCoordination** | ext.cac.cacontology-multi-jurisdiction | Class | Coordination of prosecutions for massive user bases from large-scale platform takedowns requiring... |
+| **MassUserJurisdictionMapping** | ext.cac.cacontology-multi-jurisdiction | Class | Mapping of massive user bases to appropriate jurisdictions for prosecution based on location and ... |
+| **MeetingLocation** | ext.cac.cacontology-undercover | Class | Physical location arranged for meeting with alleged minor. Extends uco-location:Location as this ... |
+| **MeetingLocationArrangement** | ext.cac.cacontology-undercover | Class | Suspect arranging specific meeting location (motel, hotel, other private location). |
+| **MiddleSchool** | ext.cac.cacontology-educational-exploitation | Class | Middle school serving grades 6-8 or similar intermediate grade levels. Enhanced as gUFO Organizat... |
+| **MinorPersonaOperation** | ext.cac.cacontology-undercover | Class | Undercover operation where agents pose as minors to identify individuals seeking inappropriate co... |
 | **MobileAccount** | uco.observable | Class | A mobile account is an arrangement with an entity to enable and control the provision of some cap... |
 | **MobileAccountFacet** | uco.observable | Facet | A mobile account facet is a grouping of characteristics unique to an arrangement with an entity t... |
 | **MobileDevice** | uco.observable | Class | A mobile device is a portable computing device. [based on https://www.lexico.com.definition/mobil... |
 | **MobileDeviceFacet** | uco.observable | Facet | A mobile device facet is a grouping of characteristics unique to a portable computing device. [ba... |
+| **MobileForensicTool** | ext.cac.cacontology-forensics | Class | A tool specialized for mobile device forensics including logical and physical extraction (e.g., C... |
 | **MobilePhone** | uco.observable | Class | A mobile phone is a portable telephone that at least can make and receive calls over a radio freq... |
+| **MobileRecordingDevice** | ext.cac.cacontology-production | Class | Mobile phone, tablet, or portable device used for recording. |
+| **ModuleIntegrationStrategy** | ext.cac.cacontology-integration-patterns | Class | Framework for systematically integrating gUFO concepts into CAC ontology modules. Defines pattern... |
+| **Motel** | ext.cac.cacontology-undercover | Class | Motel used or intended for sexual exploitation of minors (e.g., 'Princess Motel'). Physical locat... |
+| **MultiPlatformUndercoverOperation** | ext.cac.cacontology-undercover | Class | Undercover operation conducted across multiple social media platforms simultaneously. |
 | **NamedPipe** | uco.observable | Class | A named pipe is a mechanism for FIFO (first-in-first-out) inter-process communication. It is pers... |
+| **NextDayFollowUp** | ext.cac.cacontology-street-recruitment | Class | Follow-up contact occurring the day after initial encounter. |
+| **NineOneOneCall** | ext.cac.cacontology-victim-impact | Class | Emergency call to 911 by trafficking victim seeking help and reporting forced prostitution. |
+| **ObjectIdentificationRequest** | ext.cac.cacontology-partnerships | Class | Request for public assistance in identifying objects, locations, or other evidence from case mate... |
+| **OffenderContactRisk** | ext.cac.cacontology-recantation | Class | A recantation risk created by continued offender access, visitation, or indirect contact after di... |
+| **OfflineControlEstablishment** | ext.cac.cacontology-grooming | Class | Establishing control over victim in preparation for physical contact. |
+| **OnlineToOfflineProgression** | ext.cac.cacontology-grooming | Class | Escalation from online grooming to arranging physical meetings or contact. |
+| **OverClothingToUnderClothingEscalation** | ext.cac.cacontology-athletic-exploitation | Class | Progression from over-clothing to under-clothing contact during athletic activities. Enhanced as ... |
+| **ParallelEventCluster** | ext.cac.cacontology-temporal | Class | Set of investigation events occurring simultaneously or with temporal overlap. Modeled as gUFO co... |
+| **ParallelEvidenceCollectionSituation** | ext.cac.cacontology-temporal | Class | Situation where multiple evidence collection activities occur simultaneously across different pha... |
 | **PathRelationFacet** | uco.observable | Facet | A path relation facet is a grouping of characteristics unique to the location of one object withi... |
+| **PerceptualHash** | ext.cac.cacontology-detection | Class | A hash that captures visual similarity rather than exact bit patterns (e.g., pHash, aHash, dHash)... |
+| **PersonalMeetingDemand** | ext.cac.cacontology-sextortion | Class | Demand for in-person meeting or physical contact. |
 | **PhoneAccount** | uco.observable | Class | A phone account is an arrangement with an entity to enable and control the provision of a telepho... |
 | **PhoneAccountFacet** | uco.observable | Facet | A phone account facet is a grouping of characteristics unique to an arrangement with an entity to... |
+| **PhoneChargingOffer** | ext.cac.cacontology-street-recruitment | Class | Specific pretext offering to charge victim's phone in vehicle or location. |
+| **PhoneInstructionMonitoring** | ext.cac.cacontology-undercover | Class | Monitoring and interception of phone communications used to instruct victims in trafficking opera... |
+| **PhoneNumberTrace** | ext.cac.cacontology-us-ncmec | Class | Tracing of phone numbers linked to accounts in NCMEC tips. |
+| **PhysicalContactEscalation** | ext.cac.cacontology-athletic-exploitation | Class | Escalation of physical contact within athletic training context. Enhanced as gUFO Event. |
+| **PhysicalLocationSting** | ext.cac.cacontology-undercover | Class | Undercover operation conducted at physical location to apprehend suspects responding to trafficki... |
+| **PlanningPhase** | ext.cac.cacontology-taskforce | Class | Phase involving operational planning and resource allocation. |
+| **PostContactReinforcement** | ext.cac.cacontology-street-recruitment | Class | Follow-up contact after initial encounter to reinforce trafficking proposition. |
+| **PredatorTargetingOperation** | ext.cac.cacontology-undercover | Class | Undercover operation specifically targeting online predators who seek contact with children. |
+| **PretextBasedApproach** | ext.cac.cacontology-street-recruitment | Class | Initial approach using false pretext or offer of assistance to establish contact. |
 | **ProcessThread** | uco.observable | Class | A process thread is the smallest sequence of programmed instructions that can be managed independ... |
+| **ProductionLocation** | ext.cac.cacontology-production | Class | Physical location where child sexual abuse material production occurred. |
+| **ProfileBrowsingAnonymous** | ext.cac.cacontology-platforms | Class | Ability to browse and contact user profiles anonymously without revealing identity. |
 | **ProvenanceRecord** | case.investigation | Class | A provenance record is a grouping of characteristics unique to the provenantial (chronology of th... |
+| **PublicSpaceTargeting** | ext.cac.cacontology-street-recruitment | Class | Systematic targeting of vulnerable individuals in specific public locations for trafficking recru... |
+| **PublicToPrivateGrooming** | ext.cac.cacontology-grooming | Class | Grooming that transitions from public contact to private exploitation. |
+| **RapidEscalationGrooming** | ext.cac.cacontology-grooming | Class | Grooming with accelerated timeline from initial contact to exploitation attempt, bypassing tradit... |
+| **RapidEscalationRecruitment** | ext.cac.cacontology-street-recruitment | Class | Trafficking recruitment with accelerated timeline from initial contact to exploitation attempt. |
+| **RealTimeIntelligenceSharing** | ext.cac.cacontology-international | Class | Real-time sharing of intelligence and alerts between international partners for immediate threat ... |
+| **RegistrationRequirement** | ext.cac.cacontology-sex-offender-registry | Class | Specific requirement for sex offender registration (location, frequency, restrictions). |
+| **ResidentialStingLocation** | ext.cac.cacontology-undercover | Class | Residential property (apartment, house, etc.) used as staging area for undercover sting operations. |
+| **ResourceUtilizationMetrics** | ext.cac.cacontology-case-management | Class | Metrics tracking resource allocation and utilization efficiency across cases. Enhanced as gUFO Ob... |
+| **ResourceUtilizationMetrics** | ext.cac.cacontology-investigation-coordination | Class | Metrics measuring efficiency of shared resource utilization and allocation. |
+| **RestrictedContactArrangement** | ext.cac.cacontology-custodial | Class | A visitation or contact arrangement that restricts or suspends offender or high-risk contact afte... |
 | **SIMCard** | uco.observable | Class | A SIM card is a subscriber identification module card intended to securely store the internationa... |
 | **SIMCardFacet** | uco.observable | Facet | A SIM card facet is a grouping of characteristics unique to a subscriber identification module ca... |
+| **SameDayProgression** | ext.cac.cacontology-street-recruitment | Class | Progression from initial contact to sexual assault and trafficking proposition within same day. |
+| **SameDayProgression** | ext.cac.cacontology-grooming | Class | Grooming progression from initial contact to sexual exploitation within the same day. |
+| **SchoolLocation** | ext.cac.cacontology-sex-offender-registry | Class | Educational institution where offender is enrolled. |
+| **SchoolPoliceContact** | ext.cac.cacontology-recruitment-networks | Class | Contact made by school personnel to law enforcement regarding trafficking concerns. |
+| **SecondaryLocationControl** | ext.cac.cacontology-stranger-abduction | Class | Movement of victim to secondary location for enhanced control and exploitation. |
+| **SecondaryLocationExploitation** | ext.cac.cacontology-street-recruitment | Class | Exploitation occurring at secondary location away from initial contact point. |
+| **SextortionCharge** | ext.cac.cacontology-legal-outcomes | Class | Criminal charge specifically related to sextortion involving sexual extortion of children through... |
+| **SextortionEducation** | ext.cac.cacontology-prevention | Class | Educational content specifically addressing sextortion risks and prevention. |
+| **SextortionInvestigation** | ext.cac.cacontology-sextortion | Class | Investigation specifically focused on sextortion incidents. |
+| **SextortionProgression** | ext.cac.cacontology-sextortion | Class | Sequential phases of sextortion from initial contact through exploitation. |
+| **SexualAbuseOfMinor** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of sexual abuse specifically involving minor victims. Modeled as gUFO Event. |
+| **SexualConsequenceGameGrooming** | ext.cac.cacontology-grooming | Class | Physical-space grooming pattern where the perpetrator frames sexualized contact as part of a game... |
+| **SharingThreat** | ext.cac.cacontology-sextortion | Class | Threat to share intimate images with contacts, family, or publicly. |
+| **ShortTermRental** | ext.cac.cacontology-undercover | Class | Short-term rental property (Airbnb, VRBO, etc.) used for sexual exploitation. Physical location. |
+| **SilenceEnforcement** | ext.cac.cacontology-stranger-abduction | Class | Specific threats or actions to prevent victim from calling for help. |
 | **SimpleAddressFacet** | uco.location | Facet | A simple address facet is a grouping of characteristics unique to a geolocation expressed as an a... |
 | **SimpleNameFacet** | uco.identity | Facet | A simple name facet is a grouping of characteristics unique to the personal name (e.g., Dr. John ... |
+| **SimultaneousChildRescue** | ext.cac.cacontology-multi-jurisdiction | Class | Rescue of multiple children across different locations simultaneously. |
+| **SimultaneousRoleSituation** | ext.cac.cacontology-temporal | Class | Situation where person plays multiple roles simultaneously in investigation context. Modeled as g... |
+| **SimultaneousSearchWarrant** | ext.cac.cacontology-platforms | Class | Coordinated search warrant execution on devices and platform accounts. |
 | **SmartDevice** | uco.observable | Class | A smart device is a microprocessor IoT device that is expected to be connected directly to cloud-... |
 | **SmartPhone** | uco.observable | Class | A smartphone is a portable device that combines mobile telephone and computing functions into one... |
+| **SocioeconomicVulnerabilityIndicator** | ext.cac.cacontology-street-recruitment | Class | Indicators of economic hardship or social disadvantage (clothing, possessions, location). |
 | **Socket** | uco.observable | Class | A socket is a special file used for inter-process communication, which enables communication betw... |
 | **StatementMarking** | uco.marking | Class | A statement marking is a grouping of characteristics unique to the expression of data marking def... |
+| **StrangerAbduction** | ext.cac.cacontology-stranger-abduction | Class | Abduction of child by unknown perpetrator without prior relationship or contact. |
+| **StreetBasedGrooming** | ext.cac.cacontology-grooming | Class | Grooming that begins with street-based contact and recruitment. |
+| **StreetRecruitmentLocation** | ext.cac.cacontology-street-recruitment | Class | Specific location where street-based trafficking recruitment occurs. |
+| **SyntheticImageDetector** | ext.cac.cacontology-ai-csam | Class | Tool for detecting synthetically generated images using machine learning classifiers. Enhanced as... |
 | **Tablet** | uco.observable | Class | A tablet is a mobile computer that is primarily operated by touching the screen. (Devices categor... |
+| **TaskForceContactInformation** | ext.cac.cacontology-taskforce | Class | Contact information for CAC task force including phone, email, and website. |
+| **TaskForceHotline** | ext.cac.cacontology-taskforce | Class | Dedicated phone line for CAC task force operations and reporting. |
+| **TeacherTraining** | ext.cac.cacontology-prevention | Class | Training program specifically for teachers. |
+| **TechnicalLiaison** | ext.cac.cacontology-investigation-coordination | Class | Technical liaison officer specializing in technical coordination and information sharing. |
 | **TermsOfUseMarking** | uco.marking | Class | A terms of use marking is a grouping of characteristics unique to the expression of data marking ... |
+| **TextEvidencePointer** | ext.cac.cacontology-synthesis | Class | A resolvable pointer to a location in a text artifact (e.g., normalized.txt lines), optionally wi... |
 | **Thread** | uco.types | Class | A semi-ordered array of items, that can be present in multiple copies.  Implemetation of a UCO Th... |
+| **TraffickingCell** | ext.cac.cacontology-sex-trafficking | Class | Smaller operational unit within trafficking ring, often controlling specific victims or geographi... |
+| **TraffickingOperation** | ext.cac.cacontology-sex-trafficking | Class | Coordinated trafficking activity involving multiple perpetrators, victims, and locations. Modeled... |
+| **TransportArrangementAction** | ext.cac.cacontology-undercover | Class | Suspect arranging to pick up and transport alleged minor to meeting location. |
+| **TransportationFacilitatorRole** | ext.cac.cacontology-sex-trafficking | Class | Role focused on transporting victims between locations for trafficking purposes. Modeled as anti-... |
+| **TransportationOfferApproach** | ext.cac.cacontology-street-recruitment | Class | Offer of rides or transportation to isolated locations for exploitation. |
+| **TraumatizedVictim** | ext.cac.cacontology-victim-impact | Class | Role of a child victim experiencing psychological trauma. Where age at time of victimization or a... |
+| **TrustThroughAnonymity** | ext.cac.cacontology-grooming | Class | Building trust by appearing less threatening through anonymous contact. |
+| **TwelvePlusEducation** | ext.cac.cacontology-prevention | Class | Safety education targeted specifically for students 12 years and older. |
+| **UnverifiedUserProfile** | ext.cac.cacontology-grooming | Class | User account with minimal or no identity verification enabling anonymous contact. |
+| **VehicleBasedIsolation** | ext.cac.cacontology-street-recruitment | Class | Use of vehicle to isolate victim and transport to exploitation location. |
+| **VehicleConcealment** | ext.cac.cacontology-stranger-abduction | Class | Use of vehicles to conceal approach or provide mobile concealment. |
+| **VehicleLocation** | ext.cac.cacontology-street-recruitment | Class | Vehicle used as location for exploitation or transportation to exploitation site. |
+| **VictimEmergencyResponse** | ext.cac.cacontology-sex-trafficking | Class | Emergency response to 911 calls from trafficking victims seeking help. Modeled as gUFO Event. |
+| **VictimExtraction** | ext.cac.cacontology-victim-impact | Class | Immediate removal of victim from dangerous trafficking situation following emergency call. |
+| **VictimInstructionEvidence** | ext.cac.cacontology-undercover | Class | Evidence of traffickers providing phones and instructions to victims for client communication. |
+| **VictimRotation** | ext.cac.cacontology-sex-trafficking | Class | Systematic movement of victims between different locations to avoid detection and maintain contro... |
+| **VictimTransportation** | ext.cac.cacontology-sex-trafficking | Class | Transportation of trafficking victims between locations for commercial sexual exploitation. Model... |
+| **VideoCallRequestAction** | ext.cac.cacontology-undercover | Class | Suspect requesting video call with undercover persona, often to confirm alone or for explicit pur... |
+| **VisitationArrangement** | ext.cac.cacontology-custodial | Class | Scheduled visitation or contact arrangement with child. Modeled as gUFO SubKind with temporal sch... |
 | **WebPage** | uco.observable | Class | A web page is a specific collection of information provided by a website and displayed to a user ... |
 | **WhoisContactFacet** | uco.observable | Facet | A Whois contact type is a grouping of characteristics unique to contact-related information prese... |
+| **WindowEntry** | ext.cac.cacontology-stranger-abduction | Class | Forcing victim to enter location through windows rather than doors. |
 | **WindowsCriticalSection** | uco.observable | Class | A Windows critical section is a Windows object that provides synchronization similar to that prov... |
 | **WindowsFilemapping** | uco.observable | Class | A Windows file mapping is the association of a file's contents with a portion of the virtual addr... |
 | **WindowsService** | uco.observable | Class | A Windows service is a specific Windows service (a computer program that operates in the backgrou... |
 | **WindowsServiceFacet** | uco.observable | Facet | A Windows service facet is a grouping of characteristics unique to a specific Windows service (a ... |
+| **WorkLocation** | ext.cac.cacontology-sex-offender-registry | Class | Location where registered sex offender is employed. |
 | **WriteBlocker** | uco.observable | Class | A write blocker is a device that allows read-only access to storage mediums in order to preserve ... |
 
+**AICSAMInvestigation** key properties:
+
+| Property | Type | Required |
+|----------|------|----------|
+| createdBy | IdentityAbstraction | No |
+| description | string | No |
+| externalReference | ExternalReference | No |
+| hasFacet | Facet | No |
+| modifiedTime | dateTime | No |
+| name | string | No |
+| objectCreatedTime | dateTime | No |
+| objectMarking | MarkingDefinitionAbstraction | No |
+| *... 14 more* | | |
+
 **API** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
-
-**Adaptor** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
-
-**AndroidPhone** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
@@ -1436,8 +3339,7 @@ graph.add(obs);
 let facet = SIMCardFacet::builder()
     .icc_id("8901260123456789012".into())
     .build();
-let obs = ObservableObject::builder().has_facet(vec![facet]).build();
-graph.create(&obs);
+graph.create(&ObservableObject::default());
 ```
 
 </details>
@@ -1448,85 +3350,484 @@ Classes for modeling actions taken during an investigation or actions performed 
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
+| **AICSAMInvestigation** | ext.cac.cacontology-ai-csam | Class | Investigation specifically focused on AI-generated child sexual abuse material, requiring special... |
+| **AIContentDetection** | ext.cac.cacontology-ai-csam | Class | Process of identifying AI-generated or AI-altered content to distinguish from authentic material ... |
+| **AIContentGeneration** | ext.cac.cacontology-ai-csam | Class | Process of creating artificial CSAM using machine learning models, neural networks, or other AI t... |
+| **AICooperation** | ext.cac.cacontology-partnerships | Class | Cooperation in developing AI-based solutions for detection, analysis, and prevention of child exp... |
 | **API** | uco.observable | Class | An API (application programming interface) is a computing interface that defines interactions bet... |
+| **AbusiveContactWithMinor** | ext.cac.cacontology-usa-federal-law | Class | Federal crime involving abusive sexual contact with minor victims. Modeled as gUFO Event. |
+| **AcademicActivityExploitation** | ext.cac.cacontology-educational-exploitation | Class | Exploitation occurring during academic activities such as assignments, tests, or tutoring. Enhanc... |
+| **AcademicIntimidation** | ext.cac.cacontology-educational-exploitation | Class | Use of academic authority to intimidate and create vulnerability in students. Enhanced as gUFO Ev... |
+| **Access** | ext.aeo.engagement | Class | An Access action refers to an observed or deduced interaction between an entity and an object. |
+| **AccountFreezing** | ext.cac.cacontology-platform-infrastructure | Class | Freezing financial accounts and cryptocurrency wallets associated with platform operations (gUFO ... |
+| **AccountSuspensionAction** | ext.cac.cacontology-platforms | Class | An action to suspend or terminate a user account due to policy violations. Modeled as gUFO Event. |
 | **Action** | uco.action | Class | An action is something that may be done or performed. |
 | **ActionArgumentFacet** | uco.action | Facet | An action argument facet is a grouping of characteristics unique to a single parameter of an action. |
 | **ActionEstimationFacet** | uco.action | Facet | An action estimation facet is a grouping of characteristics unique to decision-focused approximat... |
 | **ActionFrequencyFacet** | uco.action | Facet | An action frequency facet is a grouping of characteristics unique to the frequency of occurrence ... |
 | **ActionLifecycle** | uco.action | Class | An action lifecycle is an action pattern consisting of an ordered set of multiple actions or subo... |
 | **ActionPattern** | uco.action | Class | An action pattern is a grouping of characteristics unique to a combination of actions forming a c... |
+| **ActionPhase** | ext.cac.cacontology-hotlines | Class | The phase during which responsive actions are taken (forwarding, takedown requests, etc.). |
+| **AdministrativeReview** | ext.cac.cacontology-case-management | Class | Administrative review of case management, resource allocation, and procedural compliance. Enhance... |
+| **AffiliateCoordination** | ext.cac.cacontology-prevention | Class | Coordination activities between CAC affiliate organizations for unified prevention efforts. |
+| **AffiliateResourceSharing** | ext.cac.cacontology-prevention | Class | Coordinated sharing of educational resources and prevention materials among CAC affiliates. |
+| **AgeAtTimeSituation** | ext.cac.cacontology-temporal | Class | gUFO QualityValueAttributionSituation specializing in attribution of an Age quality value to a sp... |
+| **AgeProgression** | ext.cac.cacontology-ai-csam | Class | AI technique for artificially aging or de-aging subjects in content, potentially creating illegal... |
+| **AggravatedSexualAbuse** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of aggravated sexual abuse involving children in federal jurisdiction. Modeled as g... |
+| **Alert** | ext.aeo.engagement | Class | An Alert action involves notification to some entity that some condition or event of particular i... |
+| **Analysis** | uco.analysis | Class | An analysis is an action of detailed examination of something in order to understand its nature, ... |
+| **AnalysisTransitionEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from Initial to Analysis Phase. |
+| **AnalystAssignment** | ext.cac.cacontology-case-management | Class | Assignment of analysts for data analysis, intelligence gathering, and technical support. Enhanced... |
+| **AnalyticResult** | uco.analysis | Class | An analytic result is a characterization of the understanding resulting from an analysis action. |
 | **AnalyticResultFacet** | uco.analysis | Facet | An analytic result facet is a grouping of characteristics unique to the results of an analysis ac... |
+| **AnatomyFocusedExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation focused on body parts and anatomy under guise of athletic training. Enhanced as gUFO... |
+| **AnnualPerformance** | ext.cac.cacontology-taskforce | Class | Year-specific performance metrics for task force operations. |
+| **AppealProcess** | ext.cac.cacontology-legal-outcomes | Class | Legal process to challenge conviction or sentence in higher court. Modeled as gUFO Event. |
+| **ArraignmentProceeding** | ext.cac.cacontology-legal-outcomes | Class | Initial court appearance where charges are formally read and plea is entered. Modeled as gUFO Event. |
 | **ArrayOfAction** | uco.action | Class | An array of action is an ordered list of references to things that may be done or performed. |
+| **ArrestOperation** | ext.cac.cacontology-tactical | Class | Law enforcement operation to apprehend and take suspect into custody. Extends investigation:Inves... |
+| **ArtifactAnalysis** | ext.cac.cacontology-ai-csam | Class | Analysis of digital artifacts and inconsistencies that may indicate AI generation, such as compre... |
 | **ArtifactClassificationResultFacet** | uco.analysis | Facet | An artifact classification result facet is a grouping of characteristics unique to the results of... |
+| **AssessmentResult** | ext.cac.cac-core | Class | An output or conclusion of some evaluative, analytic, classification, or decision-making process.... |
+| **AssetAssessmentAction** | ext.cac.cacontology-asset-forfeiture | Class | Action to assess the value and ownership of assets for potential forfeiture. Enhanced as gUFO Eve... |
+| **AssetForfeitureAction** | ext.cac.cacontology-asset-forfeiture | Class | Legal action to forfeit assets derived from or used in child exploitation crimes. Enhanced as gUF... |
+| **AssignmentHarassment** | ext.cac.cacontology-educational-exploitation | Class | Harassment through inappropriate comments written on student assignments or homework. Enhanced as... |
+| **AthleticCoachingExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Child sexual exploitation committed by athletic coaches using sports authority, team dynamics, an... |
+| **AthleticContactEscalation** | ext.cac.cacontology-athletic-exploitation | Class | Escalation of physical contact within legitimate athletic training context. Enhanced as gUFO Event. |
+| **AthleticExploitationDiscovery** | ext.cac.cacontology-athletic-exploitation | Class | Discovery of athletic coaching exploitation through various reporting mechanisms. Enhanced as gUF... |
+| **AthleticFacilityExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation occurring in athletic facilities and sports venues. Enhanced as gUFO Event occurring... |
+| **AthleticFieldExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation on outdoor athletic fields, courts, and sports venues. Enhanced as gUFO Event. |
+| **AttackPattern** | ext.aeo.attack | Class | An attack pattern is a common approach (set of actions) utilized by a person or organization to c... |
 | **Authorization** | case.investigation | Class | An authorization is a grouping of characteristics unique to some form of authoritative permission... |
-| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
+| **AutomatedDetectionAction** | ext.cac.cacontology-detection | Class | The action of using automated systems to detect potential CSAM content. Modeled as gUFO Event. |
+| **BackgroundCheck** | ext.cac.cacontology-custodial | Class | Background verification conducted for custodial or care position. Modeled as gUFO Object with ver... |
+| **Beacon** | ext.aeo.engagement | Class | An Beacon action is refer to communication between two objects where the performer is an object a... |
+| **BehavioralPrevention** | ext.cac.cacontology-prevention | Class | Prevention strategies focused on behavioral changes. |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability.... |
+| **BiometricInconsistencyAnalysis** | ext.cac.cacontology-ai-csam | Class | Analysis of biometric inconsistencies in AI-generated content, such as unnatural eye movements or... |
+| **BookingAction** | ext.cac.cacontology-tactical | Class | Process of booking a suspect into a correctional facility including fingerprinting, photography, ... |
+| **BullyingPrevention** | ext.cac.cacontology-prevention | Class | Prevention programs focused on reducing bullying and shaming. |
+| **CACInvestigation** | ext.cac.cacontology | Class | A child-protection investigation that follows a standard action lifecycle that commonly begins wi... |
+| **CACTInvestigation** | ext.cac.cacontology-asset-forfeiture | Class | Investigation conducted by Criminal Assets Confiscation Taskforce targeting assets of child explo... |
+| **CSAMCurationAction** | ext.cac.cacontology | Class | The action of curating and classifying child sexual abuse material using standard classification ... |
 | **Calendar** | uco.observable | Class | A calendar is a collection of appointments, meetings, and events. |
 | **CalendarEntry** | uco.observable | Class | A calendar entry is an appointment, meeting or event within a collection of appointments, meeting... |
 | **CalendarEntryFacet** | uco.observable | Facet | A calendar entry facet is a grouping of characteristics unique to an appointment, meeting, or eve... |
 | **CalendarFacet** | uco.observable | Facet | A calendar facet is a grouping of characteristics unique to a collection of appointments, meeting... |
+| **CaseAssignment** | ext.cac.cacontology-case-management | Class | Assignment of personnel and resources to specific cases with defined roles and responsibilities. ... |
+| **CaseClosure** | ext.cac.cacontology-case-management | Class | Formal case closure process including disposition, appeals status, and archival procedures. Enhan... |
+| **CaseMetrics** | ext.cac.cacontology-case-management | Class | Performance metrics and analytics for case management including duration, resolution rates, and r... |
+| **CaseReview** | ext.cac.cacontology-case-management | Class | Formal review processes for case quality assurance, supervisory oversight, and legal compliance. ... |
+| **CaseWorkflow** | ext.cac.cacontology-case-management | Class | Structured workflow stages and processes for managing case progression from intake to disposition... |
+| **CellphoneSearch** | ext.cac.cacontology-physical-evidence | Class | Search of cellphone or mobile device for evidence. Typically requires consent or warrant (gUFO Ev... |
+| **ChainOfCustodyAction** | ext.cac.cacontology-forensics | Class | An action that documents evidence handling, transfer, and custody maintaining legal admissibility. |
+| **ChildAbusePreventionMonth** | ext.cac.cacontology-prevention | Class | National Child Abuse Prevention Month coordinated awareness activities. |
+| **ChildPornographyDistribution** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of distributing child pornography across state or international boundaries. Modeled... |
+| **ChildPornographyPossession** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of possessing child pornography that has traveled in interstate or foreign commerce... |
+| **ChildPornographyProduction** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of producing child pornography, carrying severe mandatory minimum sentences. Modele... |
+| **ChildPornographyReceipt** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of knowingly receiving child pornography through interstate or foreign commerce. Mo... |
+| **ChildProtectionTraining** | ext.cac.cacontology-training | Class | Training focused on child protection methodologies. Modeled as gUFO Event. |
+| **ChildSexualAbuseEvent** | ext.cac.cacontology | Class | A class representing any event involving child sexual abuse or exploitation. This is the base cla... |
+| **ChildSupportEvasion** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of willfully failing to pay child support across state lines. Modeled as gUFO Event. |
+| **ChildVictim** | ext.cac.cacontology-grooming | Class | Minor child who is the target of grooming behavior. When analysis depends on the victim’s exact a... |
+| **ClassificationResult** | ext.cac.cacontology-detection | Class | The result of content classification using standard scales like SAR or COPINE. |
+| **ClassroomBasedExploitation** | ext.cac.cacontology-educational-exploitation | Class | Sexual exploitation occurring within classroom setting during academic activities. Enhanced as gU... |
+| **ClosureEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from Resolution to Completed Phase. |
+| **ClothingDisguise** | ext.cac.cacontology-stranger-abduction | Class | Use of specific clothing to alter appearance or blend into environment. |
+| **CoachRole** | ext.cac.cacontology-educational-exploitation | Class | Athletic or activity coaching role with student interaction. Enhanced as anti-rigid gUFO Role. |
+| **CommercialSexualExploitation** | ext.cac.cacontology-sex-trafficking | Class | Forced engagement in commercial sexual activities for the traffickers' profit. Modeled as gUFO Ev... |
+| **CommercialSexualExploitation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime involving commercial sexual exploitation of children through force, fraud, or coerc... |
+| **CommunityAnalysis** | ext.cac.cacontology-partnerships | Class | Analysis performed by volunteer researchers and civil society organizations using open source int... |
+| **CommunityBasedReporting** | ext.cac.cacontology-athletic-exploitation | Class | Reporting through community and parent networks rather than direct victim disclosure. Enhanced as... |
+| **CommunityEducationTraining** | ext.cac.cacontology-training | Class | Training designed to educate community members and caregivers about child abuse dynamics, disclos... |
+| **CommunityEducator** | ext.cac.cacontology-prevention | Class | Educator working in community prevention programs. |
+| **CommunityEngagement** | ext.cac.cacontology-prevention | Class | Measurement of community engagement in prevention. |
+| **CommunityOutreach** | ext.cac.cacontology-prevention | Class | Outreach programs to engage communities in child protection. Modeled as gUFO Event. |
+| **CompletedPhase** | ext.cac.cacontology-temporal | Class | Terminal phase indicating investigation has been fully concluded with all actions finalized. |
+| **ComplexTrauma** | ext.cac.cacontology-victim-impact | Class | Complex trauma resulting from multiple types of victimization or prolonged abuse. |
+| **ComplianceDocumentationArtifact** | ext.cac.cacontology-legal-harmonization | Class | Documentation artifact (record/report/audit trail element) used to prove appropriate action to re... |
+| **ConditioningCoercion** | ext.cac.cacontology-athletic-exploitation | Class | Use of physical conditioning exercises as coercion mechanism for sexual compliance. Enhanced as g... |
+| **ContentCurationAction** | ext.cac.cacontology-extremist-enterprises | Class | Action of curating and organizing exploitative content for enterprise purposes. |
+| **ContentDeliveryNetwork** | ext.cac.cacontology-platform-infrastructure | Class | CDN infrastructure used for distributing illegal content globally with high availability and perf... |
+| **ContentDetectionCooperation** | ext.cac.cacontology-partnerships | Class | Cooperation in developing and improving automated content detection systems. Modeled as gUFO Event. |
+| **ContentHashingAction** | ext.cac.cacontology-detection | Class | The action of generating cryptographic or perceptual hashes for content identification and matchi... |
+| **ContentHashingAction** | ext.cac.cacontology-platforms | Class | An action by a platform to generate hashes of content for detection and matching. Modeled as gUFO... |
+| **ContentModerationAction** | ext.cac.cacontology-platforms | Class | An action taken by a platform to moderate content (review, remove, restrict, etc.). Modeled as gU... |
+| **ContributingToDelinquency** | ext.cac.cacontology-legal-outcomes | Class | Florida state charge for contributing to the delinquency or dependency of a child. Applies when a... |
+| **ControlledEnvironment** | ext.cac.cacontology-production | Class | Location specifically prepared or modified for production activities. |
+| **ControlledEnvironmentExploitation** | ext.cac.cacontology-stranger-abduction | Class | Exploitation in environment controlled by perpetrator to prevent escape or discovery. |
+| **ConvictingOffense** | ext.cac.cacontology-sex-offender-registry | Class | Criminal offense that resulted in sex offender registration requirement. |
+| **CoordinatedArrest** | ext.cac.cacontology-specialized-units | Class | Arrest coordinated as part of larger operation. Modeled as gUFO Event. |
+| **CoordinationEvent** | ext.cac.cac-core | Class | An event representing coordination, information sharing, or collaborative activity among stakehol... |
+| **CoordinationMechanism** | ext.cac.cacontology-partnerships | Class | Mechanism for coordinating activities and sharing information between partners. Modeled as gUFO E... |
+| **CoordinationMetrics** | ext.cac.cacontology-investigation-coordination | Class | Performance metrics for measuring effectiveness and efficiency of inter-agency coordination. |
+| **CriminalItemAgreementAction** | ext.cac.cacontology-undercover | Class | Suspect agreeing to bring items for abuse (condoms, vape, alcohol, etc.). |
+| **CriminalJusticeTraining** | ext.cac.cacontology-training | Class | Training for criminal justice professionals on child protection. Modeled as gUFO Event. |
+| **CriminalProcurement** | ext.cac.cacontology-physical-evidence | Class | Action of acquiring items specifically for criminal purposes (gUFO Event). |
+| **CriticalIncidentDebriefing** | ext.cac.cacontology-specialized-units | Class | Structured debriefing process following traumatic incidents. Modeled as gUFO Event. |
+| **CrossBorderThreatAlert** | ext.cac.cacontology-international | Class | Alert about threats that require immediate action across multiple countries. |
+| **CrossInstitutionalExploitation** | ext.cac.cacontology-educational-exploitation | Class | Exploitation targeting students from multiple educational institutions. Enhanced as gUFO Event wi... |
+| **CrossJurisdictionalControl** | ext.cac.cacontology-sex-trafficking | Class | Maintenance of victim control across multiple jurisdictions through coordinated trafficking netwo... |
+| **CrowdsourcingInvestigation** | ext.cac.cacontology-partnerships | Class | Investigation leveraging public participation for object identification, geolocation, and evidenc... |
+| **CryptocurrencyInfrastructure** | ext.cac.cacontology-platform-infrastructure | Class | Cryptocurrency wallets, exchanges, and payment processing systems used for anonymous financial tr... |
+| **CryptocurrencyService** | ext.cac.cacontology-platforms | Class | A service for cryptocurrency transactions and exchanges (e.g., Bitcoin, Coinbase, Binance). Model... |
+| **CyberKillChain** | ext.aeo.attack | Class | An cyber kill chain is an ordered sequence of actions or events describing a lifecycle from some ... |
 | **DNSCache** | uco.observable | Class | An DNS cache is a temporary locally stored collection of previous Domain Name System (DNS) query ... |
+| **DataMirrorCreation** | ext.cac.cacontology-platform-infrastructure | Class | Creating forensic mirrors of seized infrastructure for analysis and evidence preservation (gUFO E... |
+| **DataPreservationAction** | ext.cac.cacontology-platforms | Class | An action to preserve user data in response to legal requests. Modeled as gUFO Event. |
+| **DataSource** | ext.aeo.engagement | Class | A datasource is a grouping of characteristics unique to a specific source of data (e.g. a tool th... |
+| **DatabaseMatchAction** | ext.cac.cacontology-detection | Class | The action of comparing content against known CSAM hash databases. Modeled as gUFO Event. |
+| **DeceptionAction** | ext.aeo.engagement | Class | A deception action is an action used for and during a deception campaign which is performed to ma... |
+| **DeepfakeDetection** | ext.cac.cacontology-ai-csam | Class | Specialized analysis for detecting deepfake technology use in content, including face replacement... |
+| **DefensePattern** | ext.aeo.attack | Class | A defense pattern is a common approach (set of actions) utilized by a person or organization to c... |
 | **DefinedEffectFacet** | uco.observable | Facet | A defined effect facet is a grouping of characteristics unique to the effect of an observable act... |
+| **DegradingWrittenComments** | ext.cac.cacontology-educational-exploitation | Class | Degrading or humiliating written comments designed to undermine student confidence. Enhanced as g... |
+| **DenialAction** | ext.aeo.engagement | Class | A denial action is an action used for and during a deception campaign which restricts or denies a... |
+| **Deploy** | ext.aeo.engagement | Class | A Deploy action involves instantiating some deception objects prior or during an operation. |
+| **DetectionEvent** | ext.cac.cac-core | Class | An event representing the detection, identification, or flagging of content, behavior, or indicat... |
+| **DetectionResult** | ext.cac.cacontology-detection | Class | The result of a content detection action including confidence scores and classification. |
 | **Device** | uco.observable | Class | A device is a piece of equipment or a mechanism designed to serve a special purpose or perform a ... |
+| **DeviceDetection** | ext.cac.cacontology-specialized-units | Class | Detection of electronic storage devices during search operations. Modeled as gUFO Event. |
 | **DeviceFacet** | uco.observable | Facet | A device facet is a grouping of characteristics unique to a piece of equipment or a mechanism des... |
+| **DigitalForensicsTraining** | ext.cac.cacontology-training | Class | Training on digital forensics techniques for child protection cases. Modeled as gUFO Event. |
+| **DigitalSafety** | ext.cac.cacontology-prevention | Class | Prevention programs focused on digital safety. |
+| **DigitalSystemEntity** | ext.cac.cac-core | Class | An enduring entity representing a software or system-level resource such as an online service pla... |
+| **DirectPromotionOfSexualPerformance** | ext.cac.cacontology-legal-outcomes | Class | Florida state charge for direct promotion of a sexual performance by a child. Applies when defend... |
+| **DisclosureBarrierReduction** | ext.cac.cacontology-prevention | Class | Strategies to reduce barriers preventing victim disclosure. |
+| **DisguiseRequestAction** | ext.cac.cacontology-undercover | Class | Suspect requesting alleged minor wear disguise items (sunglasses, etc.) to avoid detection. |
+| **DispositionWorkflow** | ext.cac.cacontology-case-management | Class | Final case disposition workflow including sentencing, appeals, and case closure procedures. Enhan... |
+| **DomainSinkholing** | ext.cac.cacontology-platform-infrastructure | Class | Redirecting domain traffic to law enforcement controlled servers to gather intelligence (gUFO Eve... |
+| **DualCoachingRoleExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation leveraging multiple coaching positions across different teams or institutions. Enhan... |
+| **EarningsCollection** | ext.cac.cacontology-sex-trafficking | Class | Collection of money earned through victim exploitation by trafficking operation. Modeled as gUFO ... |
+| **EducationalPosterCampaign** | ext.cac.cacontology-prevention | Class | School-based poster distribution campaign for prevention education. |
+| **EducatorPerpetratedExploitation** | ext.cac.cacontology-educational-exploitation | Class | Child sexual exploitation committed by educational institution personnel using their position of ... |
+| **EmergencyCoordination** | ext.cac.cacontology-partnerships | Class | Rapid coordination mechanism for urgent situations requiring immediate partner response. Modeled ... |
+| **EmergencyDisclosureRequest** | ext.cac.cacontology-platforms | Class | Time-sensitive request by law enforcement/investigators to an electronic service provider for imm... |
+| **EmotionalIndicator** | ext.cac.cacontology-victim-impact | Class | Emotional symptoms or reactions indicating trauma. |
+| **EnduringEntity** | ext.cac.cac-core | Class | A thing that persists through time while potentially changing state. This is the CAC-facing root ... |
 | **EnvironmentVariable** | uco.observable | Class | An environment variable is a grouping of characteristics unique to a dynamic-named value that can... |
+| **EnvironmentalPrevention** | ext.cac.cacontology-prevention | Class | Prevention strategies focused on environmental factors. |
+| **EquipmentSeizureAction** | ext.cac.cacontology-asset-forfeiture | Class | Seizure of equipment used in commission of child exploitation offenses. Enhanced as gUFO Event fo... |
+| **Event** | ext.cac.cac-core | Class | Something that happens or unfolds in time — an action, interaction, incident, hearing, or process... |
+| **Event** | ext.aeo.engagement | Class | An Event characterizes some occurence. |
 | **Event** | uco.core | Class | An Event is a noteworthy occurrence (something that happens or might happen). |
 | **EventLog** | uco.observable | Class | An event log is a collection of event records. |
 | **EventRecord** | uco.observable | Class | An event record is something that happens in a digital context (e.g., operating system events). |
 | **EventRecordFacet** | uco.observable | Facet | An event record facet is a grouping of characteristics unique to something that happens in a digi... |
+| **EventSequence** | ext.cac.cacontology-temporal | Class | Ordered sequence of investigation events with temporal dependencies. Modeled as gUFO structured e... |
 | **EventsFacet** | uco.identity | Facet | Events is a grouping of characteristics unique to information related to specific relevant things... |
+| **EvidenceCollectionAction** | ext.cac.cacontology-physical-evidence | Class | Action of collecting and documenting physical evidence during search. Extends investigation:Inves... |
+| **EvidenceDispositionPhase** | ext.cac.cacontology-physical-evidence | Class | Phase during which evidence disposition is determined and executed (gUFO Phase - anti-rigid). |
+| **EvidenceGatheringPhase** | ext.cac.cacontology-undercover | Class | Phase focused on collecting criminal evidence through undercover interactions. |
+| **EvidenceObjectPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling digital evidence as Objects with intrinsic properties and forensic life... |
+| **EvidenceReviewAction** | ext.cac.cacontology | Class | The action of reviewing and analyzing digital evidence using forensic tools. |
+| **EvidenceSeizure** | ext.cac.cacontology-physical-evidence | Class | Legal seizure of physical items as evidence. Extends investigation:InvestigativeAction (gUFO Event). |
+| **EvidenceSharing** | ext.cac.cacontology-investigation-coordination | Class | Formal sharing of evidence between agencies including digital evidence, physical evidence, and fo... |
+| **EvidenceTransitionEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from Legal Process to Evidence Phase. |
+| **EvidenceVerificationAction** | ext.cac.cacontology-forensics | Class | The action of verifying evidence integrity using cryptographic hashes and comparison methods. |
+| **ExaminerActionLifecycle** | case.investigation | Class | An examiner action lifecycle is an action pattern consisting of an ordered set of actions or subo... |
+| **ExerciseComplianceCoercion** | ext.cac.cacontology-athletic-exploitation | Class | Exercise continuation contingent on sexual compliance and exposure demands. Enhanced as gUFO Event. |
+| **ExhaustionBasedCoercion** | ext.cac.cacontology-athletic-exploitation | Class | Physical exhaustion to reduce resistance and force compliance with sexual demands. Enhanced as gU... |
+| **ExplicitCommercialOffer** | ext.cac.cacontology-street-recruitment | Class | Direct offer of money in exchange for sexual services or performances. |
+| **ExplicitMessageRequestAction** | ext.cac.cacontology-undercover | Class | Suspect requesting explicit pictures or content from undercover persona. |
+| **ExploitationEvent** | ext.cac.cac-core | Class | An event representing an act of exploitation, abuse, or victimization of a child. |
+| **ExternalReview** | ext.cac.cacontology-case-management | Class | External review by independent parties for oversight, audit, or specialized expertise. Enhanced a... |
+| **ExtractionPhase** | ext.cac.cacontology-undercover | Class | Phase involving safe withdrawal from undercover operation. |
+| **ExtracurricularRecruitment** | ext.cac.cacontology-recruitment-networks | Class | Recruitment occurring during extracurricular activities or school events. |
+| **ExtraterritorialProduction** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of producing child pornography outside U.S. by U.S. citizens or residents. Modeled ... |
+| **FaceSwapping** | ext.cac.cacontology-ai-csam | Class | AI technique for replacing faces in existing content with different faces, potentially placing vi... |
+| **FacialConcealment** | ext.cac.cacontology-stranger-abduction | Class | Concealment of facial features to prevent identification. |
+| **FalsePositiveAnalysisAction** | ext.cac.cacontology-detection | Class | The action of analyzing and documenting false positive detections to improve accuracy. Modeled as... |
+| **FederalInvestigation** | ext.cac.cacontology-usa-federal-law | Class | Federal investigation of child exploitation crimes. Modeled as gUFO Event with temporal boundarie... |
+| **FederalProsecution** | ext.cac.cacontology-usa-federal-law | Class | Federal legal prosecution process for child exploitation crimes. Modeled as gUFO Event with tempo... |
 | **FilePermissionsFacet** | uco.observable | Facet | A file permissions facet is a grouping of characteristics unique to the access rights (e.g., view... |
+| **FinancialAccount** | ext.cac.cacontology-asset-forfeiture | Class | Bank account or financial instrument subject to restraint or forfeiture. Enhanced as gUFO Object ... |
+| **FinancialFlowAnalysis** | ext.cac.cacontology-platform-infrastructure | Class | Analysis of financial transactions and payment flows through platform monetization systems (gUFO ... |
+| **FinancialObfuscation** | ext.cac.cacontology-platform-infrastructure | Class | Methods used to obscure financial transactions and payment flows to avoid detection (gUFO Object). |
+| **FinancialPenaltyAction** | ext.cac.cacontology-asset-forfeiture | Class | Court-ordered financial penalty equal to benefits derived from child exploitation offenses. Enhan... |
+| **ForeignCommerceExploitation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime involving sexual exploitation of children in foreign commerce. Modeled as gUFO Event. |
+| **ForensicAcquisitionAction** | ext.cac.cacontology-forensics | Class | The action of creating a forensically sound copy of digital evidence using write-blocking and ver... |
+| **ForensicsLifecyclePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling forensics process lifecycle with acquisition, analysis, and presentatio... |
+| **ForensicsSpecialistRole** | ext.cac.cacontology-hotlines | Class | The role of a specialist who performs forensic analysis of evidence. |
+| **ForfeitureOutcome** | ext.cac.cacontology-asset-forfeiture | Class | Result of asset forfeiture proceedings. Enhanced as gUFO Object for outcome modeling. |
+| **ForwardToLEAction** | ext.cac.cacontology-hotlines | Class | The action of forwarding a report to law enforcement. Enhanced as gUFO Event for inter-agency coo... |
+| **GenerationSourceTracking** | ext.cac.cacontology-ai-csam | Class | Investigation process to identify the source, tools, and methods used to generate AI-CSAM. Enhanc... |
+| **GeolocationRequest** | ext.cac.cacontology-partnerships | Class | Request for public assistance in identifying geographic locations from visual evidence. Modeled a... |
+| **GlobalPlatformTakedown** | ext.cac.cacontology-international | Class | Takedown of global platforms with international user bases requiring coordinated action across mu... |
+| **GloveCompartmentSearch** | ext.cac.cacontology-physical-evidence | Class | Search of vehicle glove compartment as specific evidence location (gUFO Event). |
+| **GovernorsOfficeCrimePreventionFunding** | ext.cac.cacontology-taskforce | Class | State-level funding provided by Governor's Office for Crime Prevention and Policy for CAC task fo... |
+| **GroomingPattern** | ext.cac.cacontology-grooming | Class | Identifiable pattern of behavior across multiple communications or interactions that indicates gr... |
+| **GymExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation in gymnasium and indoor athletic facilities. Enhanced as gUFO Event. |
+| **GymTeacherRole** | ext.cac.cacontology-educational-exploitation | Class | Physical education teacher role with student interaction in athletic contexts. Enhanced as anti-r... |
 | **Hash** | uco.types | Class | A hash is a grouping of characteristics unique to the result of applying a mathematical algorithm... |
+| **HashFeedbackAction** | ext.cac.cacontology-hotlines | Class | The action of providing feedback about a hash submission. Enhanced as gUFO Event for collaborativ... |
+| **HashSharingProtocol** | ext.cac.cacontology-partnerships | Class | Protocol for sharing cryptographic hashes of illegal content between partners for detection and p... |
+| **HashSubmissionAction** | ext.cac.cacontology-hotlines | Class | The action of submitting a hash to a hash-sharing service. Enhanced as gUFO Event for digital for... |
+| **HelpSeekingBarrier** | ext.cac.cacontology-victim-impact | Class | Factor that prevents or impedes victim from seeking help (fear, control, isolation, trauma bonding). |
+| **HistoricalMetrics** | ext.cac.cacontology-taskforce | Class | Long-term historical performance data for task force operations. |
+| **Honeypot** | ext.aeo.engagement | Class |  A controlled environment intended to be probed, compromised or attacked by adversaries or malware. |
+| **HotlineAction** | ext.cac.cacontology-hotlines | Class | An action taken as part of processing a hotline report. Enhanced as gUFO Event for comprehensive ... |
+| **HotlineTraining** | ext.cac.cacontology-training | Class | Training for hotline operators and managers. Modeled as gUFO Event. |
+| **HybridTraining** | ext.cac.cacontology-training | Class | Training combining online and in-person delivery. Modeled as gUFO Event. |
 | **IComHandlerActionType** | uco.observable | Class | An IComHandler action type is a grouping of characteristics unique to a Windows Task-related acti... |
 | **IExecActionType** | uco.observable | Class | An IExec action type is a grouping of characteristics unique to an action that executes a command... |
 | **IShowMessageActionType** | uco.observable | Class | An IShow message action type is a grouping of characteristics unique to an action that shows a me... |
 | **IdentityAbstraction** | uco.core | Class | An identity abstraction is a grouping of identifying characteristics unique to an individual or o... |
+| **ImageGeneration** | ext.cac.cacontology-ai-csam | Class | Generation of static images using AI models such as diffusion models, GANs, or other generative t... |
+| **ImmediatePhysicalContactExploitation** | ext.cac.cacontology-educational-exploitation | Class | Sexual exploitation involving immediate physical contact without prior grooming or relationship b... |
+| **InPersonTraining** | ext.cac.cacontology-training | Class | Training delivered in physical classroom settings. Modeled as gUFO Event. |
+| **InappropriateSexualEducation** | ext.cac.cacontology-athletic-exploitation | Class | Use of sexual topics and education as exploitation method disguised as coaching. Enhanced as gUFO... |
+| **InfrastructureAnalysis** | ext.cac.cacontology-platform-infrastructure | Class | Analysis of seized infrastructure to understand platform operations and identify additional targe... |
+| **InfrastructureTakedown** | ext.cac.cacontology-platform-infrastructure | Class | Coordinated operation to dismantle platform infrastructure including servers, domains, and suppor... |
+| **InitiationEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from non-existence to Initial Phase. |
+| **InstitutionalEmploymentTermination** | ext.cac.cacontology-athletic-exploitation | Class | Employment termination following discovery of athletic coaching exploitation. Enhanced as gUFO Ev... |
+| **InstitutionalResponseSituation** | ext.cac.cacontology-educational-exploitation | Class | Situation involving institutional response to exploitation allegations, including investigation, ... |
+| **InstrumentOfOffense** | ext.cac.cacontology-asset-forfeiture | Class | Assets used as instruments in the commission of child exploitation offenses. Enhanced as gUFO Obj... |
+| **IntakeWorkflow** | ext.cac.cacontology-case-management | Class | Initial case intake and assessment workflow including triage and preliminary evaluation. Enhanced... |
+| **IntelligenceSharing** | ext.cac.cacontology-partnerships | Class | Sharing of actionable intelligence between partners while maintaining operational security. Model... |
+| **InternationalTraining** | ext.cac.cacontology-training | Class | Training program conducted across multiple countries. Modeled as gUFO Event. |
+| **InterstateVictimTransport** | ext.cac.cacontology-sex-trafficking | Class | Transportation of trafficking victims across state lines for commercial sexual exploitation. Mode... |
+| **InterviewWithoutCounsel** | ext.cac.cacontology-tactical | Class | Suspect interview conducted after suspect waives right to legal counsel. Extends investigation:In... |
+| **InvestigationLifecycle** | ext.cac.cacontology-temporal | Class | Complete temporal structure of CAC investigation from initiation to closure. Modeled as gUFO Kind... |
+| **InvestigationLifecycleSituation** | ext.cac.cacontology | Class | Overall situation encompassing the complete CAC investigation lifecycle. |
+| **InvestigationTraining** | ext.cac.cacontology-training | Class | Training on investigation methodologies and techniques. Modeled as gUFO Event. |
+| **InvestigationTrigger** | ext.cac.cacontology-us-ncmec | Class | Event or information that triggers law enforcement investigation based on NCMEC tip. |
+| **InvestigationWorkflow** | ext.cac.cacontology-case-management | Class | Active investigation workflow including evidence collection, analysis, and suspect identification... |
+| **InvestigativeAction** | ext.cac.cac-core | Class | An event that is specifically an investigative action within a CAC investigation. Aligned to both... |
 | **InvestigativeAction** | case.investigation | Class | An investigative action is something that may be done or performed within the context of an inves... |
+| **InvestigatorAssignment** | ext.cac.cacontology-case-management | Class | Specific assignment of investigators to cases with experience levels, caseload management, and sp... |
+| **ItemModification** | ext.cac.cacontology-physical-evidence | Class | Alteration or customization of items to facilitate criminal activity (gUFO Event). |
+| **JointOperation** | ext.cac.cacontology-partnerships | Class | Operation conducted jointly by multiple partners with shared resources and coordination. Modeled ... |
+| **K9SearchOperation** | ext.cac.cacontology-specialized-units | Class | Search operation utilizing K9 detection capabilities. Modeled as gUFO Event. |
+| **LargeScaleOperation** | ext.cac.cacontology-multi-jurisdiction | Class | Operation involving 100+ law enforcement actions or extensive coordination. |
+| **LargeScalePlatformTakedown** | ext.cac.cacontology-platforms | Class | Coordinated takedown of major exploitation platforms with user bases exceeding 1 million accounts... |
+| **LegalBasisForForfeiture** | ext.cac.cacontology-asset-forfeiture | Class | Legal justification and framework for asset forfeiture action. |
+| **LegalDataDisclosureAction** | ext.cac.cacontology-platforms | Class | An action to disclose user data to law enforcement in response to legal process. Modeled as gUFO ... |
+| **LegalEvent** | ext.cac.cac-core | Class | An event representing a legal proceeding, judicial action, sentencing hearing, or other court-rel... |
+| **LegalEventPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling legal events (hearings, sentencing, appeals) with temporal boundaries a... |
+| **LegalProceeding** | ext.cac.cacontology-legal-outcomes | Class | Formal judicial process for prosecuting cacontology-related crimes. Modeled as gUFO Event. |
+| **LegalProcessAction** | ext.cac.cacontology | Class | The action of initiating legal processes such as search warrants, subpoenas, or MLAT requests. |
+| **LegalProcessTransitionEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from Analysis to Legal Process Phase. |
+| **LegalReview** | ext.cac.cacontology-case-management | Class | Legal review of case materials, procedures, and prosecution readiness. Enhanced as gUFO Event. |
+| **LegalTraining** | ext.cac.cacontology-training | Class | Training on legal aspects of child protection. Modeled as gUFO Event. |
+| **LegislativeInstrument** | ext.cac.cacontology-legal-harmonization | Class | A bill, resolution, or other legislative document. |
+| **LegislativeProcess** | ext.cac.cacontology-legal-harmonization | Class | A step in the legislative lifecycle - applicable across jurisdictions. |
+| **LegitimateContactExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation of legitimate athletic physical contact for sexual purposes. Enhanced as gUFO Event. |
+| **LiveProductionEvent** | ext.cac.cacontology-production | Class | Real-time production of child sexual abuse material involving live victims. |
+| **LiveStreamContent** | ext.cac.cacontology-production | Class | Content transmitted in real-time during live production events. |
+| **LivestreamedCoercionShow** | ext.cac.cacontology-sadistic-online-exploitation | Class | A coordinated livestreamed coercion event (ritualized 'show') in which participants celebrate, wi... |
+| **LocationIsolation** | ext.cac.cacontology-stranger-abduction | Class | Use of isolated or secluded locations to prevent victim escape or discovery. |
+| **LockerRoomExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation in locker rooms and changing areas with privacy expectations. Enhanced as gUFO Event. |
+| **ManualClassificationAction** | ext.cac.cacontology-detection | Class | The action of human review and classification of suspected CSAM content. Modeled as gUFO Event. |
 | **MarkingDefinitionAbstraction** | uco.core | Class | A marking definition abstraction is a grouping of characteristics unique to the expression of a s... |
+| **MarylandICACtaskForce** | ext.cac.cacontology-taskforce | Class | Maryland state CAC task force coordinated by Maryland State Police Computer Crimes Unit with Gove... |
+| **MassChildRescueOperation** | ext.cac.cacontology-multi-jurisdiction | Class | Large-scale operation resulting in rescue of 100+ children. |
+| **MassProsecutionCoordination** | ext.cac.cacontology-multi-jurisdiction | Class | Coordination of prosecutions for massive user bases from large-scale platform takedowns requiring... |
+| **MassUserBehaviorAnalysis** | ext.cac.cacontology-platforms | Class | Analysis of user behavior patterns across massive user bases for investigation prioritization and... |
+| **MasturbationDiscussionExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation through extensive masturbation discussions during athletic training. Enhanced as gUF... |
+| **MetadataExtractionAction** | ext.cac.cacontology-forensics | Class | The action of extracting metadata from digital artifacts including EXIF, file system timestamps, ... |
+| **MinorToMinorInteractionAnnotation** | ext.cac.cacontology-us-ncmec | Class | Annotation indicating the report is associated with an interaction between minors. Source: NCMEC ... |
+| **MissingChildRescueOperation** | ext.cac.cacontology-investigation-coordination | Class | Time-boxed, multi-party operation focused on locating missing children/teens at risk of endangerm... |
+| **MobileForensicTool** | ext.cac.cacontology-forensics | Class | A tool specialized for mobile device forensics including logical and physical extraction (e.g., C... |
+| **ModelIdentification** | ext.cac.cacontology-ai-csam | Class | Process of identifying the specific AI model or algorithm used to generate illegal content. Enhan... |
+| **ModelTraining** | ext.cac.cacontology-ai-csam | Class | Process of training AI models on datasets that may include illegal content for the purpose of gen... |
+| **MultiJurisdictionalOperation** | ext.cac.cacontology-specialized-units | Class | Operation involving multiple jurisdictions and agencies. Modeled as gUFO Event. |
+| **MultiStateForfeiture** | ext.cac.cacontology-asset-forfeiture | Class | Asset forfeiture operation spanning multiple Australian states and territories. Subclasses AssetF... |
+| **MultiStateTraffickingConspiracy** | ext.cac.cacontology-sex-trafficking | Class | Criminal conspiracy spanning multiple states for trafficking operations (e.g., Brooklyn-North Car... |
 | **NTFSFilePermissionsFacet** | uco.observable | Facet | An NTFS file permissions facet is a grouping of characteristics unique to the access rights (e.g.... |
+| **NamedOperation** | ext.cac.cacontology-specialized-units | Class | Formally named multi-phase operation with specific objectives. Modeled as gUFO Event. |
+| **Narrative** | ext.aeo.engagement | Class | A narrative is a script of all expected sequence of actions, events, entities and their interacti... |
+| **NetworkPerformance** | ext.cac.cacontology-taskforce | Class | Performance metrics for multi-agency network coordination. |
+| **NetworkTopologyAnalysis** | ext.cac.cacontology-platform-infrastructure | Class | Analysis of network architecture and connectivity patterns within platform infrastructure (gUFO E... |
+| **Nudification** | ext.cac.cacontology-ai-csam | Class | AI content generation/manipulation process that produces synthetic nudity (e.g., 'nudifying apps'... |
+| **NudificationTool** | ext.cac.cacontology-ai-csam | Class | Software tool or functionality capable of performing AI-enabled nudification (synthetic nudity) o... |
+| **OSINTInvestigation** | ext.cac.cacontology-partnerships | Class | Open source intelligence investigation conducted by skilled volunteers and researchers. Modeled a... |
+| **Obfuscate** | ext.aeo.engagement | Class | An Obfuscate action is a transformative action an entity or tool performs to some object to reduc... |
+| **ObjectIdentificationRequest** | ext.cac.cacontology-partnerships | Class | Request for public assistance in identifying objects, locations, or other evidence from case mate... |
+| **Objective** | ext.aeo.objective | Class | An objective is some particular condition or state that is desired to be achieved and toward whic... |
+| **ObscenityDistribution** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of distributing obscene materials through interstate or foreign commerce. Modeled a... |
+| **ObscenityImportation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of importing obscene materials into the United States. Modeled as gUFO Event. |
+| **ObscenityTransportation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of transporting obscene materials across state or international boundaries. Modeled... |
 | **Observable** | uco.observable | Class | An observable is a characterizable item or action within the digital domain. |
 | **ObservableAction** | uco.observable | Class | An observable action is a grouping of characteristics unique to something that may be done or per... |
 | **ObservablePattern** | uco.observable | Class | An observable pattern is a grouping of characteristics unique to a logical pattern composed of ob... |
-| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
+| **Occurrent** | ext.cac.cac-core | Class | A CAC organizing superclass for things that happen or unfold in time. This is a CAC-layer abstrac... |
+| **OffenderDeviceSearchWarrant** | ext.cac.cacontology-sex-offender-registry | Class | Search warrant executed on registered sex offender's residence and devices for digital evidence r... |
+| **OngoingDangerResponse** | ext.cac.cacontology-sex-trafficking | Class | Response to situations where victims are identified as being in ongoing danger from traffickers. ... |
+| **OnlineGroomingSituation** | ext.cac.cacontology-grooming | Class | Overall situation encompassing the grooming relationship and interactions. |
+| **OnlineObscenityDistribution** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of distributing obscene materials through internet and digital platforms. Modeled a... |
+| **OnlinePurchase** | ext.cac.cacontology-physical-evidence | Class | Purchase of items through online platforms for criminal purposes (gUFO Event). |
+| **OnlineTraining** | ext.cac.cacontology-training | Class | Training delivered through online platforms. Modeled as gUFO Event. |
+| **OperationMetrics** | ext.cac.cacontology-specialized-units | Class | Metrics and performance data for specialized operations. Modeled as gUFO Object. |
+| **OperationSafeOnlineSummer** | ext.cac.cacontology-specialized-units | Class | National operation across 61 CAC Task Forces during summer months. Modeled as gUFO Event. |
+| **OperationUnhinged** | ext.cac.cacontology-specialized-units | Class | Specific operation conducted by Idaho CAC resulting in 12 arrests. Modeled as gUFO Event. |
+| **Outcome** | ext.cac.cacontology-usa-legislative | Class | Result of advocacy efforts. |
+| **OutreachTriggeredInvestigation** | ext.cac.cacontology-prevention | Class | Investigation initiated as direct result of community outreach presentation. |
+| **OverClothingToUnderClothingEscalation** | ext.cac.cacontology-athletic-exploitation | Class | Progression from over-clothing to under-clothing contact during athletic activities. Enhanced as ... |
+| **ParallelEventCluster** | ext.cac.cacontology-temporal | Class | Set of investigation events occurring simultaneously or with temporal overlap. Modeled as gUFO co... |
+| **ParentNetworkDiscovery** | ext.cac.cacontology-athletic-exploitation | Class | Discovery through parent community networks and team family communications. Enhanced as gUFO Event. |
+| **PaymentProcessing** | ext.cac.cacontology-platform-infrastructure | Class | Financial processing systems enabling platform monetization through subscription fees, content pu... |
+| **PeerReview** | ext.cac.cacontology-case-management | Class | Peer review process for case methodology, analysis, and conclusions. Enhanced as gUFO Event. |
+| **PersonLikeEntity** | ext.cac.cac-core | Class | An enduring entity that is person-like in the domain model. Use for natural persons and person-pr... |
+| **Phase3Wave2** | ext.cac.cacontology-integration-patterns | Class | Second wave implementing medium-priority modules (specialized units, registry, prevention, intern... |
+| **PhaseTransitionEvent** | ext.cac.cacontology-temporal | Class | Event marking transition between investigation phases. Modeled as gUFO Event with temporal bounda... |
+| **PhysicalContactEscalation** | ext.cac.cacontology-athletic-exploitation | Class | Escalation of physical contact within athletic training context. Enhanced as gUFO Event. |
+| **PhysicalEnduranceExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation of physical endurance requirements and athletic performance demands. Enhanced as gUF... |
+| **PhysicalPurchase** | ext.cac.cacontology-physical-evidence | Class | In-person purchase of items for criminal purposes (gUFO Event). |
+| **PhysicalSearch** | ext.cac.cacontology-physical-evidence | Class | Law enforcement search of physical premises for evidence. Extends investigation:InvestigativeActi... |
+| **PhysicalTrainingCoercion** | ext.cac.cacontology-athletic-exploitation | Class | Use of physical training, conditioning, and exercise as coercion mechanism for sexual exploitatio... |
+| **PlaceLikeEntity** | ext.cac.cac-core | Class | An enduring entity used to represent places, venues, virtual environments treated as locatable co... |
+| **PlannedEvent** | ext.aeo.engagement | Class | A PlannedEvent is a collection of actions, entities, interactions designated to be performed at s... |
+| **PlatformMonitoring** | ext.cac.cacontology-partnerships | Class | Cooperative monitoring of platforms and services for illegal content and activities. Modeled as g... |
+| **PlatformOperation** | ext.cac.cacontology-platforms | Class | Coordinated law enforcement operation targeting specific platforms or services. Modeled as gUFO E... |
+| **PlatformSpecification** | ext.toolcap | Class | DEPRECATED in 0.4.0. Use first-class uco-observable:OperatingSystem instances linked via uco-core... |
+| **PleaBargaining** | ext.cac.cacontology-legal-outcomes | Class | Negotiation process between prosecution and defense for plea agreement. Modeled as gUFO Event. |
+| **PositionOfTrustExploitation** | ext.cac.cacontology-educational-exploitation | Class | Exploitation leveraging educator's position of trust and authority over students. Enhanced as gUF... |
+| **PostPresentationDisclosure** | ext.cac.cacontology-prevention | Class | Victim disclosure that occurs following a safety presentation or educational event. |
+| **PracticeSessionExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation during regular practice sessions and training activities. Enhanced as gUFO Event. |
+| **PreventionAdvocate** | ext.cac.cacontology-prevention | Class | Advocate promoting prevention initiatives. |
+| **PreventionCurriculum** | ext.cac.cacontology-prevention | Class | Structured curriculum for prevention education. |
+| **PreventionEffectiveness** | ext.cac.cacontology-prevention | Class | Assessment of prevention program effectiveness. |
+| **PreventionMaterial** | ext.cac.cacontology-prevention | Class | Educational material focused on prevention strategies. |
+| **PreventionMetrics** | ext.cac.cacontology-prevention | Class | Metrics for measuring prevention program effectiveness. |
+| **PreventionProgram** | ext.cac.cacontology-prevention | Class | Structured program designed to prevent child abuse and exploitation. Modeled as gUFO Event. |
+| **PreventionSpecialist** | ext.cac.cacontology-prevention | Class | Professional specializing in prevention programs. |
+| **PreventiveActionPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling prevention activities as actions with preventive intent and outcome mea... |
+| **PrimaryInvestigatorAssignment** | ext.cac.cacontology-case-management | Class | Lead investigator assignment with primary responsibility for case management and coordination. En... |
+| **PrimaryPrevention** | ext.cac.cacontology-prevention | Class | Prevention strategies that stop abuse before it occurs. |
 | **Process** | uco.observable | Class | A process is an instance of a computer program executed on an operating system. |
 | **ProcessFacet** | uco.observable | Facet | A process facet is a grouping of characteristics unique to an instance of a computer program exec... |
 | **PropertiesEnumeratedEffectFacet** | uco.observable | Facet | A properties enumerated effect facet is a grouping of characteristics unique to the effects of ac... |
+| **PropertyForfeitureAction** | ext.cac.cacontology-asset-forfeiture | Class | Legal action resulting in permanent forfeiture of property to the Commonwealth or state. Enhanced... |
 | **PropertyReadEffectFacet** | uco.observable | Facet | A properties read effect facet is a grouping of characteristics unique to the effects of actions ... |
+| **PropertyRestraintAction** | ext.cac.cacontology-asset-forfeiture | Class | Legal action to restrain property pending forfeiture proceedings, preventing disposal or transfer... |
+| **ProsecutionWorkflow** | ext.cac.cacontology-case-management | Class | Prosecution preparation and court proceedings workflow including case presentation and trial mana... |
+| **ProsecutorAssignment** | ext.cac.cacontology-case-management | Class | Assignment of prosecutors for legal review, charging decisions, and court representation. Enhance... |
 | **ProvenanceRecord** | case.investigation | Class | A provenance record is a grouping of characteristics unique to the provenantial (chronology of th... |
+| **PubicHairFocusedExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Specific exploitation focused on pubic hair viewing and discussion. Enhanced as gUFO Event. |
+| **PublicAwareness** | ext.cac.cacontology-prevention | Class | Campaigns to raise public awareness about child protection. Modeled as gUFO Event. |
+| **QRCodeIntegration** | ext.cac.cacontology-prevention | Class | QR code system for discreet access to prevention information. |
+| **QualityAssuranceReview** | ext.cac.cacontology-case-management | Class | Systematic quality assurance review ensuring compliance with standards and procedures. Enhanced a... |
+| **RecantationNotification** | ext.cac.cacontology-recantation | Class | An action in which a family member, caregiver, professional, or other person reports that a child... |
+| **RecantationPressure** | ext.cac.cacontology-recantation | Class | A coercive or inducement-bearing action intended to influence a victim to deny, minimize, or retr... |
+| **ReceiveCybertipAction** | ext.cac.cacontology | Class | The initial action of receiving a cybertip report from a reporting entity (e.g., NCMEC, INHOPE). |
+| **RecordingAction** | ext.cac.cacontology-production | Class | Action of recording child sexual abuse for the purpose of creating illegal material. |
 | **RecoveredObject** | uco.observable | Class | An observable object that was the result of a recovery operation. |
+| **RecruitmentTiming** | ext.cac.cacontology-recruitment-networks | Class | Temporal patterns and timing of recruitment activities within educational environments. |
+| **RegistrationReviewArrest** | ext.cac.cacontology-sex-offender-registry | Class | Arrest executed when offender arrives for scheduled registration review or update. |
+| **RegularMeeting** | ext.cac.cacontology-partnerships | Class | Regular meetings between partners for coordination, information sharing, and strategic planning. ... |
+| **ReportReviewAction** | ext.cac.cacontology-hotlines | Class | The action of reviewing and triaging a hotline report. Enhanced as gUFO Event with comprehensive ... |
+| **ResidenceSearch** | ext.cac.cacontology-physical-evidence | Class | Search of residential premises including homes and apartments (gUFO Event). |
+| **ResolutionTransitionEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from Evidence to Resolution Phase. |
+| **Respond** | ext.aeo.engagement | Class | A Respond action is a reactive, defensive action to some adversarial detection or alert. |
+| **ResumptionEvent** | ext.cac.cacontology-temporal | Class | Event causing investigation to exit suspended state and resume active phase. Modeled as gUFO Even... |
+| **ReviewCybertipAction** | ext.cac.cacontology | Class | The action of reviewing and analyzing a cybertip report by an analyst. |
+| **RiskPrevention** | ext.cac.cacontology-prevention | Class | Programs focused on preventing risk factors for child abuse. Modeled as gUFO Event. |
+| **RiskStratificationAction** | ext.cac.cacontology-detection | Class | The action of producing a risk-stratified assessment to prioritize downstream review and operatio... |
+| **RiskStratificationResult** | ext.cac.cacontology-detection | Class | A risk-stratified output artifact (tier/score/rationale) produced from detection or tip signals t... |
+| **RoleTransition** | ext.cac.cacontology-temporal | Class | Event representing change in person's role within investigation. Modeled as gUFO Event with role ... |
+| **RumorCirculationDiscovery** | ext.cac.cacontology-athletic-exploitation | Class | Discovery through rumor circulation among families and team communities. Enhanced as gUFO Event. |
+| **SafeDisclosureEnvironment** | ext.cac.cacontology-prevention | Class | Creation of safe environment where victims feel comfortable disclosing abuse. |
+| **SchoolAthleticExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation within school-based athletic programs leveraging institutional authority. Enhanced a... |
+| **SchoolBasedInvestigation** | ext.cac.cacontology-athletic-exploitation | Class | Investigation initiated by educational institution following exploitation reports. Enhanced as gU... |
+| **SchoolBasedRecruitment** | ext.cac.cacontology-recruitment-networks | Class | Trafficking recruitment occurring within or through school environments and relationships. |
+| **SchoolHoursRecruitment** | ext.cac.cacontology-recruitment-networks | Class | Recruitment occurring during regular school hours through peer interactions. |
+| **SchoolVulnerabilityFactor** | ext.cac.cacontology-recruitment-networks | Class | Factors within educational environment that increase vulnerability to recruitment. |
+| **SecondaryInvestigatorAssignment** | ext.cac.cacontology-case-management | Class | Supporting investigator assignment providing specialized skills or additional resources. Enhanced... |
+| **SecondaryPrevention** | ext.cac.cacontology-prevention | Class | Early intervention strategies to prevent escalation. |
+| **SecondaryTraumaticStress** | ext.cac.cacontology-analyst-wellbeing | Class | Occupational stress reactions arising from indirect exposure to others' trauma, including exposur... |
 | **SendControlCodeEffectFacet** | uco.observable | Facet | A send control code effect facet is a grouping of characteristics unique to the effects of action... |
+| **SentencingHearing** | ext.cac.cacontology-legal-outcomes | Class | Court proceeding where sentence is determined and imposed. Modeled as gUFO Event. |
+| **ServerSeizure** | ext.cac.cacontology-platform-infrastructure | Class | Physical or virtual seizure of servers hosting platform infrastructure (gUFO Event). |
+| **SexTourism** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of traveling abroad with intent to engage in sexual conduct with minors. Modeled as... |
+| **SexTraffickingConspiracy** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of conspiracy to engage in sex trafficking of minors. Modeled as gUFO Event. |
+| **SexTraffickingOfMinors** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of sex trafficking involving minors, including recruitment, harboring, transportati... |
+| **SextortionAwareness** | ext.cac.cacontology-prevention | Class | Prevention program focused on sextortion education and awareness. |
+| **SextortionEducation** | ext.cac.cacontology-prevention | Class | Educational content specifically addressing sextortion risks and prevention. |
+| **SexualAbuseOfMinor** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of sexual abuse specifically involving minor victims. Modeled as gUFO Event. |
+| **SexualConsequenceGameGrooming** | ext.cac.cacontology-grooming | Class | Physical-space grooming pattern where the perpetrator frames sexualized contact as part of a game... |
+| **SexualEducationExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Use of sexual topics and education as exploitation method within athletic context. Enhanced as gU... |
+| **SexualExploitation** | ext.cac.cacontology-grooming | Class | Direct exploitation of child for sexual purposes including solicitation of images or performances. |
+| **SexualTopicGrooming** | ext.cac.cacontology-athletic-exploitation | Class | Grooming through inappropriate sexual discussions during athletic activities. Enhanced as gUFO Ev... |
+| **SilenceEnforcement** | ext.cac.cacontology-stranger-abduction | Class | Specific threats or actions to prevent victim from calling for help. |
+| **SocialIsolationAtSchool** | ext.cac.cacontology-recruitment-networks | Class | Student isolation within school environment making them vulnerable to recruitment. |
+| **SportsContextPhysicalAbuse** | ext.cac.cacontology-athletic-exploitation | Class | Physical abuse within sports training context disguised as coaching. Enhanced as gUFO Event. |
 | **StateChangeEffectFacet** | uco.observable | Facet | A state change effect facet is a grouping of characteristics unique to the effects of actions upo... |
+| **StatewideCampaignMetrics** | ext.cac.cacontology-prevention | Class | Metrics for measuring statewide prevention campaign effectiveness. |
 | **StorageMediumFacet** | uco.observable | Facet | A storage medium facet is a grouping of characteristics unique to a the storage capabilities of a... |
+| **Storyline** | ext.aeo.engagement | Class | A Storyline is a sequence of semi-ordered planned events as an expected trajectory for a narrative. |
 | **SubjectActionLifecycle** | case.investigation | Class | A subject action lifecycle is an action pattern consisting of an ordered set of multiple actions ... |
+| **SupervisorAssignment** | ext.cac.cacontology-case-management | Class | Supervisory assignment for case oversight, quality assurance, and administrative guidance. Enhanc... |
+| **SupervisoryReview** | ext.cac.cacontology-case-management | Class | Formal supervisory review of case progress, decisions, and quality standards. Enhanced as gUFO Ev... |
+| **SupportEvent** | ext.cac.cac-core | Class | An event representing victim support, advocacy, training, or welfare-related activity. |
+| **SuspectCommunicationAction** | ext.cac.cacontology-undercover | Class | Base class for criminal communication actions initiated by suspect during undercover operation. |
+| **SuspensionEvent** | ext.cac.cacontology-temporal | Class | Event causing investigation to enter suspended state. Modeled as gUFO Event creating suspension s... |
+| **SyntheticMediaAnalysis** | ext.cac.cacontology-ai-csam | Class | Forensic analysis of media to determine if it was artificially generated and identify generation ... |
+| **SystemInterventionFear** | ext.cac.cacontology-recantation | Class | Fear of court, child-protection action, family breakup, or other multidisciplinary system consequ... |
+| **TakedownRequestAction** | ext.cac.cacontology-hotlines | Class | The action of requesting content takedown from a hosting provider. Enhanced as gUFO Event for con... |
 | **TaskActionType** | uco.observable | Class | A task action type is a grouping of characteristics for a scheduled action to be completed. |
-| **ToolCapability** | ext.toolcap | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
+| **TaskForceCoordination** | ext.cac.cacontology-partnerships | Class | Coordination through multi-partner task forces with representatives from different organizations.... |
+| **TaskForceMetrics** | ext.cac.cacontology-taskforce | Class | Performance metrics and statistics for CAC task force operations. |
+| **TeacherStudentExploitation** | ext.cac.cacontology-educational-exploitation | Class | Sexual exploitation of students by teachers using position of authority and trust. Enhanced as gU... |
+| **TeamBasedExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Contextual situation in which exploitation occurs using team dynamics, group pressure, and collec... |
+| **TeamDynamicsExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Contextual situation in which exploitation occurs using team membership, group dynamics, and athl... |
+| **TechnicalDataSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of technical data including forensic tools, methodologies, and technical analysis results. |
+| **TechnologyCooperation** | ext.cac.cacontology-partnerships | Class | Cooperation in developing and deploying technology solutions for child protection. Modeled as gUF... |
+| **TertiaryPrevention** | ext.cac.cacontology-prevention | Class | Prevention of re-victimization and recurrence. |
+| **ThreatBasedControl** | ext.cac.cacontology-stranger-abduction | Class | Use of threats to maintain victim compliance and prevent resistance. |
+| **TimelineAnalysisAction** | ext.cac.cacontology-forensics | Class | The action of creating chronological sequences of digital artifacts and events for investigation ... |
+| **ToolDevelopment** | ext.cac.cacontology-partnerships | Class | Joint development of investigative tools and technologies for law enforcement use. Modeled as gUF... |
+| **TrafficStop** | ext.cac.cacontology-tactical | Class | Investigative traffic stop used as part of undercover operation or to apprehend suspect. Extends ... |
+| **TraffickerControlBarrier** | ext.cac.cacontology-victim-impact | Class | Control mechanisms used by traffickers that prevent victims from seeking help. |
+| **TraffickingOperation** | ext.cac.cacontology-sex-trafficking | Class | Coordinated trafficking activity involving multiple perpetrators, victims, and locations. Modeled... |
+| **TraffickingVictimRescue** | ext.cac.cacontology-sex-trafficking | Class | Specialized rescue operation for trafficking victims involving multiple agencies and victim servi... |
+| **TrainingBasedTouching** | ext.cac.cacontology-athletic-exploitation | Class | Inappropriate touching disguised as athletic training and coaching instruction. Enhanced as gUFO ... |
+| **TrainingCampExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation during intensive training camps or extended athletic sessions. Enhanced as gUFO Event. |
+| **TrainingDataAnalysis** | ext.cac.cacontology-ai-csam | Class | Analysis of datasets potentially used to train AI models for generating illegal content. Enhanced... |
+| **TrainingDrillCoercion** | ext.cac.cacontology-athletic-exploitation | Class | Use of training drills and exercises for exploitation demands and sexual compliance. Enhanced as ... |
+| **TransportArrangementAction** | ext.cac.cacontology-undercover | Class | Suspect arranging to pick up and transport alleged minor to meeting location. |
+| **TransportationForSexualExploitation** | ext.cac.cacontology-usa-federal-law | Class | Federal crime of transporting minors across international boundaries for sexual exploitation. Mod... |
+| **TravelTeamExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation within travel or club sports teams where coach has enhanced authority and access to ... |
+| **TrialProceeding** | ext.cac.cacontology-legal-outcomes | Class | Formal trial process with jury or judge determining guilt or innocence. Modeled as gUFO Event. |
+| **TrustViolation** | ext.cac.cacontology-custodial | Class | Action that violates a position of trust or custodial responsibility. Modeled as gUFO Event with ... |
 | **UNIXFilePermissionsFacet** | uco.observable | Facet | A UNIX file permissions facet is a grouping of characteristics unique to the access rights (e.g.,... |
 | **UNIXProcess** | uco.observable | Class | A UNIX process is an instance of a computer program executed on a UNIX operating system. |
 | **UNIXProcessFacet** | uco.observable | Facet | A UNIX process facet is a grouping of characteristics unique to an instance of a computer program... |
+| **USExecutiveAction** | ext.cac.cacontology-usa-legislative | Class | Presidential signing or veto of legislation. |
+| **UnknownVictimSubmission** | ext.cac.cacontology | Class | The action of submitting information about unidentified victims to relevant databases. |
+| **UrgentRescueLifecycle** | ext.cac.cacontology-temporal | Class | Accelerated investigation lifecycle for urgent child rescue situations. Compressed phase duration... |
+| **UserAccessPatternAnalysis** | ext.cac.cacontology-platform-infrastructure | Class | Analysis of user access patterns and geographic distribution based on infrastructure logs (gUFO E... |
+| **ValidationPhase** | ext.cac.cacontology-detection | Class | Phase of validating detection results and reducing false positives. Modeled as anti-rigid gUFO Ph... |
 | **ValuesEnumeratedEffectFacet** | uco.observable | Facet | A values enumerated effect facet is a grouping of characteristics unique to the effects of action... |
+| **VehicleSearch** | ext.cac.cacontology-physical-evidence | Class | Search of motor vehicles for evidence or contraband. May be conducted with consent or warrant (gU... |
 | **Victim** | uco.victim | Class | A victim is a role played by a person or organization that is/was the target of some malicious ac... |
 | **VictimActionLifecycle** | case.investigation | Class | A victim action lifecycle is an action pattern consisting of an ordered set of multiple actions o... |
+| **VictimControl** | ext.cac.cacontology-sex-trafficking | Class | Methods used to maintain psychological and physical control over trafficking victims. Modeled as ... |
+| **VictimDisclosureTriggering** | ext.cac.cacontology-prevention | Class | Safety education event that triggers victim disclosure of ongoing abuse. |
+| **VictimEmergencyResponse** | ext.cac.cacontology-sex-trafficking | Class | Emergency response to 911 calls from trafficking victims seeking help. Modeled as gUFO Event. |
+| **VictimExtraction** | ext.cac.cacontology-victim-impact | Class | Immediate removal of victim from dangerous trafficking situation following emergency call. |
+| **VictimRecruitment** | ext.cac.cacontology-sex-trafficking | Class | Process of identifying, targeting, and acquiring new victims for trafficking operations. Modeled ... |
+| **VictimRemovalAction** | ext.cac.cacontology-forensics | Class | Action taken to remove identified victims from further harm and exploitation. |
+| **VictimRescueAction** | ext.cac.cacontology | Class | The action of rescuing and providing support to identified victims. |
+| **VictimRole** | ext.cac.cacontology | Class | Role of a person who is a victim of child sexual abuse or exploitation. Modeled as anti-rigid gUF... |
+| **VictimRotation** | ext.cac.cacontology-sex-trafficking | Class | Systematic movement of victims between different locations to avoid detection and maintain contro... |
+| **VictimSafetyAssessment** | ext.cac.cacontology-sex-trafficking | Class | Assessment of victim safety and ongoing threats from trafficking network. Modeled as gUFO Event. |
+| **VictimSafetyPlanning** | ext.cac.cacontology-victim-impact | Class | Development of safety plan for trafficking victim to prevent re-victimization. |
+| **VictimServiceTraining** | ext.cac.cacontology-training | Class | Training for professionals providing victim services. Modeled as gUFO Event. |
+| **VictimTransportation** | ext.cac.cacontology-sex-trafficking | Class | Transportation of trafficking victims between locations for commercial sexual exploitation. Model... |
+| **VideoCallRequestAction** | ext.cac.cacontology-undercover | Class | Suspect requesting video call with undercover persona, often to confirm alone or for explicit pur... |
+| **VideoGeneration** | ext.cac.cacontology-ai-csam | Class | Generation of video content using AI models capable of creating temporal sequences and motion. En... |
+| **WellnessCheck** | ext.cac.cacontology-specialized-units | Class | Regular check on officer mental health and wellbeing. Modeled as gUFO Event. |
 | **WindowsCriticalSection** | uco.observable | Class | A Windows critical section is a Windows object that provides synchronization similar to that prov... |
 | **WindowsEvent** | uco.observable | Class | A Windows event is a notification record of an occurance of interest (system, security, applicati... |
 | **WindowsHook** | uco.observable | Class | A Windows hook is a mechanism by which an application can intercept events, such as messages, mou... |
 | **WindowsSystemRestore** | uco.observable | Class | A Windows system restore is a capture of a Windows computer's state (including system files, inst... |
 | **WindowsTask** | uco.observable | Class | A Windows task is a process that is scheduled to execute on a Windows operating system by the Win... |
 | **WindowsTaskFacet** | uco.observable | Facet | A Windows Task facet is a grouping of characteristics unique to a Windows Task (a process that is... |
+| **WorkplaceSearch** | ext.cac.cacontology-physical-evidence | Class | Search of workplace or commercial premises (gUFO Event). |
+| **WrittenHarassment** | ext.cac.cacontology-educational-exploitation | Class | Harassment through written comments on student work, assignments, or academic materials. Enhanced... |
 
-**API** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
-
-**Action** key properties:
+**AICSAMInvestigation** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
@@ -1538,21 +3839,29 @@ Classes for modeling actions taken during an investigation or actions performed 
 | name | string | No |
 | objectCreatedTime | dateTime | No |
 | objectMarking | MarkingDefinitionAbstraction | No |
-| *... 16 more* | | |
+| *... 14 more* | | |
 
-**ActionLifecycle** key properties:
+**AIContentDetection** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 17 more* | | |
+| detectionConfidence | decimal | No |
+| detectionMethod | string | No |
+| evidenceAdmissibility | string | No |
+| processingTime | decimal | No |
+| detectionTimePoint | dateTime | Yes |
+| startTime | dateTime | Yes |
+
+**AIContentGeneration** key properties:
+
+| Property | Type | Required |
+|----------|------|----------|
+| generationComplexity | string | No |
+| generationTechnique | string | No |
+| technicalExpertiseRequired | string | No |
+| generationDuration | duration | No |
+| endTime | dateTime | No |
+| startTime | dateTime | Yes |
 
 **Example usage:**
 
@@ -1603,40 +3912,272 @@ CASE-specific classes for structuring an investigation: cases, investigative act
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
-| **AccessRestriction** | ext.toolcap | Class | An access restriction describes a security, licensing, classification, operational security, or l... |
+| **AICSAMInvestigation** | ext.cac.cacontology-ai-csam | Class | Investigation specifically focused on AI-generated child sexual abuse material, requiring special... |
+| **AIContentDetection** | ext.cac.cacontology-ai-csam | Class | Process of identifying AI-generated or AI-altered content to distinguish from authentic material ... |
+| **AIContentInvestigationSituation** | ext.cac.cacontology-ai-csam | Class | Complex situation involving multiple stakeholders, technologies, and legal frameworks for investi... |
+| **AIForensicAnalyst** | ext.cac.cacontology-ai-csam | Class | Anti-rigid role of specialist analyzing AI-generated content for authenticity and generation meth... |
+| **AccessRestriction** | ext.toolcap | Class | An access restriction is a marking definition that describes a security, licensing, classificatio... |
+| **AcquisitionPhase** | ext.cac.cacontology-forensics | Class | Phase involving forensic acquisition of digital evidence. |
+| **ActiveInvestigationPhase** | ext.cac.cacontology-case-management | Class | Phase during which active investigation activities occur including evidence collection and analys... |
+| **AdministrativeReview** | ext.cac.cacontology-case-management | Class | Administrative review of case management, resource allocation, and procedural compliance. Enhance... |
+| **AnalysisPhase** | ext.cac.cacontology-forensics | Class | Phase involving detailed forensic analysis of acquired evidence. |
+| **AnalysisTransitionEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from Initial to Analysis Phase. |
+| **ArrestOperation** | ext.cac.cacontology-tactical | Class | Law enforcement operation to apprehend and take suspect into custody. Extends investigation:Inves... |
+| **ArrestReport** | ext.cac.cacontology-tactical | Class | Formal arrest report documenting the arrest including charges, evidence, and suspect information.... |
 | **Attorney** | case.investigation | Class | Attorney is a role involved in preparing, interpreting, and applying law. |
 | **Authorization** | case.investigation | Class | An authorization is a grouping of characteristics unique to some form of authoritative permission... |
-| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
-| **CapabilityMatrix** | ext.toolcap | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
+| **BathroomSurveillance** | ext.cac.cacontology-production | Class | Specific surveillance of bathroom facilities, as observed in Vermont case. |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability.... |
+| **BookingAction** | ext.cac.cacontology-tactical | Class | Process of booking a suspect into a correctional facility including fingerprinting, photography, ... |
+| **CACInvestigation** | ext.cac.cacontology | Class | A child-protection investigation that follows a standard action lifecycle that commonly begins wi... |
+| **CACTInvestigation** | ext.cac.cacontology-asset-forfeiture | Class | Investigation conducted by Criminal Assets Confiscation Taskforce targeting assets of child explo... |
+| **CaseAnalystRole** | ext.cac.cacontology-case-management | Class | Role responsible for case analysis, intelligence gathering, and data processing. Enhanced as anti... |
+| **CaseAssignment** | ext.cac.cacontology-case-management | Class | Assignment of personnel and resources to specific cases with defined roles and responsibilities. ... |
+| **CaseClosure** | ext.cac.cacontology-case-management | Class | Formal case closure process including disposition, appeals status, and archival procedures. Enhan... |
+| **CaseDocumentation** | ext.cac.cacontology-case-management | Class | Comprehensive documentation management for case files, reports, evidence logs, and legal document... |
+| **CaseDurationMetrics** | ext.cac.cacontology-case-management | Class | Metrics tracking case duration from opening to closure across different stages. Enhanced as gUFO ... |
+| **CaseInformationSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of case-specific information including case files, reports, witness statements, and inves... |
+| **CaseInitiationPhase** | ext.cac.cacontology-case-management | Class | Initial phase where case is opened and basic assignment occurs. Anti-rigid gUFO Phase supporting ... |
+| **CaseManagement** | ext.cac.cacontology-case-management | Class | Comprehensive management framework for CAC cases including status tracking, priority assignment, ... |
+| **CaseManagerRole** | ext.cac.cacontology-case-management | Class | Role responsible for overall case management coordination and oversight. Enhanced as anti-rigid g... |
+| **CaseMetrics** | ext.cac.cacontology-case-management | Class | Performance metrics and analytics for case management including duration, resolution rates, and r... |
+| **CaseProsecutorRole** | ext.cac.cacontology-case-management | Class | Role responsible for legal review, charging decisions, and prosecution activities. Enhanced as an... |
+| **CaseReport** | ext.cac.cacontology-case-management | Class | Formal case report documenting investigation findings, evidence, and recommendations. Enhanced as... |
+| **CaseResolutionTimeMetrics** | ext.cac.cacontology-investigation-coordination | Class | Metrics measuring impact of coordination on case resolution times and outcomes. |
+| **CaseReview** | ext.cac.cacontology-case-management | Class | Formal review processes for case quality assurance, supervisory oversight, and legal compliance. ... |
+| **CaseTracking** | ext.cac.cacontology-case-management | Class | Systematic tracking of case progress, updates, and status changes across multiple systems and jur... |
+| **CaseWorkflow** | ext.cac.cacontology-case-management | Class | Structured workflow stages and processes for managing case progression from intake to disposition... |
+| **ChainOfCustodyBreachSituation** | ext.cac.cacontology-physical-evidence | Class | Situation where the chain of custody for evidence has been breached (gUFO Situation). |
+| **ChatInvestigationAgent** | ext.cac.cacontology-undercover | Class | Agent specialized in chat-based undercover investigations for predator identification. |
+| **ChildExploitationTaskForce** | ext.cac.cacontology-victim-impact | Class | Joint task force between FBI and local law enforcement for child exploitation cases. |
+| **ChildSupportEnforcementLaw** | ext.cac.cacontology-usa-federal-law | Class | Federal laws related to child support enforcement that intersect with child exploitation cases. |
+| **ClosureEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from Resolution to Completed Phase. |
+| **ColdCaseManagement** | ext.cac.cacontology-case-management | Class | Management protocols for cold cases including periodic review and new evidence integration. Subcl... |
+| **CollaborativeInvestigationSituation** | ext.cac.cacontology-partnerships | Class | Complex situation involving multiple partners working together on investigations. Modeled as gUFO... |
+| **CollegeParkBarrack** | ext.cac.cacontology-specialized-units | Class | Maryland State Police College Park Barrack supporting computer crimes investigations. Modeled as ... |
+| **CommunityOutreachTriggeredInvestigation** | ext.cac.cacontology-multi-jurisdiction | Class | Investigation triggered by victim disclosure following community outreach presentation. |
+| **CompletedPhase** | ext.cac.cacontology-temporal | Class | Terminal phase indicating investigation has been fully concluded with all actions finalized. |
+| **ComplexCaseManagement** | ext.cac.cacontology-case-management | Class | Specialized management for complex cases involving multiple offenses, victims, or extensive evide... |
+| **ComplianceScheduleCoordination** | ext.cac.cacontology-sex-offender-registry | Class | Coordination between law enforcement investigations and compliance schedules for arrest timing. |
+| **ConclusionPhase** | ext.cac.cacontology | Class | Final phase involving case closure or prosecution referral. |
+| **ConcurrentInvestigationSituation** | ext.cac.cacontology-temporal | Class | Situation where multiple investigations run simultaneously, potentially sharing resources or evid... |
+| **ConsentToSearchAuthorization** | ext.cac.cacontology-physical-evidence | Class | Authorization obtained through suspect's consent to search property or devices. Extends investiga... |
+| **CostPerCaseMetrics** | ext.cac.cacontology-case-management | Class | Financial metrics tracking costs associated with case investigation and prosecution. Enhanced as ... |
+| **CountyPoliceSupport** | ext.cac.cacontology-specialized-units | Class | County-level police department providing support to state computer crimes investigations. Modeled... |
+| **CourtroomAccommodationPlan** | ext.cac.cacontology-case-management | Class | Case documentation specifying planned courtroom accommodations for a child witness, including sup... |
 | **Credential** | uco.observable | Class | A credential is a single specific login and password combination for authorization of access to a... |
 | **CredentialDump** | uco.observable | Class | A credential dump is a collection (typically forcibly extracted from a system) of specific login ... |
+| **CriminalAssetsConfiscationTaskforce** | ext.cac.cacontology-asset-forfeiture | Class | Specialized taskforce responsible for asset restraint and forfeiture in child exploitation cases.... |
+| **CriminalCharge** | ext.cac.cacontology-legal-outcomes | Class | Formal accusation of criminal activity in CAC cases. Modeled as gUFO Object. |
+| **CrossBorderForensics** | ext.cac.cacontology-international | Class | Forensic analysis requiring coordination across multiple countries for large-scale evidence proce... |
+| **CrossBorderInvestigation** | ext.cac.cacontology-international | Class | Investigation requiring coordination across national boundaries. |
+| **CrossBorderOperation** | ext.cac.cacontology-international | Class | Investigation or operation spanning multiple countries. |
+| **CrossBorderPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling cross-border investigations as complex situations spanning multiple jur... |
+| **CrossInstitutionalInvestigationSituation** | ext.cac.cacontology-educational-exploitation | Class | Situation requiring coordination between multiple educational institutions, law enforcement, and ... |
+| **CrossJurisdictionalInvestigation** | ext.cac.cacontology-international | Class | Investigation spanning multiple jurisdictions and countries targeting international criminal netw... |
+| **CrossReferenceAnalysis** | ext.cac.cacontology-forensics | Class | Cross-referencing of digital evidence across multiple cases and international databases for victi... |
+| **CrossStateDigitalInvestigation** | ext.cac.cacontology-sex-offender-registry | Class | Investigation involving registered sex offender targeting victims across state boundaries using d... |
+| **CrossStateEvidence** | ext.cac.cacontology-multi-jurisdiction | Class | Evidence collected across multiple states in trafficking investigation. |
+| **CrowdsourcingInvestigation** | ext.cac.cacontology-partnerships | Class | Investigation leveraging public participation for object identification, geolocation, and evidenc... |
+| **CustodialAuthorization** | ext.cac.cacontology-custodial | Class | Official authorization granting custodial rights or responsibilities. Modeled as gUFO Object with... |
+| **CustodyDocument** | ext.cac.cacontology-forensics | Class | Documentation recording the handling and transfer of evidence maintaining chain of custody. |
+| **CyberCrimeUnit** | ext.cac.cacontology-specialized-units | Class | Unit specialized in cyber crime investigations. Modeled as gUFO Organization. |
+| **DataMirrorCreation** | ext.cac.cacontology-platform-infrastructure | Class | Creating forensic mirrors of seized infrastructure for analysis and evidence preservation (gUFO E... |
+| **DetectionDog** | ext.cac.cacontology-specialized-units | Class | Trained dog used for detection operations in CAC investigations. Modeled as gUFO Object. |
+| **DetectionDogAssist** | ext.cac.cacontology-forensics | Class | Assistance provided by trained detection dogs in forensic searches. |
+| **DeviceConsentSearch** | ext.cac.cacontology-physical-evidence | Class | Consent authorization specific to electronic device search (cellphone, computer, etc.). |
+| **DeviceForensicAnalysis** | ext.cac.cacontology-sextortion | Class | Forensic examination of seized devices for sextortion evidence. |
 | **Dictionary** | uco.types | Class | A dictionary is list of (term/key, value) pairs with each term/key having an expectation to exist... |
+| **DigitalForensicsTraining** | ext.cac.cacontology-training | Class | Training on digital forensics techniques for child protection cases. Modeled as gUFO Event. |
+| **DigitalForensicsUnit** | ext.cac.cacontology-specialized-units | Class | Unit specialized in digital forensics analysis. Modeled as gUFO Organization. |
+| **DigitalForensicsUnit** | ext.cac.cacontology-taskforce | Class | Specialized unit focused on digital evidence acquisition and analysis. |
+| **DispositionPhase** | ext.cac.cacontology-case-management | Class | Final phase involving case disposition, sentencing, and closure activities. Anti-rigid gUFO Phase. |
+| **DispositionWorkflow** | ext.cac.cacontology-case-management | Class | Final case disposition workflow including sentencing, appeals, and case closure procedures. Enhan... |
+| **DistributedForensicProcessing** | ext.cac.cacontology-forensics | Class | Forensic processing distributed across multiple systems and locations for handling massive eviden... |
+| **DistributedProsecutionTeam** | ext.cac.cacontology-multi-jurisdiction | Class | Prosecution team distributed across multiple jurisdictions for handling massive caseloads. |
+| **DocumentaryEvidence** | ext.cac.cacontology-physical-evidence | Class | Physical documents, printed materials, or written items relevant to the investigation (gUFO Object). |
+| **EducationalExploitationSituation** | ext.cac.cacontology-educational-exploitation | Class | Complex situation involving educational institutions, educators, students, families, and legal sy... |
+| **EquipmentSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of specialized equipment including forensic tools, surveillance equipment, and technical ... |
+| **EventSequence** | ext.cac.cacontology-temporal | Class | Ordered sequence of investigation events with temporal dependencies. Modeled as gUFO structured e... |
+| **EvidenceAnalysisPhase** | ext.cac.cacontology-physical-evidence | Class | Phase during which physical evidence is undergoing forensic analysis (gUFO Phase - anti-rigid). |
+| **EvidenceCollectionAction** | ext.cac.cacontology-physical-evidence | Class | Action of collecting and documenting physical evidence during search. Extends investigation:Inves... |
+| **EvidenceCustodianRole** | ext.cac.cacontology-physical-evidence | Class | Role of person responsible for evidence custody and chain of custody (gUFO Role - anti-rigid). Ro... |
+| **EvidenceLog** | ext.cac.cacontology-case-management | Class | Comprehensive log of all evidence collected, analyzed, and maintained for the case. Enhanced as g... |
+| **EvidenceObjectPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling digital evidence as Objects with intrinsic properties and forensic life... |
+| **EvidenceReviewAction** | ext.cac.cacontology | Class | The action of reviewing and analyzing digital evidence using forensic tools. |
+| **EvidenceSeizure** | ext.cac.cacontology-physical-evidence | Class | Legal seizure of physical items as evidence. Extends investigation:InvestigativeAction (gUFO Event). |
+| **EvidenceSharing** | ext.cac.cacontology-investigation-coordination | Class | Formal sharing of evidence between agencies including digital evidence, physical evidence, and fo... |
+| **EvidenceTransitionEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from Legal Process to Evidence Phase. |
+| **EvidenceTriageSystem** | ext.cac.cacontology-forensics | Class | Automated system for triaging massive evidence volumes to prioritize high-value targets and criti... |
 | **Examiner** | case.investigation | Class | Examiner is a role involved in providing scientific evaluations of evidence that are used to aid ... |
+| **ExaminerActionLifecycle** | case.investigation | Class | An examiner action lifecycle is an action pattern consisting of an ordered set of actions or subo... |
+| **ExpertReport** | ext.cac.cacontology-case-management | Class | Expert analysis reports including forensic findings, psychological evaluations, and technical ass... |
+| **ExtendedInvestigationTimeline** | ext.cac.cacontology-forensics | Class | Investigation timeline spanning weeks, months, or years for complex child exploitation cases. |
+| **ExternalOversightInvestigation** | ext.cac.cacontology-law-enforcement-corruption | Class | Investigation by external agency into law enforcement corruption. |
+| **FederalDefendantRole** | ext.cac.cacontology-usa-federal-law | Class | Role of individual charged in federal child exploitation case. Modeled as anti-rigid gUFO Role. |
+| **FederalICACtaskForce** | ext.cac.cacontology-taskforce | Class | Federal-level CAC task force for complex or multi-jurisdictional cases. |
+| **FederalInvestigation** | ext.cac.cacontology-usa-federal-law | Class | Federal investigation of child exploitation crimes. Modeled as gUFO Event with temporal boundarie... |
+| **FederalProsecutorRole** | ext.cac.cacontology-usa-federal-law | Class | Role of federal prosecutor handling child exploitation cases. Modeled as anti-rigid gUFO Role. |
+| **FinancialControlPattern** | ext.cac.cacontology-usa-federal-law | Class | Pattern where child support evasion is used as mechanism of control in exploitation cases. |
+| **ForensicAccountant** | ext.cac.cacontology-asset-forfeiture | Class | Specialist in tracing financial assets and determining proceeds of crime. |
+| **ForensicAcquisitionAction** | ext.cac.cacontology-forensics | Class | The action of creating a forensically sound copy of digital evidence using write-blocking and ver... |
+| **ForensicAnalysisPhase** | ext.cac.cacontology-ai-csam | Class | Anti-rigid phase during which AI-generated content undergoes detailed forensic examination. |
+| **ForensicAnalystRole** | ext.cac.cacontology-physical-evidence | Class | Role of person conducting forensic analysis of physical evidence (gUFO Role - anti-rigid). Roles ... |
+| **ForensicExaminerRole** | ext.cac.cacontology-forensics | Class | Role of a person conducting digital forensic examination and analysis. |
+| **ForensicImage** | ext.cac.cacontology-forensics | Class | A bit-for-bit copy of digital media created using forensically sound methods, maintaining evidenc... |
+| **ForensicImagingTool** | ext.cac.cacontology-forensics | Class | A tool specialized for creating forensic images of digital media using write-blocking and verific... |
+| **ForensicsLifecyclePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling forensics process lifecycle with acquisition, analysis, and presentatio... |
+| **ForensicsSpecialistRole** | ext.cac.cacontology-hotlines | Class | The role of a specialist who performs forensic analysis of evidence. |
+| **GenerationSourceTracking** | ext.cac.cacontology-ai-csam | Class | Investigation process to identify the source, tools, and methods used to generate AI-CSAM. Enhanc... |
+| **GlobalCaseTracking** | ext.cac.cacontology-international | Class | System for tracking cases across multiple jurisdictions. |
+| **GlobalMissingChildrenCenter** | ext.cac.cacontology-international | Class | International coordination center for missing children cases across borders. |
+| **HandsOnOffenseInvestigation** | ext.cac.cacontology-multi-jurisdiction | Class | Investigation specifically targeting hands-on sexual offenses against children. |
+| **HashSubmissionAction** | ext.cac.cacontology-hotlines | Class | The action of submitting a hash to a hash-sharing service. Enhanced as gUFO Event for digital for... |
+| **HighPriorityCaseManagement** | ext.cac.cacontology-case-management | Class | Enhanced management protocols for critical and high-priority cases requiring expedited processing... |
+| **HighPriorityModule** | ext.cac.cacontology-integration-patterns | Class | CAC module requiring immediate gUFO integration due to core investigation role or external depend... |
+| **HumanTraffickingSquad** | ext.cac.cacontology-victim-impact | Class | Specialized law enforcement unit focused on human trafficking investigations. |
+| **ICACtaskForce** | ext.cac.cacontology-taskforce | Class | Internet Crimes Against Children task force unit specializing in child exploitation investigations. |
+| **InformationSharing** | ext.cac.cacontology-investigation-coordination | Class | Systematic sharing of information between agencies including intelligence, evidence, case data, a... |
+| **InformationSharingFramework** | ext.cac.cacontology-partnerships | Class | Framework governing how information is shared between public and private partners while protectin... |
+| **InitialImpactAssessment** | ext.cac.cacontology-victim-impact | Class | Initial evaluation of victim impact conducted early in investigation. |
+| **InitialPhase** | ext.cac.cacontology | Class | Initial phase of CAC investigation involving cybertip receipt and preliminary review. |
+| **InitiationEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from non-existence to Initial Phase. |
+| **InstitutionalResponseSituation** | ext.cac.cacontology-educational-exploitation | Class | Situation involving institutional response to exploitation allegations, including investigation, ... |
+| **IntakeWorkflow** | ext.cac.cacontology-case-management | Class | Initial case intake and assessment workflow including triage and preliminary evaluation. Enhanced... |
+| **InternalAffairsInvestigation** | ext.cac.cacontology-law-enforcement-corruption | Class | Investigation by internal affairs department into officer corruption. |
+| **InternationalAnalyst** | ext.cac.cacontology-international | Class | Analyst specializing in cross-border case analysis. |
+| **InternationalEvidenceProcessing** | ext.cac.cacontology-forensics | Class | Processing of evidence collected from international operations requiring coordination across mult... |
+| **InternationalReferral** | ext.cac.cacontology-international | Class | Referral of cases or information to international partners. |
+| **InternationalTaskForce** | ext.cac.cacontology-international | Class | Multi-national task force for coordinating child protection investigations. |
+| **InterstateVictimServices** | ext.cac.cacontology-victim-impact | Class | Victim services coordination across state lines for trafficking cases. |
+| **InterviewWithoutCounsel** | ext.cac.cacontology-tactical | Class | Suspect interview conducted after suspect waives right to legal counsel. Extends investigation:In... |
 | **Investigation** | case.investigation | Class | An investigation is a grouping of characteristics unique to an exploration of the facts involved ... |
+| **InvestigationCoordination** | ext.cac.cacontology-investigation-coordination | Class | Comprehensive framework for coordinating investigations across multiple agencies, jurisdictions, ... |
+| **InvestigationLifecycle** | ext.cac.cacontology-temporal | Class | Complete temporal structure of CAC investigation from initiation to closure. Modeled as gUFO Kind... |
+| **InvestigationLifecycleSituation** | ext.cac.cacontology | Class | Overall situation encompassing the complete CAC investigation lifecycle. |
+| **InvestigationPhase** | ext.cac.cacontology-educational-exploitation | Class | Anti-rigid phase representing institutional or legal investigation of exploitation allegations. |
+| **InvestigationTraining** | ext.cac.cacontology-training | Class | Training on investigation methodologies and techniques. Modeled as gUFO Event. |
+| **InvestigationTrigger** | ext.cac.cacontology-us-ncmec | Class | Event or information that triggers law enforcement investigation based on NCMEC tip. |
+| **InvestigationWorkflow** | ext.cac.cacontology-case-management | Class | Active investigation workflow including evidence collection, analysis, and suspect identification... |
+| **InvestigativeAction** | ext.cac.cac-core | Class | An event that is specifically an investigative action within a CAC investigation. Aligned to both... |
 | **InvestigativeAction** | case.investigation | Class | An investigative action is something that may be done or performed within the context of an inves... |
 | **Investigator** | case.investigation | Class | Investigator is a role involved in coordinating an investigation. |
-| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
+| **InvestigatorAssignment** | ext.cac.cacontology-case-management | Class | Specific assignment of investigators to cases with experience levels, caseload management, and sp... |
+| **InvestigatorRole** | ext.cac.cacontology | Class | Role of law enforcement officer or analyst conducting CAC investigation. Modeled as anti-rigid gU... |
+| **JointInvestigation** | ext.cac.cacontology-investigation-coordination | Class | Formal joint investigation involving multiple agencies working together with shared resources, co... |
+| **JointInvestigation** | ext.cac.cacontology-multi-jurisdiction | Class | Investigation conducted jointly by multiple law enforcement agencies. |
+| **JointOperationsPlan** | ext.cac.cacontology-investigation-coordination | Class | Detailed operational plan for joint investigations and coordinated activities. |
+| **JudicialEducationTraining** | ext.cac.cacontology-training | Class | Training focused on judicial understanding of trauma, recantation, and accommodation needs in chi... |
+| **JudicialSystemSituation** | ext.cac.cacontology-legal-outcomes | Class | Broader situation involving judicial system processing of CAC cases. Modeled as gUFO Situation. |
+| **JurisdictionalWarrant** | ext.cac.cacontology-multi-jurisdiction | Class | Legal authorization that specifies jurisdictional authority. |
+| **K9AssistedForensics** | ext.cac.cacontology-forensics | Class | Forensic process enhanced by K9 detection capabilities for electronic storage devices. |
+| **K9DetectionProgram** | ext.cac.cacontology-specialized-units | Class | Program utilizing trained detection dogs for CAC investigations. Modeled as gUFO Organization. |
+| **LargeScalePlatformTakedown** | ext.cac.cacontology-platforms | Class | Coordinated takedown of major exploitation platforms with user bases exceeding 1 million accounts... |
+| **LawEnforcementOfficer** | ext.cac.cacontology-legal-harmonization | Class | Officer involved in child safety investigations. |
+| **LeadAgency** | ext.cac.cacontology-multi-jurisdiction | Class | Primary agency responsible for coordinating multi-jurisdictional investigation. |
+| **LeadInvestigatorRole** | ext.cac.cacontology-case-management | Class | Primary investigator role with leadership responsibilities for case investigation. Enhanced as an... |
+| **LegalCaseSituation** | ext.cac.cacontology-legal-outcomes | Class | Complex situation encompassing the entire legal case from charges to resolution. Modeled as gUFO ... |
+| **LegalProcessTransitionEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from Analysis to Legal Process Phase. |
+| **LegalReview** | ext.cac.cacontology-case-management | Class | Legal review of case materials, procedures, and prosecution readiness. Enhanced as gUFO Event. |
+| **MassUserBehaviorAnalysis** | ext.cac.cacontology-platforms | Class | Analysis of user behavior patterns across massive user bases for investigation prioritization and... |
+| **MassivePlatformSituation** | ext.cac.cacontology-platforms | Class | Situation involving platforms with massive user bases requiring specialized investigation approac... |
+| **MemoryDump** | ext.cac.cacontology-forensics | Class | A snapshot of volatile system memory captured for forensic analysis. |
+| **MemoryForensicTool** | ext.cac.cacontology-forensics | Class | A tool specialized for analyzing volatile memory dumps (e.g., Volatility, Rekall, MAGNET RAM Capt... |
+| **MobileForensicTool** | ext.cac.cacontology-forensics | Class | A tool specialized for mobile device forensics including logical and physical extraction (e.g., C... |
+| **MultiJurisdictionCoordinationSituation** | ext.cac.cacontology-temporal | Class | Situation where investigation requires coordination across multiple jurisdictions with timing syn... |
+| **MultiJurisdictionalCaseManagement** | ext.cac.cacontology-case-management | Class | Specialized management for cases spanning multiple jurisdictions with coordination requirements. ... |
+| **MultiJurisdictionalInvestigation** | ext.cac.cacontology-multi-jurisdiction | Class | Investigation spanning multiple legal jurisdictions requiring coordination between agencies. |
+| **MultiModalDigitalEvidence** | ext.cac.cacontology-sex-offender-registry | Class | Digital evidence containing multiple content types (text, images, audio, video) in single exploit... |
+| **MultiStateTraffickingInvestigation** | ext.cac.cacontology-multi-jurisdiction | Class | Child sex trafficking investigation spanning multiple states. |
+| **MultipleVictimTestimony** | ext.cac.cacontology-institutional-exploitation | Class | Coordination of testimony from multiple victims in institutional exploitation case. |
+| **MutualLegalAssistance** | ext.cac.cacontology-international | Class | Formal legal assistance between countries for investigations and prosecutions. |
+| **NetworkCapture** | ext.cac.cacontology-forensics | Class | A capture of network traffic packets for forensic analysis. |
+| **NetworkForensicTool** | ext.cac.cacontology-forensics | Class | A tool specialized for network traffic analysis and packet capture (e.g., Wireshark, NetworkMiner... |
+| **NetworkMappingInvestigation** | ext.cac.cacontology-extremist-enterprises | Class | Investigation mapping the structure and relationships within extremist child exploitation networks. |
+| **OSINTInvestigation** | ext.cac.cacontology-partnerships | Class | Open source intelligence investigation conducted by skilled volunteers and researchers. Modeled a... |
+| **ObjectIdentificationRequest** | ext.cac.cacontology-partnerships | Class | Request for public assistance in identifying objects, locations, or other evidence from case mate... |
+| **OngoingImpactMonitoring** | ext.cac.cacontology-victim-impact | Class | Continuous monitoring of victim impact during investigation and recovery. |
+| **OutreachTriggeredInvestigation** | ext.cac.cacontology-prevention | Class | Investigation initiated as direct result of community outreach presentation. |
+| **ParallelEventCluster** | ext.cac.cacontology-temporal | Class | Set of investigation events occurring simultaneously or with temporal overlap. Modeled as gUFO co... |
+| **ParallelInvestigation** | ext.cac.cacontology-investigation-coordination | Class | Parallel investigation where multiple agencies investigate related aspects independently while ma... |
+| **ParentalConsent** | ext.cac.cacontology-custodial | Class | Consent given by parent or guardian for custodial arrangement. Modeled as gUFO Object with author... |
+| **ParticipatingAgency** | ext.cac.cacontology-multi-jurisdiction | Class | Agency providing support or resources to multi-jurisdictional investigation. |
+| **PeerReview** | ext.cac.cacontology-case-management | Class | Peer review process for case methodology, analysis, and conclusions. Enhanced as gUFO Event. |
+| **Phase3Wave1** | ext.cac.cacontology-integration-patterns | Class | First wave implementing high-priority modules (forensics, multi-jurisdiction, legal outcomes, tas... |
+| **PhaseTransitionEvent** | ext.cac.cacontology-temporal | Class | Event marking transition between investigation phases. Modeled as gUFO Event with temporal bounda... |
+| **PhysicalEvidence** | ext.cac.cacontology-physical-evidence | Class | Tangible items collected as evidence in CAC investigations (gUFO Object). |
+| **PhysicalEvidenceProvenanceRecord** | ext.cac.cacontology-physical-evidence | Class | Provenance record tracking chain of custody and handling of physical evidence. Extends investigat... |
+| **PhysicalSearch** | ext.cac.cacontology-physical-evidence | Class | Law enforcement search of physical premises for evidence. Extends investigation:InvestigativeActi... |
+| **PlatformInvestigationCoordination** | ext.cac.cacontology-platforms | Class | Coordinated investigation across multiple platforms and devices. |
+| **PlatformInvestigationPhase** | ext.cac.cacontology-platforms | Class | Phase when platform is under law enforcement investigation. Modeled as anti-rigid gUFO Phase. |
+| **PostRecantationForensicInterview** | ext.cac.cacontology-recantation | Class | A follow-up forensic interview conducted after recantation or denial to explore circumstances, pr... |
+| **PreTrialPhase** | ext.cac.cacontology-usa-federal-law | Class | Pre-trial phase of federal prosecution including investigation and charging. |
+| **PrimaryInvestigatorAssignment** | ext.cac.cacontology-case-management | Class | Lead investigator assignment with primary responsibility for case management and coordination. En... |
+| **PrinceGeorgesCountyPolice** | ext.cac.cacontology-specialized-units | Class | Prince George's County Police Department supporting Maryland State Police computer crimes investi... |
+| **PrivacyViolationInvestigation** | ext.cac.cacontology-undercover | Class | Investigation of trafficking activities involving forced undressing and privacy violations. |
+| **ProactiveInvestigationCampaign** | ext.cac.cacontology-multi-jurisdiction | Class | Campaign focused on proactive investigation rather than reactive response. |
+| **ProsecutionCapacityAnalysis** | ext.cac.cacontology-multi-jurisdiction | Class | Analysis of prosecution capacity across jurisdictions to optimize case distribution for massive o... |
+| **ProsecutionPreparationPhase** | ext.cac.cacontology-case-management | Class | Phase involving preparation for prosecution including legal review and case building. Anti-rigid ... |
+| **ProsecutionWorkflow** | ext.cac.cacontology-case-management | Class | Prosecution preparation and court proceedings workflow including case presentation and trial mana... |
 | **ProvenanceRecord** | case.investigation | Class | A provenance record is a grouping of characteristics unique to the provenantial (chronology of th... |
+| **PublicIntegrityInvestigation** | ext.cac.cacontology-law-enforcement-corruption | Class | Investigation into public integrity violations by law enforcement personnel. |
+| **QualityScoreMetrics** | ext.cac.cacontology-case-management | Class | Quality assessment metrics evaluating case management effectiveness and outcomes. Enhanced as gUF... |
+| **RecantationAssessment** | ext.cac.cacontology-recantation | Class | An investigative or prosecutorial assessment of a recantation, its credibility, surrounding press... |
+| **RecoveredFile** | ext.cac.cacontology-forensics | Class | A file recovered from deleted or unallocated space on digital media through forensic analysis tec... |
+| **RefusalResponse** | ext.cac.cacontology-sextortion | Class | Victim refuses demands triggering threat escalation (as in WA case). |
+| **ReportingPhase** | ext.cac.cacontology-forensics | Class | Phase involving preparation of forensic reports and findings. |
+| **ResidentialProperty** | ext.cac.cacontology-asset-forfeiture | Class | Residential home subject to restraint or forfeiture in child exploitation cases. Enhanced as gUFO... |
+| **ResolutionPhase** | ext.cac.cacontology-temporal | Class | Phase focused on resolution of investigation outcomes such as plea agreements, sentencing, and re... |
+| **ResolutionRateMetrics** | ext.cac.cacontology-case-management | Class | Metrics tracking case resolution rates including conviction and closure statistics. Enhanced as g... |
+| **ResolutionTransitionEvent** | ext.cac.cacontology-temporal | Class | Event transitioning investigation from Evidence to Resolution Phase. |
+| **ResourceUtilizationMetrics** | ext.cac.cacontology-case-management | Class | Metrics tracking resource allocation and utilization efficiency across cases. Enhanced as gUFO Ob... |
+| **RestrictedContactArrangement** | ext.cac.cacontology-custodial | Class | A visitation or contact arrangement that restricts or suspends offender or high-risk contact afte... |
+| **ResumptionEvent** | ext.cac.cacontology-temporal | Class | Event causing investigation to exit suspended state and resume active phase. Modeled as gUFO Even... |
+| **RoleTransition** | ext.cac.cacontology-temporal | Class | Event representing change in person's role within investigation. Modeled as gUFO Event with role ... |
+| **SchoolBasedInvestigation** | ext.cac.cacontology-athletic-exploitation | Class | Investigation initiated by educational institution following exploitation reports. Enhanced as gU... |
+| **ScreenshotThreat** | ext.cac.cacontology-sextortion | Class | Threat to screenshot images when victim refuses demands (specific to WA case). |
+| **SextortionInvestigation** | ext.cac.cacontology-sextortion | Class | Investigation specifically focused on sextortion incidents. |
+| **SimultaneousRoleSituation** | ext.cac.cacontology-temporal | Class | Situation where person plays multiple roles simultaneously in investigation context. Modeled as g... |
+| **SpecializedInvestigativeUnit** | ext.cac.cacontology-specialized-units | Class | Specialized unit with unique capabilities for CAC investigations. Modeled as gUFO Organization. |
+| **SpecializedUnit** | ext.cac.cacontology-taskforce | Class | Specialized unit within CAC task force focused on specific aspects of investigations. |
+| **StateBureauHost** | ext.cac.cacontology-taskforce | Class | State bureau of investigation hosting CAC task force (Georgia BIA, North Carolina SBI, etc.). |
+| **StateICACtaskForce** | ext.cac.cacontology-taskforce | Class | State-level CAC task force coordinating regional investigations. |
+| **StatePoliceComputerCrimesUnit** | ext.cac.cacontology-specialized-units | Class | State police unit specialized in computer crimes and digital investigations involving child explo... |
+| **StrangerAbductionInvestigation** | ext.cac.cacontology-stranger-abduction | Class | Specialized investigation of stranger abduction and sexual exploitation cases. |
 | **Subject** | case.investigation | Class | Subject is a role whose conduct is within the scope of an investigation. |
 | **SubjectActionLifecycle** | case.investigation | Class | A subject action lifecycle is an action pattern consisting of an ordered set of multiple actions ... |
-| **ToolCapability** | ext.toolcap | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
+| **SupervisorAssignment** | ext.cac.cacontology-case-management | Class | Supervisory assignment for case oversight, quality assurance, and administrative guidance. Enhanc... |
+| **SupervisoryReview** | ext.cac.cacontology-case-management | Class | Formal supervisory review of case progress, decisions, and quality standards. Enhanced as gUFO Ev... |
+| **SuspendedSituation** | ext.cac.cacontology-temporal | Class | Situation where investigation is temporarily suspended pending resources, legal decisions, or ext... |
+| **SuspensionEvent** | ext.cac.cacontology-temporal | Class | Event causing investigation to enter suspended state. Modeled as gUFO Event creating suspension s... |
+| **SyntheticMediaAnalysis** | ext.cac.cacontology-ai-csam | Class | Forensic analysis of media to determine if it was artificially generated and identify generation ... |
+| **SyntheticMediaExaminer** | ext.cac.cacontology-ai-csam | Class | Anti-rigid role of expert examining synthetic media for forensic artifacts and generation signatu... |
+| **TaskForceForensicExaminer** | ext.cac.cacontology-taskforce | Class | Digital forensic examiner specializing in CAC evidence. |
+| **TaskForceInvestigator** | ext.cac.cacontology-taskforce | Class | Investigator specializing in CAC cases and child exploitation. |
+| **TaskForceReferral** | ext.cac.cacontology-us-ncmec | Class | Referral of NCMEC tip to appropriate CAC task force for investigation. |
+| **TechnicalAnalysisSituation** | ext.cac.cacontology-ai-csam | Class | Situation requiring coordination between technical experts, forensic analysts, and legal teams fo... |
+| **TechnicalDataSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of technical data including forensic tools, methodologies, and technical analysis results. |
+| **TestimonyContingencyPlan** | ext.cac.cacontology-case-management | Class | Case documentation describing fallback testimony strategies when a child witness recants, shuts d... |
+| **TimelineAnalysisAction** | ext.cac.cacontology-forensics | Class | The action of creating chronological sequences of digital artifacts and events for investigation ... |
+| **TipPrioritization** | ext.cac.cacontology-us-ncmec | Class | Priority assessment and ranking of NCMEC tips for investigation. |
+| **TipProcessing** | ext.cac.cacontology-us-ncmec | Class | Processing workflow for NCMEC tips from receipt to investigation referral. |
+| **ToolCapability** | ext.toolcap | Class | DEPRECATED in 0.4.0. Use capability:Capability (proposed uco-capability:Capability) instead, link... |
+| **TrafficStop** | ext.cac.cacontology-tactical | Class | Investigative traffic stop used as part of undercover operation or to apprehend suspect. Extends ... |
+| **TraffickingCoordinationCenter** | ext.cac.cacontology-multi-jurisdiction | Class | Center coordinating multi-state trafficking investigations. |
+| **TraffickingInvestigationTask** | ext.cac.cacontology-multi-jurisdiction | Class | Specific investigation task in multi-state trafficking case. |
+| **TraffickingRing** | ext.cac.cacontology-sex-trafficking | Class | Coordinated group of traffickers operating across multiple jurisdictions with shared victims and ... |
+| **UndercoverAgent** | ext.cac.cacontology-undercover | Class | Law enforcement officer or authorized civilian operating under false identity in an investigation. |
+| **UndercoverChatInvestigation** | ext.cac.cacontology-undercover | Class | Investigation using chat communications on various platforms with agents posing as minors. |
+| **UndercoverUnit** | ext.cac.cacontology-taskforce | Class | Unit specializing in undercover operations and online investigations. |
+| **UrgentRescueLifecycle** | ext.cac.cacontology-temporal | Class | Accelerated investigation lifecycle for urgent child rescue situations. Compressed phase duration... |
+| **UserBehaviorForensics** | ext.cac.cacontology-forensics | Class | Forensic analysis of user behavior patterns across massive user databases for investigation prior... |
+| **VehicleConsentSearch** | ext.cac.cacontology-physical-evidence | Class | Consent authorization specific to vehicle search. |
 | **VictimActionLifecycle** | case.investigation | Class | A victim action lifecycle is an action pattern consisting of an ordered set of multiple actions o... |
+| **VictimDeviceForensics** | ext.cac.cacontology-sex-offender-registry | Class | Forensic examination of victim's device to recover evidence of digital exploitation. |
+| **VictimIdentificationProcess** | ext.cac.cacontology-forensics | Class | Systematic process for identifying child victims from seized images and videos during long-term i... |
+| **VictimTargetingPattern** | ext.cac.cacontology-stranger-abduction | Class | Patterns of victim selection and targeting in stranger abduction cases. |
 
-**AccessRestriction** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 7 more* | | |
-
-**Attorney** key properties:
+**AICSAMInvestigation** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
@@ -1648,21 +4189,18 @@ CASE-specific classes for structuring an investigation: cases, investigative act
 | name | string | No |
 | objectCreatedTime | dateTime | No |
 | objectMarking | MarkingDefinitionAbstraction | No |
-| *... 3 more* | | |
+| *... 14 more* | | |
 
-**Authorization** key properties:
+**AIContentDetection** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 7 more* | | |
+| detectionConfidence | decimal | No |
+| detectionMethod | string | No |
+| evidenceAdmissibility | string | No |
+| processingTime | decimal | No |
+| detectionTimePoint | dateTime | Yes |
+| startTime | dateTime | Yes |
 
 **Example usage:**
 
@@ -1714,8 +4252,9 @@ Classes for documenting forensic tools, their versions, build information, and c
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
+| **AIDetectionTool** | ext.cac.cacontology-ai-csam | Class | Software tool specialized for detecting AI-generated content in digital media. Enhanced as gUFO O... |
 | **API** | uco.observable | Class | An API (application programming interface) is a computing interface that defines interactions bet... |
-| **AccessRestriction** | ext.toolcap | Class | An access restriction describes a security, licensing, classification, operational security, or l... |
+| **AccessRestriction** | ext.toolcap | Class | An access restriction is a marking definition that describes a security, licensing, classificatio... |
 | **AnalyticTool** | uco.tool | Class | An analytic tool is an artifact of hardware and/or software utilized to accomplish a task or purp... |
 | **Appliance** | uco.observable | Class | An appliance is a purpose-built computer with software or firmware that is designed to provide a ... |
 | **Application** | uco.observable | Class | An application is a particular software program designed for end users. |
@@ -1723,15 +4262,23 @@ Classes for documenting forensic tools, their versions, build information, and c
 | **ApplicationAccountFacet** | uco.observable | Facet | An application account facet is a grouping of characteristics unique to an account within a parti... |
 | **ApplicationFacet** | uco.observable | Facet | An application facet is a grouping of characteristics unique to a particular software program des... |
 | **ApplicationVersion** | uco.observable | Class | An application version is a grouping of characteristics unique to a particular software program v... |
-| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
+| **AutomatedReporterAgent** | ext.cac.cacontology-hotlines | Class | A software agent that automatically reports content to hotlines. Enhanced as gUFO Object for comp... |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability.... |
 | **BotConfiguration** | uco.observable | Class | A bot configuration is a set of contextual settings for a software application that runs automate... |
+| **BreachingTool** | ext.cac.cacontology-tactical | Class | Tool used to gain entry through doors, walls, or barriers. |
 | **BrowserBookmark** | uco.observable | Class | A browser bookmark is a saved shortcut that directs a WWW (World Wide Web) browser software progr... |
 | **BrowserBookmarkFacet** | uco.observable | Facet | A browser bookmark facet is a grouping of characteristics unique to a saved shortcut that directs... |
 | **BuildFacet** | uco.tool | Facet | A build facet is a grouping of characteristics unique to a particular version of a software. |
 | **BuildInformationType** | uco.tool | Class | A build information type is a grouping of characteristics that describe how a particular version ... |
 | **BuildUtilityType** | uco.tool | Class | A build utility type characterizes the tool used to convert from source code to executable code f... |
-| **CapabilityMatrix** | ext.toolcap | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
+| **CapabilityMatrix** | ext.toolcap | Class | DEPRECATED in 0.4.0. The capability matrix concept is superseded by querying the overall graph of... |
+| **CapacityBuilding** | ext.cac.cacontology-legal-harmonization | Class | Building legal capacity for child protection. |
+| **CapacityBuildingPartner** | ext.cac.cacontology-training | Class | Partner organization supporting capacity building efforts. Modeled as gUFO Organization. |
+| **CapacityBuildingProgram** | ext.cac.cacontology-training | Class | Structured program for building organizational and individual capacity. Modeled as gUFO Organizat... |
+| **CapacityBuildingSituation** | ext.cac.cacontology-training | Class | Situation focused on building institutional and individual capacity for child protection. Modeled... |
+| **CoalitionBuilding** | ext.cac.cacontology-legal-harmonization | Class | Building coalitions to support advocacy goals. |
 | **Code** | uco.observable | Class | Code is a direct representation (source, byte or binary) of a collection of computer instructions... |
+| **CommunityPartnershipInitiative** | ext.cac.cacontology-prevention | Class | Initiative building partnerships with community organizations for child protection. |
 | **CompilerType** | uco.tool | Class | A compiler type is a grouping of characteristics unique to a specific program that translates com... |
 | **ComputerSpecification** | uco.observable | Class | A computer specification is the hardware and software of a programmable electronic device that ca... |
 | **ComputerSpecificationFacet** | uco.observable | Facet | A computer specificaiton facet is a grouping of characteristics unique to the hardware and softwa... |
@@ -1739,31 +4286,89 @@ Classes for documenting forensic tools, their versions, build information, and c
 | **ConfigurationEntry** | uco.configuration | Class | A configuration entry is a grouping of characteristics unique to a particular parameter or initia... |
 | **ConfiguredSoftware** | uco.observable | Class | A ConfiguredSoftware is a Software that is known to be configured to run in a more specified mann... |
 | **ConfiguredTool** | uco.tool | Class | A ConfiguredTool is a Tool that is known to be configured to run in a more specified manner than ... |
+| **ContentHashingTool** | ext.cac.cacontology-detection | Class | A tool for generating perceptual or cryptographic hashes for content matching (e.g., PhotoDNA, pH... |
+| **DataSource** | ext.aeo.engagement | Class | A datasource is a grouping of characteristics unique to a specific source of data (e.g. a tool th... |
+| **DatabaseMatchingTool** | ext.cac.cacontology-detection | Class | A tool for matching content against known CSAM databases (e.g., NCMEC hash database, INTERPOL ICS... |
+| **DeepfakeDetectionTool** | ext.cac.cacontology-ai-csam | Class | Tool specifically designed to identify deepfake content and face manipulation techniques. Enhance... |
 | **DefensiveTool** | uco.tool | Class | A defensive tool is an artifact of hardware and/or software utilized to accomplish a task or purp... |
 | **Dependency** | uco.configuration | Class | A dependency is a grouping of characteristics unique to something that a tool or other software r... |
+| **DigitalSystemEntity** | ext.cac.cac-core | Class | An enduring entity representing a software or system-level resource such as an online service pla... |
+| **EditingEquipment** | ext.cac.cacontology-production | Class | Computer hardware and software used to edit or enhance produced material. |
 | **EncodedStreamFacet** | uco.observable | Facet | An encoded stream facet is a grouping of characteristics unique to the conversion of a body of da... |
 | **EncryptedStreamFacet** | uco.observable | Facet | An encrypted stream facet is a grouping of characteristics unique to the conversion of a body of ... |
+| **EquipmentSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of specialized equipment including forensic tools, surveillance equipment, and technical ... |
+| **EvidenceReviewAction** | ext.cac.cacontology | Class | The action of reviewing and analyzing digital evidence using forensic tools. |
+| **FireEscapeEntry** | ext.cac.cacontology-stranger-abduction | Class | Forcing victim to climb fire escapes to enter buildings through windows. |
+| **ForcedLocationEntry** | ext.cac.cacontology-stranger-abduction | Class | Forcing victim to enter buildings, apartments, or other locations for exploitation. |
+| **ForensicImagingTool** | ext.cac.cacontology-forensics | Class | A tool specialized for creating forensic images of digital media using write-blocking and verific... |
+| **GenerationSourceTracking** | ext.cac.cacontology-ai-csam | Class | Investigation process to identify the source, tools, and methods used to generate AI-CSAM. Enhanc... |
+| **GroomingBehavior** | ext.cac.cacontology-grooming | Class | Predatory behavior designed to prepare a child for abuse by building trust, isolating them, and n... |
+| **HashingTool** | ext.cac.cacontology-forensics | Class | A tool specialized for generating cryptographic hashes for evidence verification (e.g., hashdeep,... |
 | **IPv4Address** | uco.observable | Class | An IPv4 (Internet Protocol version 4) address is an IPv4 standards conformant identifier assigned... |
 | **IPv4AddressFacet** | uco.observable | Facet | An IPv4 (Internet Protocol version 4) address facet is a grouping of characteristics unique to an... |
 | **IPv6Address** | uco.observable | Class | An IPv6 (Internet Protocol version 6) address is an IPv6 standards conformant identifier assigned... |
 | **IPv6AddressFacet** | uco.observable | Facet | An IPv6 (Internet Protocol version 6) address facet is a grouping of characteristics unique to an... |
+| **ImmediateExploitationAttempt** | ext.cac.cacontology-grooming | Class | Attempt to immediately exploit victim without extended grooming or relationship building. |
+| **ImmediatePhysicalContactExploitation** | ext.cac.cacontology-educational-exploitation | Class | Sexual exploitation involving immediate physical contact without prior grooming or relationship b... |
+| **InterventionType** | ext.cac.cacontology-synthesis | Class | A category of TF-CSEA intervention (e.g., technological tools and protocols). |
 | **Library** | uco.observable | Class | A library is a suite of data and programming code that is used to develop software programs and a... |
 | **LibraryFacet** | uco.observable | Facet | A library facet is a grouping of characteristics unique to a suite of data and programming code t... |
 | **LibraryType** | uco.tool | Class | A library type is a grouping of characteristics unique to a collection of resources incorporated ... |
+| **MachineLearningDetectionTool** | ext.cac.cacontology-detection | Class | A tool using machine learning algorithms to detect CSAM content (e.g., Google's CSAI Classifier, ... |
 | **MaliciousTool** | uco.tool | Class | A malicious tool is an artifact of hardware and/or software utilized to accomplish a malevolent t... |
+| **ManualReviewTool** | ext.cac.cacontology-detection | Class | A tool supporting human review and classification of potentially illegal content. Modeled as gUFO... |
+| **MassDigitalEvidenceProcessing** | ext.cac.cacontology-forensics | Class | Processing of massive volumes of digital evidence requiring specialized automated tools and distr... |
+| **MassUserDatabase** | ext.cac.cacontology-platforms | Class | User database analysis for platforms with massive user bases requiring specialized processing tec... |
+| **MediumPriorityModule** | ext.cac.cacontology-integration-patterns | Class | CAC module requiring gUFO integration in second wave, building on high-priority foundation. |
+| **MemoryForensicTool** | ext.cac.cacontology-forensics | Class | A tool specialized for analyzing volatile memory dumps (e.g., Volatility, Rekall, MAGNET RAM Capt... |
+| **MetadataAnalysisTool** | ext.cac.cacontology-ai-csam | Class | Tool for analyzing metadata patterns that may indicate AI generation or manipulation. Enhanced as... |
+| **MobileForensicTool** | ext.cac.cacontology-forensics | Class | A tool specialized for mobile device forensics including logical and physical extraction (e.g., C... |
 | **NetworkAppliance** | uco.observable | Class | A network appliance is a purpose-built computer with software or firmware that is designed to pro... |
+| **NetworkForensicTool** | ext.cac.cacontology-forensics | Class | A tool specialized for network traffic analysis and packet capture (e.g., Wireshark, NetworkMiner... |
 | **NetworkInterface** | uco.observable | Class | A network interface is a software or hardware interface between two pieces of equipment or protoc... |
 | **NetworkInterfaceFacet** | uco.observable | Facet | A network interface facet is a grouping of characteristics unique to a software or hardware inter... |
+| **NudificationTool** | ext.cac.cacontology-ai-csam | Class | Software tool or functionality capable of performing AI-enabled nudification (synthetic nudity) o... |
+| **Obfuscate** | ext.aeo.engagement | Class | An Obfuscate action is a transformative action an entity or tool performs to some object to reduc... |
 | **OperatingSystem** | uco.observable | Class | An operating system is the software that manages computer hardware, software resources, and provi... |
 | **OperatingSystemFacet** | uco.observable | Facet | An operating system facet is a grouping of characteristics unique to the software that manages co... |
-| **PlatformSpecification** | ext.toolcap | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
+| **ParentalControl** | ext.cac.cacontology-prevention | Class | Technology tools for parental oversight. |
+| **PlatformSpecification** | ext.toolcap | Class | DEPRECATED in 0.4.0. Use first-class uco-observable:OperatingSystem instances linked via uco-core... |
+| **ProsecutionPreparationPhase** | ext.cac.cacontology-case-management | Class | Phase involving preparation for prosecution including legal review and case building. Anti-rigid ... |
+| **RapidEscalationGrooming** | ext.cac.cacontology-grooming | Class | Grooming with accelerated timeline from initial contact to exploitation attempt, bypassing tradit... |
+| **RiskAssessmentTool** | ext.cac.cacontology-prevention | Class | Tool for assessing risks to child safety. |
 | **SecurityAppliance** | uco.observable | Class | A security appliance is a purpose-built computer with software or firmware that is designed to pr... |
+| **Situation** | ext.cac.cac-core | Class | A context, state, or configuration that holds at a time and may involve multiple participants. Al... |
+| **SkippedGroomingPhases** | ext.cac.cacontology-grooming | Class | Grooming that bypasses traditional phases like trust building, isolation, and normalization. |
 | **Software** | uco.observable | Class | Software is a definitely scoped instance of a collection of data or computer instructions that te... |
 | **SoftwareFacet** | uco.observable | Facet | A software facet is a grouping of characteristics unique to a software program (a definitively sc... |
+| **SyntheticImageDetector** | ext.cac.cacontology-ai-csam | Class | Tool for detecting synthetically generated images using machine learning classifiers. Enhanced as... |
+| **TechnicalDataSharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of technical data including forensic tools, methodologies, and technical analysis results. |
+| **TechnologySharing** | ext.cac.cacontology-investigation-coordination | Class | Sharing of technology resources including software, databases, communication systems, and analyti... |
 | **Tool** | uco.tool | Class | A tool is an element of hardware and/or software utilized to carry out a particular function. |
-| **ToolCapability** | ext.toolcap | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
+| **ToolCapability** | ext.toolcap | Class | DEPRECATED in 0.4.0. Use capability:Capability (proposed uco-capability:Capability) instead, link... |
+| **ToolDevelopment** | ext.cac.cacontology-partnerships | Class | Joint development of investigative tools and technologies for law enforcement use. Modeled as gUF... |
+| **TrustBuildingBehavior** | ext.cac.cacontology-grooming | Class | Early grooming stage focused on establishing emotional connection with the child victim. |
+| **TrustBuildingPhase** | ext.cac.cacontology-grooming | Class | Phase focused on building emotional connection and trust with victim. |
+| **TrustBuildingPhase** | ext.cac.cacontology-sextortion | Class | Phase focused on building trust and rapport with victim. |
+| **TrustBuildingProcess** | ext.cac.cacontology-extremist-enterprises | Class | Process of building trust with vulnerable victims before exploitation begins. |
+| **TrustThroughAnonymity** | ext.cac.cacontology-grooming | Class | Building trust by appearing less threatening through anonymous contact. |
+| **USConferenceCommittee** | ext.cac.cacontology-usa-legislative | Class | Bicameral reconciliation process between House and Senate versions. |
 | **WindowsComputerSpecification** | uco.observable | Class | A Windows computer specification is the hardware ans software of a programmable electronic device... |
 | **WindowsComputerSpecificationFacet** | uco.observable | Facet | A Windows computer specification facet is a grouping of characteristics unique to the hardware an... |
+
+**AIDetectionTool** key properties:
+
+| Property | Type | Required |
+|----------|------|----------|
+| createdBy | IdentityAbstraction | No |
+| description | string | No |
+| externalReference | ExternalReference | No |
+| hasFacet | Facet | No |
+| modifiedTime | dateTime | No |
+| name | string | Yes |
+| objectCreatedTime | dateTime | No |
+| objectMarking | MarkingDefinitionAbstraction | No |
+| *... 9 more* | | |
 
 **API** key properties:
 
@@ -1791,21 +4396,7 @@ Classes for documenting forensic tools, their versions, build information, and c
 | name | string | No |
 | objectCreatedTime | dateTime | No |
 | objectMarking | MarkingDefinitionAbstraction | No |
-| *... 7 more* | | |
-
-**AnalyticTool** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 8 more* | | |
+| *... 9 more* | | |
 
 **Example usage:**
 
@@ -1856,37 +4447,142 @@ Classes for representing timestamps, time intervals, and temporal relationships 
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
-| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
+| **AIContentGeneration** | ext.cac.cacontology-ai-csam | Class | Process of creating artificial CSAM using machine learning models, neural networks, or other AI t... |
+| **AcademicIntimidation** | ext.cac.cacontology-educational-exploitation | Class | Use of academic authority to intimidate and create vulnerability in students. Enhanced as gUFO Ev... |
+| **AccountMetadata** | ext.cac.cacontology-platforms | Class | Account-level metadata including creation date, profile information, and activity patterns. |
+| **Age** | ext.cac.cacontology-temporal | Class | Age of a person modeled as a gUFO Quality whose concrete value is attributed in time-bounded situ... |
+| **AgeAtTimeSituation** | ext.cac.cacontology-temporal | Class | gUFO QualityValueAttributionSituation specializing in attribution of an Age quality value to a sp... |
+| **AnnualRegistrationReview** | ext.cac.cacontology-sex-offender-registry | Class | Annual review and update of sex offender registration information. |
+| **AssetForfeitureAction** | ext.cac.cacontology-asset-forfeiture | Class | Legal action to forfeit assets derived from or used in child exploitation crimes. Enhanced as gUF... |
+| **AthleticCoachingExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Child sexual exploitation committed by athletic coaches using sports authority, team dynamics, an... |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability.... |
 | **Call** | uco.observable | Class | A call is a connection as part of a realtime cyber communication between one or more parties. |
 | **CallFacet** | uco.observable | Facet | A call facet is a grouping of characteristics unique to a connection as part of a realtime cyber ... |
-| **CapabilityMatrix** | ext.toolcap | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
+| **CaseDurationMetrics** | ext.cac.cacontology-case-management | Class | Metrics tracking case duration from opening to closure across different stages. Enhanced as gUFO ... |
+| **CaseMetrics** | ext.cac.cacontology-case-management | Class | Performance metrics and analytics for case management including duration, resolution rates, and r... |
+| **CaseResolutionTimeMetrics** | ext.cac.cacontology-investigation-coordination | Class | Metrics measuring impact of coordination on case resolution times and outcomes. |
+| **CaseTracking** | ext.cac.cacontology-case-management | Class | Systematic tracking of case progress, updates, and status changes across multiple systems and jur... |
+| **CaseWorkflow** | ext.cac.cacontology-case-management | Class | Structured workflow stages and processes for managing case progression from intake to disposition... |
+| **ChildSexualAbuseEvent** | ext.cac.cacontology | Class | A class representing any event involving child sexual abuse or exploitation. This is the base cla... |
+| **ChildVictim** | ext.cac.cacontology-grooming | Class | Minor child who is the target of grooming behavior. When analysis depends on the victim’s exact a... |
+| **ColdCaseManagement** | ext.cac.cacontology-case-management | Class | Management protocols for cold cases including periodic review and new evidence integration. Subcl... |
+| **CommunityEmailList** | ext.cac.cacontology-prevention | Class | Organized email communication system for ongoing safety updates to parents and community members. |
+| **CommunityNewsletterSystem** | ext.cac.cacontology-prevention | Class | Regular newsletter communication system for ongoing community engagement and safety updates. |
+| **CompliancePattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling compliance with registration requirements as temporal situation with mo... |
+| **ConcurrentInvestigationSituation** | ext.cac.cacontology-temporal | Class | Situation where multiple investigations run simultaneously, potentially sharing resources or evid... |
+| **ContentModerationQueue** | ext.cac.cacontology-platforms | Class | A queue/backlog of content items awaiting moderation review and operational handling at scale (e.... |
+| **ConversationReconstruction** | ext.cac.cacontology-sextortion | Class | Reconstruction of conversation patterns and progression timelines. |
+| **CoordinatedOffensePattern** | ext.cac.cacontology | Class | Pattern of coordinated criminal activities involving multiple perpetrators working together acros... |
+| **CoordinationSituationPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling multi-jurisdiction coordination situations with participating organizat... |
+| **CustodyArrangement** | ext.cac.cacontology-custodial | Class | Formal or informal arrangement for child custody or care. Modeled as gUFO Object with temporal ar... |
+| **Deploy** | ext.aeo.engagement | Class | A Deploy action involves instantiating some deception objects prior or during an operation. |
 | **Dictionary** | uco.types | Class | A dictionary is list of (term/key, value) pairs with each term/key having an expectation to exist... |
+| **DoxxingThreat** | ext.cac.cacontology-sextortion | Class | Threat mechanism involving doxxing (threatened release of identifying/personal information) to in... |
+| **EducatorPerpetratedExploitation** | ext.cac.cacontology-educational-exploitation | Class | Child sexual exploitation committed by educational institution personnel using their position of ... |
+| **EmergencyDisclosureRequest** | ext.cac.cacontology-platforms | Class | Time-sensitive request by law enforcement/investigators to an electronic service provider for imm... |
+| **EmploymentPhase** | ext.cac.cacontology-educational-exploitation | Class | Anti-rigid phase representing educator's employment period during which exploitation occurs. |
+| **EnduringEntity** | ext.cac.cac-core | Class | A thing that persists through time while potentially changing state. This is the CAC-facing root ... |
+| **EscalationPattern** | ext.cac.cacontology-grooming | Class | Progressive increase in inappropriate content or requests over time. |
+| **Event** | ext.cac.cac-core | Class | Something that happens or unfolds in time — an action, interaction, incident, hearing, or process... |
+| **EventSequence** | ext.cac.cacontology-temporal | Class | Ordered sequence of investigation events with temporal dependencies. Modeled as gUFO structured e... |
 | **EventsFacet** | uco.identity | Facet | Events is a grouping of characteristics unique to information related to specific relevant things... |
+| **ExploitationEscalationPhase** | ext.cac.cacontology-educational-exploitation | Class | Anti-rigid phase representing escalation of exploitative behavior over time. |
+| **ExtendedInvestigationTimeline** | ext.cac.cacontology-forensics | Class | Investigation timeline spanning weeks, months, or years for complex child exploitation cases. |
+| **ExtendedProductionPeriod** | ext.cac.cacontology-production | Class | Ongoing pattern of production over an extended time period. |
+| **FailureToRegisterOffense** | ext.cac.cacontology-sex-offender-registry | Class | Criminal offense for failing to register or update required information in a sex offender registr... |
+| **FederalInvestigation** | ext.cac.cacontology-usa-federal-law | Class | Federal investigation of child exploitation crimes. Modeled as gUFO Event with temporal boundarie... |
+| **FederalProsecution** | ext.cac.cacontology-usa-federal-law | Class | Federal legal prosecution process for child exploitation crimes. Modeled as gUFO Event with tempo... |
+| **GlobalTakedownCoordination** | ext.cac.cacontology-international | Class | Real-time coordination for simultaneous takedown operations across multiple countries. |
+| **GroomingPhase** | ext.cac.cacontology-grooming | Class | A temporal phase within the grooming process. |
+| **HighVolumeDigitalExploitation** | ext.cac.cacontology-sex-offender-registry | Class | Digital exploitation involving thousands of messages or communications over extended period. |
+| **HotlineAction** | ext.cac.cacontology-hotlines | Class | An action taken as part of processing a hotline report. Enhanced as gUFO Event for comprehensive ... |
+| **InfrastructureMaintenancePhase** | ext.cac.cacontology-platform-infrastructure | Class | Phase during which infrastructure undergoes maintenance and updates (gUFO Phase - anti-rigid). |
+| **InstantAlertSystem** | ext.cac.cacontology-international | Class | System for instant notification of threats, discoveries, and urgent coordination needs across int... |
 | **InstantMessagingAddress** | uco.observable | Class |  |
 | **InstantMessagingAddressFacet** | uco.observable | Facet | An instant messaging address facet is a grouping of characteristics unique to an identifier assig... |
+| **InstantMessagingPlatform** | ext.cac.cacontology-sextortion | Class | Digital platform used for instant messaging in sextortion incidents. |
+| **InstantMessagingSextortion** | ext.cac.cacontology-sextortion | Class | Sextortion conducted through instant messaging platforms with direct private communication. |
+| **IntelligenceFusion** | ext.cac.cacontology-international | Class | Real-time fusion of intelligence from multiple international sources to create comprehensive thre... |
+| **InvestigationLifecycle** | ext.cac.cacontology-temporal | Class | Complete temporal structure of CAC investigation from initiation to closure. Modeled as gUFO Kind... |
+| **LegalEventPattern** | ext.cac.cacontology-integration-patterns | Class | gUFO pattern for modeling legal events (hearings, sentencing, appeals) with temporal boundaries a... |
+| **LifeImprisonmentSentence** | ext.cac.cacontology-legal-outcomes | Class | Prison sentence of life imprisonment (typically without a fixed term duration). Modeled as gUFO O... |
+| **LiveAdvertisementMonitoring** | ext.cac.cacontology-undercover | Class | Real-time monitoring of trafficking advertisements to identify and respond to active postings. |
+| **LiveIntelligenceFeed** | ext.cac.cacontology-international | Class | Continuous feed of intelligence updates shared in real-time between international law enforcement... |
+| **LiveProductionEvent** | ext.cac.cacontology-production | Class | Real-time production of child sexual abuse material involving live victims. |
+| **LiveStreamContent** | ext.cac.cacontology-production | Class | Content transmitted in real-time during live production events. |
+| **MessagingService** | ext.cac.cacontology-platforms | Class | A digital service for real-time communication and messaging (e.g., WhatsApp, Telegram, Signal, Di... |
+| **MetadataExtractionAction** | ext.cac.cacontology-forensics | Class | The action of extracting metadata from digital artifacts including EXIF, file system timestamps, ... |
+| **MethodologyStatement** | ext.cac.cacontology-synthesis | Class | A structured statement about methodology (e.g., PRISMA, date range, databases, inclusion criteria). |
+| **MinorTraffickingVictimRole** | ext.cac.cacontology-sex-trafficking | Class | Role of minor (under 18) being sex trafficked. Modeled as anti-rigid gUFO Role. Concrete victim a... |
+| **MissingChildRescueOperation** | ext.cac.cacontology-investigation-coordination | Class | Time-boxed, multi-party operation focused on locating missing children/teens at risk of endangerm... |
+| **MultiVictimExploitationSituation** | ext.cac.cacontology-educational-exploitation | Class | Situation involving multiple victims across multiple institutions or time periods. |
+| **MultimediaEducationContent** | ext.cac.cacontology-prevention | Class | Educational content incorporating multiple media types including audio, video, and interactive el... |
 | **Observation** | uco.observable | Class | An observation is a temporal perception of an observable. |
+| **Occurrent** | ext.cac.cac-core | Class | A CAC organizing superclass for things that happen or unfold in time. This is a CAC-layer abstrac... |
+| **OffenderRole** | ext.cac.cacontology | Class | Role of a person who commits child sexual abuse or exploitation. Modeled as anti-rigid gUFO Role.... |
+| **OnlinePredator** | ext.cac.cacontology-grooming | Class | Individual who engages in grooming behavior toward children online. Age-at-time for this offender... |
+| **OperationalSyncronization** | ext.cac.cacontology-international | Class | Real-time synchronization of operational activities across multiple countries for coordinated res... |
+| **ParallelEventCluster** | ext.cac.cacontology-temporal | Class | Set of investigation events occurring simultaneously or with temporal overlap. Modeled as gUFO co... |
+| **ParentCommunityEmailList** | ext.cac.cacontology-prevention | Class | Specialized email list for parent and community safety updates and archived publication access. |
+| **Phase** | ext.cac.cac-core | Class | A temporal stage of some enduring entity, process, or situation. The bearer remains the same enti... |
+| **PhaseTransitionEvent** | ext.cac.cacontology-temporal | Class | Event marking transition between investigation phases. Modeled as gUFO Event with temporal bounda... |
+| **PlannedEvent** | ext.aeo.engagement | Class | A PlannedEvent is a collection of actions, entities, interactions designated to be performed at s... |
+| **PositionOfTrust** | ext.cac.cacontology-custodial | Class | Role or position that grants special access to or authority over children. Modeled as anti-rigid ... |
+| **PostReleaseSupervision** | ext.cac.cacontology-educational-exploitation | Class | Court-ordered supervision period following release from incarceration for educational exploitatio... |
 | **ProcessThread** | uco.observable | Class | A process thread is the smallest sequence of programmed instructions that can be managed independ... |
+| **PropertyRestraintAction** | ext.cac.cacontology-asset-forfeiture | Class | Legal action to restrain property pending forfeiture proceedings, preventing disposal or transfer... |
+| **RapidEscalationGrooming** | ext.cac.cacontology-grooming | Class | Grooming with accelerated timeline from initial contact to exploitation attempt, bypassing tradit... |
+| **RapidEscalationRecruitment** | ext.cac.cacontology-street-recruitment | Class | Trafficking recruitment with accelerated timeline from initial contact to exploitation attempt. |
+| **RapidResponseDisclosureWorkflow** | ext.cac.cacontology-prevention | Class | Workflow enabling rapid response from victim disclosure to arrest (e.g., 8-hour timeline). |
+| **RealTimeCorrelation** | ext.cac.cacontology-forensics | Class | Real-time correlation analysis for immediate identification of related evidence and ongoing activ... |
+| **RealTimeIntelligenceSharing** | ext.cac.cacontology-international | Class | Real-time sharing of intelligence and alerts between international partners for immediate threat ... |
+| **RecruitmentTiming** | ext.cac.cacontology-recruitment-networks | Class | Temporal patterns and timing of recruitment activities within educational environments. |
+| **RegistrationReviewArrest** | ext.cac.cacontology-sex-offender-registry | Class | Arrest executed when offender arrives for scheduled registration review or update. |
+| **RegistrationUpdate** | ext.cac.cacontology-sex-offender-registry | Class | Update to sex offender registration information. |
+| **RepeatedCrossBorderTravel** | ext.cac.cacontology-institutional-exploitation | Class | Pattern of repeated travel to foreign country for exploitation over extended period. |
+| **ReportReviewAction** | ext.cac.cacontology-hotlines | Class | The action of reviewing and triaging a hotline report. Enhanced as gUFO Event with comprehensive ... |
+| **ReporterRole** | ext.cac.cacontology-hotlines | Class | The role of a person or organization submitting a report to a hotline. Enhanced as anti-rigid gUF... |
+| **ResponseTimeMetrics** | ext.cac.cacontology-investigation-coordination | Class | Metrics measuring response times for coordination requests and information sharing. |
+| **SecureCommunicationChannel** | ext.cac.cacontology-international | Class | Encrypted communication channel for secure real-time coordination between international partners. |
+| **Situation** | ext.cac.cac-core | Class | A context, state, or configuration that holds at a time and may involve multiple participants. Al... |
 | **Snapshot** | uco.observable | Class | A snapshot is a file system object representing a snapshot of the contents of a part of a file sy... |
+| **SocialMediaPost** | ext.cac.cacontology-platforms | Class | Individual posts, updates, or content shared on social media platforms. |
+| **SupervisedRelease** | ext.cac.cacontology-legal-outcomes | Class | Period of supervision following completion of prison sentence. Modeled as gUFO Object. |
+| **SuspendedSituation** | ext.cac.cacontology-temporal | Class | Situation where investigation is temporarily suspended pending resources, legal decisions, or ext... |
+| **SwattingThreat** | ext.cac.cacontology-sextortion | Class | Threat mechanism involving swatting (threatened or induced false emergency report leading to arme... |
+| **SystematicInstitutionalAbuse** | ext.cac.cacontology-institutional-exploitation | Class | Systematic pattern of abuse affecting multiple children over extended period. |
+| **TemporalConsistency** | ext.cac.cacontology-integration-patterns | Class | Validation ensuring temporal relationships and constraints are properly modeled across modules. |
+| **TemporalPatternAnalysis** | ext.cac.cacontology-forensics | Class | Analysis of temporal patterns and timing correlations across different pieces of evidence. |
+| **TemporaryCustody** | ext.cac.cacontology-custodial | Class | Short-term custody arrangement or supervision of a child. Modeled as anti-rigid gUFO Phase with t... |
+| **ThreatAssessmentSharing** | ext.cac.cacontology-international | Class | Real-time sharing of threat assessments and risk evaluations between international partners. |
+| **TimelineAnalysisAction** | ext.cac.cacontology-forensics | Class | The action of creating chronological sequences of digital artifacts and events for investigation ... |
+| **TraumatizedVictim** | ext.cac.cacontology-victim-impact | Class | Role of a child victim experiencing psychological trauma. Where age at time of victimization or a... |
+| **TrustViolation** | ext.cac.cacontology-custodial | Class | Action that violates a position of trust or custodial responsibility. Modeled as gUFO Event with ... |
+| **UrgentRescueLifecycle** | ext.cac.cacontology-temporal | Class | Accelerated investigation lifecycle for urgent child rescue situations. Compressed phase duration... |
+| **VictimEmergencyResponse** | ext.cac.cacontology-sex-trafficking | Class | Emergency response to 911 calls from trafficking victims seeking help. Modeled as gUFO Event. |
+| **VictimExtraction** | ext.cac.cacontology-victim-impact | Class | Immediate removal of victim from dangerous trafficking situation following emergency call. |
+| **VictimRole** | ext.cac.cacontology | Class | Role of a person who is a victim of child sexual abuse or exploitation. Modeled as anti-rigid gUF... |
+| **VideoGeneration** | ext.cac.cacontology-ai-csam | Class | Generation of video content using AI models capable of creating temporal sequences and motion. En... |
 | **VisaFacet** | uco.identity | Facet | Visa is a grouping of characteristics unique to information related to a person's ability to ente... |
+| **VisitationArrangement** | ext.cac.cacontology-custodial | Class | Scheduled visitation or contact arrangement with child. Modeled as gUFO SubKind with temporal sch... |
+| **WeaponBasedCoercion** | ext.cac.cacontology-stranger-abduction | Class | Use of weapons to threaten, intimidate, and control victims during abduction and exploitation. |
+| **WeaponDisplayIntimidation** | ext.cac.cacontology-stranger-abduction | Class | Display of weapon to intimidate victim into compliance without direct threats. |
 | **WindowsCriticalSection** | uco.observable | Class | A Windows critical section is a Windows object that provides synchronization similar to that prov... |
 | **WindowsSystemRestore** | uco.observable | Class | A Windows system restore is a capture of a Windows computer's state (including system files, inst... |
 | **WindowsWaitableTime** | uco.observable | Class | A Windows waitable timer is a synchronization object within the Windows operating system whose st... |
 
-**BenchmarkObservation** key properties:
+**AIContentGeneration** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 29 more* | | |
+| generationComplexity | string | No |
+| generationTechnique | string | No |
+| technicalExpertiseRequired | string | No |
+| generationDuration | duration | No |
+| endTime | dateTime | No |
+| startTime | dateTime | Yes |
 
-**Call** key properties:
+**AccountMetadata** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
@@ -1899,20 +4595,6 @@ Classes for representing timestamps, time intervals, and temporal relationships 
 | objectCreatedTime | dateTime | No |
 | objectMarking | MarkingDefinitionAbstraction | No |
 | *... 5 more* | | |
-
-**CapabilityMatrix** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 7 more* | | |
 
 **Example usage:**
 
@@ -1956,52 +4638,122 @@ Classes for marking data with handling restrictions, classification levels, TLP 
 
 | Class | Module | Type | Description |
 |-------|--------|------|-------------|
-| **AccessRestriction** | ext.toolcap | Class | An access restriction describes a security, licensing, classification, operational security, or l... |
+| **Access** | ext.aeo.engagement | Class | An Access action refers to an observed or deduced interaction between an entity and an object. |
+| **AccessControlSystem** | ext.cac.cacontology-extremist-enterprises | Class | System controlling access to enterprise channels and resources based on member status and content... |
+| **AccessPrivilegeAbuse** | ext.cac.cacontology-law-enforcement-corruption | Class | Abuse of special access privileges granted to law enforcement personnel. |
+| **AccessRestriction** | ext.toolcap | Class | An access restriction is a marking definition that describes a security, licensing, classificatio... |
+| **AccommodationMotion** | ext.cac.cacontology-case-management | Class | Court filing requesting witness or victim accommodations needed for testimony, accessibility, or ... |
 | **AccountAuthenticationFacet** | uco.observable | Facet | An account authentication facet is a grouping of characteristics unique to the mechanism of acces... |
+| **AlternateAccountSystem** | ext.cac.cacontology-extremist-enterprises | Class | System of alternate accounts (alts) used to evade platform restrictions and maintain operations. |
 | **AlternateDataStream** | uco.observable | Class | An alternate data stream is data content stored within an NTFS file that is independent of the st... |
 | **AlternateDataStreamFacet** | uco.observable | Facet | An alternate data stream facet is a grouping of characteristics unique to data content stored wit... |
+| **ArchivePublicationSystem** | ext.cac.cacontology-prevention | Class | Knowledge repository system providing access to archived educational publications and historical ... |
 | **ArtifactClassification** | uco.analysis | Class | An artifact classification is a single specific assertion that a particular class of a classifica... |
 | **ArtifactClassificationResultFacet** | uco.analysis | Facet | An artifact classification result facet is a grouping of characteristics unique to the results of... |
+| **AssessmentResult** | ext.cac.cac-core | Class | An output or conclusion of some evaluative, analytic, classification, or decision-making process.... |
+| **AutomatedContentAnalysis** | ext.cac.cacontology-forensics | Class | Automated analysis of large volumes of content using machine learning and AI for rapid classifica... |
+| **BenchmarkObservation** | ext.toolcap | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability.... |
 | **BlockDeviceNode** | uco.observable | Class | A block device node is a UNIX filesystem special file that serves as a conduit to communicate wit... |
 | **BrowserBookmark** | uco.observable | Class | A browser bookmark is a saved shortcut that directs a WWW (World Wide Web) browser software progr... |
 | **BrowserBookmarkFacet** | uco.observable | Facet | A browser bookmark facet is a grouping of characteristics unique to a saved shortcut that directs... |
+| **CSAMCurationAction** | ext.cac.cacontology | Class | The action of curating and classifying child sexual abuse material using standard classification ... |
+| **CSAM_AccessingAndViewing** | ext.cac.cacontology-legal-outcomes | Class | Charge for intentionally accessing and viewing child sexual abuse material. Modeled as gUFO Object. |
+| **ChainOfCustodyAction** | ext.cac.cacontology-forensics | Class | An action that documents evidence handling, transfer, and custody maintaining legal admissibility. |
 | **CharacterDeviceNode** | uco.observable | Class | A character device node is a UNIX filesystem special file that serves as a conduit to communicate... |
+| **ClassificationResult** | ext.cac.cacontology-detection | Class | The result of content classification using standard scales like SAR or COPINE. |
+| **ContactRestriction** | ext.cac.cacontology-sex-offender-registry | Class | Restriction on contact with certain individuals or groups. |
+| **ContentAnalystRole** | ext.cac.cacontology-detection | Class | Role of professional analyzing flagged content for classification. Modeled as anti-rigid gUFO Role. |
+| **ContentCurrencySystem** | ext.cac.cacontology-extremist-enterprises | Class | System using exploitative content as valuable currency within criminal enterprise for advancement... |
+| **ContentIdentification** | ext.cac.cacontology-us-ncmec | Class | Identification and classification of illegal content in NCMEC tips. |
+| **ContentModerationQueue** | ext.cac.cacontology-platforms | Class | A queue/backlog of content items awaiting moderation review and operational handling at scale (e.... |
 | **Credential** | uco.observable | Class | A credential is a single specific login and password combination for authorization of access to a... |
 | **CredentialDump** | uco.observable | Class | A credential dump is a collection (typically forcibly extracted from a system) of specific login ... |
+| **CustodyDocument** | ext.cac.cacontology-forensics | Class | Documentation recording the handling and transfer of evidence maintaining chain of custody. |
+| **DarkWebService** | ext.cac.cacontology-platforms | Class | A service accessible through anonymizing networks like Tor, often used for illegal activities. Mo... |
+| **DatabaseAccessAbuse** | ext.cac.cacontology-law-enforcement-corruption | Class | Misuse of law enforcement database access for personal exploitation activities. |
+| **DenialAction** | ext.aeo.engagement | Class | A denial action is an action used for and during a deception campaign which restricts or denies a... |
+| **DetectionResult** | ext.cac.cacontology-detection | Class | The result of a content detection action including confidence scores and classification. |
+| **DiscreetAccessSystem** | ext.cac.cacontology-prevention | Class | System allowing discreet access to safety information to reduce bullying and shaming. |
+| **DistributedForensicProcessing** | ext.cac.cacontology-forensics | Class | Forensic processing distributed across multiple systems and locations for handling massive eviden... |
+| **DistributedProsecutionTeam** | ext.cac.cacontology-multi-jurisdiction | Class | Prosecution team distributed across multiple jurisdictions for handling massive caseloads. |
 | **EXIFFacet** | uco.observable | Facet | An EXIF (exchangeable image file format) facet is a grouping of characteristics unique to the for... |
+| **EducatorRole** | ext.cac.cacontology-educational-exploitation | Class | Professional role within educational institution with access to students. Enhanced as anti-rigid ... |
 | **EmbeddedDevice** | uco.observable | Class | An embedded device is a highly specialized microprocessor device meant for one or very few specif... |
+| **EmploymentRestriction** | ext.cac.cacontology-sex-offender-registry | Class | Restriction on types of employment. |
+| **ExposureMitigationMeasure** | ext.cac.cacontology-analyst-wellbeing | Class | A measure, control, or workflow technique used to reduce human exposure to traumatic content whil... |
+| **FAQUsageMetrics** | ext.cac.cacontology-prevention | Class | Metrics tracking FAQ access patterns, most searched questions, and help-seeking behaviors. |
+| **FamilyFriend** | ext.cac.cacontology-custodial | Class | Friend of family with trusted access to children. Modeled as anti-rigid gUFO Role with social tru... |
+| **FederalProsecutorRole** | ext.cac.cacontology-usa-federal-law | Class | Role of federal prosecutor handling child exploitation cases. Modeled as anti-rigid gUFO Role. |
 | **FileFacet** | uco.observable | Facet | A file facet is a grouping of characteristics unique to the storage of a file (computer resource ... |
 | **FilePermissionsFacet** | uco.observable | Facet | A file permissions facet is a grouping of characteristics unique to the access rights (e.g., view... |
 | **FileSystem** | uco.observable | Class | A file system is the process that manages how and where data on a storage medium is stored, acces... |
 | **FileSystemFacet** | uco.observable | Facet | A file system facet is a grouping of characteristics unique to the process that manages how and w... |
+| **GeographicRestriction** | ext.cac.cacontology-sex-offender-registry | Class | Geographic area where offender is restricted from being. |
 | **GranularMarking** | uco.marking | Class | A granular marking is a grouping of characteristics unique to specification of marking definition... |
+| **HoneyToken** | ext.aeo.engagement | Class | A honey token gives an adversary direct access to a honeypot. |
+| **InnerCore** | ext.cac.cacontology-extremist-enterprises | Class | Elite inner core of enterprise members with access to restricted channels and advanced activities. |
+| **InnerCoreMemberRole** | ext.cac.cacontology-extremist-enterprises | Class | Role of member within enterprise inner core with access to restricted channels and advanced opera... |
+| **InternationalDatabase** | ext.cac.cacontology-international | Class | Shared database accessible by multiple countries for child protection. |
+| **InternetRestriction** | ext.cac.cacontology-sex-offender-registry | Class | Restriction on internet use or online activities. |
+| **InvestigativeAuthorityAbuse** | ext.cac.cacontology-law-enforcement-corruption | Class | Abuse of investigative powers and access for exploitation purposes. |
 | **Junction** | uco.observable | Class | A junction is a specific NTFS (New Technology File System) reparse point to redirect a directory ... |
+| **K9Officer** | ext.cac.cacontology-specialized-units | Class | Law enforcement officer handling and working with detection dogs. Modeled as anti-rigid gUFO Role. |
+| **LegalLiaison** | ext.cac.cacontology-investigation-coordination | Class | Legal liaison officer handling legal aspects of inter-agency coordination and agreements. |
 | **LicenseMarking** | uco.marking | Class | A license marking is a grouping of characteristics unique to the expression of data marking defin... |
 | **MACAddress** | uco.observable | Class | A MAC address is a media access control standards conformant identifier assigned to a network int... |
 | **MACAddressFacet** | uco.observable | Facet | A MAC address facet is a grouping of characteristics unique to a media access control standards c... |
+| **ManualClassificationAction** | ext.cac.cacontology-detection | Class | The action of human review and classification of suspected CSAM content. Modeled as gUFO Event. |
+| **ManualReviewPhase** | ext.cac.cacontology-detection | Class | Phase of human expert review and classification. Modeled as anti-rigid gUFO Phase. |
+| **ManualReviewTool** | ext.cac.cacontology-detection | Class | A tool supporting human review and classification of potentially illegal content. Modeled as gUFO... |
 | **MarkingDefinition** | uco.marking | Class | A marking definition is a grouping of characteristics unique to the expression of a specific data... |
 | **MarkingDefinitionAbstraction** | uco.core | Class | A marking definition abstraction is a grouping of characteristics unique to the expression of a s... |
 | **MarkingModel** | uco.marking | Class | A marking model is a grouping of characteristics unique to the expression of a particular form of... |
+| **MembershipTier** | ext.cac.cacontology-extremist-enterprises | Class | Membership tier within enterprise hierarchy determining access and privileges. |
 | **Memory** | uco.observable | Class | Memory is a particular region of temporary information storage (e.g., RAM (random access memory),... |
 | **MemoryFacet** | uco.observable | Facet | A memory facet is a grouping of characteristics unique to a particular region of temporary inform... |
+| **MovementRestriction** | ext.cac.cacontology-stranger-abduction | Class | Physical or psychological restriction of victim movement and escape attempts. |
 | **Mutex** | uco.observable | Class | A mutex is a mechanism that enforces limits on access to a resource when there are many threads o... |
 | **MutexFacet** | uco.observable | Facet | A mutex facet is a grouping of characteristics unique to a mechanism that enforces limits on acce... |
 | **NTFSFilePermissionsFacet** | uco.observable | Facet | An NTFS file permissions facet is a grouping of characteristics unique to the access rights (e.g.... |
+| **NameCuttingCoercion** | ext.cac.cacontology-extremist-enterprises | Class | Coercion of victims to cut enterprise member names into their bodies as ownership marking. |
+| **NotificationTier** | ext.cac.cacontology-sex-offender-registry | Class | Classification tier determining level of community notification required. |
+| **OffenderContactRisk** | ext.cac.cacontology-recantation | Class | A recantation risk created by continued offender access, visitation, or indirect contact after di... |
+| **OffenseClassification** | ext.cac.cacontology-sex-offender-registry | Class | Classification of sexual offense (felony/misdemeanor, degree, special categories). |
 | **OnlineService** | uco.observable | Class | An online service is a particular provision mechanism of information access, distribution or mani... |
 | **OnlineServiceFacet** | uco.observable | Facet | An online service facet is a grouping of characteristics unique to a particular provision mechani... |
+| **ParentCommunityEmailList** | ext.cac.cacontology-prevention | Class | Specialized email list for parent and community safety updates and archived publication access. |
 | **PaymentCard** | uco.observable | Class | A payment card is a physical token that is part of a payment system issued by financial instituti... |
+| **PhaseTransitionEvent** | ext.cac.cacontology-temporal | Class | Event marking transition between investigation phases. Modeled as gUFO Event with temporal bounda... |
+| **PhysicalEvidenceProvenanceRecord** | ext.cac.cacontology-physical-evidence | Class | Provenance record tracking chain of custody and handling of physical evidence. Extends investigat... |
+| **PositionOfTrust** | ext.cac.cacontology-custodial | Class | Role or position that grants special access to or authority over children. Modeled as anti-rigid ... |
+| **PrivateGroupManagement** | ext.cac.cacontology-extremist-enterprises | Class | Management of private groups and channels with restricted access for enterprise operations. |
+| **ProfessionalLicense** | ext.cac.cacontology-sex-offender-registry | Class | Professional license held by registered sex offender. |
+| **ProfessionalLicenseSurrenderCondition** | ext.cac.cacontology-legal-outcomes | Class | Condition associated with a plea agreement or sentencing outcome requiring the defendant to surre... |
+| **ProsecutorRole** | ext.cac.cacontology-legal-outcomes | Class | Role of prosecutor handling CAC criminal charges. Modeled as anti-rigid gUFO Role. |
+| **QRCodeIntegration** | ext.cac.cacontology-prevention | Class | QR code system for discreet access to prevention information. |
+| **RegistrationRequirement** | ext.cac.cacontology-sex-offender-registry | Class | Specific requirement for sex offender registration (location, frequency, restrictions). |
+| **RegistrationRestriction** | ext.cac.cacontology-sex-offender-registry | Class | Restriction placed on registered sex offender. |
 | **ReleaseToMarking** | uco.marking | Class | A release-to marking is a grouping of characteristics unique to the expression of data marking de... |
 | **ReparsePoint** | uco.observable | Class | A reparse point is a type of NTFS (New Technology File System) object which is an optional attrib... |
+| **ReviewPhase** | ext.cac.cacontology-hotlines | Class | The phase during which reports undergo detailed analysis and classification. |
 | **Semaphore** | uco.observable | Class | A semaphore is a variable or abstract data type used to control access to a common resource by mu... |
 | **StatementMarking** | uco.marking | Class | A statement marking is a grouping of characteristics unique to the expression of data marking def... |
+| **SubscriptionManagement** | ext.cac.cacontology-platform-infrastructure | Class | Systems managing user subscriptions, access levels, and recurring payment processing (gUFO Functi... |
+| **TacticalUnit** | ext.cac.cacontology-specialized-units | Class | Unit handling high-risk tactical operations. Modeled as gUFO Organization. |
+| **TacticalUnit** | ext.cac.cacontology-taskforce | Class | Unit handling high-risk arrests and tactical operations. |
+| **TechnologyPartner** | ext.cac.cacontology-partnerships | Class | Technology company or provider participating in partnership with technical capabilities and platf... |
 | **TermsOfUseMarking** | uco.marking | Class | A terms of use marking is a grouping of characteristics unique to the expression of data marking ... |
-| **ToolCapability** | ext.toolcap | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
+| **TravelTeamCoachRole** | ext.cac.cacontology-athletic-exploitation | Class | Coaching role for travel or club sports teams with enhanced authority and access. Enhanced as ant... |
+| **TravelTeamExploitation** | ext.cac.cacontology-athletic-exploitation | Class | Exploitation within travel or club sports teams where coach has enhanced authority and access to ... |
 | **UNIXFilePermissionsFacet** | uco.observable | Facet | A UNIX file permissions facet is a grouping of characteristics unique to the access rights (e.g.,... |
 | **UNIXVolumeFacet** | uco.observable | Facet | A UNIX volume facet is a grouping of characteristics unique to a single accessible storage area (... |
 | **URL** | uco.observable | Class | A URL is a uniform resource locator (URL) acting as a resolvable address to a particular WWW (Wor... |
 | **URLFacet** | uco.observable | Facet | A URL facet is a grouping of characteristics unique to a uniform resource locator (URL) acting as... |
+| **UserAccessPatternAnalysis** | ext.cac.cacontology-platform-infrastructure | Class | Analysis of user access patterns and geographic distribution based on infrastructure logs (gUFO E... |
 | **UserAccount** | uco.observable | Class | A user account is an account controlling a user's access to a network, system or platform. |
 | **UserAccountFacet** | uco.observable | Facet | A user account facet is a grouping of characteristics unique to an account controlling a user's a... |
+| **UserRiskClassification** | ext.cac.cacontology-platforms | Class | Automated classification of user risk levels based on platform activity patterns, content sharing... |
+| **UserScaleClassification** | ext.cac.cacontology-platforms | Class | Classification system for platform size based on user base: small (<1K), medium (1K-100K), large ... |
 | **Volume** | uco.observable | Class | A volume is a single accessible storage area (volume) with a single file system. [based on https:... |
 | **VolumeFacet** | uco.observable | Facet | A volume facet is a grouping of characteristics unique to a single accessible storage area (volum... |
 | **WifiAddress** | uco.observable | Class | A Wi-Fi address is a media access control (MAC) standards-conformant identifier assigned to a dev... |
@@ -2013,7 +4765,21 @@ Classes for marking data with handling restrictions, classification levels, TLP 
 | **WindowsVolumeFacet** | uco.observable | Facet | A Windows volume facet is a grouping of characteristics unique to a single accessible storage are... |
 | **WriteBlocker** | uco.observable | Class | A write blocker is a device that allows read-only access to storage mediums in order to preserve ... |
 
-**AccessRestriction** key properties:
+**Access** key properties:
+
+| Property | Type | Required |
+|----------|------|----------|
+| createdBy | IdentityAbstraction | No |
+| description | string | No |
+| externalReference | ExternalReference | No |
+| hasFacet | Facet | No |
+| modifiedTime | dateTime | No |
+| name | string | Yes |
+| objectCreatedTime | dateTime | No |
+| objectMarking | MarkingDefinitionAbstraction | No |
+| *... 16 more* | | |
+
+**AccessControlSystem** key properties:
 
 | Property | Type | Required |
 |----------|------|----------|
@@ -2025,28 +4791,7 @@ Classes for marking data with handling restrictions, classification levels, TLP 
 | name | string | No |
 | objectCreatedTime | dateTime | No |
 | objectMarking | MarkingDefinitionAbstraction | No |
-| *... 7 more* | | |
-
-**AlternateDataStream** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| createdBy | IdentityAbstraction | No |
-| description | string | No |
-| externalReference | ExternalReference | No |
-| hasFacet | Facet | No |
-| modifiedTime | dateTime | No |
-| name | string | No |
-| objectCreatedTime | dateTime | No |
-| objectMarking | MarkingDefinitionAbstraction | No |
-| *... 5 more* | | |
-
-**ArtifactClassification** key properties:
-
-| Property | Type | Required |
-|----------|------|----------|
-| class | string | Yes |
-| classificationConfidence | decimal | No |
+| *... 4 more* | | |
 
 **Example usage:**
 
@@ -2088,15 +4833,2350 @@ graph.create(&MarkingDefinition::default());
 
 Extension ontologies add domain-specific classes beyond the core CASE/UCO specification. These are contributed by the community and may cover specialized forensic domains.
 
+### aeo.attack
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AttackPattern** | Class | An attack pattern is a common approach (set of actions) utilized by a person or organization to c... |
+| **CyberKillChain** | Class | An cyber kill chain is an ordered sequence of actions or events describing a lifecycle from some ... |
+| **DefensePattern** | Class | A defense pattern is a common approach (set of actions) utilized by a person or organization to c... |
+
+### aeo.engagement
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **Access** | Class | An Access action refers to an observed or deduced interaction between an entity and an object. |
+| **Alert** | Class | An Alert action involves notification to some entity that some condition or event of particular i... |
+| **Beacon** | Class | An Beacon action is refer to communication between two objects where the performer is an object a... |
+| **Breadcrumb** | Class | A Breadcrumb is a set of objects placed to be at least partially, sequentially interacted by an a... |
+| **BreadcrumbTrail** | Class | A breadcrumb trail is a sequence of observed breadcrumbs where partial order of observation of br... |
+| **DataSource** | Class | A datasource is a grouping of characteristics unique to a specific source of data (e.g. a tool th... |
+| **DataTarget** | Class | A datatarget is a grouping of characteristics unique to a specific target/listener that receives ... |
+| **DeceptionAction** | Class | A deception action is an action used for and during a deception campaign which is performed to ma... |
+| **DeceptionObject** | Class |  A deception concept object used during a deception compaign. |
+| **Decoy** | Class |  A decoy is a placed object that has the perception of enough value to an adversary to pursue but... |
+| **DenialAction** | Class | A denial action is an action used for and during a deception campaign which restricts or denies a... |
+| **Deploy** | Class | A Deploy action involves instantiating some deception objects prior or during an operation. |
+| **Event** | Class | An Event characterizes some occurence. |
+| **HoneyObject** | Class |  An domain object that is created to be percieved by an adversary to have high value to pursue in... |
+| **HoneyToken** | Class | A honey token gives an adversary direct access to a honeypot. |
+| **Honeypot** | Class |  A controlled environment intended to be probed, compromised or attacked by adversaries or malware. |
+| **Narrative** | Class | A narrative is a script of all expected sequence of actions, events, entities and their interacti... |
+| **Obfuscate** | Class | An Obfuscate action is a transformative action an entity or tool performs to some object to reduc... |
+| **PlannedEvent** | Class | A PlannedEvent is a collection of actions, entities, interactions designated to be performed at s... |
+| **PocketLitter** | Class | Pocket litter describes objects placed prior or during an adversary engagement operation for the ... |
+| **Respond** | Class | A Respond action is a reactive, defensive action to some adversarial detection or alert. |
+| **Storyline** | Class | A Storyline is a sequence of semi-ordered planned events as an expected trajectory for a narrative. |
+
+### aeo.identity
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **Persona** | Class |  An persona is a facticious entity created to serve a purpose in a deception operation. |
+| **Team** | Class | The conventional reference to group of identities that are associated with some unified identity ... |
+
+### aeo.objective
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **Objective** | Class | An objective is some particular condition or state that is desired to be achieved and toward whic... |
+
+### cac.cac-core
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **Artifact** | Class | An enduring entity that is inspectable, storable, transferable, or evidentiary. Aligned to UCO Ob... |
+| **AssessmentResult** | Class | An output or conclusion of some evaluative, analytic, classification, or decision-making process.... |
+| **CoordinationEvent** | Class | An event representing coordination, information sharing, or collaborative activity among stakehol... |
+| **DetectionEvent** | Class | An event representing the detection, identification, or flagging of content, behavior, or indicat... |
+| **DigitalSystemEntity** | Class | An enduring entity representing a software or system-level resource such as an online service pla... |
+| **EnduringEntity** | Class | A thing that persists through time while potentially changing state. This is the CAC-facing root ... |
+| **Entity** | Class | The most general class in the CAC semantic spine. All CAC domain concepts should anchor to one of... |
+| **Event** | Class | Something that happens or unfolds in time — an action, interaction, incident, hearing, or process... |
+| **ExploitationEvent** | Class | An event representing an act of exploitation, abuse, or victimization of a child. |
+| **InvestigativeAction** | Class | An event that is specifically an investigative action within a CAC investigation. Aligned to both... |
+| **LegalEvent** | Class | An event representing a legal proceeding, judicial action, sentencing hearing, or other court-rel... |
+| **Occurrent** | Class | A CAC organizing superclass for things that happen or unfold in time. This is a CAC-layer abstrac... |
+| **OrganizationLikeEntity** | Class | An enduring entity that represents an organization, institution, team, agency, or other collectiv... |
+| **PersonLikeEntity** | Class | An enduring entity that is person-like in the domain model. Use for natural persons and person-pr... |
+| **Phase** | Class | A temporal stage of some enduring entity, process, or situation. The bearer remains the same enti... |
+| **PlaceLikeEntity** | Class | An enduring entity used to represent places, venues, virtual environments treated as locatable co... |
+| **Role** | Class | A non-rigid role borne by an enduring entity in a certain relational or contextual setting. A bea... |
+| **Situation** | Class | A context, state, or configuration that holds at a time and may involve multiple participants. Al... |
+| **SupportEvent** | Class | An event representing victim support, advocacy, training, or welfare-related activity. |
+
+### cac.cacontology
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AnalysisPhase** | Class | Phase focused on detailed analysis of evidence and cybertip information. |
+| **AnalystRole** | Class | Role of professional analyzing cybertips and digital evidence. Modeled as anti-rigid gUFO Role. |
+| **CACInvestigation** | Class | A child-protection investigation that follows a standard action lifecycle that commonly begins wi... |
+| **CSAMCurationAction** | Class | The action of curating and classifying child sexual abuse material using standard classification ... |
+| **CSAMIncident** | Class | Incidents involving possession, manufacture, or distribution of child sexual abuse material. This... |
+| **ChildSexualAbuseEvent** | Class | A class representing any event involving child sexual abuse or exploitation. This is the base cla... |
+| **ConclusionPhase** | Class | Final phase involving case closure or prosecution referral. |
+| **ConspiracyLeaderRole** | Class | Leadership role within criminal conspiracy, directing and coordinating activities. |
+| **ConspiracyMemberRole** | Class | Member role within criminal conspiracy, participating in coordinated activities. |
+| **ConspiracyRole** | Class | Role of individual within criminal conspiracy. |
+| **ConspiracyToCommitCSA** | Class | Criminal conspiracy involving multiple defendants coordinating child sexual abuse or exploitation... |
+| **CoordinatedOffensePattern** | Class | Pattern of coordinated criminal activities involving multiple perpetrators working together acros... |
+| **CriminalEnterprise** | Class | Organized criminal group conducting systematic child exploitation activities with defined roles a... |
+| **DigitallyGeneratedCSAMIncident** | Class | Incidents involving digitally generated or manipulated child sexual abuse material. |
+| **EvidencePhase** | Class | Phase focused on evidence collection, analysis, and curation. |
+| **EvidenceReviewAction** | Class | The action of reviewing and analyzing digital evidence using forensic tools. |
+| **GroomingSolicitation** | Class | Incidents involving grooming or solicitation of children for sexual purposes. |
+| **InitialPhase** | Class | Initial phase of CAC investigation involving cybertip receipt and preliminary review. |
+| **InvestigationLifecycleSituation** | Class | Overall situation encompassing the complete CAC investigation lifecycle. |
+| **InvestigatorRole** | Class | Role of law enforcement officer or analyst conducting CAC investigation. Modeled as anti-rigid gU... |
+| **LegalProcessAction** | Class | The action of initiating legal processes such as search warrants, subpoenas, or MLAT requests. |
+| **LegalProcessPhase** | Class | Phase involving legal processes such as search warrants and subpoenas. |
+| **LiveStreamingCSA** | Class | Incidents involving live streaming of child sexual abuse. |
+| **MultiDefendantIndictment** | Class | Legal indictment involving multiple defendants in coordinated criminal enterprise (e.g., 19-count... |
+| **OffenderRole** | Class | Role of a person who commits child sexual abuse or exploitation. Modeled as anti-rigid gUFO Role.... |
+| **ReceiveCybertipAction** | Class | The initial action of receiving a cybertip report from a reporting entity (e.g., NCMEC, INHOPE). |
+| **RescuerRole** | Class | Role of a person involved in rescuing or protecting victims (e.g., law enforcement, NGO worker). ... |
+| **ReviewCybertipAction** | Class | The action of reviewing and analyzing a cybertip report by an analyst. |
+| **Sextortion** | Class | Incidents involving sexual extortion of children. |
+| **UnknownVictimSubmission** | Class | The action of submitting information about unidentified victims to relevant databases. |
+| **VictimPhase** | Class | Phase focused on victim identification, rescue, and support. Deprecated: consider using the more ... |
+| **VictimRescueAction** | Class | The action of rescuing and providing support to identified victims. |
+| **VictimRole** | Class | Role of a person who is a victim of child sexual abuse or exploitation. Modeled as anti-rigid gUF... |
+
+### cac.cacontology-ai-csam
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AIAlteredCSAM** | Class | Existing CSAM that has been modified using AI techniques to alter appearance, age, or other chara... |
+| **AICSAMInvestigation** | Class | Investigation specifically focused on AI-generated child sexual abuse material, requiring special... |
+| **AIContentDetection** | Class | Process of identifying AI-generated or AI-altered content to distinguish from authentic material ... |
+| **AIContentGeneration** | Class | Process of creating artificial CSAM using machine learning models, neural networks, or other AI t... |
+| **AIContentInvestigationSituation** | Class | Complex situation involving multiple stakeholders, technologies, and legal frameworks for investi... |
+| **AIDetectionPhase** | Class | Anti-rigid phase during which AI-generated content undergoes detection and analysis processes. |
+| **AIDetectionTool** | Class | Software tool specialized for detecting AI-generated content in digital media. Enhanced as gUFO O... |
+| **AIForensicAnalyst** | Class | Anti-rigid role of specialist analyzing AI-generated content for authenticity and generation meth... |
+| **AIGeneratedCSAM** | Class | Child sexual abuse material fully generated by artificial intelligence without depicting real vic... |
+| **AIModelAnalyst** | Class | Anti-rigid role of specialist identifying and analyzing AI models used for content generation. |
+| **AgeProgression** | Class | AI technique for artificially aging or de-aging subjects in content, potentially creating illegal... |
+| **ArtifactAnalysis** | Class | Analysis of digital artifacts and inconsistencies that may indicate AI generation, such as compre... |
+| **BiometricInconsistencyAnalysis** | Class | Analysis of biometric inconsistencies in AI-generated content, such as unnatural eye movements or... |
+| **ContentGenerationPhase** | Class | Anti-rigid phase during which AI systems generate illegal content. |
+| **CrossPlatformDetectionSituation** | Class | Situation involving detection and analysis of AI-generated content across multiple platforms and ... |
+| **DeepfakeCSAM** | Class | CSAM created by using AI to alter genuine content, potentially making real victims appear in fabr... |
+| **DeepfakeDetection** | Class | Specialized analysis for detecting deepfake technology use in content, including face replacement... |
+| **DeepfakeDetectionSpecialist** | Class | Anti-rigid role of specialist focused on detecting and analyzing deepfake technology use. |
+| **DeepfakeDetectionTool** | Class | Tool specifically designed to identify deepfake content and face manipulation techniques. Enhance... |
+| **FaceSwapping** | Class | AI technique for replacing faces in existing content with different faces, potentially placing vi... |
+| **ForensicAnalysisPhase** | Class | Anti-rigid phase during which AI-generated content undergoes detailed forensic examination. |
+| **GenerationSourceTracking** | Class | Investigation process to identify the source, tools, and methods used to generate AI-CSAM. Enhanc... |
+| **HybridCSAM** | Class | Content combining real and AI-generated elements, making it difficult to distinguish between auth... |
+| **ImageGeneration** | Class | Generation of static images using AI models such as diffusion models, GANs, or other generative t... |
+| **MetadataAnalysisTool** | Class | Tool for analyzing metadata patterns that may indicate AI generation or manipulation. Enhanced as... |
+| **ModelIdentification** | Class | Process of identifying the specific AI model or algorithm used to generate illegal content. Enhan... |
+| **ModelTraining** | Class | Process of training AI models on datasets that may include illegal content for the purpose of gen... |
+| **Nudification** | Class | AI content generation/manipulation process that produces synthetic nudity (e.g., 'nudifying apps'... |
+| **NudificationTool** | Class | Software tool or functionality capable of performing AI-enabled nudification (synthetic nudity) o... |
+| **NudifiedCSAM** | Class | Child sexual abuse material created by AI-enabled nudification (synthetic nudity) of an existing ... |
+| **SyntheticImageDetector** | Class | Tool for detecting synthetically generated images using machine learning classifiers. Enhanced as... |
+| **SyntheticMediaAnalysis** | Class | Forensic analysis of media to determine if it was artificially generated and identify generation ... |
+| **SyntheticMediaCSAM** | Class | Completely synthetic media generated using AI models trained on large datasets, creating realisti... |
+| **SyntheticMediaExaminer** | Class | Anti-rigid role of expert examining synthetic media for forensic artifacts and generation signatu... |
+| **TechnicalAnalysisSituation** | Class | Situation requiring coordination between technical experts, forensic analysts, and legal teams fo... |
+| **TrainingDataAnalysis** | Class | Analysis of datasets potentially used to train AI models for generating illegal content. Enhanced... |
+| **VideoGeneration** | Class | Generation of video content using AI models capable of creating temporal sequences and motion. En... |
+
+### cac.cacontology-analyst-wellbeing
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **ExposureMitigationMeasure** | Class | A measure, control, or workflow technique used to reduce human exposure to traumatic content whil... |
+| **OccupationalHarm** | Class | Occupational harm experienced by investigators or content analysts arising from exposure to traum... |
+| **SecondaryTraumaticStress** | Class | Occupational stress reactions arising from indirect exposure to others' trauma, including exposur... |
+| **VicariousTrauma** | Class | A form of occupational harm in which repeated exposure to traumatic material produces trauma-like... |
+
+### cac.cacontology-asset-forfeiture
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AssetAssessmentAction** | Class | Action to assess the value and ownership of assets for potential forfeiture. Enhanced as gUFO Eve... |
+| **AssetForfeitureAction** | Class | Legal action to forfeit assets derived from or used in child exploitation crimes. Enhanced as gUF... |
+| **AssetForfeitureOfficer** | Class | Officer specializing in asset identification and forfeiture proceedings. |
+| **AssetIdentificationPhase** | Class | Phase during which assets are identified and assessed for potential forfeiture. Anti-rigid gUFO P... |
+| **AssetValuationExpert** | Class | Expert responsible for determining market value of assets for forfeiture proceedings. |
+| **CACTInvestigation** | Class | Investigation conducted by Criminal Assets Confiscation Taskforce targeting assets of child explo... |
+| **CompleteForfeiture** | Class | Complete forfeiture of property to the Commonwealth or state. Enhanced as gUFO Object. |
+| **ConsentOrder** | Class | Court order agreed to by parties for financial penalty payment. Enhanced as gUFO Object. |
+| **CriminalAssetsConfiscationTaskforce** | Class | Specialized taskforce responsible for asset restraint and forfeiture in child exploitation cases.... |
+| **EquipmentSeizureAction** | Class | Seizure of equipment used in commission of child exploitation offenses. Enhanced as gUFO Event fo... |
+| **FinancialAccount** | Class | Bank account or financial instrument subject to restraint or forfeiture. Enhanced as gUFO Object ... |
+| **FinancialPenaltyAction** | Class | Court-ordered financial penalty equal to benefits derived from child exploitation offenses. Enhan... |
+| **ForensicAccountant** | Class | Specialist in tracing financial assets and determining proceeds of crime. |
+| **ForfeitureOutcome** | Class | Result of asset forfeiture proceedings. Enhanced as gUFO Object for outcome modeling. |
+| **HouseholdItems** | Class | High-value household items including electronics, furniture, and appliances subject to forfeiture... |
+| **InstrumentOfOffense** | Class | Assets used as instruments in the commission of child exploitation offenses. Enhanced as gUFO Obj... |
+| **JurisdictionalCoordination** | Class | Complex coordination situation involving multiple legal jurisdictions for asset forfeiture operat... |
+| **LegalBasisForForfeiture** | Class | Legal justification and framework for asset forfeiture action. |
+| **LegalCounsel** | Class | Legal counsel specialized in asset forfeiture law and proceedings. |
+| **LegalProceedingsPhase** | Class | Phase during which formal forfeiture proceedings occur in court. Anti-rigid gUFO Phase. |
+| **LegalProceedingsSituation** | Class | Complex situation involving courts, legal counsel, and multiple parties in forfeiture proceedings... |
+| **MultiStateForfeiture** | Class | Asset forfeiture operation spanning multiple Australian states and territories. Subclasses AssetF... |
+| **NonProfitOffenderAssets** | Class | Assets of offenders who were not accused of profiting from their crimes, representing first-of-ki... |
+| **PartialForfeiture** | Class | Forfeiture of a percentage of property value (e.g., 50% of market value). Enhanced as gUFO Object. |
+| **ProceedsOfCrime** | Class | Assets that are proceeds or benefits derived from child exploitation offenses. Enhanced as gUFO O... |
+| **PropertyForfeitureAction** | Class | Legal action resulting in permanent forfeiture of property to the Commonwealth or state. Enhanced... |
+| **PropertyManager** | Class | Specialist responsible for managing restrained and forfeited property. |
+| **PropertyRestraintAction** | Class | Legal action to restrain property pending forfeiture proceedings, preventing disposal or transfer... |
+| **RecoveryPhase** | Class | Phase during which forfeited assets are recovered and transferred to appropriate authorities. Ant... |
+| **ResidentialProperty** | Class | Residential home subject to restraint or forfeiture in child exploitation cases. Enhanced as gUFO... |
+| **RestraintPhase** | Class | Phase during which property is restrained pending forfeiture proceedings. Anti-rigid gUFO Phase. |
+| **StateSupremeCourt** | Class | State Supreme Court with jurisdiction over forfeiture proceedings. Enhanced as gUFO Organization ... |
+| **TechnicalEquipment** | Class | Technical equipment used in child exploitation offenses (cameras, computers, drones, etc.). Enhan... |
+| **Vehicle** | Class | Vehicle used in or purchased with proceeds from child exploitation offenses. Enhanced as gUFO Obj... |
+
+### cac.cacontology-athletic-exploitation
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AnatomyFocusedExploitation** | Class | Exploitation focused on body parts and anatomy under guise of athletic training. Enhanced as gUFO... |
+| **AssistantCoachRole** | Class | Assistant coaching role with delegated authority over specific training aspects. Enhanced as anti... |
+| **AthleticCoachRole** | Class | Athletic coaching role with authority over team members and training activities. Enhanced as anti... |
+| **AthleticCoachingExploitation** | Class | Child sexual exploitation committed by athletic coaches using sports authority, team dynamics, an... |
+| **AthleticContactEscalation** | Class | Escalation of physical contact within legitimate athletic training context. Enhanced as gUFO Event. |
+| **AthleticExploitationDiscovery** | Class | Discovery of athletic coaching exploitation through various reporting mechanisms. Enhanced as gUF... |
+| **AthleticFacility** | Class | Physical athletic facilities and sports venues where exploitation occurs. Enhanced as gUFO Object. |
+| **AthleticFacilityExploitation** | Class | Exploitation occurring in athletic facilities and sports venues. Enhanced as gUFO Event occurring... |
+| **AthleticFieldExploitation** | Class | Exploitation on outdoor athletic fields, courts, and sports venues. Enhanced as gUFO Event. |
+| **AthleticOpportunityThreats** | Class | Threats to athletic opportunities, advancement, and sports career prospects. Enhanced as gUFO Sit... |
+| **AuthorityEstablishmentPhase** | Class | Phase during which coaching authority and control over athletes is established. Anti-rigid gUFO P... |
+| **CommunityBasedReporting** | Class | Reporting through community and parent networks rather than direct victim disclosure. Enhanced as... |
+| **ConditioningCoercion** | Class | Use of physical conditioning exercises as coercion mechanism for sexual compliance. Enhanced as g... |
+| **DiscoveryPhase** | Class | Phase during which exploitation is discovered through various reporting mechanisms. Anti-rigid gU... |
+| **DualCoachingRoleExploitation** | Class | Exploitation leveraging multiple coaching positions across different teams or institutions. Enhan... |
+| **ExerciseComplianceCoercion** | Class | Exercise continuation contingent on sexual compliance and exposure demands. Enhanced as gUFO Event. |
+| **ExhaustionBasedCoercion** | Class | Physical exhaustion to reduce resistance and force compliance with sexual demands. Enhanced as gU... |
+| **ExploitationPhase** | Class | Active exploitation phase using established authority and coercion mechanisms. Anti-rigid gUFO Ph... |
+| **GroomingPhase** | Class | Initial phase where coach establishes trust and authority before exploitation. Anti-rigid gUFO Ph... |
+| **GroupExploitationDynamics** | Class | Exploitation using team group dynamics, peer pressure, and collective authority. Enhanced as gUFO... |
+| **GymExploitation** | Class | Exploitation in gymnasium and indoor athletic facilities. Enhanced as gUFO Event. |
+| **HeadCoachRole** | Class | Head coaching role with primary authority over team and training decisions. Enhanced as anti-rigi... |
+| **InappropriateSexualEducation** | Class | Use of sexual topics and education as exploitation method disguised as coaching. Enhanced as gUFO... |
+| **InstitutionalEmploymentTermination** | Class | Employment termination following discovery of athletic coaching exploitation. Enhanced as gUFO Ev... |
+| **LegitimateContactExploitation** | Class | Exploitation of legitimate athletic physical contact for sexual purposes. Enhanced as gUFO Event. |
+| **LockerRoomExploitation** | Class | Exploitation in locker rooms and changing areas with privacy expectations. Enhanced as gUFO Event. |
+| **MasturbationDiscussionExploitation** | Class | Exploitation through extensive masturbation discussions during athletic training. Enhanced as gUF... |
+| **MaterialBenefitCoercion** | Class | Athletic equipment, benefits, or opportunities offered as coercion for sexual compliance. Enhance... |
+| **OverClothingToUnderClothingEscalation** | Class | Progression from over-clothing to under-clothing contact during athletic activities. Enhanced as ... |
+| **ParentNetworkDiscovery** | Class | Discovery through parent community networks and team family communications. Enhanced as gUFO Event. |
+| **PhysicalCoercionPhase** | Class | Phase involving physical training coercion and conditioning for compliance. Anti-rigid gUFO Phase. |
+| **PhysicalContactEscalation** | Class | Escalation of physical contact within athletic training context. Enhanced as gUFO Event. |
+| **PhysicalEnduranceExploitation** | Class | Exploitation of physical endurance requirements and athletic performance demands. Enhanced as gUF... |
+| **PhysicalTrainingCoercion** | Class | Use of physical training, conditioning, and exercise as coercion mechanism for sexual exploitatio... |
+| **PracticeSessionExploitation** | Class | Exploitation during regular practice sessions and training activities. Enhanced as gUFO Event. |
+| **PubicHairFocusedExploitation** | Class | Specific exploitation focused on pubic hair viewing and discussion. Enhanced as gUFO Event. |
+| **RumorCirculationDiscovery** | Class | Discovery through rumor circulation among families and team communities. Enhanced as gUFO Event. |
+| **SchoolAthleticCoachRole** | Class | Coaching role within school-based athletic programs with institutional authority. Enhanced as ant... |
+| **SchoolAthleticExploitation** | Class | Exploitation within school-based athletic programs leveraging institutional authority. Enhanced a... |
+| **SchoolBasedInvestigation** | Class | Investigation initiated by educational institution following exploitation reports. Enhanced as gU... |
+| **SexualEducationExploitation** | Class | Use of sexual topics and education as exploitation method within athletic context. Enhanced as gU... |
+| **SexualTopicGrooming** | Class | Grooming through inappropriate sexual discussions during athletic activities. Enhanced as gUFO Ev... |
+| **SportsContextPhysicalAbuse** | Class | Physical abuse within sports training context disguised as coaching. Enhanced as gUFO Event. |
+| **TeamBasedExploitation** | Class | Contextual situation in which exploitation occurs using team dynamics, group pressure, and collec... |
+| **TeamDynamicsExploitation** | Class | Contextual situation in which exploitation occurs using team membership, group dynamics, and athl... |
+| **TeamMembershipCoercion** | Class | Threats to team membership and participation as coercion for sexual compliance. Enhanced as gUFO ... |
+| **TeamSelectionCoercion** | Class | Use of team selection and roster decisions for sexual coercion and compliance. Enhanced as gUFO S... |
+| **TrainingBasedTouching** | Class | Inappropriate touching disguised as athletic training and coaching instruction. Enhanced as gUFO ... |
+| **TrainingCampExploitation** | Class | Exploitation during intensive training camps or extended athletic sessions. Enhanced as gUFO Event. |
+| **TrainingDrillCoercion** | Class | Use of training drills and exercises for exploitation demands and sexual compliance. Enhanced as ... |
+| **TravelTeamCoachRole** | Class | Coaching role for travel or club sports teams with enhanced authority and access. Enhanced as ant... |
+| **TravelTeamExploitation** | Class | Exploitation within travel or club sports teams where coach has enhanced authority and access to ... |
+
+### cac.cacontology-case-management
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AccommodationMotion** | Class | Court filing requesting witness or victim accommodations needed for testimony, accessibility, or ... |
+| **ActiveInvestigationPhase** | Class | Phase during which active investigation activities occur including evidence collection and analys... |
+| **AdministrativeReview** | Class | Administrative review of case management, resource allocation, and procedural compliance. Enhance... |
+| **AnalystAssignment** | Class | Assignment of analysts for data analysis, intelligence gathering, and technical support. Enhanced... |
+| **ArrestWarrant** | Class | Legal documentation for arrest warrants including applications, approvals, and execution records.... |
+| **CaseAnalystRole** | Class | Role responsible for case analysis, intelligence gathering, and data processing. Enhanced as anti... |
+| **CaseAssignment** | Class | Assignment of personnel and resources to specific cases with defined roles and responsibilities. ... |
+| **CaseClosure** | Class | Formal case closure process including disposition, appeals status, and archival procedures. Enhan... |
+| **CaseDocumentation** | Class | Comprehensive documentation management for case files, reports, evidence logs, and legal document... |
+| **CaseDurationMetrics** | Class | Metrics tracking case duration from opening to closure across different stages. Enhanced as gUFO ... |
+| **CaseInitiationPhase** | Class | Initial phase where case is opened and basic assignment occurs. Anti-rigid gUFO Phase supporting ... |
+| **CaseManagement** | Class | Comprehensive management framework for CAC cases including status tracking, priority assignment, ... |
+| **CaseManagerRole** | Class | Role responsible for overall case management coordination and oversight. Enhanced as anti-rigid g... |
+| **CaseMetrics** | Class | Performance metrics and analytics for case management including duration, resolution rates, and r... |
+| **CaseProsecutorRole** | Class | Role responsible for legal review, charging decisions, and prosecution activities. Enhanced as an... |
+| **CaseReport** | Class | Formal case report documenting investigation findings, evidence, and recommendations. Enhanced as... |
+| **CaseReview** | Class | Formal review processes for case quality assurance, supervisory oversight, and legal compliance. ... |
+| **CaseTracking** | Class | Systematic tracking of case progress, updates, and status changes across multiple systems and jur... |
+| **CaseWorkflow** | Class | Structured workflow stages and processes for managing case progression from intake to disposition... |
+| **ColdCaseManagement** | Class | Management protocols for cold cases including periodic review and new evidence integration. Subcl... |
+| **ComplexCaseManagement** | Class | Specialized management for complex cases involving multiple offenses, victims, or extensive evide... |
+| **CostPerCaseMetrics** | Class | Financial metrics tracking costs associated with case investigation and prosecution. Enhanced as ... |
+| **CourtFiling** | Class | Legal documents filed with courts including motions, briefs, and procedural filings. Enhanced as ... |
+| **CourtProceedingsPhase** | Class | Phase during which court proceedings occur including trials and hearings. Anti-rigid gUFO Phase. |
+| **CourtroomAccommodationPlan** | Class | Case documentation specifying planned courtroom accommodations for a child witness, including sup... |
+| **DispositionPhase** | Class | Final phase involving case disposition, sentencing, and closure activities. Anti-rigid gUFO Phase. |
+| **DispositionWorkflow** | Class | Final case disposition workflow including sentencing, appeals, and case closure procedures. Enhan... |
+| **EvidenceLog** | Class | Comprehensive log of all evidence collected, analyzed, and maintained for the case. Enhanced as g... |
+| **ExpertReport** | Class | Expert analysis reports including forensic findings, psychological evaluations, and technical ass... |
+| **ExternalReview** | Class | External review by independent parties for oversight, audit, or specialized expertise. Enhanced a... |
+| **HighPriorityCaseManagement** | Class | Enhanced management protocols for critical and high-priority cases requiring expedited processing... |
+| **IntakeWorkflow** | Class | Initial case intake and assessment workflow including triage and preliminary evaluation. Enhanced... |
+| **InterviewNotes** | Class | Documentation of interviews conducted with victims, witnesses, and suspects. Enhanced as gUFO Obj... |
+| **InvestigationWorkflow** | Class | Active investigation workflow including evidence collection, analysis, and suspect identification... |
+| **InvestigatorAssignment** | Class | Specific assignment of investigators to cases with experience levels, caseload management, and sp... |
+| **LeadInvestigatorRole** | Class | Primary investigator role with leadership responsibilities for case investigation. Enhanced as an... |
+| **LegalReview** | Class | Legal review of case materials, procedures, and prosecution readiness. Enhanced as gUFO Event. |
+| **MultiJurisdictionalCaseManagement** | Class | Specialized management for cases spanning multiple jurisdictions with coordination requirements. ... |
+| **PeerReview** | Class | Peer review process for case methodology, analysis, and conclusions. Enhanced as gUFO Event. |
+| **PrimaryInvestigatorAssignment** | Class | Lead investigator assignment with primary responsibility for case management and coordination. En... |
+| **ProsecutionPreparationPhase** | Class | Phase involving preparation for prosecution including legal review and case building. Anti-rigid ... |
+| **ProsecutionWorkflow** | Class | Prosecution preparation and court proceedings workflow including case presentation and trial mana... |
+| **ProsecutorAssignment** | Class | Assignment of prosecutors for legal review, charging decisions, and court representation. Enhance... |
+| **QualityAssuranceReview** | Class | Systematic quality assurance review ensuring compliance with standards and procedures. Enhanced a... |
+| **QualityScoreMetrics** | Class | Quality assessment metrics evaluating case management effectiveness and outcomes. Enhanced as gUF... |
+| **ResolutionRateMetrics** | Class | Metrics tracking case resolution rates including conviction and closure statistics. Enhanced as g... |
+| **ResourceUtilizationMetrics** | Class | Metrics tracking resource allocation and utilization efficiency across cases. Enhanced as gUFO Ob... |
+| **SearchWarrant** | Class | Legal documentation for search warrants including applications, approvals, and execution records.... |
+| **SecondaryInvestigatorAssignment** | Class | Supporting investigator assignment providing specialized skills or additional resources. Enhanced... |
+| **SupervisorAssignment** | Class | Supervisory assignment for case oversight, quality assurance, and administrative guidance. Enhanc... |
+| **SupervisoryReview** | Class | Formal supervisory review of case progress, decisions, and quality standards. Enhanced as gUFO Ev... |
+| **TestimonyContingencyPlan** | Class | Case documentation describing fallback testimony strategies when a child witness recants, shuts d... |
+
+### cac.cacontology-custodial
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **ActiveCustodyPhase** | Class | Phase when custodial relationship is actively maintained and operational. Modeled as anti-rigid g... |
+| **AuthorityAbuse** | Class | Abuse of authority position to exploit or harm children. Modeled as gUFO SubKind with authority r... |
+| **AuthorityFigure** | Class | Individual in position of authority, trust, or power over children. Modeled as anti-rigid gUFO Ro... |
+| **Babysitter** | Class | Individual temporarily caring for children in parents' absence. Modeled as anti-rigid gUFO Role w... |
+| **BackgroundCheck** | Class | Background verification conducted for custodial or care position. Modeled as gUFO Object with ver... |
+| **BreachOfCare** | Class | Failure to provide appropriate care while in custodial role. Modeled as gUFO SubKind with care ob... |
+| **CaregiverRelationship** | Class | Relationship involving responsibility for child's care, welfare, or supervision. Modeled as gUFO ... |
+| **ChildcareProvider** | Class | Professional childcare or daycare provider. Modeled as anti-rigid gUFO Role with professional car... |
+| **Coach** | Class | Sports or activity coach with authority over young participants. Modeled as anti-rigid gUFO Role ... |
+| **CustodialAbuse** | Class | Abuse committed by someone in custodial or caregiving role. Modeled as gUFO SubKind of TrustViola... |
+| **CustodialAuthorization** | Class | Official authorization granting custodial rights or responsibilities. Modeled as gUFO Object with... |
+| **CustodialCrisisSituation** | Class | Emergency situation requiring immediate custodial intervention. Modeled as gUFO Situation with cr... |
+| **CustodialRelationship** | Class | Legal or informal relationship involving custody, care, or supervision of a child. Modeled as gUF... |
+| **CustodyArrangement** | Class | Formal or informal arrangement for child custody or care. Modeled as gUFO Object with temporal ar... |
+| **EmergencyCustody** | Class | Temporary custody arrangement due to emergency circumstances. Modeled as anti-rigid gUFO Phase wi... |
+| **FamilialRelationship** | Class | Family-based relationship with natural or assumed custodial responsibilities. Modeled as gUFO Sub... |
+| **FamilyFriend** | Class | Friend of family with trusted access to children. Modeled as anti-rigid gUFO Role with social tru... |
+| **FormalCustody** | Class | Legally established custody arrangement with court orders or official documentation. Modeled as g... |
+| **Guardian** | Class | Legal or appointed guardian responsible for child's welfare. Modeled as anti-rigid gUFO Role with... |
+| **InformalCustody** | Class | Informal custody arrangement without legal documentation. Modeled as gUFO SubKind with social agr... |
+| **Mentor** | Class | Adult mentor or role model with trusted relationship with child. Modeled as anti-rigid gUFO Role ... |
+| **ParentalConsent** | Class | Consent given by parent or guardian for custodial arrangement. Modeled as gUFO Object with author... |
+| **PositionOfTrust** | Class | Role or position that grants special access to or authority over children. Modeled as anti-rigid ... |
+| **ProbationaryCustodyPhase** | Class | Phase when custodial relationship is under evaluation or supervision. Modeled as anti-rigid gUFO ... |
+| **ProfessionalCareRelationship** | Class | Professional relationship involving child care or supervision duties. Modeled as gUFO SubKind wit... |
+| **Relative** | Class | Family member in position of trust or authority over child. Modeled as anti-rigid gUFO Role with ... |
+| **RestrictedContactArrangement** | Class | A visitation or contact arrangement that restricts or suspends offender or high-risk contact afte... |
+| **SupervisionBreakdownSituation** | Class | Situation where supervision systems have failed or become inadequate. Modeled as gUFO Situation w... |
+| **SupervisionFailure** | Class | Failure to properly supervise or protect child while in position of authority. Modeled as gUFO Su... |
+| **SuspendedCustodyPhase** | Class | Phase when custodial relationship is temporarily suspended but not terminated. Modeled as anti-ri... |
+| **Teacher** | Class | Educational professional with authority over students. Modeled as anti-rigid gUFO Role with insti... |
+| **TemporaryCustody** | Class | Short-term custody arrangement or supervision of a child. Modeled as anti-rigid gUFO Phase with t... |
+| **TerminatedCustodyPhase** | Class | Phase when custodial relationship has been formally ended. Modeled as anti-rigid gUFO Phase. |
+| **TrustBreachSituation** | Class | Situation arising from violation of trust or authority position. Modeled as gUFO Situation with t... |
+| **TrustViolation** | Class | Action that violates a position of trust or custodial responsibility. Modeled as gUFO Event with ... |
+| **VisitationArrangement** | Class | Scheduled visitation or contact arrangement with child. Modeled as gUFO SubKind with temporal sch... |
+| **VulnerabilityExposureSituation** | Class | Situation where child vulnerability factors create elevated risk. Modeled as gUFO Situation with ... |
+
+### cac.cacontology-detection
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AutomatedDetectionAction** | Class | The action of using automated systems to detect potential CSAM content. Modeled as gUFO Event. |
+| **ClassificationResult** | Class | The result of content classification using standard scales like SAR or COPINE. |
+| **ContentAnalystRole** | Class | Role of professional analyzing flagged content for classification. Modeled as anti-rigid gUFO Role. |
+| **ContentHashingAction** | Class | The action of generating cryptographic or perceptual hashes for content identification and matchi... |
+| **ContentHashingTool** | Class | A tool for generating perceptual or cryptographic hashes for content matching (e.g., PhotoDNA, pH... |
+| **CrossPlatformDetectionSituation** | Class | Situation involving detection across multiple platforms and services. Modeled as gUFO Situation. |
+| **DatabaseMatchAction** | Class | The action of comparing content against known CSAM hash databases. Modeled as gUFO Event. |
+| **DatabaseMatchingTool** | Class | A tool for matching content against known CSAM databases (e.g., NCMEC hash database, INTERPOL ICS... |
+| **DetectionResult** | Class | The result of a content detection action including confidence scores and classification. |
+| **FalsePositiveAnalysisAction** | Class | The action of analyzing and documenting false positive detections to improve accuracy. Modeled as... |
+| **FalsePositiveManagementSituation** | Class | Situation focused on managing and reducing false positive detection rates. Modeled as gUFO Situat... |
+| **HashAnalystRole** | Class | Role of specialist working with hash databases and matching systems. Modeled as anti-rigid gUFO R... |
+| **HashComparisonPhase** | Class | Phase of comparing content hashes against known databases. Modeled as anti-rigid gUFO Phase. |
+| **InitialDetectionPhase** | Class | Phase of initial automated content detection and flagging. Modeled as anti-rigid gUFO Phase. |
+| **MachineLearningDetectionTool** | Class | A tool using machine learning algorithms to detect CSAM content (e.g., Google's CSAI Classifier, ... |
+| **MachineLearningSpecialistRole** | Class | Role of specialist developing and maintaining ML detection systems. Modeled as anti-rigid gUFO Role. |
+| **ManualClassificationAction** | Class | The action of human review and classification of suspected CSAM content. Modeled as gUFO Event. |
+| **ManualReviewPhase** | Class | Phase of human expert review and classification. Modeled as anti-rigid gUFO Phase. |
+| **ManualReviewTool** | Class | A tool supporting human review and classification of potentially illegal content. Modeled as gUFO... |
+| **MassContentAnalysisSituation** | Class | Situation involving analysis of large volumes of content requiring coordinated detection systems.... |
+| **PerceptualHash** | Class | A hash that captures visual similarity rather than exact bit patterns (e.g., pHash, aHash, dHash)... |
+| **PhotoDNAHash** | Class | A Microsoft PhotoDNA hash for robust image matching that survives common transformations. Modeled... |
+| **QualityAssuranceAnalystRole** | Class | Role focused on validating detection accuracy and managing quality metrics. Modeled as anti-rigid... |
+| **ReportingPhase** | Class | Phase of generating reports and notifications to authorities. Modeled as anti-rigid gUFO Phase. |
+| **RiskStratificationAction** | Class | The action of producing a risk-stratified assessment to prioritize downstream review and operatio... |
+| **RiskStratificationResult** | Class | A risk-stratified output artifact (tier/score/rationale) produced from detection or tip signals t... |
+| **ValidationPhase** | Class | Phase of validating detection results and reducing false positives. Modeled as anti-rigid gUFO Ph... |
+
+### cac.cacontology-educational-exploitation
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AcademicActivityExploitation** | Class | Exploitation occurring during academic activities such as assignments, tests, or tutoring. Enhanc... |
+| **AcademicIntimidation** | Class | Use of academic authority to intimidate and create vulnerability in students. Enhanced as gUFO Ev... |
+| **AcademicTermPhase** | Class | Anti-rigid phase representing academic terms during which exploitation may occur. |
+| **AdministratorRole** | Class | Administrative role within educational institution with oversight responsibilities. Enhanced as a... |
+| **AfterHoursClassroomExploitation** | Class | Exploitation occurring in classroom setting outside normal school hours. Enhanced as gUFO Object. |
+| **AssignmentCompletionExploitation** | Class | Exploitation occurring while student is completing assignments or homework in classroom. Enhanced... |
+| **AssignmentHarassment** | Class | Harassment through inappropriate comments written on student assignments or homework. Enhanced as... |
+| **ClassroomBasedExploitation** | Class | Sexual exploitation occurring within classroom setting during academic activities. Enhanced as gU... |
+| **ClassroomExploitationContext** | Class | Specific classroom situations and contexts where exploitation occurs. Enhanced as gUFO Object for... |
+| **CoachRole** | Class | Athletic or activity coaching role with student interaction. Enhanced as anti-rigid gUFO Role. |
+| **CounselorRole** | Class | Counseling role providing guidance and support to students. Enhanced as anti-rigid gUFO Role. |
+| **CrossInstitutionalExploitation** | Class | Exploitation targeting students from multiple educational institutions. Enhanced as gUFO Event wi... |
+| **CrossInstitutionalInvestigationSituation** | Class | Situation requiring coordination between multiple educational institutions, law enforcement, and ... |
+| **DegradingWrittenComments** | Class | Degrading or humiliating written comments designed to undermine student confidence. Enhanced as g... |
+| **EducationalExploitationSituation** | Class | Complex situation involving educational institutions, educators, students, families, and legal sy... |
+| **EducationalInstitution** | Class | Educational institution where child exploitation occurs, including schools, colleges, and educati... |
+| **EducatorPerpetratedExploitation** | Class | Child sexual exploitation committed by educational institution personnel using their position of ... |
+| **EducatorRole** | Class | Professional role within educational institution with access to students. Enhanced as anti-rigid ... |
+| **EliteEducationalInstitution** | Class | High-status educational institution with selective admission and affluent student body. Enhanced ... |
+| **EmploymentPhase** | Class | Anti-rigid phase representing educator's employment period during which exploitation occurs. |
+| **ExploitationEscalationPhase** | Class | Anti-rigid phase representing escalation of exploitative behavior over time. |
+| **GymTeacherRole** | Class | Physical education teacher role with student interaction in athletic contexts. Enhanced as anti-r... |
+| **ImmediatePhysicalContactExploitation** | Class | Sexual exploitation involving immediate physical contact without prior grooming or relationship b... |
+| **IndependentSchool** | Class | Private independent school, often with elite status and specialized educational programs. Enhance... |
+| **InstitutionalResponseSituation** | Class | Situation involving institutional response to exploitation allegations, including investigation, ... |
+| **IntermediateSchool** | Class | Intermediate or middle school serving grades 6-8, typically ages 11-14. Enhanced as gUFO Organiza... |
+| **InvestigationPhase** | Class | Anti-rigid phase representing institutional or legal investigation of exploitation allegations. |
+| **MathTeacherRole** | Class | Mathematics teacher role with specialized subject matter expertise. Enhanced as anti-rigid gUFO R... |
+| **MiddleSchool** | Class | Middle school serving grades 6-8 or similar intermediate grade levels. Enhanced as gUFO Organizat... |
+| **MultiVictimExploitationSituation** | Class | Situation involving multiple victims across multiple institutions or time periods. |
+| **OneOnOneAcademicExploitation** | Class | Exploitation during individual academic assistance or tutoring sessions. Enhanced as gUFO Object. |
+| **PositionOfTrustExploitation** | Class | Exploitation leveraging educator's position of trust and authority over students. Enhanced as gUF... |
+| **PostReleaseSupervision** | Class | Court-ordered supervision period following release from incarceration for educational exploitatio... |
+| **PrivateSchool** | Class | Private educational institution with tuition-based funding. Enhanced as gUFO Organization. |
+| **PublicSchool** | Class | Public educational institution funded by government entities. Enhanced as gUFO Organization. |
+| **SubstituteTeacherRole** | Class | Temporary teaching role covering for regular teachers. Enhanced as anti-rigid gUFO Role with temp... |
+| **TeacherRole** | Class | Teaching role with direct instructional responsibility for students. Enhanced as anti-rigid gUFO ... |
+| **TeacherStudentExploitation** | Class | Sexual exploitation of students by teachers using position of authority and trust. Enhanced as gU... |
+| **TestTakingExploitation** | Class | Exploitation occurring while student is taking tests or examinations. Enhanced as gUFO Object. |
+| **WrittenHarassment** | Class | Harassment through written comments on student work, assignments, or academic materials. Enhanced... |
+
+### cac.cacontology-extremist-enterprises
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AccelerationistGroup** | Class | Extremist group with accelerationist goals seeking to hasten societal collapse through criminal a... |
+| **AccessControlSystem** | Class | System controlling access to enterprise channels and resources based on member status and content... |
+| **AlternateAccountSystem** | Class | System of alternate accounts (alts) used to evade platform restrictions and maintain operations. |
+| **AnimalAbuseCoercion** | Class | Coercion of victims to abuse pets or animals as part of exploitation and control. |
+| **ChildExploitationEnterprise** | Class | Criminal enterprise as defined in 18 U.S.C. § 2252A(g) engaging in coordinated child exploitation... |
+| **ContentBasedRecruitment** | Class | Recruitment of new members based on quality and notoriety of content they produce. |
+| **ContentCompilationSystem** | Class | System for compiling, editing, and organizing exploitative content within criminal enterprise. |
+| **ContentCurationAction** | Class | Action of curating and organizing exploitative content for enterprise purposes. |
+| **ContentCurrencySystem** | Class | System using exploitative content as valuable currency within criminal enterprise for advancement... |
+| **ContentEditingProcess** | Class | Process of editing and organizing victim content into compilations for enterprise distribution. |
+| **ContentProducerRole** | Class | Role focused on producing high-quality exploitative content for enterprise operations. |
+| **ContentValueAssessment** | Class | Assessment of content value based on quality, notoriety, and enterprise utility. |
+| **CoordinatorRole** | Class | Role coordinating activities across different platforms and channels within enterprise. |
+| **CovertEmployeeOperation** | Class | Operation using online covert employees (OCE) to infiltrate and monitor extremist networks. |
+| **CrossPlatformCoordination** | Class | Coordination of enterprise activities across multiple internet platforms and channels. |
+| **CrossPlatformEvidenceCorrelation** | Class | Correlation of evidence across multiple platforms to establish identity and network connections. |
+| **CyberExtremistNetwork** | Class | Extremist network operating primarily through digital platforms and encrypted communications. |
+| **EncryptedChannelInfiltration** | Class | Infiltration of encrypted channels used by extremist networks for evidence collection. |
+| **EncryptedChannelNetwork** | Class | Network of encrypted messaging channels used for enterprise coordination and content sharing. |
+| **EnterpriseHierarchy** | Class | Organizational hierarchy within child exploitation enterprise defining leadership and member roles. |
+| **EnterpriseLeaderRole** | Class | Leadership role within child exploitation enterprise, directing and coordinating activities. |
+| **EnterpriseRole** | Class | Role within child exploitation enterprise structure. |
+| **ExtremeDegradationCoercion** | Class | Coercion of victims to engage in extreme degrading activities beyond typical exploitation. |
+| **ExtremistNetworkCell** | Class | Operational cell within larger extremist network conducting specialized activities. |
+| **IdentityCorrelationAnalysis** | Class | Analysis correlating multiple accounts and identities across platforms to establish single indivi... |
+| **InnerCore** | Class | Elite inner core of enterprise members with access to restricted channels and advanced activities. |
+| **InnerCoreMemberRole** | Class | Role of member within enterprise inner core with access to restricted channels and advanced opera... |
+| **LeadershipStructure** | Class | Leadership structure of enterprise including multiple leaders and their areas of control. |
+| **Lorebook** | Class | Edited compilation of victim content including images, videos, and personal information organized... |
+| **MembershipAdvancementSystem** | Class | System governing member advancement within enterprise based on content contributions and activities. |
+| **MembershipTier** | Class | Membership tier within enterprise hierarchy determining access and privileges. |
+| **MentalHealthVulnerabilityTargeting** | Class | Targeting of minors with mental health challenges and psychological vulnerabilities. |
+| **NameCuttingCoercion** | Class | Coercion of victims to cut enterprise member names into their bodies as ownership marking. |
+| **NetworkMappingInvestigation** | Class | Investigation mapping the structure and relationships within extremist child exploitation networks. |
+| **NihilisticViolentExtremismNetwork** | Class | Criminal network engaging in child exploitation as part of broader nihilistic violent extremism g... |
+| **PlatformMigrationStrategy** | Class | Strategy for migrating operations between platforms when accounts are terminated or restricted. |
+| **PrivateGroupManagement** | Class | Management of private groups and channels with restricted access for enterprise operations. |
+| **RecruitmentHierarchy** | Class | Hierarchy governing recruitment of new members based on content quality and notoriety. |
+| **RecruitmentSpecialistRole** | Class | Role specializing in recruiting new members based on content quality and enterprise needs. |
+| **SelfHarmCoercion** | Class | Coercion of victims to engage in self-harm activities including cutting, burning, and extreme deg... |
+| **SelfImmolationCoercion** | Class | Coercion of victims to set themselves on fire or engage in burning activities. |
+| **SiblingAbuseCoercion** | Class | Coercion of victims to abuse siblings or family members as part of exploitation. |
+| **SocialEngineeringCampaign** | Class | Systematic social engineering campaign to gain victim trust and facilitate exploitation. |
+| **SuicideCoercion** | Class | Coercion of victims toward suicide as ultimate form of exploitation and control. |
+| **TrustBuildingProcess** | Class | Process of building trust with vulnerable victims before exploitation begins. |
+| **VictimContentCompilation** | Class | Organized compilation of content obtained from specific victim through exploitation and coercion. |
+| **VictimProfileDevelopment** | Class | Development of detailed victim profiles including vulnerabilities and exploitation opportunities. |
+| **VulnerablePopulationTargeting** | Class | Systematic targeting of vulnerable populations including minors with mental health challenges. |
+
+### cac.cacontology-forensics
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AcquisitionPhase** | Class | Phase involving forensic acquisition of digital evidence. |
+| **AdvancedSearchTechnique** | Class | Specialized search techniques for locating digital evidence. |
+| **AnalysisPhase** | Class | Phase involving detailed forensic analysis of acquired evidence. |
+| **AutomatedContentAnalysis** | Class | Automated analysis of large volumes of content using machine learning and AI for rapid classifica... |
+| **BehavioralFingerprinting** | Class | Analysis creating unique behavioral fingerprints from user activities to identify individuals acr... |
+| **ChainOfCustodyAction** | Class | An action that documents evidence handling, transfer, and custody maintaining legal admissibility. |
+| **CommunicationPatternAnalysis** | Class | Analysis of communication patterns to identify relationships and networks. |
+| **ContentCorrelationAnalysis** | Class | Analysis correlating content across multiple users and platforms for identifying networks and rel... |
+| **CrossPlatformCorrelation** | Class | Analysis correlating evidence across multiple platforms and services to identify coordinated crim... |
+| **CrossReferenceAnalysis** | Class | Cross-referencing of digital evidence across multiple cases and international databases for victi... |
+| **CustodyDocument** | Class | Documentation recording the handling and transfer of evidence maintaining chain of custody. |
+| **DatabaseIntelligenceIntegration** | Class | Integration and correlation against multiple international databases and intelligence sources. |
+| **DetectionDogAssist** | Class | Assistance provided by trained detection dogs in forensic searches. |
+| **DistributedForensicProcessing** | Class | Forensic processing distributed across multiple systems and locations for handling massive eviden... |
+| **ElectronicStorageDeviceDetection** | Class | Specialized detection of electronic storage devices using K9 or advanced scanning methods. |
+| **EvidenceCustodianRole** | Class | Role of a person responsible for evidence custody and security. |
+| **EvidenceTriageSystem** | Class | Automated system for triaging massive evidence volumes to prioritize high-value targets and criti... |
+| **EvidenceVerificationAction** | Class | The action of verifying evidence integrity using cryptographic hashes and comparison methods. |
+| **ExtendedInvestigationTimeline** | Class | Investigation timeline spanning weeks, months, or years for complex child exploitation cases. |
+| **ForensicAcquisitionAction** | Class | The action of creating a forensically sound copy of digital evidence using write-blocking and ver... |
+| **ForensicExaminerRole** | Class | Role of a person conducting digital forensic examination and analysis. |
+| **ForensicImage** | Class | A bit-for-bit copy of digital media created using forensically sound methods, maintaining evidenc... |
+| **ForensicImagingTool** | Class | A tool specialized for creating forensic images of digital media using write-blocking and verific... |
+| **GeospatialCorrelation** | Class | Correlation analysis based on geographic and location data from multiple sources. |
+| **HashingTool** | Class | A tool specialized for generating cryptographic hashes for evidence verification (e.g., hashdeep,... |
+| **HiddenDeviceRecovery** | Class | Recovery of concealed or hidden electronic storage devices during search operations. |
+| **ImageAnalysisForVictimID** | Class | Analysis of seized images to identify and remove child victims from continued exploitation. |
+| **InternationalEvidenceProcessing** | Class | Processing of evidence collected from international operations requiring coordination across mult... |
+| **K9AssistedForensics** | Class | Forensic process enhanced by K9 detection capabilities for electronic storage devices. |
+| **MachineLearningCorrelation** | Class | AI/ML-powered correlation analysis to identify complex patterns not visible through traditional m... |
+| **MassDigitalEvidenceProcessing** | Class | Processing of massive volumes of digital evidence requiring specialized automated tools and distr... |
+| **MemoryDump** | Class | A snapshot of volatile system memory captured for forensic analysis. |
+| **MemoryForensicTool** | Class | A tool specialized for analyzing volatile memory dumps (e.g., Volatility, Rekall, MAGNET RAM Capt... |
+| **MetadataCorrelation** | Class | Correlation analysis of metadata across multiple files and platforms. |
+| **MetadataExtractionAction** | Class | The action of extracting metadata from digital artifacts including EXIF, file system timestamps, ... |
+| **MobileForensicTool** | Class | A tool specialized for mobile device forensics including logical and physical extraction (e.g., C... |
+| **NetworkCapture** | Class | A capture of network traffic packets for forensic analysis. |
+| **NetworkForensicTool** | Class | A tool specialized for network traffic analysis and packet capture (e.g., Wireshark, NetworkMiner... |
+| **NetworkTrafficAnalysis** | Class | Analysis of network traffic patterns to identify suspicious communications and data transfers. |
+| **RealTimeCorrelation** | Class | Real-time correlation analysis for immediate identification of related evidence and ongoing activ... |
+| **RecoveredFile** | Class | A file recovered from deleted or unallocated space on digital media through forensic analysis tec... |
+| **ReportingPhase** | Class | Phase involving preparation of forensic reports and findings. |
+| **ScalableHashAnalysis** | Class | Hash analysis systems capable of processing millions of files against large databases of known il... |
+| **TemporalPatternAnalysis** | Class | Analysis of temporal patterns and timing correlations across different pieces of evidence. |
+| **TestimonyPhase** | Class | Phase involving expert testimony and courtroom presentation. |
+| **TimelineAnalysisAction** | Class | The action of creating chronological sequences of digital artifacts and events for investigation ... |
+| **UserBehaviorForensics** | Class | Forensic analysis of user behavior patterns across massive user databases for investigation prior... |
+| **VictimIdentificationProcess** | Class | Systematic process for identifying child victims from seized images and videos during long-term i... |
+| **VictimIdentificationSpecialist** | Class | Role of specialist focused on identifying child victims from digital evidence. |
+| **VictimRemovalAction** | Class | Action taken to remove identified victims from further harm and exploitation. |
+
+### cac.cacontology-grooming
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AcceleratedTrustExploitation** | Class | Rapid exploitation of minimal trust established through pretexts or assistance offers. |
+| **AlcoholFacilitatedGrooming** | Class | Grooming using alcohol to impair victim judgment and reduce resistance. |
+| **AnonymousInitiation** | Class | Starting contact without revealing true identity or personal information. |
+| **AnonymousPlatformContact** | Class | Initial contact made through platforms that allow anonymous messaging or minimal user verification. |
+| **BluntRecruitmentGrooming** | Class | Direct, unsubtle recruitment for trafficking without gradual persuasion techniques. |
+| **ChildVictim** | Class | Minor child who is the target of grooming behavior. When analysis depends on the victim’s exact a... |
+| **CrossInstitutionalGrooming** | Class | Grooming targeting students from multiple educational institutions. |
+| **DirectTraffickingPropositionGrooming** | Class | Grooming involving explicit, immediate propositions for commercial sexual activity without gradua... |
+| **EconomicIncentiveGrooming** | Class | Grooming that emphasizes financial benefits of commercial sexual activity. |
+| **EducatorGrooming** | Class | Grooming behavior by educational personnel leveraging position of trust and authority. |
+| **EliteInstitutionTargeting** | Class | Targeting of students from elite or prestigious educational institutions. |
+| **Enticement** | Class | Direct solicitation of a child to engage in illegal sexual activity or meet for such purposes. |
+| **EscalationPattern** | Class | Progressive increase in inappropriate content or requests over time. |
+| **ExplicitCommercialOfferGrooming** | Class | Grooming involving direct offers of money in exchange for sexual services. |
+| **ExploitationPhase** | Class | Final phase involving direct sexual exploitation and abuse. |
+| **GraphicConversationGrooming** | Class | Grooming involving progressively graphic sexual conversations. |
+| **GroomingBehavior** | Class | Predatory behavior designed to prepare a child for abuse by building trust, isolating them, and n... |
+| **GroomingMessage** | Class | Communication containing grooming behavior or inappropriate content directed at a child. |
+| **GroomingPattern** | Class | Identifiable pattern of behavior across multiple communications or interactions that indicates gr... |
+| **GroomingPhase** | Class | A temporal phase within the grooming process. |
+| **ImmediateExploitationAttempt** | Class | Attempt to immediately exploit victim without extended grooming or relationship building. |
+| **ImmediateMonetizationGrooming** | Class | Grooming focused on immediate monetization of victim's sexuality. |
+| **ImpairmentBasedGrooming** | Class | Grooming that exploits victim impairment from substances to reduce resistance. |
+| **InappropriateGift** | Class | Offer or provision of gifts, money, or favors as part of grooming process. |
+| **InitialContactPhase** | Class | First phase of grooming involving initial contact and relationship establishment. |
+| **InitiatorContentSending** | Class | Grooming phase where perpetrator sends sexual content to victim first. |
+| **InterstateTransportPlan** | Class | Planning to transport victim across state lines for illegal purposes. |
+| **IsolationBasedGrooming** | Class | Grooming that relies on physical isolation to reduce victim resistance. |
+| **IsolationBehavior** | Class | Attempts to separate child from parents, friends, or other support systems. |
+| **IsolationPhase** | Class | Phase aimed at separating victim from support systems and creating dependency. |
+| **LocationSpecificGrooming** | Class | Grooming that references or prepares for specific physical locations. |
+| **MaintenancePhase** | Class | Ongoing phase to maintain control and continue exploitation. |
+| **ManipulationPattern** | Class | Systematic use of psychological manipulation techniques to control victim. |
+| **MarijuanaFacilitatedGrooming** | Class | Grooming using marijuana to reduce victim inhibitions and facilitate exploitation. |
+| **MultipleAccountGrooming** | Class | Grooming using multiple fake accounts to maintain deceptive identity. |
+| **NormalizationBehavior** | Class | Gradual introduction of sexual topics to normalize inappropriate behavior. |
+| **NormalizationGrooming** | Class | Grooming technique to normalize sexual conversations and content sharing. |
+| **OfflineControlEstablishment** | Class | Establishing control over victim in preparation for physical contact. |
+| **OnlineGrooming** | Class | Grooming behavior conducted through online platforms and digital communication channels. |
+| **OnlineGroomingSituation** | Class | Overall situation encompassing the grooming relationship and interactions. |
+| **OnlinePredationSituation** | Class | Active situation where predator is engaging with potential victims. |
+| **OnlinePredator** | Class | Individual who engages in grooming behavior toward children online. Age-at-time for this offender... |
+| **OnlineToOfflineProgression** | Class | Escalation from online grooming to arranging physical meetings or contact. |
+| **OpportunisticGrooming** | Class | Grooming that exploits immediate opportunities rather than planned relationship development. |
+| **PeerPersonaGrooming** | Class | Grooming using false peer identity to establish rapport with victims. |
+| **PhysicalMeetingArrangement** | Class | Coordination of in-person meeting between predator and victim. |
+| **PhysicalSpaceGrooming** | Class | Grooming that occurs in physical spaces rather than digital platforms. |
+| **PlatformAnonymityFeature** | Class | Platform features that enable anonymous communication (guest messaging, temporary accounts, no pr... |
+| **PositionOfTrustGrooming** | Class | Grooming that exploits educator's position of trust and authority over students. |
+| **PreyBehaviorPattern** | Class | Pattern of targeting vulnerable children or specific victim characteristics. |
+| **PrivilegedVictimTargeting** | Class | Targeting of victims from privileged backgrounds who may be less likely to report. |
+| **PublicToPrivateGrooming** | Class | Grooming that transitions from public contact to private exploitation. |
+| **RapidEscalationGrooming** | Class | Grooming with accelerated timeline from initial contact to exploitation attempt, bypassing tradit... |
+| **ReciprocityGrooming** | Class | Grooming technique encouraging victim to reciprocate with sexual content. |
+| **ReputationBasedSilencing** | Class | Exploitation of institutional reputation to discourage victim reporting. |
+| **SameDayProgression** | Class | Grooming progression from initial contact to sexual exploitation within the same day. |
+| **SecrecyRequest** | Class | Instruction to keep communication or relationship secret from parents or authorities. |
+| **SexualConsequenceGameGrooming** | Class | Physical-space grooming pattern where the perpetrator frames sexualized contact as part of a game... |
+| **SexualContentExchangeGrooming** | Class | Grooming involving exchange of sexual content to normalize sexual behavior. |
+| **SexualExploitation** | Class | Direct exploitation of child for sexual purposes including solicitation of images or performances. |
+| **SexualSolicitation** | Class | Message explicitly requesting sexual activity, images, or meetings from a child. |
+| **SexualizationPhase** | Class | Phase involving introduction of sexual content and normalization of inappropriate behavior. |
+| **SkippedGroomingPhases** | Class | Grooming that bypasses traditional phases like trust building, isolation, and normalization. |
+| **StreetBasedGrooming** | Class | Grooming that begins with street-based contact and recruitment. |
+| **SubstanceFacilitatedGrooming** | Class | Grooming that uses alcohol or drugs to reduce victim resistance and facilitate exploitation. |
+| **SubstanceInducedVulnerabilityGrooming** | Class | Grooming that creates vulnerability through substance administration. |
+| **TeenageImpersonationGrooming** | Class | Grooming involving impersonation of teenage peer to gain victim trust. |
+| **TravelArrangement** | Class | Planning or facilitating travel for victim to meet predator. |
+| **TrustBuildingBehavior** | Class | Early grooming stage focused on establishing emotional connection with the child victim. |
+| **TrustBuildingPhase** | Class | Phase focused on building emotional connection and trust with victim. |
+| **TrustThroughAnonymity** | Class | Building trust by appearing less threatening through anonymous contact. |
+| **UnverifiedUserProfile** | Class | User account with minimal or no identity verification enabling anonymous contact. |
+| **VehicleBasedGrooming** | Class | Grooming that uses vehicles for isolation and exploitation. |
+| **VictimComplianceInPhysicalMeeting** | Class | Victim's agreement or compliance with arranged physical meeting. |
+| **VictimResponse** | Class | Child's response to grooming behavior, indicating compliance, resistance, or confusion. |
+| **VictimTargeting** | Class | The process by which an offender identifies and selects a potential victim. |
+| **VictimVulnerability** | Class | Characteristics or circumstances that make a child more susceptible to grooming. |
+| **VictimVulnerabilitySituation** | Class | Circumstances that make a child more susceptible to grooming. |
+
+### cac.cacontology-hotlines
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **ActionPhase** | Class | The phase during which responsive actions are taken (forwarding, takedown requests, etc.). |
+| **AutomatedReporterAgent** | Class | A software agent that automatically reports content to hotlines. Enhanced as gUFO Object for comp... |
+| **ClosurePhase** | Class | The phase during which reports are finalized and closed. |
+| **ESPReport** | Class | A report submitted by an electronic service provider. |
+| **EvidenceItem** | Class | A piece of evidence associated with a hotline report. Enhanced as gUFO Object for comprehensive d... |
+| **ForensicsSpecialistRole** | Class | The role of a specialist who performs forensic analysis of evidence. |
+| **ForwardToLEAction** | Class | The action of forwarding a report to law enforcement. Enhanced as gUFO Event for inter-agency coo... |
+| **HashFeedbackAction** | Class | The action of providing feedback about a hash submission. Enhanced as gUFO Event for collaborativ... |
+| **HashSubmissionAction** | Class | The action of submitting a hash to a hash-sharing service. Enhanced as gUFO Event for digital for... |
+| **HotlineAction** | Class | An action taken as part of processing a hotline report. Enhanced as gUFO Event for comprehensive ... |
+| **HotlineAnalystRole** | Class | The role of a specialist who analyzes hotline reports. |
+| **HotlineOrganization** | Class | An organization that operates a hotline for receiving and processing reports of child sexual abus... |
+| **HotlineReport** | Class | A report submitted to a hotline about potential child sexual abuse material. Enhanced as gUFO Sit... |
+| **ImageEvidence** | Class | An image submitted as evidence. |
+| **IntakeChannel** | Class | A channel through which reports are received (web form, API, phone, etc.). Enhanced as gUFO Objec... |
+| **IntakePhase** | Class | The phase during which reports are initially received and logged. |
+| **InternationalCoordination** | Class | A coordination situation involving multiple countries or international organizations. |
+| **LiaisonRole** | Class | The role of a specialist who coordinates with law enforcement agencies. |
+| **MultiAgencyCoordination** | Class | A complex situation involving coordination between hotlines, law enforcement, and service providers. |
+| **PublicReport** | Class | A report submitted by a member of the public. |
+| **ReportReviewAction** | Class | The action of reviewing and triaging a hotline report. Enhanced as gUFO Event with comprehensive ... |
+| **ReporterRole** | Class | The role of a person or organization submitting a report to a hotline. Enhanced as anti-rigid gUF... |
+| **ReviewPhase** | Class | The phase during which reports undergo detailed analysis and classification. |
+| **TakedownRequestAction** | Class | The action of requesting content takedown from a hosting provider. Enhanced as gUFO Event for con... |
+| **URLReference** | Class | A URL submitted as evidence. |
+| **VideoEvidence** | Class | A video submitted as evidence. |
+
+### cac.cacontology-institutional-exploitation
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AbandonedChild** | Class | Vulnerability situation: child who has been abandoned and requires institutional care. |
+| **AdultVictimTestimony** | Class | Testimony from adults who were victimized as children in institutional setting. |
+| **CareProviderExploitation** | Class | Exploitation by individuals in care provider roles within institutions. |
+| **CareProviderRole** | Class | Role involving direct care provision to children in institutional settings. |
+| **CharitableCoverExploitation** | Class | Use of charitable organization facade to conceal systematic child exploitation. |
+| **CharitableFundingMisuse** | Class | Misuse of charitable funding to facilitate or conceal exploitation activities. |
+| **CharitableOrganization** | Class | Charitable or humanitarian organization providing services to vulnerable populations. |
+| **CharitableOrganizationLeader** | Class | Leadership role within charitable organization serving children. |
+| **ChildCareInstitution** | Class | Institutional facility providing residential care for children in need. |
+| **CrossBorderPersonalTravel** | Class | Personal travel across national borders specifically for child exploitation purposes. |
+| **DependencyExploitation** | Class | Exploitation of children's dependency on institution for basic needs. |
+| **DonorManipulation** | Class | Manipulation of donors and supporters to maintain funding for abusive operations. |
+| **FinancialControlMechanism** | Class | Use of financial control to maintain exploitation operation. |
+| **ForeignCommerceOffense** | Class | Criminal offense involving travel in foreign commerce for illicit sexual conduct. |
+| **ForeignCommerceTravel** | Class | Travel in foreign commerce for purpose of engaging in illicit sexual conduct. |
+| **ForeignPlaceOffense** | Class | Criminal offense of engaging in illicit sexual conduct in foreign place. |
+| **ForeignResidenceExploitation** | Class | Establishing residence or operation in foreign country for exploitation purposes. |
+| **FosterCareInstitution** | Class | Institution providing foster care services for children. |
+| **HumanitarianOrganization** | Class | International humanitarian organization working with vulnerable populations. |
+| **HumanitarianTravelCover** | Class | Use of humanitarian or charitable work as cover for cross-border exploitation travel. |
+| **ImpoverishedChild** | Class | Vulnerability situation: child from impoverished background in need of institutional care and sup... |
+| **InstitutionalAbuseEvidence** | Class | Evidence documenting patterns of abuse within institutional setting. |
+| **InstitutionalAuthorityExploitation** | Class | Exploitation using institutional authority and control over vulnerable children. |
+| **InstitutionalExploitation** | Class | Systematic exploitation of children within institutional care settings. |
+| **InstitutionalFounder** | Class | Individual who founded the charitable or care institution. |
+| **IsolationBasedControl** | Class | Control method using isolation from family, community, and external oversight. |
+| **LongTermAbusePattern** | Class | Evidence of abuse patterns spanning multiple years or decades. |
+| **LongTermInstitutionalControl** | Class | Long-term control and exploitation spanning multiple years or decades within institution. |
+| **MultiModalInstitutionalAbuse** | Class | Combination of sexual, physical, and emotional abuse within institutional setting. |
+| **MultiVictimForeignOffense** | Class | Foreign offense involving multiple separate child victims. |
+| **MultipleVictimTestimony** | Class | Coordination of testimony from multiple victims in institutional exploitation case. |
+| **Orphanage** | Class | Residential institution caring for orphaned, abandoned, or vulnerable children. |
+| **OrphanageDirector** | Class | Individual with administrative control over orphanage operations. |
+| **OrphanageExploitation** | Class | Sexual, physical, or emotional exploitation occurring within orphanage settings. |
+| **OrphanedChild** | Class | Vulnerability situation: child who has lost one or both parents and is in institutional care. |
+| **PositionOfTrustAbuse** | Class | Abuse of position of trust within institutional care setting. |
+| **ReligiousInstitution** | Class | Religious organization providing child care or educational services. |
+| **RepeatedCrossBorderTravel** | Class | Pattern of repeated travel to foreign country for exploitation over extended period. |
+| **SupportNetworkDeception** | Class | Deception of support networks about true nature of institutional operations. |
+| **SystematicInstitutionalAbuse** | Class | Systematic pattern of abuse affecting multiple children over extended period. |
+| **TrustedAdultRole** | Class | Role as trusted adult authority figure within institutional care setting. |
+| **USProsecutionForeignCrimes** | Class | US prosecution of crimes committed by US citizens in foreign countries. |
+| **VulnerableChildInCare** | Class | Vulnerability situation: child in institutional care due to vulnerability factors. |
+| **VulnerablePopulationTargeting** | Class | Systematic targeting of orphaned, impoverished, or otherwise vulnerable children. |
+| **YouthHome** | Class | Residential home for youth in care or at-risk situations. |
+
+### cac.cacontology-integration-patterns
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AIGenerationPattern** | Class | gUFO pattern for modeling AI generation processes creating synthetic CSAM with algorithmic charac... |
+| **CapabilityPattern** | Class | gUFO pattern for modeling specialized capabilities as intrinsic properties of organizations or in... |
+| **CompliancePattern** | Class | gUFO pattern for modeling compliance with registration requirements as temporal situation with mo... |
+| **CoordinationSituationPattern** | Class | gUFO pattern for modeling multi-jurisdiction coordination situations with participating organizat... |
+| **CriminalOrganizationPattern** | Class | gUFO pattern for modeling criminal enterprises with hierarchical structure and operational patterns. |
+| **CrossBorderPattern** | Class | gUFO pattern for modeling cross-border investigations as complex situations spanning multiple jur... |
+| **EducationalPattern** | Class | gUFO pattern for modeling educational interventions as processes with learning outcomes and effec... |
+| **EvidenceObjectPattern** | Class | gUFO pattern for modeling digital evidence as Objects with intrinsic properties and forensic life... |
+| **ForensicsLifecyclePattern** | Class | gUFO pattern for modeling forensics process lifecycle with acquisition, analysis, and presentatio... |
+| **HighPriorityModule** | Class | CAC module requiring immediate gUFO integration due to core investigation role or external depend... |
+| **IdeologyPattern** | Class | gUFO pattern for modeling extremist ideologies as belief systems influencing criminal behavior. |
+| **InstitutionalRolePattern** | Class | gUFO pattern for modeling institutional roles in multi-jurisdiction contexts with authority and r... |
+| **JudicialPhasePattern** | Class | gUFO pattern for modeling judicial process phases (pre-trial, trial, sentencing, appeals) with le... |
+| **LegalEventPattern** | Class | gUFO pattern for modeling legal events (hearings, sentencing, appeals) with temporal boundaries a... |
+| **LowPriorityModule** | Class | CAC module requiring gUFO integration in final wave, with specialized or advanced features. |
+| **MediumPriorityModule** | Class | CAC module requiring gUFO integration in second wave, building on high-priority foundation. |
+| **ModuleIntegrationStrategy** | Class | Framework for systematically integrating gUFO concepts into CAC ontology modules. Defines pattern... |
+| **OntologicalConsistency** | Class | Validation ensuring proper use of gUFO meta-ontological categories and constraints across modules. |
+| **OrganizationalPattern** | Class | gUFO pattern for modeling CAC taskforces and law enforcement organizations with structure and cap... |
+| **Phase3Wave1** | Class | First wave implementing high-priority modules (forensics, multi-jurisdiction, legal outcomes, tas... |
+| **Phase3Wave2** | Class | Second wave implementing medium-priority modules (specialized units, registry, prevention, intern... |
+| **Phase3Wave3** | Class | Third wave implementing low-priority modules (AI CSAM, extremist enterprises, advanced features). |
+| **PhaseConsistency** | Class | Validation ensuring phase modeling follows gUFO intrinsic constraints and proper transition seman... |
+| **PreventiveActionPattern** | Class | gUFO pattern for modeling prevention activities as actions with preventive intent and outcome mea... |
+| **RegistrationPattern** | Class | gUFO pattern for modeling sex offender registration as ongoing situation with compliance requirem... |
+| **RoleConsistency** | Class | Validation ensuring role modeling follows gUFO anti-rigidity constraints and proper inheritance. |
+| **SpecializedRolePattern** | Class | gUFO pattern for modeling specialized investigative roles with specific capabilities and training... |
+| **SyntheticArtifactPattern** | Class | gUFO pattern for modeling AI-generated artifacts with synthetic properties and detection characte... |
+| **TaskforceRolePattern** | Class | gUFO pattern for modeling roles within CAC taskforces with specialization and coordination relati... |
+| **TemporalConsistency** | Class | Validation ensuring temporal relationships and constraints are properly modeled across modules. |
+| **TotalPhase3Implementation** | Class | Complete Phase 3 implementation across all CAC modules with validation and testing. |
+| **TreatyPattern** | Class | gUFO pattern for modeling international treaties and agreements as normative frameworks governing... |
+| **ValidationStrategy** | Class | Framework for validating gUFO integration across CAC modules ensuring consistency and correctness. |
+
+### cac.cacontology-international
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AutomatedCrossMatching** | Class | Automated system for continuous cross-matching of new data against international databases. |
+| **CountryPartnership** | Class | A bilateral or multilateral partnership between specific countries for child protection. |
+| **CrossBorderDeviceSeizure** | Class | Seizure of electronic devices across international borders with subsequent evidence sharing throu... |
+| **CrossBorderEffectiveness** | Class | Effectiveness measurement for cross-border operations. |
+| **CrossBorderForensics** | Class | Forensic analysis requiring coordination across multiple countries for large-scale evidence proce... |
+| **CrossBorderInvestigation** | Class | Investigation requiring coordination across national boundaries. |
+| **CrossBorderOperation** | Class | Investigation or operation spanning multiple countries. |
+| **CrossBorderThreatAlert** | Class | Alert about threats that require immediate action across multiple countries. |
+| **CrossJurisdictionalInvestigation** | Class | Investigation spanning multiple jurisdictions and countries targeting international criminal netw... |
+| **CrossReferenceAnalysis** | Class | Analysis correlating data across multiple international databases to identify connections and pat... |
+| **CrossReferralProtocol** | Class | Protocol for referring reports between national hotlines. |
+| **DataExchangeProtocol** | Class | Technical protocol for secure data exchange between international partners. |
+| **DistributedIntelligenceProcessing** | Class | Distributed processing of intelligence across multiple international systems for scalable analysis. |
+| **EmergencyCoordinationProtocol** | Class | Protocol for emergency coordination when immediate international response is required. |
+| **EuropeanCooperationFramework** | Class | Framework for cooperation among European Union member states in child protection operations. |
+| **EuropolCoordination** | Class | Coordination framework provided by Europol for international law enforcement operations. |
+| **EuropolOperation** | Class | Large-scale international operation coordinated by Europol involving multiple EU member states an... |
+| **ExtraditionAgreement** | Class | Agreement for extraditing suspects between countries. |
+| **FederatedDatabaseQuery** | Class | Query system enabling simultaneous searches across multiple international databases. |
+| **GlobalCaseTracking** | Class | System for tracking cases across multiple jurisdictions. |
+| **GlobalDatabaseNetwork** | Class | Network of interconnected international databases enabling comprehensive cross-referencing and co... |
+| **GlobalHotlineNetwork** | Class | Network of interconnected national hotlines for child protection reporting. |
+| **GlobalInvestigativeTeam** | Class | Multi-national investigative team for large-scale operations like platform takedowns. |
+| **GlobalMissingChildrenCenter** | Class | International coordination center for missing children cases across borders. |
+| **GlobalPlatformTakedown** | Class | Takedown of global platforms with international user bases requiring coordinated action across mu... |
+| **GlobalReach** | Class | Measurement of international coverage and impact. |
+| **GlobalTakedownCoordination** | Class | Real-time coordination for simultaneous takedown operations across multiple countries. |
+| **InformationSharingAgreement** | Class | Formal agreement governing information sharing between countries. |
+| **InstantAlertSystem** | Class | System for instant notification of threats, discoveries, and urgent coordination needs across int... |
+| **IntelligenceDataLake** | Class | Centralized repository aggregating intelligence from multiple international sources for comprehen... |
+| **IntelligenceFusion** | Class | Real-time fusion of intelligence from multiple international sources to create comprehensive thre... |
+| **InternationalAlert** | Class | Alert system for sharing critical information across borders. |
+| **InternationalAnalyst** | Class | Analyst specializing in cross-border case analysis. |
+| **InternationalCoordination** | Class | Coordination activities between international law enforcement and child protection organizations. |
+| **InternationalCoordinator** | Class | Role responsible for international coordination activities. |
+| **InternationalDatabase** | Class | Shared database accessible by multiple countries for child protection. |
+| **InternationalEvidence** | Class | Evidence collected from international operations requiring coordination across multiple jurisdict... |
+| **InternationalEvidenceSharing** | Class | Sharing of evidence between countries through formal legal assistance mechanisms and treaties. |
+| **InternationalHotlineCoordination** | Class | Coordination mechanism between different national hotlines. |
+| **InternationalImpact** | Class | Assessment of international program effectiveness. |
+| **InternationalIntelligenceSharing** | Class | Intelligence sharing framework for large-scale operations requiring coordination across multiple ... |
+| **InternationalNetworkDisruption** | Class | Coordinated international effort to disrupt criminal networks operating across borders. |
+| **InternationalPartnership** | Class | A formal partnership between countries or organizations for child protection cooperation. |
+| **InternationalProsecution** | Class | Prosecution strategy coordinated across multiple countries for users identified in large-scale op... |
+| **InternationalReferral** | Class | Referral of cases or information to international partners. |
+| **InternationalResourceCoordination** | Class | Coordination of technical and human resources across countries for large-scale operations. |
+| **InternationalTaskForce** | Class | Multi-national task force for coordinating child protection investigations. |
+| **InternationalWarrant** | Class | Warrant recognized across multiple jurisdictions. |
+| **JurisdictionalCoordination** | Class | Coordination mechanism for resolving jurisdictional conflicts. |
+| **LiaisonOfficer** | Class | Officer serving as liaison between international partners. |
+| **LiveIntelligenceFeed** | Class | Continuous feed of intelligence updates shared in real-time between international law enforcement... |
+| **MassUserAnalysis** | Class | Analysis of massive user databases requiring international coordination for processing users acro... |
+| **MultiCountryTakedown** | Class | Coordinated takedown operation involving law enforcement from multiple countries (like Kidflix op... |
+| **MultilingualSupport** | Class | Support for multiple languages in international coordination. |
+| **MutualLegalAssistance** | Class | Formal legal assistance between countries for investigations and prosecutions. |
+| **MutualLegalAssistanceTreatyOperation** | Class | Operational process using Mutual Legal Assistance Treaty (MLAT) for international evidence sharin... |
+| **OperationalSyncronization** | Class | Real-time synchronization of operational activities across multiple countries for coordinated res... |
+| **RealTimeIntelligenceSharing** | Class | Real-time sharing of intelligence and alerts between international partners for immediate threat ... |
+| **RegionalCoordination** | Class | Coordination mechanisms within specific geographic regions. |
+| **SecureChannel** | Class | Secure communication mechanism for international coordination. |
+| **SecureCommunicationChannel** | Class | Encrypted communication channel for secure real-time coordination between international partners. |
+| **ThreatAssessmentSharing** | Class | Real-time sharing of threat assessments and risk evaluations between international partners. |
+
+### cac.cacontology-investigation-coordination
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **CaseInformationSharing** | Class | Sharing of case-specific information including case files, reports, witness statements, and inves... |
+| **CaseResolutionTimeMetrics** | Class | Metrics measuring impact of coordination on case resolution times and outcomes. |
+| **CommunicationProtocol** | Class | Formal protocols governing communication between agencies including channels, frequencies, and pr... |
+| **CoordinationAgreement** | Class | Formal agreements governing coordination between agencies including MOUs, MOAs, and operational a... |
+| **CoordinationEffectivenessMetrics** | Class | Metrics measuring overall effectiveness of coordination efforts and outcomes. |
+| **CoordinationMetrics** | Class | Performance metrics for measuring effectiveness and efficiency of inter-agency coordination. |
+| **CostEfficiencyMetrics** | Class | Metrics measuring cost efficiency and financial benefits of coordination activities. |
+| **EmergencyCommunicationChannel** | Class | Emergency communication channels for urgent coordination and crisis response. |
+| **EncryptedCommunicationChannel** | Class | Encrypted communication channels providing enhanced security for sensitive operations. |
+| **EquipmentSharing** | Class | Sharing of specialized equipment including forensic tools, surveillance equipment, and technical ... |
+| **EvidenceSharing** | Class | Formal sharing of evidence between agencies including digital evidence, physical evidence, and fo... |
+| **ExpertiseSharing** | Class | Sharing of specialized expertise including subject matter experts, consultants, and technical spe... |
+| **FacilitySharing** | Class | Sharing of facilities including laboratories, command centers, training facilities, and secure me... |
+| **FederalCoordination** | Class | Coordination involving federal agencies and national-level law enforcement. |
+| **FormalAgreement** | Class | Comprehensive formal agreement with legal binding terms for inter-agency coordination. |
+| **FormalCommunicationChannel** | Class | Official communication channels following established protocols and hierarchies. |
+| **FundingSharing** | Class | Coordinated funding arrangements including cost sharing, joint funding, and resource pooling. |
+| **InformalAgreement** | Class | Informal agreement or understanding for coordination without formal legal binding. |
+| **InformalCommunicationChannel** | Class | Informal communication channels for rapid information exchange and coordination. |
+| **InformationSharing** | Class | Systematic sharing of information between agencies including intelligence, evidence, case data, a... |
+| **InformationSharingRateMetrics** | Class | Metrics measuring the rate and volume of information sharing between agencies. |
+| **IntelligenceLiaison** | Class | Intelligence liaison officer managing intelligence sharing and coordination activities. |
+| **IntelligenceSharing** | Class | Specialized sharing of intelligence information including tactical, strategic, operational, and t... |
+| **InternationalCoordination** | Class | Coordination activities involving international agencies and cross-border cooperation. |
+| **InvestigationCoordination** | Class | Comprehensive framework for coordinating investigations across multiple agencies, jurisdictions, ... |
+| **JointInvestigation** | Class | Formal joint investigation involving multiple agencies working together with shared resources, co... |
+| **JointOperationsPlan** | Class | Detailed operational plan for joint investigations and coordinated activities. |
+| **LegalLiaison** | Class | Legal liaison officer handling legal aspects of inter-agency coordination and agreements. |
+| **LiaisonCommunicationChannel** | Class | Communication channels managed through designated liaison officers for inter-agency coordination. |
+| **LiaisonOfficer** | Class | Designated officer responsible for maintaining communication and coordination between agencies. |
+| **LocalCoordination** | Class | Coordination activities within local jurisdictions and municipal boundaries. |
+| **MemorandumOfAgreement** | Class | Formal MOA defining specific terms and conditions for inter-agency cooperation. |
+| **MemorandumOfUnderstanding** | Class | Formal MOU establishing framework for ongoing cooperation and coordination between agencies. |
+| **MissingChildRescueOperation** | Class | Time-boxed, multi-party operation focused on locating missing children/teens at risk of endangerm... |
+| **MultiAgencyCoordination** | Class | Coordination involving multiple law enforcement agencies at various jurisdictional levels. |
+| **MultiStateCoordination** | Class | Coordination activities spanning multiple states requiring interstate cooperation. |
+| **OperationalLiaison** | Class | Operational liaison officer coordinating operational activities and tactical coordination. |
+| **ParallelInvestigation** | Class | Parallel investigation where multiple agencies investigate related aspects independently while ma... |
+| **PersonnelSharing** | Class | Sharing of specialized personnel including investigators, analysts, technical experts, and suppor... |
+| **PrimaryLiaison** | Class | Primary liaison officer with full authority for inter-agency communication and coordination. |
+| **RegionalCoordination** | Class | Coordination activities spanning regional areas and multiple local jurisdictions. |
+| **ResourceSharing** | Class | Systematic sharing of resources between agencies including personnel, equipment, facilities, and ... |
+| **ResourceUtilizationMetrics** | Class | Metrics measuring efficiency of shared resource utilization and allocation. |
+| **ResponseTimeMetrics** | Class | Metrics measuring response times for coordination requests and information sharing. |
+| **SecondaryLiaison** | Class | Secondary liaison officer providing backup and specialized coordination support. |
+| **SecureCommunicationChannel** | Class | Secure communication channels for sensitive information and classified communications. |
+| **StateCoordination** | Class | Coordination activities within state boundaries involving state and local agencies. |
+| **SuspectInformationSharing** | Class | Sharing of suspect-related information including identification, criminal history, and behavioral... |
+| **TaskForceCharter** | Class | Charter document establishing task force structure, authority, and operational parameters. |
+| **TaskForceCoordination** | Class | Coordination through specialized task forces bringing together personnel from multiple agencies f... |
+| **TechnicalDataSharing** | Class | Sharing of technical data including forensic tools, methodologies, and technical analysis results. |
+| **TechnicalLiaison** | Class | Technical liaison officer specializing in technical coordination and information sharing. |
+| **TechnologySharing** | Class | Sharing of technology resources including software, databases, communication systems, and analyti... |
+| **VictimInformationSharing** | Class | Coordinated sharing of victim information while maintaining privacy and protection protocols. |
+
+### cac.cacontology-law-enforcement-corruption
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AccessPrivilegeAbuse** | Class | Abuse of special access privileges granted to law enforcement personnel. |
+| **AuthoritySymbolExploitation** | Class | Use of badges, weapons, or other authority symbols to enhance exploitation. |
+| **BadgeDisplayedProduction** | Class | CSAM production where law enforcement badge is prominently displayed. |
+| **CorruptArmyReservist** | Class | Army reservist engaged in child exploitation activities while in military uniform. |
+| **CorruptLawEnforcementOfficer** | Class | Law enforcement officer engaged in child exploitation activities. |
+| **CorruptMetropolitanPoliceDepartmentOfficer** | Class | Former or current metropolitan police department officer engaged in child trafficking. |
+| **CorruptStateTrooper** | Class | State trooper engaged in child exploitation activities while in uniform. |
+| **DatabaseAccessAbuse** | Class | Misuse of law enforcement database access for personal exploitation activities. |
+| **EvidenceManipulation** | Class | Manipulation or destruction of evidence to protect exploitation activities. |
+| **ExternalOversightInvestigation** | Class | Investigation by external agency into law enforcement corruption. |
+| **FormerLawEnforcementOfficer** | Class | Former law enforcement officer using previous position and contacts for exploitation. |
+| **InformationLeakage** | Class | Leaking of law enforcement information to facilitate exploitation or trafficking. |
+| **InsiderThreat** | Class | Threat posed by individuals within law enforcement or military who exploit their position for cri... |
+| **InsiderThreatDetection** | Class | Detection of corruption within law enforcement or military personnel. |
+| **InternalAffairsInvestigation** | Class | Investigation by internal affairs department into officer corruption. |
+| **InvestigativeAuthorityAbuse** | Class | Abuse of investigative powers and access for exploitation purposes. |
+| **LawEnforcementCorruption** | Class | Corruption involving law enforcement personnel in child exploitation activities. |
+| **MilitaryUniformProduction** | Class | Production of CSAM while wearing military uniform. |
+| **OfficerChildTrafficking** | Class | Child trafficking conducted by law enforcement officers using their position and authority. |
+| **OfficerProducedCSAM** | Class | Child sexual abuse material produced by law enforcement officers, often while in uniform. |
+| **OfficialVehicleExploitation** | Class | Use of official law enforcement vehicles in exploitation activities. |
+| **PoliceUniformProduction** | Class | Production of CSAM while wearing police uniform. |
+| **PositionOfAuthorityAbuse** | Class | Abuse of law enforcement or military position of authority for exploitation purposes. |
+| **PublicIntegrityInvestigation** | Class | Investigation into public integrity violations by law enforcement personnel. |
+| **UniformBasedExploitation** | Class | Exploitation activity conducted while wearing official law enforcement or military uniform for au... |
+| **UniformEnhancedProduction** | Class | Production of CSAM enhanced by wearing official uniform to project authority. |
+| **WhistleblowerReport** | Class | Report by insider regarding corruption within law enforcement organization. |
+
+### cac.cacontology-legal-harmonization
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AdvocacyProcess** | Class | Process used in legislative advocacy. |
+| **AgeVerificationLaw** | Class | Laws requiring age verification for online services. |
+| **AmendmentProcess** | Class | Process of amending legislation. |
+| **AnnualReview** | Class | Annual compliance review process. |
+| **AuditProcess** | Class | Audit for compliance verification. |
+| **BestPractice** | Class | Best practice in child protection legislation. |
+| **BillDrafting** | Class | Process of drafting legislation. |
+| **BillSponsor** | Class | Legislator who introduces or sponsors legislation. |
+| **CSAMCriminalization** | Class | Legislation criminalizing child sexual abuse material. |
+| **CSAMModelLaw** | Class | Model legislation for Child Sexual Abuse Material regulations. |
+| **CapacityBuilding** | Class | Building legal capacity for child protection. |
+| **CertificationProcess** | Class | Process for obtaining compliance certification. |
+| **ChildExploitationLaw** | Class | Laws addressing child exploitation. |
+| **ChildTraffickingLaw** | Class | Legislation addressing child trafficking crimes. |
+| **CoalitionBuilding** | Class | Building coalitions to support advocacy goals. |
+| **CommitteeMember** | Class | Member of a legislative committee. |
+| **CommitteeReview** | Class | Review of legislation by a committee. |
+| **ComplianceBenchmark** | Class | Benchmark for measuring legal compliance. |
+| **ComplianceDocumentationArtifact** | Class | Documentation artifact (record/report/audit trail element) used to prove appropriate action to re... |
+| **ComplianceIntelligenceFramework** | Class | A verified compliance intelligence framework used to document good-faith content moderation and r... |
+| **ComplianceMetrics** | Class | Metrics for measuring legal compliance. |
+| **ComplianceProcess** | Class | Process for ensuring legal compliance. |
+| **Correspondence** | Class | Communication between actors regarding legislation. |
+| **DataProtectionForMinorsLaw** | Class | Laws protecting children's personal data. |
+| **ExtraditionAgreement** | Class | Agreement enabling extradition for child protection crimes. |
+| **FloorVote** | Class | Vote on legislation by the full legislative body. |
+| **GlobalLegalReview** | Class | Comprehensive review of child protection legislation across countries. |
+| **GrantCompliance** | Class | Compliance with grant requirements. |
+| **GrassrootsAdvocacy** | Class | Mobilizing public support for advocacy goals. |
+| **HarmonizationInitiative** | Class | Organized effort to harmonize laws across jurisdictions. |
+| **HarmonizationProgress** | Class | Progress measurement for policy harmonization. |
+| **ImpactAssessment** | Class | Assessing the impact of proposed legislation. |
+| **InternationalLawEnforcement** | Class | Law enforcement cooperation across international boundaries. |
+| **InternationalStandard** | Class | International standard for child protection legislation. |
+| **JurisdictionalCoordination** | Class | Framework for coordinating across legal jurisdictions. |
+| **JurisdictionalVariation** | Class | Variation in legal approaches across jurisdictions. |
+| **KnowingParadox** | Class | A policy incentive conflict where platforms face liability both for detecting content (creating k... |
+| **LawEnforcementOfficer** | Class | Officer involved in child safety investigations. |
+| **LegalCompliance** | Class | Situation of compliance with international standards. |
+| **LegalCoverageAssessment** | Class | Assessment of legal coverage for child protection. |
+| **LegalEffectiveness** | Class | Assessment of legal framework effectiveness. |
+| **LegalFrameworkGap** | Class | Identified gap in legal framework coverage. |
+| **LegalReform** | Class | Process of reforming child protection legislation. |
+| **LegalSystemCompatibility** | Class | Compatibility situation between different legal systems. |
+| **LegislativeAdvocate** | Class | Person who advocates for legislative change. |
+| **LegislativeAssessment** | Class | Assessment of existing child protection legislation. |
+| **LegislativeDrafting** | Class | Process of drafting child protection legislation. |
+| **LegislativeEducation** | Class | Educating legislators on issues. |
+| **LegislativeInstrument** | Class | A bill, resolution, or other legislative document. |
+| **LegislativeProcess** | Class | A step in the legislative lifecycle - applicable across jurisdictions. |
+| **LegislativeRole** | Class | Role an actor plays in the legislative ecosystem. |
+| **Legislator** | Class | Elected member of a legislative body. |
+| **MandatoryReporting** | Class | Required reporting to authorities. |
+| **MandatoryReportingLaw** | Class | Legislation requiring mandatory reporting of child abuse. |
+| **MediaOutreach** | Class | Engaging media to support advocacy goals. |
+| **MinimumStandard** | Class | Minimum standard for child protection laws. |
+| **MutualLegalAssistance** | Class | Framework for mutual legal assistance between countries. |
+| **NationalLegislation** | Class | National child protection legislation. |
+| **OnlineGroomingLaw** | Class | Legislation addressing online grooming behaviors. |
+| **OnlineSafetyLaw** | Class | General laws addressing online child safety. |
+| **PlatformAccountabilityLaw** | Class | Laws holding online platforms accountable for child safety. |
+| **PolicyAnalyst** | Class | Person who analyzes and develops policy recommendations. |
+| **PolicyDevelopment** | Class | Development of child protection policies. |
+| **PolicyHarmonization** | Class | Process of harmonizing policies across jurisdictions. |
+| **ProsecutorAdvocate** | Class | Prosecutor who advocates for stronger laws. |
+| **PublicHearing** | Class | Public hearing on proposed legislation. |
+| **RegionalFramework** | Class | Regional legal framework for child protection. |
+| **SafeHarbor** | Class | A statutory or regulatory safe harbor provision intended to distinguish good-faith compliance eff... |
+| **SextortionLaw** | Class | Laws addressing sextortion of children. |
+| **StakeholderEngagement** | Class | Engaging stakeholders in advocacy efforts. |
+| **Statute** | Class | Enacted law within a jurisdiction. |
+| **StatutoryReporting** | Class | Reporting required by statute. |
+| **TaskForceLiaison** | Class | Person who coordinates between task forces and other entities. |
+| **TechnicalAssistance** | Class | Technical assistance for legal framework development. |
+| **TestimonySubmission** | Class | Submitting testimony to legislative bodies. |
+| **TreatyFramework** | Class | International treaty framework for child protection. |
+| **VictimAdvocate** | Class | Person who advocates on behalf of crime victims. |
+| **VictimProtectionLaw** | Class | Legislation protecting child victims. |
+
+### cac.cacontology-legal-outcomes
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AppealProcess** | Class | Legal process to challenge conviction or sentence in higher court. Modeled as gUFO Event. |
+| **AppellateDisposition** | Class | Outcome of an appellate issue or appeal (e.g., affirmed, reversed, vacated, remanded). Modeled as... |
+| **AppellateIssue** | Class | Issue raised on appeal to challenge a conviction or sentence (e.g., evidentiary admission, suffic... |
+| **ArraignmentProceeding** | Class | Initial court appearance where charges are formally read and plea is entered. Modeled as gUFO Event. |
+| **CSAM_AccessingAndViewing** | Class | Charge for intentionally accessing and viewing child sexual abuse material. Modeled as gUFO Object. |
+| **CSAM_CausingProduction** | Class | Charge for causing or facilitating the production of child sexual abuse material, distinct from d... |
+| **CSAM_Distribution** | Class | Charge for distribution of child sexual abuse material. Modeled as gUFO Object. |
+| **CSAM_Possession** | Class | Charge for possession of child sexual abuse material. Modeled as gUFO Object. |
+| **CSAM_Production** | Class | Charge for production of child sexual abuse material, typically carrying severe mandatory minimum... |
+| **CSAM_ReceivingOnCellularDevice** | Class | Charge for receiving child sexual abuse material on cellular phone or mobile device. Modeled as g... |
+| **CarriageServiceCSAMTransmission** | Class | Use of carriage service to cause child abuse material to be transmitted to self, contrary to sect... |
+| **CarriageServiceIndecentCommunication** | Class | Use of carriage service to transmit indecent communication to person under 16 years, contrary to ... |
+| **CommonwealthChildAbuseOffense** | Class | Child abuse offense under Commonwealth law subject to mandatory minimum sentencing provisions. Mo... |
+| **CommunityService** | Class | Sentence requiring unpaid work for community benefit. Modeled as gUFO Object. |
+| **ComputerSeduceSolicitLure** | Class | Florida state charge for using a computer to seduce, solicit, or lure a child to engage in sexual... |
+| **ContributingToDelinquency** | Class | Florida state charge for contributing to the delinquency or dependency of a child. Applies when a... |
+| **CriminalCharge** | Class | Formal accusation of criminal activity in CAC cases. Modeled as gUFO Object. |
+| **CriminalSentence** | Class | Punishment imposed by court for criminal conviction. Modeled as gUFO Object. |
+| **DefendantRole** | Class | Role of individual charged with CAC crimes. Modeled as anti-rigid gUFO Role. |
+| **DefenseAttorneyRole** | Class | Role of defense attorney representing CAC defendants. Modeled as anti-rigid gUFO Role. |
+| **DirectPromotionOfSexualPerformance** | Class | Florida state charge for direct promotion of a sexual performance by a child. Applies when defend... |
+| **EvidenceRule** | Class | A rule of evidence cited in an appellate issue or opinion (e.g., Federal Rule of Evidence 403, 40... |
+| **EvidentiaryRuling** | Class | Appellate issue concerning a trial court evidentiary ruling, including admission/exclusion decisi... |
+| **FederalCharge** | Class | Criminal charge under federal law and jurisdiction. Modeled as gUFO Object. |
+| **FloridaStateCharge** | Class | Criminal charge under Florida state law and jurisdiction for ICAC-related offenses. Modeled as gU... |
+| **GeorgiaStateCharge** | Class | Criminal charge under Georgia state law and jurisdiction for CAC-related offenses. Modeled as gUF... |
+| **JudgeRole** | Class | Role of judge presiding over CAC legal proceedings. Modeled as anti-rigid gUFO Role. |
+| **JudicialSystemSituation** | Class | Broader situation involving judicial system processing of CAC cases. Modeled as gUFO Situation. |
+| **JuryRole** | Class | Role of jury members in CAC trial proceedings. Modeled as anti-rigid gUFO Role. |
+| **LegalCaseSituation** | Class | Complex situation encompassing the entire legal case from charges to resolution. Modeled as gUFO ... |
+| **LegalProceeding** | Class | Formal judicial process for prosecuting cacontology-related crimes. Modeled as gUFO Event. |
+| **LifeImprisonmentSentence** | Class | Prison sentence of life imprisonment (typically without a fixed term duration). Modeled as gUFO O... |
+| **LiveStreamingOffense** | Class | Offense involving live streaming of child abuse, often carrying severe sentences. Modeled as gUFO... |
+| **MandatoryMinimumSentencing** | Class | Sentencing under mandatory minimum provisions for Commonwealth child sexual abuse offenses. Model... |
+| **MonetaryPenalty** | Class | Financial penalty including fines, restitution, or forfeiture. Modeled as gUFO Object. |
+| **OnlineEnticement** | Class | Charge for online enticement of minors for illegal sexual activity. Modeled as gUFO Object. |
+| **PleaBargaining** | Class | Negotiation process between prosecution and defense for plea agreement. Modeled as gUFO Event. |
+| **PostConvictionPhase** | Class | Phase after conviction including appeals and compliance. Modeled as anti-rigid gUFO Phase. |
+| **PreTrialPhase** | Class | Phase before trial including arraignment and plea bargaining. Modeled as anti-rigid gUFO Phase. |
+| **PrisonSentence** | Class | Sentence involving incarceration in federal or state prison. Modeled as gUFO Object. |
+| **ProbationOfficerRole** | Class | Role of probation officer supervising CAC offenders. Modeled as anti-rigid gUFO Role. |
+| **ProbationSentence** | Class | Supervised release with conditions instead of or after incarceration. Modeled as gUFO Object. |
+| **ProfessionalLicenseSurrenderCondition** | Class | Condition associated with a plea agreement or sentencing outcome requiring the defendant to surre... |
+| **ProsecutorRole** | Class | Role of prosecutor handling CAC criminal charges. Modeled as anti-rigid gUFO Role. |
+| **SentencingHearing** | Class | Court proceeding where sentence is determined and imposed. Modeled as gUFO Event. |
+| **SentencingPhase** | Class | Phase focused on sentencing determination and imposition. Modeled as anti-rigid gUFO Phase. |
+| **SentencingReasonablenessIssue** | Class | Appellate issue challenging the procedural and/or substantive reasonableness of a sentence (e.g.,... |
+| **SexTrafficking** | Class | Charge for sex trafficking of minors. Modeled as gUFO Object. |
+| **SextortionCharge** | Class | Criminal charge specifically related to sextortion involving sexual extortion of children through... |
+| **SexualExploitationOfMinorCharge** | Class | Georgia state charge for sexual exploitation of a minor, as reported in a Georgia Attorney Genera... |
+| **SolicitingExplicitMaterial** | Class | Offense of soliciting sexually explicit material from children (e.g., from 10 foreign children vi... |
+| **StandardOfReview** | Class | Appellate standard of review applied to an appellate issue (e.g., de novo, abuse of discretion, p... |
+| **StateCharge** | Class | Criminal charge under state law and jurisdiction. Modeled as gUFO Object. |
+| **SufficiencyOfEvidenceIssue** | Class | Appellate issue challenging whether the evidence was sufficient to sustain a conviction under the... |
+| **SupervisedRelease** | Class | Period of supervision following completion of prison sentence. Modeled as gUFO Object. |
+| **TraffickingOfPersonsForSexualServitudeCharge** | Class | Georgia state charge for trafficking of persons for sexual servitude, as reported in a Georgia At... |
+| **TravelingToMeetAfterComputerLure** | Class | Florida state charge for traveling to meet after using a computer to lure a child. Applies when d... |
+| **TrialPhase** | Class | Active trial phase with proceedings and evidence presentation. Modeled as anti-rigid gUFO Phase. |
+| **TrialProceeding** | Class | Formal trial process with jury or judge determining guilt or innocence. Modeled as gUFO Event. |
+| **VictimRole** | Class | Role of victim in CAC legal proceedings. Modeled as anti-rigid gUFO Role. |
+
+### cac.cacontology-multi-jurisdiction
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AllFBIFieldOfficesOperation** | Class | Operation involving all 55 FBI field offices in coordinated enforcement effort. |
+| **AutomatedEvidenceDistribution** | Class | Automated system for distributing evidence packages to appropriate jurisdictions based on user lo... |
+| **CEOSCoordinatedOperation** | Class | Operation coordinated by Child Exploitation and Obscenity Section (CEOS). |
+| **ChildRescueCoordination** | Class | Coordination of child rescue operations across jurisdictions. |
+| **CommunityOutreachTriggeredInvestigation** | Class | Investigation triggered by victim disclosure following community outreach presentation. |
+| **ComplianceMonitoringOperation** | Class | Large-scale operation monitoring sex offender compliance and registration requirements. |
+| **ComplianceVisitCoordination** | Class | Coordination of multiple compliance visits across jurisdictions. |
+| **CoordinatedArrestWave** | Class | Coordinated arrests conducted as part of larger operation. |
+| **CoordinatedCharging** | Class | Coordinated charging decisions across multiple jurisdictions to ensure consistent prosecution app... |
+| **CoordinatingAgent** | Class | Personnel responsible for coordinating multi-jurisdictional activities. |
+| **CrossBorderOperation** | Class | Law enforcement operation that crosses state or national borders. |
+| **CrossStateEvidence** | Class | Evidence collected across multiple states in trafficking investigation. |
+| **DistributedProsecutionTeam** | Class | Prosecution team distributed across multiple jurisdictions for handling massive caseloads. |
+| **ExtraditionRequest** | Class | Legal request to transfer suspect between jurisdictions. |
+| **FederalAgency** | Class | Law enforcement agency with federal jurisdiction. |
+| **FederalJurisdiction** | Class | Legal authority under federal law and courts. |
+| **FederalJurisdictionTrigger** | Class | Interstate activity that triggers federal jurisdiction. |
+| **HandsOnOffenseInvestigation** | Class | Investigation specifically targeting hands-on sexual offenses against children. |
+| **InformationSharing** | Class | Formal sharing of intelligence or evidence between jurisdictions. |
+| **InformationSharingAgreement** | Class | Agreement governing sharing of sensitive information between agencies. |
+| **InformationSynthesisPhase** | Class | Phase involving compilation and analysis of multi-jurisdictional evidence. |
+| **InitialCoordinationPhase** | Class | Phase involving initial contact and coordination between jurisdictions. |
+| **InteragencyAgreement** | Class | Formal agreement between agencies for cooperation and resource sharing. |
+| **InteragencyCooperationSituation** | Class | Situation involving successful coordination between agencies. |
+| **InternationalAgency** | Class | Law enforcement agency from foreign jurisdiction. |
+| **InternationalJurisdiction** | Class | Legal authority in foreign countries. |
+| **InternationalLegalHarmonization** | Class | Harmonization of legal approaches across countries for consistent prosecution of global platform ... |
+| **InternationalProsecutionFramework** | Class | Framework for coordinating prosecutions across multiple countries for global platform takedowns. |
+| **InterstateCoordination** | Class | Coordination between law enforcement agencies across state lines. |
+| **InterstateFlightFromProsecution** | Class | Crossing state lines to avoid prosecution or arrest. |
+| **InterstateTraffickingNetwork** | Class | Criminal network operating across state boundaries for trafficking. |
+| **InterstateTransportationOffense** | Class | Criminal offense involving transportation of victim across state lines. |
+| **InterstateVictimTransport** | Class | Transportation of minor victim across state lines. |
+| **JointExecutionPhase** | Class | Phase involving coordinated execution of multi-jurisdictional operations. |
+| **JointInvestigation** | Class | Investigation conducted jointly by multiple law enforcement agencies. |
+| **Jurisdiction** | Class | Legal authority and geographic area where an agency has enforcement power. |
+| **JurisdictionalConflictSituation** | Class | Situation involving disputes over jurisdictional authority. |
+| **JurisdictionalHandoff** | Class | Transfer of investigative authority between state and federal agencies. |
+| **JurisdictionalNegotiationPhase** | Class | Phase involving determination of lead agency and jurisdictional authority. |
+| **JurisdictionalWarrant** | Class | Legal authorization that specifies jurisdictional authority. |
+| **LargeScaleOperation** | Class | Operation involving 100+ law enforcement actions or extensive coordination. |
+| **LawEnforcementAgency** | Class | Government organization responsible for law enforcement within a jurisdiction. |
+| **LeadAgency** | Class | Primary agency responsible for coordinating multi-jurisdictional investigation. |
+| **LiaisonOfficer** | Class | Officer responsible for communication between agencies. |
+| **LocalAgency** | Class | Law enforcement agency with local jurisdiction (city, county, municipal). |
+| **LocalJurisdiction** | Class | Legal authority at local level (city, county, municipal). |
+| **MassChildRescueOperation** | Class | Large-scale operation resulting in rescue of 100+ children. |
+| **MassProsecutionCoordination** | Class | Coordination of prosecutions for massive user bases from large-scale platform takedowns requiring... |
+| **MassUserJurisdictionMapping** | Class | Mapping of massive user bases to appropriate jurisdictions for prosecution based on location and ... |
+| **MultiJurisdictionalInvestigation** | Class | Investigation spanning multiple legal jurisdictions requiring coordination between agencies. |
+| **MultiJurisdictionalSituation** | Class | Complex situation requiring coordination across multiple jurisdictions. |
+| **MultiStateTraffickingInvestigation** | Class | Child sex trafficking investigation spanning multiple states. |
+| **MutualAidRequest** | Class | Formal request for assistance from another jurisdiction. |
+| **NamedMultiJurisdictionalOperation** | Class | Formally named multi-phase operation coordinated across jurisdictions. |
+| **NationalCoordinatedOperation** | Class | Operation coordinated across multiple CAC task forces nationally. |
+| **NationwideChildRescueCoordination** | Class | Coordination of child rescue operations across entire country. |
+| **NationwideOperation** | Class | Law enforcement operation coordinated across entire country involving all FBI field offices. |
+| **OperationMetricsTracking** | Class | Comprehensive tracking of operation outcomes and effectiveness. |
+| **OperationSafeOnlineSummerType** | Class | Type of national operation coordinated across 61+ CAC Task Forces. |
+| **ParticipatingAgency** | Class | Agency providing support or resources to multi-jurisdictional investigation. |
+| **PriorityProsecutionTrack** | Class | High-priority prosecution track for most serious offenders identified in mass user analysis. |
+| **ProactiveInvestigationCampaign** | Class | Campaign focused on proactive investigation rather than reactive response. |
+| **ProjectSafeChildhoodOperation** | Class | Operation conducted under Project Safe Childhood initiative framework. |
+| **ProsecutionCapacityAnalysis** | Class | Analysis of prosecution capacity across jurisdictions to optimize case distribution for massive o... |
+| **RapidResponseCoordination** | Class | Coordination enabling rapid response from victim disclosure to arrest. |
+| **RegistrationComplianceViolation** | Class | Violation of sex offender registration requirements. |
+| **ResourceSharing** | Class | Sharing of personnel, equipment, or expertise between agencies. |
+| **SchoolPresentationDisclosureWorkflow** | Class | Workflow from school safety presentation to victim disclosure to rapid arrest. |
+| **SexOffenderComplianceCheck** | Class | Individual compliance check visit to registered sex offender. |
+| **SimultaneousChildRescue** | Class | Rescue of multiple children across different locations simultaneously. |
+| **StateAgency** | Class | Law enforcement agency with state-level jurisdiction. |
+| **StateJurisdiction** | Class | Legal authority under state law and courts. |
+| **StateLineCrossing** | Class | Documented crossing of state boundaries during offense. |
+| **StatewideSweep** | Class | Statewide operation conducting compliance checks across all jurisdictions. |
+| **TaskForce** | Class | Temporary multi-agency organization formed for specific operations. |
+| **TaskForceLeader** | Class | Officer responsible for leading multi-agency task force operations. |
+| **TaskForceOperation** | Class | Coordinated operation conducted by multi-agency task force. |
+| **TraffickingCoordinationCenter** | Class | Center coordinating multi-state trafficking investigations. |
+| **TraffickingInvestigationTask** | Class | Specific investigation task in multi-state trafficking case. |
+| **TransportationForIllegalPurpose** | Class | Transportation with intent to engage in criminal sexual activity. |
+| **USAttorneyOfficeParticipation** | Class | Participation of US Attorney's Offices around the country in coordinated operation. |
+| **UserTriageProsecution** | Class | Prosecution strategy based on automated triage of user risk levels and evidence strength for mass... |
+| **VictimIdentificationTask** | Class | Task focused on identifying new child victims. |
+
+### cac.cacontology-partnerships
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AICooperation** | Class | Cooperation in developing AI-based solutions for detection, analysis, and prevention of child exp... |
+| **AcademicPartner** | Class | Academic institution participating in partnership with research and training capabilities. Modele... |
+| **AcademicPartnership** | Class | Partnership with academic institutions for research, training, and technology development in chil... |
+| **ActiveCooperationPhase** | Class | Phase of active cooperation with joint operations and information sharing. Modeled as anti-rigid ... |
+| **CivilSocietyEngagement** | Class | Framework for engaging civil society, volunteers, and public participation in child protection in... |
+| **CivilSocietyPartner** | Class | Civil society organization participating in partnership with community engagement capabilities. M... |
+| **CollaborativeInvestigationSituation** | Class | Complex situation involving multiple partners working together on investigations. Modeled as gUFO... |
+| **CommunityAnalysis** | Class | Analysis performed by volunteer researchers and civil society organizations using open source int... |
+| **ContentDetectionCooperation** | Class | Cooperation in developing and improving automated content detection systems. Modeled as gUFO Event. |
+| **CoordinationMechanism** | Class | Mechanism for coordinating activities and sharing information between partners. Modeled as gUFO E... |
+| **CrowdsourcingInvestigation** | Class | Investigation leveraging public participation for object identification, geolocation, and evidenc... |
+| **DataSharingAgreement** | Class | Legal agreement governing data sharing between partners, including scope, limitations, and privac... |
+| **EmergencyCoordination** | Class | Rapid coordination mechanism for urgent situations requiring immediate partner response. Modeled ... |
+| **EvaluationPhase** | Class | Phase of partnership evaluation and effectiveness assessment. Modeled as anti-rigid gUFO Phase. |
+| **GeolocationRequest** | Class | Request for public assistance in identifying geographic locations from visual evidence. Modeled a... |
+| **HashSharingProtocol** | Class | Protocol for sharing cryptographic hashes of illegal content between partners for detection and p... |
+| **InformationSharingFramework** | Class | Framework governing how information is shared between public and private partners while protectin... |
+| **InformationSharingSituation** | Class | Situation involving active information sharing between partnership entities. Modeled as gUFO Situ... |
+| **IntelligenceSharing** | Class | Sharing of actionable intelligence between partners while maintaining operational security. Model... |
+| **JointOperation** | Class | Operation conducted jointly by multiple partners with shared resources and coordination. Modeled ... |
+| **LawEnforcementPartner** | Class | Law enforcement agency participating in partnership with investigative and enforcement responsibi... |
+| **MultiStakeholderInitiative** | Class | Initiative involving multiple types of organizations including law enforcement, technology compan... |
+| **NGOCoordination** | Class | Coordination framework with non-governmental organizations specializing in child protection and v... |
+| **NGOPartner** | Class | Non-governmental organization participating in partnership with advocacy and support capabilities... |
+| **OSINTInvestigation** | Class | Open source intelligence investigation conducted by skilled volunteers and researchers. Modeled a... |
+| **ObjectIdentificationRequest** | Class | Request for public assistance in identifying objects, locations, or other evidence from case mate... |
+| **PartnerRole** | Class | Role played by an organization within a public-private partnership framework. Modeled as anti-rig... |
+| **PartnershipFormationPhase** | Class | Phase of partnership formation including agreement negotiation and framework establishment. Model... |
+| **PlatformMonitoring** | Class | Cooperative monitoring of platforms and services for illegal content and activities. Modeled as g... |
+| **PublicPrivatePartnership** | Class | Formal partnership between government/law enforcement agencies and private sector organizations f... |
+| **PublicTip** | Class | Information provided by members of the public in response to crowdsourcing requests. Modeled as g... |
+| **RegularMeeting** | Class | Regular meetings between partners for coordination, information sharing, and strategic planning. ... |
+| **RenewalPhase** | Class | Phase of partnership renewal or renegotiation. Modeled as anti-rigid gUFO Phase. |
+| **TaskForceCoordination** | Class | Coordination through multi-partner task forces with representatives from different organizations.... |
+| **TechIndustryCooperation** | Class | Cooperation framework between law enforcement and technology companies for content detection, pla... |
+| **TechnicalIntegration** | Class | Technical integration between partner systems for automated information sharing and analysis. Mod... |
+| **TechnologyCooperation** | Class | Cooperation in developing and deploying technology solutions for child protection. Modeled as gUF... |
+| **TechnologyPartner** | Class | Technology company or provider participating in partnership with technical capabilities and platf... |
+| **ToolDevelopment** | Class | Joint development of investigative tools and technologies for law enforcement use. Modeled as gUF... |
+
+### cac.cacontology-physical-evidence
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AbuseFacilitationItem** | Class | Physical items intended for use in facilitating child abuse or exploitation (gUFO Object). |
+| **BodycamFootage** | Class | Body camera footage from law enforcement officers. Used for suspect identification and evidence. ... |
+| **CellphoneSearch** | Class | Search of cellphone or mobile device for evidence. Typically requires consent or warrant (gUFO Ev... |
+| **ChainOfCustodyBreachSituation** | Class | Situation where the chain of custody for evidence has been breached (gUFO Situation). |
+| **ChildTargetedItem** | Class | Items specifically designed to appeal to or attract children (gUFO Object). |
+| **CommunicationDevice** | Class | Devices used to communicate with victims or distribute illegal content (gUFO FunctionalComplex). |
+| **ComputerEquipment** | Class | Digital devices including computers, laptops, tablets, and mobile phones seized as evidence (gUFO... |
+| **Condoms** | Class | Contraceptive devices found as evidence corroborating intent to engage in sexual activity. Extend... |
+| **ConsentToSearchAuthorization** | Class | Authorization obtained through suspect's consent to search property or devices. Extends investiga... |
+| **CriminalProcurement** | Class | Action of acquiring items specifically for criminal purposes (gUFO Event). |
+| **DashcamFootage** | Class | Dashboard camera footage from police vehicles. Digital observable. |
+| **DeviceConsentSearch** | Class | Consent authorization specific to electronic device search (cellphone, computer, etc.). |
+| **DisguiseItem** | Class | Items used to conceal identity or change appearance (gUFO Object). |
+| **DocumentaryEvidence** | Class | Physical documents, printed materials, or written items relevant to the investigation (gUFO Object). |
+| **EvidenceAnalysisPhase** | Class | Phase during which physical evidence is undergoing forensic analysis (gUFO Phase - anti-rigid). |
+| **EvidenceCollectionAction** | Class | Action of collecting and documenting physical evidence during search. Extends investigation:Inves... |
+| **EvidenceCollectionPhase** | Class | Phase during which physical evidence is being collected (gUFO Phase - anti-rigid). |
+| **EvidenceContaminationSituation** | Class | Situation where physical evidence has been contaminated or compromised (gUFO Situation). |
+| **EvidenceCustodianRole** | Class | Role of person responsible for evidence custody and chain of custody (gUFO Role - anti-rigid). Ro... |
+| **EvidenceDispositionPhase** | Class | Phase during which evidence disposition is determined and executed (gUFO Phase - anti-rigid). |
+| **EvidenceRecoverySituation** | Class | Situation involving the recovery of previously lost or missing evidence (gUFO Situation). |
+| **EvidenceSeizure** | Class | Legal seizure of physical items as evidence. Extends investigation:InvestigativeAction (gUFO Event). |
+| **EvidenceStoragePhase** | Class | Phase during which physical evidence is in secure storage (gUFO Phase - anti-rigid). |
+| **ForensicAnalystRole** | Class | Role of person conducting forensic analysis of physical evidence (gUFO Role - anti-rigid). Roles ... |
+| **GloveCompartmentSearch** | Class | Search of vehicle glove compartment as specific evidence location (gUFO Event). |
+| **IntoxicatingSubstance** | Class | Alcohol, drugs, or other intoxicating substances intended to impair victim judgment. Extends Abus... |
+| **ItemModification** | Class | Alteration or customization of items to facilitate criminal activity (gUFO Event). |
+| **OnlinePurchase** | Class | Purchase of items through online platforms for criminal purposes (gUFO Event). |
+| **PersonalItem** | Class | Personal belongings that may contain evidence or indicate criminal behavior (gUFO Object). |
+| **PhysicalEvidence** | Class | Tangible items collected as evidence in CAC investigations (gUFO Object). |
+| **PhysicalEvidenceProvenanceRecord** | Class | Provenance record tracking chain of custody and handling of physical evidence. Extends investigat... |
+| **PhysicalPurchase** | Class | In-person purchase of items for criminal purposes (gUFO Event). |
+| **PhysicalSearch** | Class | Law enforcement search of physical premises for evidence. Extends investigation:InvestigativeActi... |
+| **RecordingEquipment** | Class | Devices used to create audio or video recordings of criminal activity (gUFO FunctionalComplex). |
+| **ResidenceSearch** | Class | Search of residential premises including homes and apartments (gUFO Event). |
+| **RestraintItem** | Class | Items intended for restraining or controlling victims (gUFO Object). |
+| **SearchOfficerRole** | Class | Role of law enforcement officer conducting physical searches (gUFO Role - anti-rigid). Roles are ... |
+| **StorageMedia** | Class | External storage devices including hard drives, USB drives, memory cards, and optical media (gUFO... |
+| **SurveillanceRecording** | Class | Recording from surveillance or security cameras. Digital observable. |
+| **SuspectVehicle** | Class | Vehicle registered to or used by suspect in CAC offense. Used for evidence tracking when suspect ... |
+| **VapeDevice** | Class | Electronic vaporizer or e-cigarette found as evidence. Often brought to lure or facilitate abuse ... |
+| **VehicleConsentSearch** | Class | Consent authorization specific to vehicle search. |
+| **VehicleSearch** | Class | Search of motor vehicles for evidence or contraband. May be conducted with consent or warrant (gU... |
+| **WorkplaceSearch** | Class | Search of workplace or commercial premises (gUFO Event). |
+
+### cac.cacontology-platform-infrastructure
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AccountFreezing** | Class | Freezing financial accounts and cryptocurrency wallets associated with platform operations (gUFO ... |
+| **AnalystRole** | Class | Role of person conducting infrastructure analysis (gUFO Role - anti-rigid). |
+| **AnonymityInfrastructure** | Class | Systems providing anonymity to users and operators, including Tor integration and VPN services (g... |
+| **ContentDeliveryNetwork** | Class | CDN infrastructure used for distributing illegal content globally with high availability and perf... |
+| **CryptocurrencyInfrastructure** | Class | Cryptocurrency wallets, exchanges, and payment processing systems used for anonymous financial tr... |
+| **DataMirrorCreation** | Class | Creating forensic mirrors of seized infrastructure for analysis and evidence preservation (gUFO E... |
+| **DatabaseInfrastructure** | Class | Database systems storing user accounts, content metadata, and platform operational data (gUFO Fun... |
+| **DomainInfrastructure** | Class | Domain name system infrastructure including domain registration, DNS services, and subdomain mana... |
+| **DomainSinkholing** | Class | Redirecting domain traffic to law enforcement controlled servers to gather intelligence (gUFO Eve... |
+| **EncryptionInfrastructure** | Class | Encryption systems protecting data transmission, storage, and user communications (gUFO Functiona... |
+| **FinancialFlowAnalysis** | Class | Analysis of financial transactions and payment flows through platform monetization systems (gUFO ... |
+| **FinancialObfuscation** | Class | Methods used to obscure financial transactions and payment flows to avoid detection (gUFO Object). |
+| **GeographicDistribution** | Class | Geographic distribution of infrastructure across multiple countries to complicate law enforcement... |
+| **HostingProvider** | Class | Organizations providing server hosting, cloud services, or infrastructure-as-a-service for platfo... |
+| **InfrastructureAnalysis** | Class | Analysis of seized infrastructure to understand platform operations and identify additional targe... |
+| **InfrastructureCompromiseSituation** | Class | Situation where platform infrastructure has been compromised or breached (gUFO Situation). |
+| **InfrastructureDecommissionPhase** | Class | Phase during which infrastructure is being decommissioned or shut down (gUFO Phase - anti-rigid). |
+| **InfrastructureDeploymentPhase** | Class | Phase during which platform infrastructure is being deployed and configured (gUFO Phase - anti-ri... |
+| **InfrastructureDiscoverySituation** | Class | Situation involving the discovery of previously unknown infrastructure components (gUFO Situation). |
+| **InfrastructureFailureSituation** | Class | Situation involving infrastructure failure or outage (gUFO Situation). |
+| **InfrastructureMaintenancePhase** | Class | Phase during which infrastructure undergoes maintenance and updates (gUFO Phase - anti-rigid). |
+| **InfrastructureOperationalPhase** | Class | Phase during which platform infrastructure is actively supporting operations (gUFO Phase - anti-r... |
+| **InfrastructureTakedown** | Class | Coordinated operation to dismantle platform infrastructure including servers, domains, and suppor... |
+| **LoadBalancer** | Class | Load balancing infrastructure distributing traffic across multiple servers for high availability ... |
+| **NetworkInfrastructure** | Class | Network topology and routing infrastructure supporting platform connectivity and distribution (gU... |
+| **NetworkTopologyAnalysis** | Class | Analysis of network architecture and connectivity patterns within platform infrastructure (gUFO E... |
+| **PaymentProcessing** | Class | Financial processing systems enabling platform monetization through subscription fees, content pu... |
+| **PlatformInfrastructure** | Class | Technical infrastructure supporting child exploitation platforms, including servers, networks, an... |
+| **ProxyInfrastructure** | Class | Proxy servers and reverse proxy systems used to hide platform origins and provide redundancy (gUF... |
+| **SecurityInfrastructure** | Class | Security systems protecting platform infrastructure from detection and takedown efforts (gUFO Fun... |
+| **SecurityOperatorRole** | Class | Role of person managing security infrastructure and operations (gUFO Role - anti-rigid). |
+| **ServerInfrastructure** | Class | Server and hosting infrastructure supporting platform operations, including web servers, database... |
+| **ServerSeizure** | Class | Physical or virtual seizure of servers hosting platform infrastructure (gUFO Event). |
+| **SubscriptionManagement** | Class | Systems managing user subscriptions, access levels, and recurring payment processing (gUFO Functi... |
+| **SystemAdministratorRole** | Class | Role of person responsible for infrastructure system administration (gUFO Role - anti-rigid). |
+| **TakedownOperatorRole** | Class | Role of law enforcement personnel conducting takedown operations (gUFO Role - anti-rigid). |
+| **UserAccessPatternAnalysis** | Class | Analysis of user access patterns and geographic distribution based on infrastructure logs (gUFO E... |
+
+### cac.cacontology-platforms
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AccountMetadata** | Class | Account-level metadata including creation date, profile information, and activity patterns. |
+| **AccountSuspensionAction** | Class | An action to suspend or terminate a user account due to policy violations. Modeled as gUFO Event. |
+| **AnonymityProtectionLevel** | Class | Level of anonymity protection provided by platform features and policies. |
+| **AnonymousChatPlatform** | Class | Platform that allows anonymous or minimally verified communication, enabling contact without iden... |
+| **AnonymousContactOpportunity** | Class | Opportunities provided by platform for anonymous users to initiate contact with other users. |
+| **ContentHashingAction** | Class | An action by a platform to generate hashes of content for detection and matching. Modeled as gUFO... |
+| **ContentModerationAction** | Class | An action taken by a platform to moderate content (review, remove, restrict, etc.). Modeled as gU... |
+| **ContentModerationCapability** | Class | The ability and methods a platform uses to detect, review, and remove inappropriate content. Mode... |
+| **ContentModerationQueue** | Class | A queue/backlog of content items awaiting moderation review and operational handling at scale (e.... |
+| **CrossPlatformEvidence** | Class | Evidence found across multiple social media platforms by the same user. |
+| **CryptocurrencyService** | Class | A service for cryptocurrency transactions and exchanges (e.g., Bitcoin, Coinbase, Binance). Model... |
+| **DarkWebService** | Class | A service accessible through anonymizing networks like Tor, often used for illegal activities. Mo... |
+| **DataPreservationAction** | Class | An action to preserve user data in response to legal requests. Modeled as gUFO Event. |
+| **DataRetentionPolicy** | Class | A platform's policy for how long they retain user data and content. Modeled as gUFO Object. |
+| **DeviceSocialMediaCorrelation** | Class | Correlation between evidence found on devices and social media accounts. |
+| **DigitalEvidenceCorrelation** | Class | Process of correlating evidence found across devices and platforms. |
+| **ElectronicDeviceEvidence** | Class | Digital evidence found on electronic devices including computers, phones, and storage media. |
+| **ElectronicServiceProvider** | Class | An organization that provides digital services and platforms, with responsibilities for content m... |
+| **EmergencyDisclosureRequest** | Class | Time-sensitive request by law enforcement/investigators to an electronic service provider for imm... |
+| **FileHostingService** | Class | A service for storing and sharing files online (e.g., Google Drive, Dropbox, OneDrive, MEGA). Mod... |
+| **GamePlatform** | Class | A digital platform for gaming with communication features (e.g., Xbox Live, PlayStation Network, ... |
+| **GuestChatFeature** | Class | Platform feature allowing users to chat without creating accounts or verifying identity. |
+| **IdentityDisclosurePolicy** | Class | Platform policy regarding when and how user identities may be disclosed to other users or authori... |
+| **LargeScalePlatformTakedown** | Class | Coordinated takedown of major exploitation platforms with user bases exceeding 1 million accounts... |
+| **LegalComplianceCapability** | Class | A platform's ability to respond to legal requests and cooperate with law enforcement. Modeled as ... |
+| **LegalDataDisclosureAction** | Class | An action to disclose user data to law enforcement in response to legal process. Modeled as gUFO ... |
+| **MassUserBehaviorAnalysis** | Class | Analysis of user behavior patterns across massive user bases for investigation prioritization and... |
+| **MassUserDatabase** | Class | User database analysis for platforms with massive user bases requiring specialized processing tec... |
+| **MassivePlatformSituation** | Class | Situation involving platforms with massive user bases requiring specialized investigation approac... |
+| **MessagingService** | Class | A digital service for real-time communication and messaging (e.g., WhatsApp, Telegram, Signal, Di... |
+| **MinimalVerificationRequirement** | Class | Verification requirements that are easily bypassed or minimal (email only, no identity check). |
+| **ModerationThroughputMetrics** | Class | Operational metrics describing moderation throughput and latency (e.g., queue size, review latenc... |
+| **MultiPlatformSituation** | Class | Situation involving coordination across multiple platforms and service providers. Modeled as gUFO... |
+| **OnlineDatingPlatform** | Class | A platform for meeting and dating online (e.g., Tinder, Bumble, Grindr, dating websites). Modeled... |
+| **OpenChatRooms** | Class | Chat rooms open to anonymous users without verification or moderation. |
+| **PlatformCooperationSituation** | Class | Situation involving cooperative efforts between platforms and law enforcement. Modeled as gUFO Si... |
+| **PlatformDeploymentPhase** | Class | Phase when platform is deployed and becomes operational. Modeled as anti-rigid gUFO Phase. |
+| **PlatformGrowthPhase** | Class | Phase of platform expansion and user base growth. Modeled as anti-rigid gUFO Phase. |
+| **PlatformInvestigationCoordination** | Class | Coordinated investigation across multiple platforms and devices. |
+| **PlatformInvestigationPhase** | Class | Phase when platform is under law enforcement investigation. Modeled as anti-rigid gUFO Phase. |
+| **PlatformModerationPhase** | Class | Phase of active content moderation and policy enforcement. Modeled as anti-rigid gUFO Phase. |
+| **PlatformOperation** | Class | Coordinated law enforcement operation targeting specific platforms or services. Modeled as gUFO E... |
+| **PlatformTakedownPhase** | Class | Phase of platform takedown and shutdown operations. Modeled as anti-rigid gUFO Phase. |
+| **PrivateMessage** | Class | Private messages or direct communications on social media platforms. |
+| **ProfileBrowsingAnonymous** | Class | Ability to browse and contact user profiles anonymously without revealing identity. |
+| **RandomUserMatching** | Class | Platform feature that randomly matches users for anonymous conversations. |
+| **ReviewBacklogSituation** | Class | Situation in which moderation review demand exceeds capacity, producing review backlog/latency ri... |
+| **SimultaneousSearchWarrant** | Class | Coordinated search warrant execution on devices and platform accounts. |
+| **SocialMediaAccount** | Class | User account on a social media platform potentially containing evidence. |
+| **SocialMediaAppData** | Class | Application data from social media apps stored on devices. |
+| **SocialMediaEvidence** | Class | Digital evidence collected from social media platforms, including posts, messages, and account in... |
+| **SocialMediaPlatform** | Class | A digital platform for social networking and content sharing (e.g., Facebook, Instagram, TikTok, ... |
+| **SocialMediaPost** | Class | Individual posts, updates, or content shared on social media platforms. |
+| **StoredSocialMediaContent** | Class | Social media content downloaded and stored on electronic devices. |
+| **TechnicalServiceProvider** | Class | Organizations providing technical infrastructure (hosting, CDN, DNS, etc.) that may be involved i... |
+| **TemporaryAccountSystem** | Class | System allowing creation of temporary accounts with minimal verification requirements. |
+| **UserRiskClassification** | Class | Automated classification of user risk levels based on platform activity patterns, content sharing... |
+| **UserScaleClassification** | Class | Classification system for platform size based on user base: small (<1K), medium (1K-100K), large ... |
+| **UserVerificationSystem** | Class | Systems used by platforms to verify user identity and age. Modeled as gUFO Object. |
+| **VideoStreamingPlatform** | Class | A platform for video content streaming and sharing (e.g., YouTube, Twitch, OnlyFans, Periscope). ... |
+
+### cac.cacontology-prevention
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AffiliateCoordination** | Class | Coordination activities between CAC affiliate organizations for unified prevention efforts. |
+| **AffiliateResourceSharing** | Class | Coordinated sharing of educational resources and prevention materials among CAC affiliates. |
+| **AgeTargetedEducation** | Class | Education programs targeted to specific age groups. |
+| **ArchivePublicationSystem** | Class | Knowledge repository system providing access to archived educational publications and historical ... |
+| **BehavioralPrevention** | Class | Prevention strategies focused on behavioral changes. |
+| **BullyingPrevention** | Class | Prevention programs focused on reducing bullying and shaming. |
+| **ChildAbusePreventionMonth** | Class | National Child Abuse Prevention Month coordinated awareness activities. |
+| **ChildSafetyEducation** | Class | Education programs teaching children about safety. |
+| **CommunityEducation** | Class | Education programs for community members. |
+| **CommunityEducator** | Class | Educator working in community prevention programs. |
+| **CommunityEmailList** | Class | Organized email communication system for ongoing safety updates to parents and community members. |
+| **CommunityEngagement** | Class | Measurement of community engagement in prevention. |
+| **CommunityEngagementMetrics** | Class | Comprehensive metrics for measuring community engagement across multiple communication channels. |
+| **CommunityNewsletterSystem** | Class | Regular newsletter communication system for ongoing community engagement and safety updates. |
+| **CommunityOutreach** | Class | Outreach programs to engage communities in child protection. Modeled as gUFO Event. |
+| **CommunityOutreachEffectiveness** | Class | Measurement of community outreach program effectiveness in generating victim disclosures and arre... |
+| **CommunityPartnershipInitiative** | Class | Initiative building partnerships with community organizations for child protection. |
+| **CourseCompletionTracking** | Class | System for tracking participant progress and completion rates in interactive safety courses. |
+| **DigitalLiteracy** | Class | Education on digital literacy and safe technology use. |
+| **DigitalSafety** | Class | Prevention programs focused on digital safety. |
+| **DisclosureBarrierReduction** | Class | Strategies to reduce barriers preventing victim disclosure. |
+| **DisclosureEncouragementStrategy** | Class | Strategy for encouraging victims to disclose abuse through education and support. |
+| **DiscreetAccessSystem** | Class | System allowing discreet access to safety information to reduce bullying and shaming. |
+| **EducationPlatformIntegration** | Class | Integration capabilities between different educational delivery platforms and content management ... |
+| **EducationPortal** | Class | Online portal providing educational resources for child protection. Modeled as gUFO Object. |
+| **EducationalPosterCampaign** | Class | School-based poster distribution campaign for prevention education. |
+| **EducationalResource** | Class | Resource designed for educational purposes in child protection. |
+| **EducatorTraining** | Class | Training programs specifically designed for educators. |
+| **EmailListEngagementMetrics** | Class | Metrics tracking email list subscription rates, open rates, and engagement patterns. |
+| **EnvironmentalPrevention** | Class | Prevention strategies focused on environmental factors. |
+| **FAQKnowledgeBase** | Class | Structured question and answer system for Internet Crimes Against Children frequently asked quest... |
+| **FAQUsageMetrics** | Class | Metrics tracking FAQ access patterns, most searched questions, and help-seeking behaviors. |
+| **HealthcareProviderTraining** | Class | Training for healthcare providers on child protection. |
+| **ICACAffiliateNetwork** | Class | Network of formally affiliated CAC organizations for coordinated child protection efforts. |
+| **InformationPoster** | Class | Physical poster containing educational information and QR codes. |
+| **InteractiveCourseMetrics** | Class | Metrics tracking course enrollment, completion rates, and learning effectiveness. |
+| **InteractiveCourseSystem** | Class | Interactive online safety course platform with progression tracking and engagement features. |
+| **MultimediaEducationContent** | Class | Educational content incorporating multiple media types including audio, video, and interactive el... |
+| **NationwideAwarenessInitiative** | Class | Nationwide coordinated awareness campaign involving multiple agencies and communities. |
+| **OnlineSafetyEducation** | Class | Education about staying safe online. |
+| **OutreachTriggeredInvestigation** | Class | Investigation initiated as direct result of community outreach presentation. |
+| **ParentCommunityEmailList** | Class | Specialized email list for parent and community safety updates and archived publication access. |
+| **ParentEducation** | Class | Education programs for parents and caregivers. |
+| **ParentalControl** | Class | Technology tools for parental oversight. |
+| **ParentalVigilanceProgram** | Class | Program educating parents on recognizing signs of child exploitation and reporting. |
+| **PlatformSafety** | Class | Safety measures implemented by technology platforms. |
+| **PodcastEducationSeries** | Class | Audio-based educational content delivery system, such as the Protect Kids Online (PKO) Podcast. |
+| **PodcastEngagementMetrics** | Class | Metrics tracking podcast download rates, completion rates, and listener engagement. |
+| **PostPresentationDisclosure** | Class | Victim disclosure that occurs following a safety presentation or educational event. |
+| **PosterDistributionMetrics** | Class | Metrics tracking poster distribution and reach. |
+| **PreventionAdvocate** | Class | Advocate promoting prevention initiatives. |
+| **PreventionCurriculum** | Class | Structured curriculum for prevention education. |
+| **PreventionEffectiveness** | Class | Assessment of prevention program effectiveness. |
+| **PreventionMaterial** | Class | Educational material focused on prevention strategies. |
+| **PreventionMetrics** | Class | Metrics for measuring prevention program effectiveness. |
+| **PreventionProgram** | Class | Structured program designed to prevent child abuse and exploitation. Modeled as gUFO Event. |
+| **PreventionSpecialist** | Class | Professional specializing in prevention programs. |
+| **PrimaryPrevention** | Class | Prevention strategies that stop abuse before it occurs. |
+| **PublicAwareness** | Class | Campaigns to raise public awareness about child protection. Modeled as gUFO Event. |
+| **QRCodeEngagementMetrics** | Class | Metrics tracking QR code usage and engagement. |
+| **QRCodeIntegration** | Class | QR code system for discreet access to prevention information. |
+| **RapidResponseDisclosureWorkflow** | Class | Workflow enabling rapid response from victim disclosure to arrest (e.g., 8-hour timeline). |
+| **RiskAssessmentTool** | Class | Tool for assessing risks to child safety. |
+| **RiskPrevention** | Class | Programs focused on preventing risk factors for child abuse. Modeled as gUFO Event. |
+| **RiskReduction** | Class | Measurement of risk reduction achieved. |
+| **SafeDisclosureEnvironment** | Class | Creation of safe environment where victims feel comfortable disclosing abuse. |
+| **SafetyCoordinator** | Class | Coordinator responsible for safety programs. |
+| **SafetyGuideline** | Class | Guidelines for maintaining child safety. |
+| **SafetyProtocol** | Class | Protocol designed to ensure child safety in various settings. |
+| **SchoolAllegationProtocol** | Class | Protocol for managing allegations of abuse in school settings. Modeled as gUFO Object. |
+| **SchoolCounselorTraining** | Class | Training program for school counselors. |
+| **SchoolDistribution** | Class | Distribution of educational materials to schools. |
+| **SchoolPolicy** | Class | Policy governing child protection in schools. |
+| **SchoolPresentationProgram** | Class | FBI school presentation program for child safety education and disclosure encouragement. |
+| **SchoolSafetyProgram** | Class | Safety program implemented in school settings. |
+| **SecondaryPrevention** | Class | Early intervention strategies to prevent escalation. |
+| **SextortionAwareness** | Class | Prevention program focused on sextortion education and awareness. |
+| **SextortionEducation** | Class | Educational content specifically addressing sextortion risks and prevention. |
+| **SextortionResponse** | Class | Response protocol for sextortion incidents. |
+| **SextortionWarningSign** | Class | Identifiable warning signs of sextortion activities. |
+| **StatewideCampaignMetrics** | Class | Metrics for measuring statewide prevention campaign effectiveness. |
+| **StudentEducation** | Class | Safety education program for students. |
+| **TeacherTraining** | Class | Training program specifically for teachers. |
+| **TertiaryPrevention** | Class | Prevention of re-victimization and recurrence. |
+| **TrustedAdultIdentification** | Class | Education helping children identify trusted adults for disclosure. |
+| **TwelvePlusEducation** | Class | Safety education targeted specifically for students 12 years and older. |
+| **VictimDisclosureTriggering** | Class | Safety education event that triggers victim disclosure of ongoing abuse. |
+
+### cac.cacontology-production
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **ActiveProductionPhase** | Class | Phase during which production activities are actively occurring. |
+| **BathroomSurveillance** | Class | Specific surveillance of bathroom facilities, as observed in Vermont case. |
+| **BedroomSurveillance** | Class | Specific surveillance of sleeping areas and bedrooms. |
+| **ConcealmentContainer** | Class | Object used to hide recording equipment such as backpacks, furniture, or everyday items with modi... |
+| **ContentCreation** | Class | Process of creating, editing, or enhancing child sexual abuse material. |
+| **ControlledEnvironment** | Class | Location specifically prepared or modified for production activities. |
+| **DeviceConcealment** | Class | Specific methods and techniques used to hide recording devices for covert surveillance operations. |
+| **DigitalManipulation** | Class | Digital alteration or enhancement of images or videos to create child sexual abuse material. |
+| **EditedContent** | Class | Original content that has been digitally modified or enhanced. |
+| **EditingEquipment** | Class | Computer hardware and software used to edit or enhance produced material. |
+| **ExtendedProductionPeriod** | Class | Ongoing pattern of production over an extended time period. |
+| **HiddenRecordingDevice** | Class | Covert recording equipment designed to capture content without victim awareness. |
+| **LiveProductionEvent** | Class | Real-time production of child sexual abuse material involving live victims. |
+| **LiveStreamContent** | Class | Content transmitted in real-time during live production events. |
+| **MobileRecordingDevice** | Class | Mobile phone, tablet, or portable device used for recording. |
+| **PhysicalDeviceModification** | Class | Physical alterations made to recording devices to enable concealment. |
+| **PrivateSpaceSurveillance** | Class | Covert surveillance of private spaces where victims have expectation of privacy. |
+| **ProducedContent** | Class | Child sexual abuse material created through production activities. |
+| **ProducedImage** | Class | Still images created through production activities. |
+| **ProducedVideo** | Class | Video content created through production activities. |
+| **Producer** | Class | Individual who creates, directs, or facilitates the production of child sexual abuse material. |
+| **ProductionDistributionPhase** | Class | Phase during which produced content is distributed or shared. |
+| **ProductionEquipment** | Class | Devices and equipment used to produce child sexual abuse material. |
+| **ProductionFacilitator** | Class | Individual who assists in or enables production activities without directly producing content. |
+| **ProductionLocation** | Class | Physical location where child sexual abuse material production occurred. |
+| **ProductionOffense** | Class | Criminal offense involving the production, creation, or manufacturing of child sexual abuse mater... |
+| **ProductionPreparationPhase** | Class | Phase involving preparation and setup for production activities. |
+| **ProductionSeries** | Class | Connected series of production sessions targeting the same victim(s). |
+| **ProductionSession** | Class | Individual instance or session of producing child sexual abuse material. |
+| **ProductionVictim** | Class | Child victim directly involved in production of sexual abuse material. |
+| **RecordingAction** | Class | Action of recording child sexual abuse for the purpose of creating illegal material. |
+| **RecordingDevice** | Class | Device capable of capturing video or photographic content. |
+| **ResidentialProductionSite** | Class | Private residence used for production activities. |
+| **StationaryCamera** | Class | Fixed camera equipment including webcams, digital cameras, and video cameras. |
+
+### cac.cacontology-recantation
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **CommunityPressureRisk** | Class | A recantation risk created by pressure, shame, or expectation from community, school, faith, or o... |
+| **DisclosureStatement** | Class | A statement in which a child victim discloses abuse or exploitation. |
+| **OffenderContactRisk** | Class | A recantation risk created by continued offender access, visitation, or indirect contact after di... |
+| **PartialRecantationStatement** | Class | A recantation that withdraws only part of a prior disclosure or muddies the disclosure without fu... |
+| **PostDisclosureDenialStatement** | Class | A denial made after an earlier disclosure has already occurred. |
+| **PostRecantationForensicInterview** | Class | A follow-up forensic interview conducted after recantation or denial to explore circumstances, pr... |
+| **ReaffirmedDisclosureStatement** | Class | A later statement that reaffirms an earlier disclosure after denial, pressure, or recantation. |
+| **RecantationAssessment** | Class | An investigative or prosecutorial assessment of a recantation, its credibility, surrounding press... |
+| **RecantationNotification** | Class | An action in which a family member, caregiver, professional, or other person reports that a child... |
+| **RecantationPressure** | Class | A coercive or inducement-bearing action intended to influence a victim to deny, minimize, or retr... |
+| **RecantationRiskFactor** | Class | A factor correlated with increased likelihood of post-disclosure denial or recantation. |
+| **RecantationStatement** | Class | A statement in which a child victim retracts or disavows an earlier disclosure. |
+| **SiblingSeparationConcern** | Class | A concern that sibling removal, foster placement, or sibling separation may drive statement withd... |
+| **StatementChangeContext** | Class | A situation capturing the social, familial, investigative, and coercive conditions surrounding a ... |
+| **SystemInterventionFear** | Class | Fear of court, child-protection action, family breakup, or other multidisciplinary system consequ... |
+| **TentativeDisclosureStatement** | Class | A partial or testing-the-waters disclosure that precedes fuller disclosure. |
+| **UnsupportiveFamilyResponse** | Class | A family response that sides with the offender, undermines the child, or otherwise erodes support... |
+| **VictimStatement** | Class | A statement or account by a child victim concerning abuse, disclosure, denial, or recantation. Mo... |
+
+### cac.cacontology-recruitment-networks
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AcademicStruggles** | Class | Academic difficulties creating vulnerability to recruitment offers. |
+| **AfterSchoolRecruitment** | Class | Recruitment occurring after school hours when supervision is reduced. |
+| **AttendanceProblems** | Class | School attendance issues that may indicate or facilitate trafficking involvement. |
+| **ClassmateIntroduction** | Class | Introduction of new victim to trafficker through existing victim who is a classmate. |
+| **ClassmateRecruitmentNetwork** | Class | Recruitment network operating within educational institutions using existing victims to recruit c... |
+| **CoercedPeerRecruitment** | Class | Recruitment where existing victims are forced or coerced to recruit their peers. |
+| **EducationalInstitution** | Class | School or educational facility where recruitment occurs or reporting takes place. |
+| **ExtracurricularRecruitment** | Class | Recruitment occurring during extracurricular activities or school events. |
+| **FriendshipExploitation** | Class | Exploitation of existing friendships and trust relationships between minors for recruitment. |
+| **LunchBreakRecruitment** | Class | Recruitment occurring during lunch breaks or between classes. |
+| **MandatoryReportingActivation** | Class | Activation of mandatory reporting requirements by school personnel. |
+| **PeerInfluenceRecruitment** | Class | Recruitment leveraging peer pressure and social influence among minors. |
+| **PeerPressureVulnerability** | Class | Susceptibility to peer pressure enabling recruitment through classmates. |
+| **PeerRecruitmentNetwork** | Class | Network of traffickers utilizing existing victims to recruit new victims through peer relationshi... |
+| **RecruitmentIncentive** | Class | Incentives offered to existing victims for successful recruitment of new victims. |
+| **RecruitmentPunishment** | Class | Punishment threatened or applied to victims who fail to recruit new victims. |
+| **RecruitmentQuota** | Class | System where existing victims must recruit specified number of new victims. |
+| **RecruitmentTiming** | Class | Temporal patterns and timing of recruitment activities within educational environments. |
+| **SchoolBasedRecruitment** | Class | Trafficking recruitment occurring within or through school environments and relationships. |
+| **SchoolBasedReporting** | Class | Reporting of trafficking incidents through educational institution personnel. |
+| **SchoolCounselor** | Class | School counselor who may receive disclosures from trafficking victims. |
+| **SchoolHoursRecruitment** | Class | Recruitment occurring during regular school hours through peer interactions. |
+| **SchoolPoliceContact** | Class | Contact made by school personnel to law enforcement regarding trafficking concerns. |
+| **SchoolSocialWorker** | Class | Social worker employed by educational institution who receives victim reports. |
+| **SchoolStaffMember** | Class | Employee of educational institution involved in reporting or responding to trafficking. |
+| **SchoolVulnerabilityFactor** | Class | Factors within educational environment that increase vulnerability to recruitment. |
+| **SocialConnectionLeverage** | Class | Leveraging existing social connections between victims to facilitate new recruitment. |
+| **SocialIsolationAtSchool** | Class | Student isolation within school environment making them vulnerable to recruitment. |
+| **SocialWorkerReport** | Class | Report made by school social worker to law enforcement regarding trafficking victim. |
+| **StudentNetworkExploitation** | Class | Exploitation of student social networks and peer relationships for trafficking recruitment. |
+| **TeacherReporter** | Class | Teacher who identifies signs of trafficking or receives disclosures from students. |
+| **VictimMediatedRecruitment** | Class | Recruitment of new victims through existing trafficking victims acting as intermediaries. |
+| **VictimSchoolDisclosure** | Class | Disclosure by trafficking victim to school personnel about their situation. |
+
+### cac.cacontology-sadistic-online-exploitation
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **LivestreamedCoercionShow** | Class | A coordinated livestreamed coercion event (ritualized 'show') in which participants celebrate, wi... |
+| **SadisticOnlineExploitationNetwork** | Class | A DHS/Know2Protect-defined online group (network/community) engaged in sadistic coercion and expl... |
+
+### cac.cacontology-sex-offender-registry
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AddressHistory** | Class | Historical record of registered addresses. |
+| **AgeAwareExploitation** | Class | Exploitation where offender explicitly acknowledges victim's minor status but continues criminal ... |
+| **Alias** | Class | Known alias or alternate name used by registered sex offender. |
+| **AnnualRegistrationReview** | Class | Annual review and update of sex offender registration information. |
+| **BidirectionalContentExchange** | Class | Exchange where offender both sends explicit content to victim and solicits/receives explicit cont... |
+| **CommunityNotification** | Class | Notification to community about registered sex offender. |
+| **ComplianceBasedArrest** | Class | Arrest coordinated with scheduled compliance activity such as annual registration review. |
+| **ComplianceHistory** | Class | History of compliance with registration requirements. |
+| **ComplianceScheduleCoordination** | Class | Coordination between law enforcement investigations and compliance schedules for arrest timing. |
+| **ComplianceViolation** | Class | Violation of sex offender registration requirements. |
+| **ContactRestriction** | Class | Restriction on contact with certain individuals or groups. |
+| **ConvictingOffense** | Class | Criminal offense that resulted in sex offender registration requirement. |
+| **CourtOrder** | Class | Court order mandating sex offender registration. |
+| **CrossStateDigitalInvestigation** | Class | Investigation involving registered sex offender targeting victims across state boundaries using d... |
+| **CrossStateRecidivism** | Class | Pattern of recidivism involving offenses across state boundaries. |
+| **DigitalRecidivismPattern** | Class | Pattern of repeat sexual offenses using digital communication platforms. |
+| **EducationInformation** | Class | Educational enrollment information for registered sex offender. |
+| **EmploymentInformation** | Class | Current employment information for registered sex offender. |
+| **EmploymentRestriction** | Class | Restriction on types of employment. |
+| **FailureToRegisterOffense** | Class | Criminal offense for failing to register or update required information in a sex offender registr... |
+| **FalseInformationRegistrationOffense** | Class | Criminal offense for knowingly providing false or misleading information in connection with sex o... |
+| **GeographicRestriction** | Class | Geographic area where offender is restricted from being. |
+| **HighVolumeDigitalExploitation** | Class | Digital exploitation involving thousands of messages or communications over extended period. |
+| **IdentifyingMark** | Class | Distinctive physical mark (scar, tattoo, birthmark) for identification. |
+| **InternetInformation** | Class | Internet-related information for registered sex offender. |
+| **InternetRestriction** | Class | Restriction on internet use or online activities. |
+| **InternetServiceProvider** | Class | Internet service provider used by registered sex offender. |
+| **MultiModalDigitalEvidence** | Class | Digital evidence containing multiple content types (text, images, audio, video) in single exploit... |
+| **NotificationTier** | Class | Classification tier determining level of community notification required. |
+| **OffenderDeviceSearchWarrant** | Class | Search warrant executed on registered sex offender's residence and devices for digital evidence r... |
+| **OffenderProfile** | Class | Comprehensive profile of registered sex offender including all required information. |
+| **OffenseClassification** | Class | Classification of sexual offense (felony/misdemeanor, degree, special categories). |
+| **OnlineIdentifier** | Class | Online username, email, or identifier used by registered sex offender. |
+| **PersonalIdentifiers** | Class | Collection of identifiers for registered sex offender (SSN, DOB, aliases, etc.). |
+| **Photograph** | Class | Official photograph of registered sex offender. |
+| **PhysicalDescription** | Class | Physical description of registered sex offender (height, weight, scars, tattoos). |
+| **PrimaryResidence** | Class | Primary residential address where offender lives. |
+| **ProfessionalLicense** | Class | Professional license held by registered sex offender. |
+| **PublicWebsite** | Class | Public website for searching sex offender registry information. |
+| **RecidivistSexOffender** | Class | Registered sex offender who has committed subsequent sexual offenses after initial conviction and... |
+| **RegisteredAddress** | Class | Official registered address of sex offender. |
+| **RegisteredSexOffender** | Class | Legal status/role that a person can gain or lose; individual required to register as a sex offender. |
+| **RegisteredVehicle** | Class | Vehicle registered to sex offender. |
+| **RegistrationAlert** | Class | Alert generated by registry system (non-compliance, address change, etc.). |
+| **RegistrationRecord** | Class | Official record of sex offender registration including all required data elements. |
+| **RegistrationRequirement** | Class | Specific requirement for sex offender registration (location, frequency, restrictions). |
+| **RegistrationRestriction** | Class | Restriction placed on registered sex offender. |
+| **RegistrationReviewArrest** | Class | Arrest executed when offender arrives for scheduled registration review or update. |
+| **RegistrationStatus** | Class | Current status of sex offender registration (active, inactive, non-compliant, etc.). |
+| **RegistrationUpdate** | Class | Update to sex offender registration information. |
+| **RegistryAgency** | Class | Law enforcement agency responsible for maintaining sex offender registry. |
+| **RegistryOfficer** | Class | Officer responsible for sex offender registration management. |
+| **RegistrySystem** | Class | Information system used to manage sex offender registry. |
+| **SchoolLocation** | Class | Educational institution where offender is enrolled. |
+| **SexOffenderRegistry** | Class | Registry system maintaining information about registered sex offenders. |
+| **SocialMediaAccount** | Class | Social media account belonging to registered sex offender. |
+| **TemporaryAddress** | Class | Temporary address where offender will be residing. |
+| **VehicleInformation** | Class | Information about vehicles owned or operated by registered sex offender. |
+| **VerificationCheck** | Class | Official verification of sex offender registration information. |
+| **VictimDeviceForensics** | Class | Forensic examination of victim's device to recover evidence of digital exploitation. |
+| **VictimInformation** | Class | Information about victims relevant to registration (age, relationship, count). |
+| **WorkLocation** | Class | Location where registered sex offender is employed. |
+
+### cac.cacontology-sex-trafficking
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AdultTraffickingVictimRole** | Class | Role of adult being sex trafficked through force, fraud, or coercion. Modeled as anti-rigid gUFO ... |
+| **AgingOutVictimProfile** | Class | Vulnerability profile for youth aging out of foster care system. |
+| **AssociateTraffickerRole** | Class | Supporting role in trafficking operation, assisting primary traffickers. Modeled as anti-rigid gU... |
+| **CommercialSexualExploitation** | Class | Forced engagement in commercial sexual activities for the traffickers' profit. Modeled as gUFO Ev... |
+| **CrossJurisdictionalControl** | Class | Maintenance of victim control across multiple jurisdictions through coordinated trafficking netwo... |
+| **DisruptionPhase** | Class | Phase when trafficking enterprise faces law enforcement intervention. |
+| **EarningsCollection** | Class | Collection of money earned through victim exploitation by trafficking operation. Modeled as gUFO ... |
+| **EstablishmentPhase** | Class | Initial phase of trafficking enterprise formation and recruitment setup. |
+| **ExpansionPhase** | Class | Phase of trafficking enterprise growth, adding victims and locations. |
+| **FinancialFacilitatorRole** | Class | Role managing financial aspects including collecting earnings and money laundering. Modeled as an... |
+| **InterstateVictimTransport** | Class | Transportation of trafficking victims across state lines for commercial sexual exploitation. Mode... |
+| **MinorTraffickingVictimRole** | Class | Role of minor (under 18) being sex trafficked. Modeled as anti-rigid gUFO Role. Concrete victim a... |
+| **MultiJurisdictionalSituation** | Class | Complex situation involving trafficking operations across multiple jurisdictions requiring coordi... |
+| **MultiStateTraffickingConspiracy** | Class | Criminal conspiracy spanning multiple states for trafficking operations (e.g., Brooklyn-North Car... |
+| **OngoingDangerResponse** | Class | Response to situations where victims are identified as being in ongoing danger from traffickers. ... |
+| **OperationalPhase** | Class | Active operational phase of trafficking enterprise with established victim control. |
+| **PrimaryTraffickerRole** | Class | Leading role in trafficking operation, often controlling multiple victims and coordinating activi... |
+| **RecruitmentFacilitatorRole** | Class | Role focused on recruiting and grooming new victims for trafficking. Modeled as anti-rigid gUFO R... |
+| **RunawayVictimProfile** | Class | Vulnerability profile for runaway or homeless youth targeted by traffickers. |
+| **TraffickerRole** | Class | Role of individual involved in sex trafficking operations. Modeled as anti-rigid gUFO Role. |
+| **TraffickingCell** | Class | Smaller operational unit within trafficking ring, often controlling specific victims or geographi... |
+| **TraffickingEnterprise** | Class | Criminal organization engaged in systematic sex trafficking operations with multiple defendants a... |
+| **TraffickingHierarchy** | Class | Organizational structure within trafficking enterprise defining roles and authority levels. |
+| **TraffickingNetworkSituation** | Class | Complex situation encompassing active trafficking network operations across multiple jurisdictions. |
+| **TraffickingOperation** | Class | Coordinated trafficking activity involving multiple perpetrators, victims, and locations. Modeled... |
+| **TraffickingRing** | Class | Coordinated group of traffickers operating across multiple jurisdictions with shared victims and ... |
+| **TraffickingVictimRescue** | Class | Specialized rescue operation for trafficking victims involving multiple agencies and victim servi... |
+| **TraffickingVictimRole** | Class | Role of person being exploited through sex trafficking. Modeled as anti-rigid gUFO Role. |
+| **TransportationFacilitatorRole** | Class | Role focused on transporting victims between locations for trafficking purposes. Modeled as anti-... |
+| **VictimControl** | Class | Methods used to maintain psychological and physical control over trafficking victims. Modeled as ... |
+| **VictimControlSituation** | Class | Ongoing situation of psychological and physical control maintained over trafficking victims. |
+| **VictimEmergencyResponse** | Class | Emergency response to 911 calls from trafficking victims seeking help. Modeled as gUFO Event. |
+| **VictimRecruitment** | Class | Process of identifying, targeting, and acquiring new victims for trafficking operations. Modeled ... |
+| **VictimRotation** | Class | Systematic movement of victims between different locations to avoid detection and maintain contro... |
+| **VictimSafetyAssessment** | Class | Assessment of victim safety and ongoing threats from trafficking network. Modeled as gUFO Event. |
+| **VictimTransportation** | Class | Transportation of trafficking victims between locations for commercial sexual exploitation. Model... |
+| **VictimVulnerabilityProfile** | Class | Profile of factors that make individuals vulnerable to trafficking recruitment. Modeled as gUFO O... |
+
+### cac.cacontology-sextortion
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AdditionalContentDemand** | Class | Demand for more graphic content or additional intimate images. |
+| **AgeDeceptionSextortion** | Class | Sextortion incident involving offender lying about their age when interacting with children (e.g.... |
+| **AgeDeceptionTactic** | Class | Tactic of lying about age when interacting with children (e.g., adult posing as juvenile). |
+| **ComplianceResponse** | Class | Victim complies with initial requests before recognizing threat. |
+| **ContactListThreat** | Class | Threat to send intimate images to victim's contact list. |
+| **ConversationReconstruction** | Class | Reconstruction of conversation patterns and progression timelines. |
+| **DemandMessage** | Class | Message making specific demands backed by threats. |
+| **DeviceForensicAnalysis** | Class | Forensic examination of seized devices for sextortion evidence. |
+| **DisappearingMessageFeature** | Class | Platform feature where messages automatically delete after viewing. |
+| **DoxxingThreat** | Class | Threat mechanism involving doxxing (threatened release of identifying/personal information) to in... |
+| **EmotionalManipulation** | Class | Use of emotional tactics (false love, friendship, etc.) to control victim. |
+| **ExtortionDemand** | Class | Specific demand made by sextortion offender using threat leverage. |
+| **ExtortionPhase** | Class | Final phase involving threats and blackmail using obtained images. |
+| **FalseProfileCreation** | Class | Creating fake profiles on platforms with false age and personal information. |
+| **GiftCardDemand** | Class | Demand for gift cards as form of payment. |
+| **IdentityImpersonation** | Class | Creating false identity or persona to deceive victims. |
+| **ImageAcquisitionPhase** | Class | Phase where intimate images are obtained from victims. |
+| **ImageSharingFeature** | Class | Platform feature enabling image sharing in private conversations. |
+| **ImageSolicitationMessage** | Class | Message requesting intimate images from victim. |
+| **InitialDeceptionPhase** | Class | First phase involving age deception and false identity establishment. |
+| **InstantMessagingPlatform** | Class | Digital platform used for instant messaging in sextortion incidents. |
+| **InstantMessagingSextortion** | Class | Sextortion conducted through instant messaging platforms with direct private communication. |
+| **ManipulationTactic** | Class | Psychological manipulation technique used to control and exploit victims. |
+| **MonetaryDemand** | Class | Demand for money or financial payment. |
+| **PeerImpersonation** | Class | Posing as age-appropriate peer to gain victim trust. |
+| **PersonalMeetingDemand** | Class | Demand for in-person meeting or physical contact. |
+| **PrivateMessagingFeature** | Class | Platform feature enabling private direct communication. |
+| **ProgressiveEscalation** | Class | Gradual increase in sexual content and requests to avoid triggering victim resistance. |
+| **PropertyDestructionThreat** | Class | Threat mechanism involving destruction of property to compel compliance (e.g., 'destruction' thre... |
+| **RefusalResponse** | Class | Victim refuses demands triggering threat escalation (as in WA case). |
+| **ReportingResponse** | Class | Victim reports incident to authorities or trusted adults. |
+| **SadisticSextortion** | Class | Sextortion incident in which the coercive leverage includes threats compelling suffering, submiss... |
+| **ScreenshotThreat** | Class | Threat to screenshot images when victim refuses demands (specific to WA case). |
+| **SelfHarmThreat** | Class | Threat mechanism involving threats that compel or pressure the victim to engage in self-harm as a... |
+| **SextortionCommunication** | Class | Communication patterns specific to sextortion incidents. |
+| **SextortionIncident** | Class | Online blackmail incident where offender tricks or coerces someone into sending sexual images, th... |
+| **SextortionInvestigation** | Class | Investigation specifically focused on sextortion incidents. |
+| **SextortionProgression** | Class | Sequential phases of sextortion from initial contact through exploitation. |
+| **SexualSolicitationPhase** | Class | Phase involving sexually explicit conversations and image solicitation. |
+| **SexuallyExplicitConversation** | Class | Conversation containing sexually explicit content directed at children. |
+| **SharingThreat** | Class | Threat to share intimate images with contacts, family, or publicly. |
+| **SilentVictimization** | Class | Victim does not report due to shame, fear, or manipulation. |
+| **SocialMediaSextortion** | Class | Sextortion conducted through social media platforms and networks. |
+| **SocialMediaSharingThreat** | Class | Threat to post intimate images on social media platforms. |
+| **SwattingThreat** | Class | Threat mechanism involving swatting (threatened or induced false emergency report leading to arme... |
+| **ThreatMechanism** | Class | Specific method of threatening or coercing victims using obtained material. |
+| **ThreatMessage** | Class | Message containing explicit threats about sharing images. |
+| **TrustBuildingPhase** | Class | Phase focused on building trust and rapport with victim. |
+| **VictimIdentification** | Class | Process of identifying and locating sextortion victims. |
+| **VictimIsolation** | Class | Tactics to isolate victim from support systems and reporting mechanisms. |
+| **VictimResponse** | Class | Pattern of victim response to sextortion attempts. |
+| **ViolenceThreat** | Class | Threat mechanism involving threatened physical violence to compel compliance. |
+
+### cac.cacontology-specialized-units
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AnalystRole** | Class | Role of analyst supporting specialized unit operations. Modeled as anti-rigid gUFO Role. |
+| **CollegeParkBarrack** | Class | Maryland State Police College Park Barrack supporting computer crimes investigations. Modeled as ... |
+| **CommunityEngagementK9** | Class | K9 utilized for community outreach and educational programs. Modeled as gUFO Organization. |
+| **CoordinatedArrest** | Class | Arrest coordinated as part of larger operation. Modeled as gUFO Event. |
+| **CountyPoliceSupport** | Class | County-level police department providing support to state computer crimes investigations. Modeled... |
+| **CriticalIncidentDebriefing** | Class | Structured debriefing process following traumatic incidents. Modeled as gUFO Event. |
+| **CyberCrimeUnit** | Class | Unit specialized in cyber crime investigations. Modeled as gUFO Organization. |
+| **DetectionDog** | Class | Trained dog used for detection operations in CAC investigations. Modeled as gUFO Object. |
+| **DeviceDetection** | Class | Detection of electronic storage devices during search operations. Modeled as gUFO Event. |
+| **DigitalForensicsUnit** | Class | Unit specialized in digital forensics analysis. Modeled as gUFO Organization. |
+| **ElectronicStorageDeviceK9** | Class | K9 trained to detect electronic storage devices during search operations. Modeled as gUFO Organiz... |
+| **InteragencyOperationSituation** | Class | Situation involving operations across multiple agencies and jurisdictions. Modeled as gUFO Situat... |
+| **K9DetectionProgram** | Class | Program utilizing trained detection dogs for CAC investigations. Modeled as gUFO Organization. |
+| **K9Officer** | Class | Law enforcement officer handling and working with detection dogs. Modeled as anti-rigid gUFO Role. |
+| **K9SearchOperation** | Class | Search operation utilizing K9 detection capabilities. Modeled as gUFO Event. |
+| **K9TrainingProgram** | Class | Training program for K9 units and handlers. Modeled as gUFO Organization. |
+| **MarylandStatePoliceComputerCrimesUnit** | Class | Maryland State Police unit coordinating the Maryland Internet Crimes Against Children Task Force.... |
+| **MentalHealthSupport** | Class | Mental health services and support for officers dealing with traumatic content. Modeled as gUFO O... |
+| **MultiJurisdictionalOperation** | Class | Operation involving multiple jurisdictions and agencies. Modeled as gUFO Event. |
+| **MultiUnitCoordinationSituation** | Class | Complex situation involving coordination between multiple specialized units. Modeled as gUFO Situ... |
+| **NamedOperation** | Class | Formally named multi-phase operation with specific objectives. Modeled as gUFO Event. |
+| **OfficerWellnessProgram** | Class | Program providing mental health and wellness support to CAC officers. Modeled as gUFO Organization. |
+| **OperationEvaluationPhase** | Class | Phase of post-operation analysis and evaluation. Modeled as anti-rigid gUFO Phase. |
+| **OperationExecutionPhase** | Class | Phase of active operation execution. Modeled as anti-rigid gUFO Phase. |
+| **OperationMetrics** | Class | Metrics and performance data for specialized operations. Modeled as gUFO Object. |
+| **OperationPlanningPhase** | Class | Phase of operation planning and preparation. Modeled as anti-rigid gUFO Phase. |
+| **OperationSafeOnlineSummer** | Class | National operation across 61 CAC Task Forces during summer months. Modeled as gUFO Event. |
+| **OperationUnhinged** | Class | Specific operation conducted by Idaho CAC resulting in 12 arrests. Modeled as gUFO Event. |
+| **PeerSupport** | Class | Peer-to-peer support programs for CAC personnel. Modeled as gUFO Organization. |
+| **PrinceGeorgesCountyPolice** | Class | Prince George's County Police Department supporting Maryland State Police computer crimes investi... |
+| **SpecializedCapabilitySituation** | Class | Situation requiring deployment of specialized unit capabilities. Modeled as gUFO Situation. |
+| **SpecializedInvestigativeUnit** | Class | Specialized unit with unique capabilities for CAC investigations. Modeled as gUFO Organization. |
+| **SpecializedOperatorRole** | Class | Role of specialized operator within unit. Modeled as anti-rigid gUFO Role. |
+| **StatePoliceBarrack** | Class | Regional state police barrack providing local law enforcement support and coordination. Modeled a... |
+| **StatePoliceComputerCrimesUnit** | Class | State police unit specialized in computer crimes and digital investigations involving child explo... |
+| **StressManagement** | Class | Programs and techniques for managing work-related stress. Modeled as gUFO Organization. |
+| **TacticalUnit** | Class | Unit handling high-risk tactical operations. Modeled as gUFO Organization. |
+| **TechnicalSpecialistRole** | Class | Role of technical specialist providing specialized capabilities. Modeled as anti-rigid gUFO Role. |
+| **TherapyDog** | Class | Trained therapy dog providing emotional support to officers. Modeled as gUFO Object. |
+| **UndercoverUnit** | Class | Unit conducting undercover operations. Modeled as gUFO Organization. |
+| **UnitCommanderRole** | Class | Role of commanding officer for specialized unit. Modeled as anti-rigid gUFO Role. |
+| **UnitDeploymentPhase** | Class | Phase when specialized unit is deployed for operations. Modeled as anti-rigid gUFO Phase. |
+| **UnitMaintenancePhase** | Class | Phase for equipment maintenance and unit readiness. Modeled as anti-rigid gUFO Phase. |
+| **UnitTrainingPhase** | Class | Phase focused on specialized unit training and preparation. Modeled as anti-rigid gUFO Phase. |
+| **VictimServicesUnit** | Class | Unit providing specialized victim services and support. Modeled as gUFO Organization. |
+| **WellnessCheck** | Class | Regular check on officer mental health and wellbeing. Modeled as gUFO Event. |
+
+### cac.cacontology-stranger-abduction
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AbductionExploitationPattern** | Class | Patterns of sexual exploitation following stranger abduction. |
+| **AbductionSceneEvidence** | Class | Physical evidence collected from abduction scene. |
+| **AgeBasedVulnerability** | Class | Exploitation of victim's young age and limited ability to resist or escape. |
+| **ApartmentIsolation** | Class | Use of apartment or residential unit for victim isolation and exploitation. |
+| **BluntObjectThreats** | Class | Use of blunt objects as weapons to threaten and control victim. |
+| **ClothingDisguise** | Class | Use of specific clothing to alter appearance or blend into environment. |
+| **ComplianceEnforcement** | Class | Methods used to enforce victim compliance with perpetrator demands. |
+| **ComplianceUnderThreat** | Class | Victim compliance due to weapon threats or intimidation. |
+| **ControlledEnvironmentExploitation** | Class | Exploitation in environment controlled by perpetrator to prevent escape or discovery. |
+| **DelayedDisclosure** | Class | Delayed disclosure due to trauma, threats, or other factors. |
+| **DisguiseBasedConcealment** | Class | Use of disguises or concealment methods to hide identity during approach and abduction. |
+| **DisguiseEvidence** | Class | Disguise items or concealment materials recovered as evidence. |
+| **EscapeAttempt** | Class | Victim's attempts to escape during or after abduction. |
+| **ExploitationSceneEvidence** | Class | Physical evidence collected from exploitation location. |
+| **FacialConcealment** | Class | Concealment of facial features to prevent identification. |
+| **FireEscapeEntry** | Class | Forcing victim to climb fire escapes to enter buildings through windows. |
+| **FirearmThreats** | Class | Use of firearm to threaten and control victim during abduction. |
+| **ForcedLocationEntry** | Class | Forcing victim to enter buildings, apartments, or other locations for exploitation. |
+| **HoodedConcealment** | Class | Use of hooded clothing to partially conceal identity. |
+| **HumiliationBasedExploitation** | Class | Exploitation designed to humiliate and degrade victim beyond sexual assault. |
+| **ImmediateDisclosure** | Class | Immediate disclosure of abduction and assault upon release or escape. |
+| **ImmediateExploitation** | Class | Sexual exploitation occurring immediately following abduction without delay. |
+| **ImpliedWeaponThreats** | Class | Threats suggesting weapon possession without displaying actual weapon. |
+| **InitialResistance** | Class | Victim's initial attempts to resist abduction or escape. |
+| **IsolatedChildTargeting** | Class | Targeting children who are alone without adult supervision or companions. |
+| **IsolationVulnerability** | Class | Exploitation of victim being alone without potential helpers or witnesses. |
+| **KnifeThreats** | Class | Use of knife or bladed weapon to threaten and control victim. |
+| **LocationBasedExploitation** | Class | Exploitation occurring at specific location following victim transportation. |
+| **LocationIsolation** | Class | Use of isolated or secluded locations to prevent victim escape or discovery. |
+| **MaskConcealment** | Class | Use of masks or face coverings to hide identity. |
+| **MovementRestriction** | Class | Physical or psychological restriction of victim movement and escape attempts. |
+| **OpportunisticPredation** | Class | Spontaneous targeting and exploitation of vulnerable children encountered by chance. |
+| **OpportunityBasedTargeting** | Class | Targeting based on immediate opportunity rather than planned surveillance. |
+| **PhysicalForceWithWeapon** | Class | Combination of physical force and weapon use to control victim. |
+| **PhysicalIntimidation** | Class | Use of physical presence and intimidation to control victim behavior. |
+| **PostAbductionReporting** | Class | Victim's reporting of abduction and exploitation to authorities or family. |
+| **PublicSpaceAbduction** | Class | Abduction occurring in public spaces such as parks, playgrounds, or commercial areas. |
+| **RandomVictimSelection** | Class | Selection of victim based on opportunity rather than specific targeting or grooming. |
+| **RitualizedExploitation** | Class | Exploitation following specific ritualized patterns (forced showering, specific commands). |
+| **RoutineActivityTargeting** | Class | Targeting children during predictable routine activities (school, recreation, errands). |
+| **SchoolRouteAbduction** | Class | Abduction of child while traveling to or from school or educational activities. |
+| **SchoolRouteTargeting** | Class | Targeting children on routes to or from school when they are alone and vulnerable. |
+| **SecondaryLocationControl** | Class | Movement of victim to secondary location for enhanced control and exploitation. |
+| **SilenceEnforcement** | Class | Specific threats or actions to prevent victim from calling for help. |
+| **SizeBasedVulnerability** | Class | Exploitation of victim's small physical size relative to perpetrator. |
+| **SkiMaskConcealment** | Class | Use of ski mask or balaclava to conceal identity during approach. |
+| **StrangerAbduction** | Class | Abduction of child by unknown perpetrator without prior relationship or contact. |
+| **StrangerAbductionInvestigation** | Class | Specialized investigation of stranger abduction and sexual exploitation cases. |
+| **StreetLevelAbduction** | Class | Abduction occurring on public streets or sidewalks during victim's routine activities. |
+| **SurveillanceEvidence** | Class | Video or photographic surveillance evidence of abduction or related activity. |
+| **SurvivalBehavior** | Class | Victim behavior focused on survival and minimizing harm. |
+| **ThreatBasedControl** | Class | Use of threats to maintain victim compliance and prevent resistance. |
+| **UnconventionalEntry** | Class | Use of non-standard entry methods to avoid detection or surveillance. |
+| **VehicleConcealment** | Class | Use of vehicles to conceal approach or provide mobile concealment. |
+| **VerbalThreats** | Class | Use of verbal threats to maintain victim compliance. |
+| **VictimAbductionResponse** | Class | Victim's response to stranger abduction and exploitation attempts. |
+| **VictimControlMechanism** | Class | Methods used to maintain control over victim during abduction and exploitation. |
+| **VictimTargetingPattern** | Class | Patterns of victim selection and targeting in stranger abduction cases. |
+| **VulnerabilityExploitation** | Class | Exploitation of specific victim vulnerabilities during stranger abduction. |
+| **WeaponBasedCoercion** | Class | Use of weapons to threaten, intimidate, and control victims during abduction and exploitation. |
+| **WeaponDisplayIntimidation** | Class | Display of weapon to intimidate victim into compliance without direct threats. |
+| **WeaponEvidence** | Class | Weapons used in abduction and coercion recovered as evidence. |
+| **WindowEntry** | Class | Forcing victim to enter location through windows rather than doors. |
+| **WitnessEvidence** | Class | Witness testimony regarding abduction or suspicious activity. |
+
+### cac.cacontology-street-recruitment
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AgeVulnerabilityIndicator** | Class | Apparent youth or minor status making individual vulnerable to exploitation. |
+| **AlcoholFacilitation** | Class | Use of alcohol to impair victim judgment and facilitate exploitation. |
+| **BehavioralVulnerabilityIndicator** | Class | Behavioral patterns indicating vulnerability (isolation, confusion, seeking help). |
+| **BodySellingProposition** | Class | Explicit suggestion that victim can make money by 'selling their body'. |
+| **CasualConversationApproach** | Class | Approach through seemingly innocent casual conversation to assess vulnerability. |
+| **CommercialDistrict** | Class | Commercial areas with restaurants, shops, and businesses used for recruitment. |
+| **DelayedReporting** | Class | Victim reporting that occurs days or weeks after initial incident. |
+| **DemographicTargeting** | Class | Targeting individuals based on specific demographic characteristics indicating vulnerability. |
+| **DigitalFollowUp** | Class | Follow-up through digital communication channels (text, social media, calls). |
+| **DigitalToPhysicalBridge** | Class | Use of digital communication to maintain connection after physical encounter. |
+| **DirectSolicitationApproach** | Class | Direct approach with immediate commercial sexual proposition. |
+| **DirectTraffickingProposition** | Class | Explicit, immediate proposition for victim to engage in commercial sexual activity. |
+| **DisclosureToAuthorities** | Class | Victim's disclosure of trafficking recruitment or exploitation to law enforcement. |
+| **DrugFacilitatedVulnerability** | Class | Creation or exploitation of vulnerability through substance administration. |
+| **EconomicIncentivePresentation** | Class | Presentation of financial benefits and earning potential from commercial sexual activity. |
+| **EscapeAttempt** | Class | Victim's attempt to escape from trafficking situation or recruitment. |
+| **ExplicitCommercialOffer** | Class | Direct offer of money in exchange for sexual services or performances. |
+| **FoodOfferApproach** | Class | Approach offering food or meals to establish trust and create obligation. |
+| **HelpOfferApproach** | Class | Approach offering assistance such as phone charging, food, transportation, or shelter. |
+| **HelpSeekingBehavior** | Class | Victim's attempts to seek help or report trafficking recruitment. |
+| **HighTrafficArea** | Class | Public area with high pedestrian traffic used for victim identification. |
+| **HighwayLocation** | Class | Location near or alongside highways used for isolated exploitation. |
+| **ImmediateExploitationAttempt** | Class | Attempt to immediately engage victim in commercial sexual activity without extended grooming. |
+| **ImmediateIsolation** | Class | Rapid removal of victim from public space to isolated location for exploitation. |
+| **ImmediateReporting** | Class | Victim reporting that occurs immediately or within hours of incident. |
+| **ImpairmentExploitation** | Class | Exploitation of victim while impaired by substances to reduce resistance. |
+| **InitialStreetContact** | Class | First contact between trafficker and victim occurring in public space. |
+| **IsolatedLocation** | Class | Secluded location used for exploitation away from public view. |
+| **IsolationVulnerabilityIndicator** | Class | Indicators that individual is alone or lacks social support (walking alone, no companions). |
+| **LocationTransition** | Class | Movement of victim from initial contact location to exploitation location. |
+| **MarijuanaFacilitation** | Class | Use of marijuana to reduce victim inhibitions and facilitate exploitation. |
+| **NeighborhoodTargeting** | Class | Targeting specific neighborhoods or geographic areas known for vulnerable populations. |
+| **NextDayFollowUp** | Class | Follow-up contact occurring the day after initial encounter. |
+| **OpportunisticExploitation** | Class | Exploitation of vulnerable individuals encountered in public spaces without prior planning or rel... |
+| **PersistenceAfterRejection** | Class | Continued recruitment attempts after initial rejection of trafficking proposition. |
+| **PhoneChargingOffer** | Class | Specific pretext offering to charge victim's phone in vehicle or location. |
+| **PhysicalVulnerabilityIndicator** | Class | Physical appearance or condition indicating vulnerability (youth, fatigue, distress). |
+| **PostContactReinforcement** | Class | Follow-up contact after initial encounter to reinforce trafficking proposition. |
+| **PretextBasedApproach** | Class | Initial approach using false pretext or offer of assistance to establish contact. |
+| **ProstitutionProposition** | Class | Direct proposition to engage in prostitution or selling sexual services. |
+| **PublicSpaceTargeting** | Class | Systematic targeting of vulnerable individuals in specific public locations for trafficking recru... |
+| **RapidEscalationRecruitment** | Class | Trafficking recruitment with accelerated timeline from initial contact to exploitation attempt. |
+| **ResidentialArea** | Class | Residential neighborhoods where victims may be walking or living. |
+| **SameDayProgression** | Class | Progression from initial contact to sexual assault and trafficking proposition within same day. |
+| **SecondaryLocationExploitation** | Class | Exploitation occurring at secondary location away from initial contact point. |
+| **SocioeconomicVulnerabilityIndicator** | Class | Indicators of economic hardship or social disadvantage (clothing, possessions, location). |
+| **StreetBasedRecruitment** | Class | Trafficking recruitment occurring in public spaces through direct physical approach and opportuni... |
+| **StreetRecruitmentLocation** | Class | Specific location where street-based trafficking recruitment occurs. |
+| **StreetVulnerabilityAssessment** | Class | Rapid assessment of individual vulnerability factors in public space encounters. |
+| **StrippingProposition** | Class | Specific proposition to engage in stripping or exotic dancing for money. |
+| **SubstanceBasedControl** | Class | Use of substance dependency or impairment to maintain control over victim. |
+| **SubstanceFacilitatedRecruitment** | Class | Use of alcohol or drugs to facilitate trafficking recruitment and reduce victim resistance. |
+| **TextMessageFollowUp** | Class | Follow-up through text messaging to reinforce trafficking proposition. |
+| **TraffickingPropositionReinforcement** | Class | Repeated presentation of trafficking proposition to overcome initial resistance. |
+| **TraffickingPropositionRejection** | Class | Victim's rejection of trafficking proposition or commercial sexual offer. |
+| **TransitArea** | Class | Transportation hubs or transit areas where vulnerable individuals may be targeted. |
+| **TransportationOfferApproach** | Class | Offer of rides or transportation to isolated locations for exploitation. |
+| **VehicleBasedIsolation** | Class | Use of vehicle to isolate victim and transport to exploitation location. |
+| **VehicleLocation** | Class | Vehicle used as location for exploitation or transportation to exploitation site. |
+| **VictimReporting** | Class | Victim's decision to report trafficking recruitment or assault to authorities. |
+| **VictimResistance** | Class | Active resistance to trafficking recruitment attempts or exploitation. |
+| **VictimStreetResponse** | Class | Victim's response to street-based recruitment attempts and trafficking propositions. |
+| **VulnerabilityIndicator** | Class | Observable characteristic or behavior indicating potential trafficking vulnerability. |
+| **VulnerableNeighborhood** | Class | Neighborhood with high poverty, crime, or social vulnerability targeted by traffickers. |
+
+### cac.cacontology-synthesis
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **Claim** | Class | A first-class, queryable claim extracted from a report (finding, recommendation, distribution, ga... |
+| **DistributionObservation** | Class | A structured observation about a distribution (count/denominator and/or rank) reported by a report. |
+| **EvidenceGap** | Class | A stated gap, limitation, or missing intervention area identified by a report. |
+| **InterventionLocus** | Class | A locus within the TF-CSEA ecosystem/offending chain that an intervention targets (e.g., grooming... |
+| **InterventionObjective** | Class | An objective an intervention serves (e.g., CSAM detection, improve policing effectiveness). |
+| **InterventionOperation** | Class | A domain of operation for an intervention (e.g., online, hybrid). |
+| **InterventionType** | Class | A category of TF-CSEA intervention (e.g., technological tools and protocols). |
+| **KeyFinding** | Class | A numbered key finding stated by a report. |
+| **MethodologyStatement** | Class | A structured statement about methodology (e.g., PRISMA, date range, databases, inclusion criteria). |
+| **OffendingChain** | Class | A conceptual chain of activities in TF-CSEA used to locate interventions. |
+| **OffendingChainStage** | Class | A stage within an offending chain. |
+| **Recommendation** | Class | A numbered recommendation stated by a report. |
+| **Report** | Class | A report or publication treated as a collected source document (an intellectual work), distinct f... |
+| **ReportArtifact** | Class | A concrete artifact that realizes a Report (e.g., a PDF file). Use this when you want a report-as... |
+| **ReportFigure** | Class | A figure within a report (e.g., PRISMA diagram, distribution charts). |
+| **ReportSection** | Class | A logical section of a report (e.g., Synopsis, Methods, Findings). |
+| **ResearchQuestion** | Class | A research question posed by a report. |
+| **ScopeConstraint** | Class | A stated boundary on what the report includes/excludes (e.g., out-of-scope topics). |
+| **TextEvidencePointer** | Class | A resolvable pointer to a location in a text artifact (e.g., normalized.txt lines), optionally wi... |
+
+### cac.cacontology-tactical
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **ArrestOperation** | Class | Law enforcement operation to apprehend and take suspect into custody. Extends investigation:Inves... |
+| **ArrestReport** | Class | Formal arrest report documenting the arrest including charges, evidence, and suspect information.... |
+| **BarricadeSituation** | Class | Situation where suspect has barricaded themselves and refuses to surrender. A state/context, not ... |
+| **BookingAction** | Class | Process of booking a suspect into a correctional facility including fingerprinting, photography, ... |
+| **Breacher** | Class | Specialist responsible for gaining entry through doors, walls, or barriers. |
+| **BreachingTool** | Class | Tool used to gain entry through doors, walls, or barriers. |
+| **CommunicationEquipment** | Class | Specialized communication devices for tactical operations. |
+| **CorrectionalFacility** | Class | Physical correctional facility where suspects are booked and held. Examples include county jails ... |
+| **DynamicEntry** | Class | Rapid forced entry into a location to apprehend suspects and secure evidence. |
+| **HighRiskArrest** | Class | Arrest operation involving suspects who pose significant threat or flight risk. |
+| **ImmigrationHold** | Class | Immigration detainer placed on suspect due to immigration status. Links booking to immigration en... |
+| **InterviewWithoutCounsel** | Class | Suspect interview conducted after suspect waives right to legal counsel. Extends investigation:In... |
+| **LessLethalWeapon** | Class | Non-lethal weapons for suspect control and compliance. |
+| **LocationIntelligence** | Class | Information about the physical location of tactical operation. |
+| **Marksman** | Class | Precision shooter providing overwatch and threat elimination capability. |
+| **Negotiator** | Class | Specialist trained in crisis negotiation and de-escalation. |
+| **ProtectiveGear** | Class | Armor and protective equipment for tactical team members. |
+| **SWATOperation** | Class | Special Weapons and Tactics team operation for high-risk situations. |
+| **SurrenderNegotiation** | Class | Attempt to negotiate peaceful surrender of barricaded or resistant suspects. |
+| **SurveillanceEquipment** | Class | Equipment for monitoring and observing tactical situations. |
+| **SuspectProfile** | Class | Assessment of suspect behavior, capabilities, and threat level. |
+| **TacticalCommander** | Class | Senior officer responsible for overall tactical operation command. |
+| **TacticalEquipment** | Class | Specialized equipment used in tactical operations. |
+| **TacticalOperation** | Class | Specialized law enforcement operation requiring tactical teams and advanced planning. |
+| **TacticalTeamMember** | Class | Law enforcement officer specialized in tactical operations. |
+| **TeamLeader** | Class | Officer responsible for commanding tactical team operations. |
+| **ThreatAssessment** | Class | Evaluation of potential threats and risks in tactical situation. |
+| **TrafficStop** | Class | Investigative traffic stop used as part of undercover operation or to apprehend suspect. Extends ... |
+
+### cac.cacontology-taskforce
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AnalyticsUnit** | Class | Unit specializing in data analysis and intelligence gathering. |
+| **AnnualPerformance** | Class | Year-specific performance metrics for task force operations. |
+| **ArrestMetrics** | Class | Metrics tracking arrests made by task force operations. |
+| **AssessmentPhase** | Class | Phase involving post-operation assessment and evaluation. |
+| **AttorneyGeneralHost** | Class | State attorney general office hosting CAC task force (Idaho AG, Illinois AG, Texas AG, etc.). |
+| **CaliforniaRegionalSystem** | Class | California's 5-region CAC system: Fresno, Los Angeles, Sacramento, San Diego, San Jose areas. |
+| **CoordinationMechanism** | Class | Formal mechanism for coordinating task force activities. |
+| **CoordinationPhase** | Class | Phase focused on inter-agency coordination and resource sharing. |
+| **CountyBasedTaskForce** | Class | CAC task force hosted by and primarily serving specific county jurisdiction. |
+| **CyberTipMetrics** | Class | Metrics tracking CyberTip processing and analysis by task force. |
+| **DeploymentPhase** | Class | Phase involving deployment of personnel and resources. |
+| **DigitalForensicsUnit** | Class | Specialized unit focused on digital evidence acquisition and analysis. |
+| **DistrictAttorneyHost** | Class | District or county attorney office hosting CAC task force (Delaware County DA, Cook County SA, et... |
+| **EquipmentSharing** | Class | Sharing of specialized equipment or technology. |
+| **ExecutionPhase** | Class | Phase involving active execution of task force operations. |
+| **ExpertiseSharing** | Class | Sharing of specialized knowledge or technical expertise. |
+| **FederalICACtaskForce** | Class | Federal-level CAC task force for complex or multi-jurisdictional cases. |
+| **FloridaRegionalSystem** | Class | Florida's 3-region CAC system: Central, Northern, Southern regions. |
+| **GovernorsOfficeCrimePreventionFunding** | Class | State-level funding provided by Governor's Office for Crime Prevention and Policy for CAC task fo... |
+| **HistoricalMetrics** | Class | Long-term historical performance data for task force operations. |
+| **ICACtaskForce** | Class | Internet Crimes Against Children task force unit specializing in child exploitation investigations. |
+| **IllinoisICACtaskForce** | Class | Illinois state CAC task force with specialized capabilities and extensive network partnerships. |
+| **IntelligenceSharing** | Class | Sharing of intelligence and investigative information. |
+| **InterAgencyCoordination** | Class | Coordination mechanism between different law enforcement agencies. |
+| **JointOperation** | Class | Operation involving multiple task forces or agencies. |
+| **LocalICACtaskForce** | Class | Local or regional CAC task force unit. |
+| **LocalPoliceHost** | Class | Local police department hosting CAC task force (Phoenix PD, Los Angeles PD, San Jose PD, etc.). |
+| **MarylandICACtaskForce** | Class | Maryland state CAC task force coordinated by Maryland State Police Computer Crimes Unit with Gove... |
+| **MetropolitanTaskForce** | Class | CAC task force covering major metropolitan area (Los Angeles, Dallas, Houston, NYC). |
+| **MilitaryICACtaskForce** | Class | CAC task force for U.S. Armed Forces military branches with specialized military jurisdiction. |
+| **MultiRegionalState** | Class | State with multiple CAC task forces covering different geographic regions. |
+| **NationalHotline** | Class | National CAC hotline (877-798-7682) for general information and coordination. |
+| **NationalICACtaskForceDirectory** | Class | Comprehensive directory of all 61 CAC task forces across the United States, territories, and mili... |
+| **NetworkPerformance** | Class | Performance metrics for multi-agency network coordination. |
+| **NewYorkRegionalSystem** | Class | New York's 2-region CAC system: Statewide and New York City area. |
+| **PersonnelSharing** | Class | Sharing of specialized personnel between task forces. |
+| **PlanningPhase** | Class | Phase involving operational planning and resource allocation. |
+| **ProactiveOperation** | Class | Proactive operation to identify and investigate potential offenders. |
+| **ReactiveOperation** | Class | Operation in response to specific tips or reports. |
+| **RegionalCoordination** | Class | Coordination mechanism for regional task force activities. |
+| **RegionalTaskForce** | Class | CAC task force covering specific geographic region within a state. |
+| **RegionalTaskForceCoordination** | Class | Coordination mechanism between multiple task forces within the same state. |
+| **ResourceSharing** | Class | Sharing of resources, personnel, or expertise between task forces. |
+| **SheriffOfficeHost** | Class | County sheriff's office hosting CAC task force (Fresno County SO, Broward County SO, etc.). |
+| **SpecializedUnit** | Class | Specialized unit within CAC task force focused on specific aspects of investigations. |
+| **StateAgencyHost** | Class | Other state agency hosting CAC task force (Delaware DOJ, Hawaii DOA, etc.). |
+| **StateBureauHost** | Class | State bureau of investigation hosting CAC task force (Georgia BIA, North Carolina SBI, etc.). |
+| **StateICACtaskForce** | Class | State-level CAC task force coordinating regional investigations. |
+| **StateLocalFundingCombination** | Class | Combined funding from state Governor's Office and federal DOJ grants for task force operations. |
+| **StatePoliceHost** | Class | State police agency hosting CAC task force (Maryland State Police, Connecticut State Police, etc.). |
+| **StatewideTaskForce** | Class | CAC task force with statewide jurisdiction and coordination responsibility. |
+| **SweepOperation** | Class | Large-scale coordinated operation targeting multiple suspects. |
+| **TacticalUnit** | Class | Unit handling high-risk arrests and tactical operations. |
+| **TaskForceAlliance** | Class | Formal alliance between multiple CAC task forces. |
+| **TaskForceAnalyst** | Class | Analyst specializing in CAC intelligence and data analysis. |
+| **TaskForceCommander** | Class | Command-level officer responsible for task force operations. |
+| **TaskForceContactInformation** | Class | Contact information for CAC task force including phone, email, and website. |
+| **TaskForceCoordinator** | Class | Coordinator responsible for inter-agency cooperation and resource management. |
+| **TaskForceForensicExaminer** | Class | Digital forensic examiner specializing in CAC evidence. |
+| **TaskForceHostOrganization** | Class | Organization that hosts and coordinates an CAC task force. |
+| **TaskForceHotline** | Class | Dedicated phone line for CAC task force operations and reporting. |
+| **TaskForceInvestigator** | Class | Investigator specializing in CAC cases and child exploitation. |
+| **TaskForceMember** | Class | Individual member of an CAC task force with specialized training. |
+| **TaskForceMetrics** | Class | Performance metrics and statistics for CAC task force operations. |
+| **TaskForceOperation** | Class | Coordinated operation conducted by CAC task force. |
+| **TaskForceWebsite** | Class | Official website for CAC task force with resources and information. |
+| **TexasRegionalSystem** | Class | Texas's 3-region CAC system: Statewide, Dallas, Houston areas. |
+| **TrainingReachMetrics** | Class | Metrics tracking training and education reach to professionals and community. |
+| **TrainingUnit** | Class | Unit responsible for training and education of task force members. |
+| **UndercoverUnit** | Class | Unit specializing in undercover operations and online investigations. |
+| **VictimServiceUnit** | Class | Unit providing specialized services and support to child victims. |
+
+### cac.cacontology-temporal
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **Age** | Class | Age of a person modeled as a gUFO Quality whose concrete value is attributed in time-bounded situ... |
+| **AgeAtTimeSituation** | Class | gUFO QualityValueAttributionSituation specializing in attribution of an Age quality value to a sp... |
+| **AnalysisTransitionEvent** | Class | Event transitioning investigation from Initial to Analysis Phase. |
+| **ClosureEvent** | Class | Event transitioning investigation from Resolution to Completed Phase. |
+| **CompletedPhase** | Class | Terminal phase indicating investigation has been fully concluded with all actions finalized. |
+| **ConcurrentInvestigationSituation** | Class | Situation where multiple investigations run simultaneously, potentially sharing resources or evid... |
+| **EventSequence** | Class | Ordered sequence of investigation events with temporal dependencies. Modeled as gUFO structured e... |
+| **EvidenceTransitionEvent** | Class | Event transitioning investigation from Legal Process to Evidence Phase. |
+| **InitiationEvent** | Class | Event transitioning investigation from non-existence to Initial Phase. |
+| **InvestigationLifecycle** | Class | Complete temporal structure of CAC investigation from initiation to closure. Modeled as gUFO Kind... |
+| **LegalProcessTransitionEvent** | Class | Event transitioning investigation from Analysis to Legal Process Phase. |
+| **MultiJurisdictionCoordinationSituation** | Class | Situation where investigation requires coordination across multiple jurisdictions with timing syn... |
+| **ParallelEventCluster** | Class | Set of investigation events occurring simultaneously or with temporal overlap. Modeled as gUFO co... |
+| **ParallelEvidenceCollectionSituation** | Class | Situation where multiple evidence collection activities occur simultaneously across different pha... |
+| **PhaseTransitionEvent** | Class | Event marking transition between investigation phases. Modeled as gUFO Event with temporal bounda... |
+| **ResolutionPhase** | Class | Phase focused on resolution of investigation outcomes such as plea agreements, sentencing, and re... |
+| **ResolutionTransitionEvent** | Class | Event transitioning investigation from Evidence to Resolution Phase. |
+| **ResumptionEvent** | Class | Event causing investigation to exit suspended state and resume active phase. Modeled as gUFO Even... |
+| **RoleConflictSituation** | Class | Situation where person's multiple roles create potential conflict of interest. Modeled as gUFO Si... |
+| **RoleEscalation** | Class | Role transition involving increased responsibility or authority (e.g., analyst to lead investigat... |
+| **RoleReassignment** | Class | Role transition involving change in assignment without authority change (e.g., different investig... |
+| **RoleTransition** | Class | Event representing change in person's role within investigation. Modeled as gUFO Event with role ... |
+| **SimultaneousRoleSituation** | Class | Situation where person plays multiple roles simultaneously in investigation context. Modeled as g... |
+| **SuspendedSituation** | Class | Situation where investigation is temporarily suspended pending resources, legal decisions, or ext... |
+| **SuspensionEvent** | Class | Event causing investigation to enter suspended state. Modeled as gUFO Event creating suspension s... |
+| **UrgentRescueLifecycle** | Class | Accelerated investigation lifecycle for urgent child rescue situations. Compressed phase duration... |
+
+### cac.cacontology-training
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AssessmentPhase** | Class | Phase of participant assessment and competency evaluation. Modeled as anti-rigid gUFO Phase. |
+| **CapacityBuildingPartner** | Class | Partner organization supporting capacity building efforts. Modeled as gUFO Organization. |
+| **CapacityBuildingProgram** | Class | Structured program for building organizational and individual capacity. Modeled as gUFO Organizat... |
+| **CapacityBuildingSituation** | Class | Situation focused on building institutional and individual capacity for child protection. Modeled... |
+| **CertificationBody** | Class | Organization responsible for professional certification. Modeled as gUFO Organization. |
+| **CertificationPhase** | Class | Phase of awarding certifications and credentials. Modeled as anti-rigid gUFO Phase. |
+| **CertifiedProfessional** | Class | Professional who has achieved certification. Modeled as anti-rigid gUFO Role. |
+| **ChildProtectionTraining** | Class | Training focused on child protection methodologies. Modeled as gUFO Event. |
+| **CommunityEducationTraining** | Class | Training designed to educate community members and caregivers about child abuse dynamics, disclos... |
+| **CompetencyAssessment** | Class | Assessment of professional competencies acquired through training. Modeled as gUFO Object. |
+| **ContentDevelopmentPhase** | Class | Phase of developing training content and materials. Modeled as anti-rigid gUFO Phase. |
+| **ContinuingEducation** | Class | Ongoing education for certified professionals. Modeled as gUFO Organization. |
+| **CriminalJusticeTraining** | Class | Training for criminal justice professionals on child protection. Modeled as gUFO Event. |
+| **DigitalForensicsTraining** | Class | Training on digital forensics techniques for child protection cases. Modeled as gUFO Event. |
+| **GlobalTrainingSituation** | Class | Situation involving global training initiatives across multiple countries and organizations. Mode... |
+| **HotlineTraining** | Class | Training for hotline operators and managers. Modeled as gUFO Event. |
+| **HybridTraining** | Class | Training combining online and in-person delivery. Modeled as gUFO Event. |
+| **InPersonTraining** | Class | Training delivered in physical classroom settings. Modeled as gUFO Event. |
+| **InternationalTrainer** | Class | Trainer delivering international training programs. Modeled as anti-rigid gUFO Role. |
+| **InternationalTraining** | Class | Training program conducted across multiple countries. Modeled as gUFO Event. |
+| **InvestigationTraining** | Class | Training on investigation methodologies and techniques. Modeled as gUFO Event. |
+| **JudicialEducationTraining** | Class | Training focused on judicial understanding of trauma, recantation, and accommodation needs in chi... |
+| **LegalTraining** | Class | Training on legal aspects of child protection. Modeled as gUFO Event. |
+| **MentorshipProgram** | Class | One-on-one mentorship for professional development. Modeled as gUFO Organization. |
+| **MultiStakeholderTrainingSituation** | Class | Situation involving training coordination between multiple stakeholder organizations. Modeled as ... |
+| **OnlineTraining** | Class | Training delivered through online platforms. Modeled as gUFO Event. |
+| **ProfessionalCertification** | Class | Formal certification for child protection professionals. Modeled as gUFO Object. |
+| **ProfessionalDevelopment** | Class | Career development for child protection professionals. Modeled as gUFO Object. |
+| **ProgramPlanningPhase** | Class | Phase of training program planning and curriculum development. Modeled as anti-rigid gUFO Phase. |
+| **RecantationResponseTraining** | Class | Training for multidisciplinary teams on anticipating recantation, strengthening support, and inve... |
+| **SkillsDevelopmentProgram** | Class | Program focused on developing specific professional skills. Modeled as gUFO Organization. |
+| **SkillsValidation** | Class | Validation of skills acquired through training programs. Modeled as gUFO Object. |
+| **SubjectMatterExpert** | Class | Expert providing specialized knowledge in training. Modeled as anti-rigid gUFO Role. |
+| **TrainingCertificate** | Class | Certificate awarded upon successful completion of training. Modeled as gUFO Object. |
+| **TrainingCoordinator** | Class | Coordinator responsible for organizing training programs. Modeled as anti-rigid gUFO Role. |
+| **TrainingCurriculum** | Class | Structured curriculum for child protection training. Modeled as gUFO Object. |
+| **TrainingDeliveryPhase** | Class | Phase of active training delivery and instruction. Modeled as anti-rigid gUFO Phase. |
+| **TrainingInstitution** | Class | Institution providing child protection training. Modeled as gUFO Organization. |
+| **TrainingMetrics** | Class | Metrics measuring training effectiveness and reach. Modeled as gUFO Object. |
+| **TrainingModule** | Class | Individual training module covering specific topics. Modeled as gUFO Object. |
+| **TrainingParticipant** | Class | Professional participating in training programs. Modeled as anti-rigid gUFO Role. |
+| **VictimServiceTraining** | Class | Training for professionals providing victim services. Modeled as gUFO Event. |
+
+### cac.cacontology-undercover
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AdvertisementPhotographyEvidence** | Class | Photographic evidence of minor victims posted in trafficking advertisements. |
+| **AgeAcknowledgment** | Class | Suspect explicitly acknowledging the stated age of the minor persona during communication. |
+| **ApartmentStingOperation** | Class | Undercover operation using residential apartment as location for sting operation targeting traffi... |
+| **BathroomViolationEvidence** | Class | Evidence of traffickers forcing victims to undress in bathrooms or other private areas. |
+| **ChatInvestigationAgent** | Class | Agent specialized in chat-based undercover investigations for predator identification. |
+| **ChatRoomInfiltration** | Class | Undercover operation involving infiltration of online chat rooms or messaging platforms to invest... |
+| **ChildPersona** | Class | Undercover identity portraying a minor child for investigative purposes. |
+| **ClientCommunicationInterception** | Class | Interception of phone communications between traffickers, victims, and clients. |
+| **ClientResponseInterception** | Class | Undercover response to trafficking advertisement posing as potential client to gather evidence. |
+| **ControlledMeeting** | Class | Planned in-person meeting between undercover agents and suspects under controlled conditions. |
+| **CriminalItemAgreementAction** | Class | Suspect agreeing to bring items for abuse (condoms, vape, alcohol, etc.). |
+| **CriminalSolicitation** | Class | Request or instruction from suspect to undercover agent to commit illegal acts. |
+| **DisguiseRequestAction** | Class | Suspect requesting alleged minor wear disguise items (sunglasses, etc.) to avoid detection. |
+| **EvidenceGatheringPhase** | Class | Phase focused on collecting criminal evidence through undercover interactions. |
+| **ExplicitMessageRequestAction** | Class | Suspect requesting explicit pictures or content from undercover persona. |
+| **ExtractionPhase** | Class | Phase involving safe withdrawal from undercover operation. |
+| **Hotel** | Class | Hotel used or intended for sexual exploitation of minors. Physical location. |
+| **InPersonMeetingSolicitation** | Class | Targeting individuals who seek to arrange in-person meetings with minors for illegal purposes. |
+| **IncriminatingStatement** | Class | Statement made by suspect that provides evidence of criminal intent or past crimes. |
+| **InfiltrationPhase** | Class | Phase involving initial contact and establishment of undercover presence. |
+| **LiveAdvertisementMonitoring** | Class | Real-time monitoring of trafficking advertisements to identify and respond to active postings. |
+| **MeetingLocation** | Class | Physical location arranged for meeting with alleged minor. Extends uco-location:Location as this ... |
+| **MeetingLocationArrangement** | Class | Suspect arranging specific meeting location (motel, hotel, other private location). |
+| **MinorPersonaAgent** | Class | Undercover agent operating with minor persona identity on social media platforms. |
+| **MinorPersonaOperation** | Class | Undercover operation where agents pose as minors to identify individuals seeking inappropriate co... |
+| **Motel** | Class | Motel used or intended for sexual exploitation of minors (e.g., 'Princess Motel'). Physical locat... |
+| **MultiPlatformUndercoverOperation** | Class | Undercover operation conducted across multiple social media platforms simultaneously. |
+| **MultiplePersonaOperation** | Class | Undercover operation where agent poses as multiple fictitious minors (e.g., 14-year-old and 12-ye... |
+| **OnlinePlatformSurveillance** | Class | Covert monitoring of online platforms for criminal activity without direct participation. |
+| **OperationHandler** | Class | Supervising officer responsible for managing undercover operations and agent safety. |
+| **OperationalEvidence** | Class | Evidence collected during undercover operations including recordings, communications, and observa... |
+| **ParentPersona** | Class | Undercover identity portraying a parent or guardian of a child victim. |
+| **PhoneInstructionMonitoring** | Class | Monitoring and interception of phone communications used to instruct victims in trafficking opera... |
+| **PhysicalLocationSting** | Class | Undercover operation conducted at physical location to apprehend suspects responding to trafficki... |
+| **PlatformAccount** | Class | Account created on digital platforms for undercover operations. |
+| **PredatorTargetingOperation** | Class | Undercover operation specifically targeting online predators who seek contact with children. |
+| **PreparationPhase** | Class | Phase involving setup of undercover identities and operational planning. |
+| **PrivacyViolationInvestigation** | Class | Investigation of trafficking activities involving forced undressing and privacy violations. |
+| **ResidentialStingLocation** | Class | Residential property (apartment, house, etc.) used as staging area for undercover sting operations. |
+| **SexualIntentStatement** | Class | Explicit statement by suspect expressing intent to engage in sexual acts with alleged minor. |
+| **ShortTermRental** | Class | Short-term rental property (Airbnb, VRBO, etc.) used for sexual exploitation. Physical location. |
+| **SiblingPersonaOperation** | Class | Undercover operation where agent creates related minor personas (siblings). |
+| **SocialMediaAgent** | Class | Agent specialized in social media platform undercover operations. |
+| **SocialMediaUndercoverOperation** | Class | Undercover operation conducted on social media platforms to identify predators seeking to meet ch... |
+| **StingOperation** | Class | Coordinated undercover operation designed to catch suspects in the act of committing crimes. |
+| **SurveillancePosition** | Class | Position maintained by backup officers for observation and safety during physical sting operations. |
+| **SuspectCommunicationAction** | Class | Base class for criminal communication actions initiated by suspect during undercover operation. |
+| **TechnicalSupport** | Class | Personnel providing technical infrastructure and monitoring for undercover operations. |
+| **TransportArrangementAction** | Class | Suspect arranging to pick up and transport alleged minor to meeting location. |
+| **UndercoverAgent** | Class | Law enforcement officer or authorized civilian operating under false identity in an investigation. |
+| **UndercoverChatInvestigation** | Class | Investigation using chat communications on various platforms with agents posing as minors. |
+| **UndercoverCommunication** | Class | Communication conducted while using an undercover identity. |
+| **UndercoverEvidence** | Class | Evidence obtained through undercover operations. |
+| **UndercoverIdentity** | Class | A fictitious identity created and maintained by law enforcement for undercover operations. |
+| **UndercoverOperation** | Class | A law enforcement operation using false identities or covert methods to investigate crimes and ga... |
+| **VictimInstructionEvidence** | Class | Evidence of traffickers providing phones and instructions to victims for client communication. |
+| **VideoCallRequestAction** | Class | Suspect requesting video call with undercover persona, often to confirm alone or for explicit pur... |
+| **WebsiteAdvertisementResponse** | Class | Undercover operation responding to existing trafficking advertisements posted by suspects. |
+
+### cac.cacontology-us-ncmec
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AccountLinking** | Class | Process of linking digital accounts to suspects through NCMEC tip analysis. |
+| **CSAMSolicitationAnnotation** | Class | Annotation indicating the report is associated with solicitation of CSAM. Source: NCMEC Cybertip ... |
+| **ChildSexTourismIncident** | Class | Incidents involving child sex tourism. Source: NCMEC Cybertip API Section B.1.1, incidentType 'Ch... |
+| **ChildSexTraffickingIncident** | Class | Incidents involving child sex trafficking. Source: NCMEC Cybertip API Section B.1.1, incidentType... |
+| **ContentIdentification** | Class | Identification and classification of illegal content in NCMEC tips. |
+| **CyberTipAnalysis** | Class | Analytical processing and assessment of NCMEC CyberTip reports by law enforcement. |
+| **FederalReferral** | Class | Referral of NCMEC tip to federal law enforcement agencies. |
+| **InvestigationTrigger** | Class | Event or information that triggers law enforcement investigation based on NCMEC tip. |
+| **LocalLawEnforcementReferral** | Class | Referral of NCMEC tip to local law enforcement agency. |
+| **MinorToMinorInteractionAnnotation** | Class | Annotation indicating the report is associated with an interaction between minors. Source: NCMEC ... |
+| **NCMECCybertipReport** | Class | A report submitted to NCMEC's CyberTipline. This class represents the root structure of a NCMEC r... |
+| **NCMECIncidentType** | Class | Types of incidents as defined by NCMEC Cybertip API (Section B.1.1). This class represents the st... |
+| **NCMECReportAnnotation** | Class | Tags to describe the NCMEC report. Source: NCMEC Cybertip API Section B.1.1, reportAnnotations el... |
+| **OnlineEnticementIncident** | Class | Incidents involving online enticement of children for sexual acts. Source: NCMEC Cybertip API Sec... |
+| **PhoneNumberTrace** | Class | Tracing of phone numbers linked to accounts in NCMEC tips. |
+| **PlatformCooperation** | Class | Cooperation from digital platforms in providing information for NCMEC tips. |
+| **PossessionIndicator** | Class | Evidence or indicators suggesting possession of child sexual abuse material. |
+| **SextortionAnnotation** | Class | Annotation indicating the report is associated with sextortion. Source: NCMEC Cybertip API Sectio... |
+| **SpamAnnotation** | Class | Annotation indicating the report is associated with spam. Source: NCMEC Cybertip API Section B.1.... |
+| **TaskForceReferral** | Class | Referral of NCMEC tip to appropriate CAC task force for investigation. |
+| **TipEnrichment** | Class | Enhancement of NCMEC tips with additional investigative information. |
+| **TipPrioritization** | Class | Priority assessment and ranking of NCMEC tips for investigation. |
+| **TipProcessing** | Class | Processing workflow for NCMEC tips from receipt to investigation referral. |
+| **TipValidation** | Class | Validation and verification of information in NCMEC tips. |
+| **TransferDetection** | Class | Detection of transfer or sharing of child sexual abuse material. |
+
+### cac.cacontology-usa-federal-law
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AbusiveContactWithMinor** | Class | Federal crime involving abusive sexual contact with minor victims. Modeled as gUFO Event. |
+| **AggravatedSexualAbuse** | Class | Federal crime of aggravated sexual abuse involving children in federal jurisdiction. Modeled as g... |
+| **CEOSAttorneyRole** | Class | Role of DOJ CEOS attorney specializing in child exploitation prosecution. Modeled as anti-rigid g... |
+| **CEOSdivision** | Class | DOJ Child Exploitation and Obscenity Section serving unique and critical function in enforcement ... |
+| **ChildPornographyDistribution** | Class | Federal crime of distributing child pornography across state or international boundaries. Modeled... |
+| **ChildPornographyPossession** | Class | Federal crime of possessing child pornography that has traveled in interstate or foreign commerce... |
+| **ChildPornographyProduction** | Class | Federal crime of producing child pornography, carrying severe mandatory minimum sentences. Modele... |
+| **ChildPornographyReceipt** | Class | Federal crime of knowingly receiving child pornography through interstate or foreign commerce. Mo... |
+| **ChildSupportEnforcementLaw** | Class | Federal laws related to child support enforcement that intersect with child exploitation cases. |
+| **ChildSupportEvasion** | Class | Federal crime of willfully failing to pay child support across state lines. Modeled as gUFO Event. |
+| **ChildSupportExploitationLink** | Class | Connection between child support violations and child exploitation crimes. Modeled as gUFO Situat... |
+| **CommercialSexualExploitation** | Class | Federal crime involving commercial sexual exploitation of children through force, fraud, or coerc... |
+| **ExtraterritorialProduction** | Class | Federal crime of producing child pornography outside U.S. by U.S. citizens or residents. Modeled ... |
+| **ExtraterritorialSexualExploitationLaw** | Class | Federal laws criminalizing sexual exploitation of children committed by U.S. citizens or resident... |
+| **FederalChildExploitationLaw** | Class | U.S. federal law related to child exploitation as enforced by CEOS. Modeled as gUFO Object provid... |
+| **FederalChildPornographyLaw** | Class | Federal statutes criminalizing child pornography production, distribution, receipt, and possession. |
+| **FederalChildSexTraffickingLaw** | Class | Federal statutes criminalizing child sex trafficking, commercial sexual exploitation, and related... |
+| **FederalChildSexualAbuseLaw** | Class | Federal statutes criminalizing child sexual abuse in federal jurisdiction or involving interstate... |
+| **FederalDefendantRole** | Class | Role of individual charged in federal child exploitation case. Modeled as anti-rigid gUFO Role. |
+| **FederalInvestigation** | Class | Federal investigation of child exploitation crimes. Modeled as gUFO Event with temporal boundarie... |
+| **FederalInvestigatorRole** | Class | Role of federal investigator (FBI, ICE, etc.) investigating child exploitation. Modeled as anti-r... |
+| **FederalObscenityLaw** | Class | U.S. federal law related to obscenity distribution and enforcement as managed by CEOS. Modeled as... |
+| **FederalProsecution** | Class | Federal legal prosecution process for child exploitation crimes. Modeled as gUFO Event with tempo... |
+| **FederalProsecutorRole** | Class | Role of federal prosecutor handling child exploitation cases. Modeled as anti-rigid gUFO Role. |
+| **FederalVictimRole** | Class | Role of victim in federal child exploitation prosecution. Modeled as anti-rigid gUFO Role. |
+| **FinancialControlPattern** | Class | Pattern where child support evasion is used as mechanism of control in exploitation cases. |
+| **ForeignCommerceExploitation** | Class | Federal crime involving sexual exploitation of children in foreign commerce. Modeled as gUFO Event. |
+| **ObscenityDistribution** | Class | Federal crime of distributing obscene materials through interstate or foreign commerce. Modeled a... |
+| **ObscenityImportation** | Class | Federal crime of importing obscene materials into the United States. Modeled as gUFO Event. |
+| **ObscenityTransportation** | Class | Federal crime of transporting obscene materials across state or international boundaries. Modeled... |
+| **OnlineObscenityDistribution** | Class | Federal crime of distributing obscene materials through internet and digital platforms. Modeled a... |
+| **PostConvictionPhase** | Class | Post-conviction phase including appeals and compliance monitoring. |
+| **PreTrialPhase** | Class | Pre-trial phase of federal prosecution including investigation and charging. |
+| **SentencingPhase** | Class | Sentencing phase of federal prosecution including penalty determination. Modeled as anti-rigid gU... |
+| **SexTourism** | Class | Federal crime of traveling abroad with intent to engage in sexual conduct with minors. Modeled as... |
+| **SexTraffickingConspiracy** | Class | Federal crime of conspiracy to engage in sex trafficking of minors. Modeled as gUFO Event. |
+| **SexTraffickingOfMinors** | Class | Federal crime of sex trafficking involving minors, including recruitment, harboring, transportati... |
+| **SexualAbuseOfMinor** | Class | Federal crime of sexual abuse specifically involving minor victims. Modeled as gUFO Event. |
+| **TransportationForSexualExploitation** | Class | Federal crime of transporting minors across international boundaries for sexual exploitation. Mod... |
+| **TrialPhase** | Class | Trial phase of federal prosecution including court proceedings. |
+
+### cac.cacontology-usa-legislative
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AppropriationType** | Class | Type of Congressional appropriation. |
+| **FundingNeed** | Class | Funding requirement from an CAC task force. |
+| **FundingStream** | Class | Source of funding for CAC programs. |
+| **LegislativeStage** | Class | Stage in the U.S. legislative process. |
+| **Outcome** | Class | Result of advocacy efforts. |
+| **USCabinetAgency** | Class | Cabinet-level department of the United States Federal Government. |
+| **USConferenceCommittee** | Class | Bicameral reconciliation process between House and Senate versions. |
+| **USCongressionalCommittee** | Class | Committee of the United States Congress. |
+| **USExecutiveAction** | Class | Presidential signing or veto of legislation. |
+| **USFederalAgencyOffice** | Class | Office within a U.S. Federal Government agency. |
+| **USFederalDirectorate** | Class | Directorate or division within a sub-cabinet agency. |
+| **USReconciliation** | Class | Special budget reconciliation process in U.S. Congress. |
+| **USRulemakingProcess** | Class | Administrative Procedure Act rulemaking process. |
+| **USStateAgency** | Class | Agency of a U.S. state government. |
+| **USStateAttorneyGeneral** | Class | Attorney General office of a U.S. state. |
+| **USStateICACtaskForce** | Class | State-level CAC Task Force in the United States. |
+| **USStateLegislature** | Class | Legislative body of a U.S. state. |
+| **USSubCabinetAgency** | Class | Sub-cabinet law enforcement agency within a cabinet department. |
+
+### cac.cacontology-victim-impact
+
+| Class | Type | Description |
+|-------|------|-------------|
+| **AcuteImpactPhase** | Class | Immediate phase following victimization with acute psychological impact. |
+| **AcuteTrauma** | Class | Immediate psychological trauma following victimization. |
+| **BehavioralIndicator** | Class | Changes in behavior that indicate trauma or distress. |
+| **ChildExploitationTaskForce** | Class | Joint task force between FBI and local law enforcement for child exploitation cases. |
+| **ChronicTrauma** | Class | Long-term psychological trauma from prolonged or repeated victimization. |
+| **CognitiveBehavioralTherapy** | Class | CBT-based therapeutic intervention for trauma and behavioral issues. |
+| **CognitiveIndicator** | Class | Changes in thinking, memory, or learning ability due to trauma. |
+| **CommunitySupport** | Class | Community-based support services for trafficking victims during reintegration. |
+| **ComplexTrauma** | Class | Complex trauma resulting from multiple types of victimization or prolonged abuse. |
+| **ComprehensiveImpactAssessment** | Class | Detailed evaluation of victim impact for legal proceedings and treatment planning. |
+| **CrisisIntervention** | Class | Immediate therapeutic intervention for acute crisis situations. |
+| **DevelopmentalImpact** | Class | Impact on normal child development due to victimization. |
+| **EducationalSupport** | Class | Educational accommodations and support for victim's schooling. |
+| **EmergencyHelpSeeking** | Class | Victim's attempt to seek emergency help during trafficking or exploitation, such as calling 911 (... |
+| **EmergencyResponse** | Class | Immediate response to victim emergency help requests, including law enforcement and victim servic... |
+| **EmotionalIndicator** | Class | Emotional symptoms or reactions indicating trauma. |
+| **FamilyReunification** | Class | Process of reuniting trafficking victims with their families. |
+| **FamilyTherapy** | Class | Therapeutic intervention involving the victim's family. |
+| **FearlessHudsonValleySupport** | Class | Support services provided by Fearless! Hudson Valley organization for trafficking victims. |
+| **GroupTherapy** | Class | Therapeutic intervention conducted in group settings with other victims. |
+| **HelpSeekingBarrier** | Class | Factor that prevents or impedes victim from seeking help (fear, control, isolation, trauma bonding). |
+| **HelpSeekingFacilitator** | Class | Factor that enables or encourages victim to seek help (opportunity, trust, desperation, external ... |
+| **HometownReturn** | Class | Return of trafficking victim to their hometown or place of origin. |
+| **HospitalDischarge** | Class | Discharge of trafficking victim from hospital with safety planning and transportation arrangements. |
+| **HospitalIntervention** | Class | Medical intervention and assessment of trafficking victim at hospital following emergency call. |
+| **HumanTraffickingSquad** | Class | Specialized law enforcement unit focused on human trafficking investigations. |
+| **InitialImpactAssessment** | Class | Initial evaluation of victim impact conducted early in investigation. |
+| **InterstateVictimServices** | Class | Victim services coordination across state lines for trafficking cases. |
+| **LegalSupport** | Class | Legal assistance and representation for victims in proceedings. |
+| **LongTermEffect** | Class | Long-term consequences of victimization on the child's life. |
+| **LongTermMonitoringPhase** | Class | Extended phase monitoring long-term effects and continued support needs. |
+| **MedicalTraumaAssessment** | Class | Medical assessment of physical and psychological trauma in trafficking victims. |
+| **MultiAgencyVictimResponse** | Class | Coordinated victim assistance involving multiple agencies across jurisdictions. |
+| **NineOneOneCall** | Class | Emergency call to 911 by trafficking victim seeking help and reporting forced prostitution. |
+| **NonOffendingCaregiverSupport** | Class | Support services directed to the non-offending caregiver to stabilize the child-support system af... |
+| **OngoingDangerAssessment** | Class | Assessment of victim's ongoing danger from trafficking network and need for protection. |
+| **OngoingImpactMonitoring** | Class | Continuous monitoring of victim impact during investigation and recovery. |
+| **PeerSupportService** | Class | Support rooted in peer connection, mutuality, and survivor- or youth-informed encouragement. |
+| **PhysicalIndicator** | Class | Physical symptoms or manifestations of psychological trauma. |
+| **PortAuthorityYouthServices** | Class | Specialized youth services unit within Port Authority Police Department. |
+| **PsychologicalHarm** | Class | Mental or emotional harm experienced by child victims. |
+| **RecoveryMilestone** | Class | Significant achievement or progress point in victim recovery. |
+| **RecoveryPhase** | Class | Phase focused on healing and therapeutic intervention. |
+| **RecoveryProcess** | Class | Process of healing and recovery from victimization. |
+| **ReintegrationPhase** | Class | Phase involving return to normal activities and social reintegration. |
+| **ResilienceFactors** | Class | Protective factors that promote victim resilience and recovery. |
+| **SafetyPlanning** | Class | Development of safety plans to protect victims from further harm. |
+| **SocialIndicator** | Class | Changes in social behavior or relationships due to trauma. |
+| **SuicidalIdeationResponse** | Class | Emergency response to trafficking victim reporting suicidal thoughts or intentions. |
+| **TherapeuticIntervention** | Class | Professional therapeutic treatment or intervention for victim recovery. |
+| **TherapistRole** | Class | Role of mental health professional providing therapeutic services. |
+| **TherapyParticipant** | Class | Role of victim participating in therapeutic interventions. |
+| **TraffickerControlBarrier** | Class | Control mechanisms used by traffickers that prevent victims from seeking help. |
+| **TraumaIndicator** | Class | Observable signs or symptoms indicating psychological trauma. |
+| **TraumaTherapy** | Class | Specialized therapy for treating trauma and its effects. |
+| **TraumatizedVictim** | Class | Role of a child victim experiencing psychological trauma. Where age at time of victimization or a... |
+| **VictimAdvocacy** | Class | Advocacy services to protect victim rights and interests. |
+| **VictimAdvocateRole** | Class | Role of professional providing advocacy support to victims. |
+| **VictimExtraction** | Class | Immediate removal of victim from dangerous trafficking situation following emergency call. |
+| **VictimImpactAssessment** | Class | Comprehensive assessment of the impact of criminal activity on child victims. |
+| **VictimInRecovery** | Class | Role of a victim actively engaged in recovery process. |
+| **VictimReintegration** | Class | Process of reintegrating trafficking victims back into their communities and families. |
+| **VictimSafetyPlanning** | Class | Development of safety plan for trafficking victim to prevent re-victimization. |
+| **VictimSelfReporting** | Class | Victim's direct reporting of their trafficking or exploitation situation to authorities. |
+| **VictimServiceCoordination** | Class | Coordination of victim services between multiple agencies and organizations. |
+| **VictimSupport** | Class | Support services provided to child victims and their families. |
+| **VictimTransportationAssistance** | Class | Provision of transportation assistance to trafficking victims (bus tickets, safe transport). |
+
 ### toolcap
 
 | Class | Type | Description |
 |-------|------|-------------|
-| **AccessRestriction** | Class | An access restriction describes a security, licensing, classification, operational security, or l... |
-| **BenchmarkObservation** | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability ... |
-| **CapabilityMatrix** | Class | A capability matrix is a named, versioned collection of ToolCapability assertions that together r... |
-| **PlatformSpecification** | Class | A platform specification describes the operating system, OS version, device model, and extraction... |
-| **ToolCapability** | Class | A tool capability is a formal assertion that a specific digital forensic tool can successfully pa... |
+| **AccessRestriction** | Class | An access restriction is a marking definition that describes a security, licensing, classificatio... |
+| **BenchmarkObservation** | Class | A benchmark observation is a single point-in-time record of testing a forensic tool's capability.... |
+| **CapabilityMatrix** | Class | DEPRECATED in 0.4.0. The capability matrix concept is superseded by querying the overall graph of... |
+| **PlatformSpecification** | Class | DEPRECATED in 0.4.0. Use first-class uco-observable:OperatingSystem instances linked via uco-core... |
+| **ToolCapability** | Class | DEPRECATED in 0.4.0. Use capability:Capability (proposed uco-capability:Capability) instead, link... |
 
 ## Tips for Finding the Right Class
 
@@ -2147,13 +7227,3 @@ Extension ontologies add domain-specific classes beyond the core CASE/UCO specif
    case-uco-explore modules              # list all modules
    case-uco-explore module observable     # browse a specific module
    ```
-
-7. **Check the community mappings** if you're integrating a specific forensic tool. The [CASE-Mappings](https://github.com/casework/CASE-Mappings) repo has existing tool-to-CASE mapping specs, and the [CASE-Implementation repos](https://github.com/casework?q=Implementation&type=all) have working code examples. See [ECOSYSTEM.md](ECOSYSTEM.md) for the full list.
-
-8. **Use UCO Profiles for external ontology interop.** If your data already uses concepts from BFO, PROV-O, OWL-Time, GeoSPARQL, gUFO, or FOAF, UCO maintains [Profile ontologies](https://cyberdomainontology.org/ontology/development/#profiles) that align those ontologies with UCO classes. For example:
-   - Working with **provenance** data? → [UCO-Profile-PROV-O](https://github.com/ucoProject/UCO-Profile-PROV-O) aligns PROV-O Activities/Entities with UCO actions
-   - Working with **geospatial** data? → [UCO-Profile-GeoSPARQL](https://github.com/ucoProject/UCO-Profile-GeoSPARQL) aligns GeoSPARQL Features with UCO locations
-   - Working with **temporal** data? → [UCO-Profile-Time](https://github.com/ucoProject/UCO-Profile-Time) aligns OWL-Time with UCO temporal concepts
-   - Working with **identity/social** data? → [UCO-Profile-FOAF](https://github.com/ucoProject/UCO-Profile-FOAF) aligns FOAF Persons with UCO identities
-
-   See the [UCO Profiles section of ECOSYSTEM.md](ECOSYSTEM.md#uco-profiles--interoperability-with-other-ontologies) for the full list and integration patterns.

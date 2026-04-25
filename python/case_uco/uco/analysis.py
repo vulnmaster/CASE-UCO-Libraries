@@ -5,8 +5,28 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional
 
+from case_uco.uco.action import Action
+from case_uco.uco.core import Assertion
 from case_uco.uco.core import Facet
 from case_uco.uco.core import UcoInherentCharacterizationThing
+
+
+@dataclass
+class Analysis(Action):
+    """An analysis is an action of detailed examination of something in order to understand its nature, context or essential features."""
+
+    CLASS_IRI: str = "https://ontology.unifiedcyberontology.org/uco/analysis/Analysis"
+    NAMESPACE_PREFIX: str = "uco-analysis"
+
+
+
+@dataclass
+class AnalyticResult(Assertion):
+    """An analytic result is a characterization of the understanding resulting from an analysis action."""
+
+    CLASS_IRI: str = "https://ontology.unifiedcyberontology.org/uco/analysis/AnalyticResult"
+    NAMESPACE_PREFIX: str = "uco-analysis"
+
 
 
 @dataclass

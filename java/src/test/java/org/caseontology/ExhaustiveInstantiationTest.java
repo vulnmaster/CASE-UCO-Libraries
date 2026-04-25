@@ -4,6 +4,7 @@ package org.caseontology;
 import org.caseontology._case.investigation.Attorney;
 import org.caseontology._case.investigation.Authorization;
 import org.caseontology._case.investigation.Examiner;
+import org.caseontology._case.investigation.ExaminerActionLifecycle;
 import org.caseontology._case.investigation.Investigation;
 import org.caseontology._case.investigation.InvestigativeAction;
 import org.caseontology._case.investigation.Investigator;
@@ -18,6 +19,8 @@ import org.caseontology.uco.action.ActionFrequencyFacet;
 import org.caseontology.uco.action.ActionLifecycle;
 import org.caseontology.uco.action.ActionPattern;
 import org.caseontology.uco.action.ArrayOfAction;
+import org.caseontology.uco.analysis.Analysis;
+import org.caseontology.uco.analysis.AnalyticResult;
 import org.caseontology.uco.analysis.AnalyticResultFacet;
 import org.caseontology.uco.analysis.ArtifactClassification;
 import org.caseontology.uco.analysis.ArtifactClassificationResultFacet;
@@ -440,6 +443,7 @@ public class ExhaustiveInstantiationTest {
         instances.add(new Attorney());
         instances.add(new Authorization());
         instances.add(new Examiner());
+        instances.add(new ExaminerActionLifecycle());
         instances.add(new Investigation());
         instances.add(new InvestigativeAction());
         instances.add(new Investigator());
@@ -454,6 +458,8 @@ public class ExhaustiveInstantiationTest {
         instances.add(new ActionLifecycle());
         instances.add(new ActionPattern());
         instances.add(new ArrayOfAction());
+        instances.add(new Analysis());
+        instances.add(new AnalyticResult());
         instances.add(new AnalyticResultFacet());
         instances.add(new ArtifactClassification());
         instances.add(new ArtifactClassificationResultFacet());
@@ -863,6 +869,6 @@ public class ExhaustiveInstantiationTest {
         instances.add(new ThreadItem());
         instances.add(new Victim());
         instances.add(new VictimTargeting());
-        assertEquals(426, instances.size());
+        assertEquals(429, instances.size());
     }
 }

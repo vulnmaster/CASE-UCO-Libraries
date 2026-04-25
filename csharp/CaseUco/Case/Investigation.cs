@@ -34,6 +34,13 @@ namespace CaseUco.Case.Investigation
         public new const string NamespacePrefix = "case-investigation";
     }
 
+    /// <summary>An examiner action lifecycle is an action pattern consisting of an ordered set of actions or subordinate action-lifecycles performed by an entity acting in a role involved in providing scientific eval</summary>
+    public class ExaminerActionLifecycle : CaseUco.Uco.Action.ActionLifecycle
+    {
+        public new const string ClassIri = "https://ontology.caseontology.org/case/investigation/ExaminerActionLifecycle";
+        public new const string NamespacePrefix = "case-investigation";
+    }
+
     /// <summary>An investigation is a grouping of characteristics unique to an exploration of the facts involved in a cyber-relevant set of suspicious activity.</summary>
     public class Investigation : CaseUco.Uco.Core.ContextualCompilation
     {

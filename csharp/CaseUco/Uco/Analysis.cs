@@ -5,6 +5,20 @@ using System.Collections.Generic;
 
 namespace CaseUco.Uco.Analysis
 {
+    /// <summary>An analysis is an action of detailed examination of something in order to understand its nature, context or essential features.</summary>
+    public class Analysis : CaseUco.Uco.Action.Action
+    {
+        public new const string ClassIri = "https://ontology.unifiedcyberontology.org/uco/analysis/Analysis";
+        public new const string NamespacePrefix = "uco-analysis";
+    }
+
+    /// <summary>An analytic result is a characterization of the understanding resulting from an analysis action.</summary>
+    public class AnalyticResult : CaseUco.Uco.Core.Assertion
+    {
+        public new const string ClassIri = "https://ontology.unifiedcyberontology.org/uco/analysis/AnalyticResult";
+        public new const string NamespacePrefix = "uco-analysis";
+    }
+
     /// <summary>An analytic result facet is a grouping of characteristics unique to the results of an analysis action.</summary>
     public class AnalyticResultFacet : CaseUco.Uco.Core.Facet
     {

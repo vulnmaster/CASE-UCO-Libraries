@@ -145,6 +145,40 @@ impl CaseObject for Examiner {
     fn type_name() -> &'static str { "Examiner" }
 }
 
+/// An examiner action lifecycle is an action pattern consisting of an ordered set of actions or subordinate action-lifecycles performed by an entity acting in a role involved in providing scientific eval
+#[derive(Debug, Clone, Serialize)]
+pub struct ExaminerActionLifecycle {
+    #[serde(skip_serializing)]
+    pub class_iri: &'static str,
+}
+
+impl ExaminerActionLifecycle {
+    pub const CLASS_IRI: &'static str = "https://ontology.caseontology.org/case/investigation/ExaminerActionLifecycle";
+    pub const NAMESPACE_PREFIX: &'static str = "case-investigation";
+
+    pub fn builder() -> ExaminerActionLifecycleBuilder {
+        ExaminerActionLifecycleBuilder {
+        }
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct ExaminerActionLifecycleBuilder {
+}
+
+impl ExaminerActionLifecycleBuilder {
+    pub fn build(self) -> ExaminerActionLifecycle {
+        ExaminerActionLifecycle {
+            class_iri: ExaminerActionLifecycle::CLASS_IRI,
+        }
+    }
+}
+
+impl CaseObject for ExaminerActionLifecycle {
+    fn class_iri() -> &'static str { ExaminerActionLifecycle::CLASS_IRI }
+    fn type_name() -> &'static str { "ExaminerActionLifecycle" }
+}
+
 /// An investigation is a grouping of characteristics unique to an exploration of the facts involved in a cyber-relevant set of suspicious activity.
 #[derive(Debug, Clone, Serialize)]
 pub struct Investigation {
