@@ -6,16 +6,20 @@ instead of parsing markdown documentation.
 
 Run: python mcp_server/server.py
 Or:  fastmcp dev mcp_server/server.py
+
+Set CASE_UCO_EXTENSIONS=cac,aeo to load extension registries.
 """
 
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
+from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "python"))
 
@@ -43,6 +47,89 @@ from domain_index import (
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
+# ---------------------------------------------------------------------------
+# Extension registry loading
+# ---------------------------------------------------------------------------
+
+_EXTENSION_REGISTRIES: dict[str, dict[str, Any]] = {}
+
+
+def _load_extension_registries() -> None:
+    """Load extension _registry.json files based on CASE_UCO_EXTENSIONS env var."""
+    env_val = os.environ.get("CASE_UCO_EXTENSIONS", "").strip()
+    if not env_val:
+        return
+
+    ext_names = [n.strip() for n in env_val.split(",") if n.strip()]
+    for ext_name in ext_names:
+        reg = _find_extension_registry(ext_name)
+        if reg is not None:
+            _EXTENSION_REGISTRIES[ext_name] = reg
+
+    if _EXTENSION_REGISTRIES:
+        loaded = ", ".join(_EXTENSION_REGISTRIES.keys())
+        print(f"[MCP] Loaded extension registries: {loaded}", file=sys.stderr)
+
+
+def _find_extension_registry(ext_name: str) -> dict[str, Any] | None:
+    """Locate and load a _registry.json for the given extension name."""
+    search_paths = [
+        PROJECT_ROOT / "extensions" / ext_name / "_registry.json",
+        PROJECT_ROOT / "packages" / f"case-uco-{ext_name}" / "_registry.json",
+        PROJECT_ROOT / "packages" / f"case-uco-{ext_name}" / "python" / f"case_uco_{ext_name}" / "_registry.json",
+    ]
+
+    try:
+        import importlib.metadata
+        for ep in importlib.metadata.entry_points(group="case_uco.extensions"):
+            if ep.name == ext_name:
+                reg_path_str = ep.load()
+                if isinstance(reg_path_str, str):
+                    search_paths.insert(0, Path(reg_path_str))
+    except Exception:
+        pass
+
+    for path in search_paths:
+        if path.exists():
+            try:
+                return json.loads(path.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+    return None
+
+
+def _search_extensions(query: str, scope: str = "all") -> list[dict]:
+    """Search extension registries by keyword, filtered by scope."""
+    q = query.lower()
+    results = []
+    for ext_name, reg in _EXTENSION_REGISTRIES.items():
+        if scope not in ("all", ext_name):
+            continue
+        for name, info in reg.get("classes", {}).items():
+            if q in name.lower() or q in info.get("description", "").lower():
+                entry = {"name": name, **info}
+                entry.setdefault("source", ext_name)
+                results.append(entry)
+    results.sort(key=lambda c: (c.get("module", ""), c["name"]))
+    return results
+
+
+def _get_class_from_extensions(name: str, scope: str = "all") -> dict | None:
+    """Look up a class by name in extension registries."""
+    name_lower = name.lower()
+    for ext_name, reg in _EXTENSION_REGISTRIES.items():
+        if scope not in ("all", ext_name):
+            continue
+        for cls_name, info in reg.get("classes", {}).items():
+            if cls_name.lower() == name_lower:
+                entry = {"name": cls_name, **info}
+                entry.setdefault("source", ext_name)
+                return entry
+    return None
+
+
+_load_extension_registries()
+
 mcp = FastMCP(
     "CASE/UCO SDK",
     instructions=(
@@ -59,44 +146,80 @@ mcp = FastMCP(
         "Use guide_mapping to get step-by-step mapping guidance for a "
         "specific evidence source (e.g., filesystem report, mobile "
         "extraction, email export, pcap). Use get_recipe to retrieve "
-        "full recipe content including code examples and JSON-LD output."
+        "full recipe content including code examples and JSON-LD output. "
+        "Extension ontologies (CAC, AEO) are loaded when CASE_UCO_EXTENSIONS "
+        "is set. Use the scope parameter on search_classes, get_class_details, "
+        "find_classes_for_domain, and list_all_facets to filter by 'core', "
+        "a specific extension name, or 'all' (default)."
     ),
 )
 
 
 @mcp.tool
-def search_classes(query: str) -> list[dict]:
+def search_classes(query: str, scope: str = "all") -> list[dict]:
     """Search for CASE/UCO classes by keyword.
 
     Case-insensitive substring match on class name and description.
     Returns matching classes with name, module, description, and property count.
 
+    Args:
+        query: Search keyword.
+        scope: "all" (default) searches core + loaded extensions.
+               "core" searches CASE/UCO only.
+               An extension name (e.g. "cac", "aeo") searches that extension only.
+
     Examples: search_classes("file"), search_classes("network"),
-              search_classes("mobile"), search_classes("email")
+              search_classes("engagement", scope="aeo")
     """
-    results = search(query)
-    return [
-        {
-            "name": r["name"],
-            "module": r["module"],
-            "description": r.get("description", "")[:200],
-            "property_count": len(r.get("properties", [])),
-            "is_facet": r.get("is_facet", False),
-        }
-        for r in results
-    ]
+    results = []
+    if scope in ("all", "core"):
+        for r in search(query):
+            entry = {
+                "name": r["name"],
+                "module": r["module"],
+                "description": r.get("description", "")[:200],
+                "property_count": len(r.get("properties", [])),
+                "is_facet": r.get("is_facet", False),
+                "source": "core",
+            }
+            results.append(entry)
+
+    if scope != "core":
+        for r in _search_extensions(query, scope):
+            results.append({
+                "name": r["name"],
+                "module": r.get("module", ""),
+                "description": r.get("description", "")[:200],
+                "property_count": len(r.get("properties", [])),
+                "is_facet": r.get("is_facet", False),
+                "source": r.get("source", "extension"),
+            })
+
+    return results
 
 
 @mcp.tool
-def get_class_details(name: str) -> dict | None:
+def get_class_details(name: str, scope: str = "all") -> dict | None:
     """Get full details for a CASE/UCO class including all properties.
 
     Returns the class IRI, module, description, parent classes, and a
     complete property table with types, cardinalities, and required flags.
 
+    Args:
+        name: Class name (case-insensitive).
+        scope: "all" (default), "core", or an extension name (e.g. "cac").
+
     Examples: get_class_details("FileFacet"), get_class_details("Investigation")
     """
-    cls = get_class(name)
+    cls = None
+    if scope in ("all", "core"):
+        cls = get_class(name)
+        if cls:
+            cls["source"] = "core"
+
+    if cls is None and scope != "core":
+        cls = _get_class_from_extensions(name, scope)
+
     if cls is None:
         return None
     return {
@@ -106,6 +229,7 @@ def get_class_details(name: str) -> dict | None:
         "description": cls.get("description", ""),
         "parents": cls.get("parents", []),
         "is_facet": cls.get("is_facet", False),
+        "source": cls.get("source", "core"),
         "properties": [
             {
                 "name": p["name"],
@@ -120,7 +244,7 @@ def get_class_details(name: str) -> dict | None:
 
 
 @mcp.tool
-def find_classes_for_domain(domain: str) -> dict:
+def find_classes_for_domain(domain: str, scope: str = "all") -> dict:
     """Map a forensic domain or investigative task to relevant CASE/UCO classes.
 
     Accepts natural-language descriptions of what the developer is modeling.
@@ -205,6 +329,75 @@ def find_classes_for_domain(domain: str) -> dict:
             "Use get_uco_profiles() for full details on any profile listed above."
         )
 
+    # Proactively suggest CAC extension for child exploitation domains
+    cac_keywords = {
+        "child", "csam", "grooming", "ncmec", "cybertip", "exploitation",
+        "victim", "offender", "enticement", "sextortion", "predator",
+        "minor", "abuse", "production", "hotline", "cac", "icac",
+        "crimes against children",
+        "trafficking", "trafficker", "trafficked", "ring", "cell",
+        "rotation", "interstate transport",
+        "recruitment", "recruiter", "school-based", "peer recruitment",
+        "street recruitment", "pretext",
+        "rescue", "extraction", "emergency response", "victim service",
+        "safety planning", "trauma", "ongoing danger", "recantation",
+        "multi-agency", "dcfs", "child protective",
+        "jurisdiction", "multi-jurisdiction", "task force", "taskforce",
+        "joint investigation", "joint operation", "mutual aid", "handoff",
+        "tactical", "arrest", "high-risk", "dynamic entry",
+        "warrant service", "undercover", "asset forfeiture", "seizure",
+        "csam forensic", "csam provenance", "chain of custody",
+        "evidence verification", "metadata correlation", "temporal pattern",
+        "geospatial correlation", "cross-platform correlation",
+        "behavioral fingerprint", "victim identification",
+        "photodna", "perceptual hash",
+    }
+    if any(kw in q for kw in cac_keywords):
+        cac_loaded = "cac" in _EXTENSION_REGISTRIES
+        result["extension_suggestion"] = {
+            "extension": "cac",
+            "name": "Crimes Against Children (CAC) Ontology",
+            "description": (
+                "The CAC Ontology provides purpose-built classes for child exploitation "
+                "investigations: grooming phases (InitialContactPhase, TrustBuildingPhase, "
+                "IsolationPhase, SexualizationPhase, ExploitationPhase), GroomingMessage "
+                "with explicitness/tone, ChildVictim/OnlinePredator roles, "
+                "NCMECCybertipReport with incident types, CSAM detection tools "
+                "(PhotoDNA, ML classifiers), trafficking ring/cell hierarchies and "
+                "victim rotation, school/peer/street recruitment with pretext "
+                "approaches, multi-jurisdictional task force operations, tactical "
+                "arrest workflows, victim rescue and post-rescue services, and "
+                "CSAM forensic provenance with cross-platform/behavioral correlation."
+            ),
+            "loaded": cac_loaded,
+            "activation": (
+                'Already loaded — use scope="cac" to search CAC classes directly.'
+                if cac_loaded else
+                'Set CASE_UCO_EXTENSIONS=cac in your MCP server config to load CAC classes. '
+                'See extensions/cac/README.md for setup instructions.'
+            ),
+            "repo_url": "https://github.com/Project-VIC-International/CAC-Ontology",
+            "relevant_modules": [
+                "cacontology-grooming (grooming behaviors, phases, patterns)",
+                "cacontology-detection (CSAM detection, classification scales)",
+                "cacontology-us-ncmec (CyberTip reports, incident types)",
+                "cacontology-platforms (ESPs, content moderation, platform cooperation)",
+                "cacontology-forensics (acquisition, chain-of-custody, metadata/temporal/geospatial/cross-platform correlation, behavioral fingerprinting, victim ID)",
+                "cacontology-hotlines (hotline reports, evidence items)",
+                "cacontology-sex-trafficking (rings, cells, victim rotation, interstate transport)",
+                "cacontology-recruitment-networks (school-based and peer recruitment hierarchies, mandatory-reporter activation)",
+                "cacontology-street-recruitment (pretext approaches: help/food/transportation/phone-charging offers, rapid escalation, digital-to-physical bridge)",
+                "cacontology-multi-jurisdiction (Local/State/Federal/International jurisdictions, joint investigations, mass child rescue operations, jurisdictional handoffs, mutual aid)",
+                "cacontology-tactical (arrest operations, dynamic entry, suspect profiles, threat assessments)",
+                "cacontology-undercover (undercover operations and personas)",
+                "cacontology-taskforce (task force structure and participation)",
+                "cacontology-asset-forfeiture (seizure and forfeiture actions)",
+                "cacontology-victim-impact (emergency response, extraction, ongoing-danger assessment, safety planning, multi-agency victim response, trauma/help-seeking indicators)",
+                "cacontology-recantation (victim recantation events and analysis)",
+                "cacontology-legal-outcomes / cacontology-legal-harmonization / cacontology-multi-jurisdiction (legal outcomes and federal/state harmonization)",
+            ],
+        }
+
     return result
 
 
@@ -237,9 +430,11 @@ def get_uco_profiles(query: str = "") -> dict:
     else:
         matches = list(UCO_PROFILES)
 
+    loaded_extensions = list(_EXTENSION_REGISTRIES.keys())
+
     results = []
     for p in matches:
-        results.append({
+        entry: dict[str, Any] = {
             "name": p["name"],
             "full_name": p["full_name"],
             "profile_type": p["profile_type"],
@@ -249,12 +444,28 @@ def get_uco_profiles(query: str = "") -> dict:
             "ontology_url": p["ontology_url"],
             "ontology_file": p["ontology_file"],
             "related_recipes": p.get("related_recipes", []),
-        })
+        }
+        ext_compat = p.get("extension_compatibility", {})
+        if loaded_extensions and ext_compat:
+            compat_notes = {}
+            for ext in loaded_extensions:
+                status = ext_compat.get(ext, "unknown")
+                if status == "included":
+                    compat_notes[ext] = f"Included — {ext.upper()} already imports this alignment"
+                elif status == "not_recommended":
+                    compat_notes[ext] = f"Not recommended — may conflict with {ext.upper()} axioms"
+                elif status == "compatible":
+                    compat_notes[ext] = "Compatible"
+                else:
+                    compat_notes[ext] = "Unknown compatibility"
+            entry["extension_compatibility"] = compat_notes
+        results.append(entry)
 
     return {
         "query": query or "(all profiles)",
         "total": len(results),
         "profiles": results,
+        "loaded_extensions": loaded_extensions,
         "rationale_url": "https://cyberdomainontology.org/ontology/development/#profiles",
         "tip": (
             "Profiles are OWL ontology files (.ttl) that add subclass axioms "
@@ -266,23 +477,41 @@ def get_uco_profiles(query: str = "") -> dict:
 
 
 @mcp.tool
-def list_all_facets() -> list[dict]:
-    """List all Facet classes in the CASE/UCO ontology.
+def list_all_facets(scope: str = "all") -> list[dict]:
+    """List all Facet classes in the CASE/UCO ontology (and loaded extensions).
 
     Facets are attached to ObservableObjects to describe specific aspects.
     Use this when you know you need the ObservableObject + Facet pattern
     but need to find the right Facet for your data.
+
+    Args:
+        scope: "all" (default), "core", or an extension name.
     """
-    results = find_facets()
-    return [
-        {
-            "name": r["name"],
-            "module": r["module"],
-            "description": r.get("description", "")[:200],
-            "property_count": len(r.get("properties", [])),
-        }
-        for r in results
-    ]
+    results = []
+    if scope in ("all", "core"):
+        for r in find_facets():
+            results.append({
+                "name": r["name"],
+                "module": r["module"],
+                "description": r.get("description", "")[:200],
+                "property_count": len(r.get("properties", [])),
+                "source": "core",
+            })
+
+    if scope != "core":
+        for ext_name, reg in _EXTENSION_REGISTRIES.items():
+            if scope not in ("all", ext_name):
+                continue
+            for name, info in reg.get("classes", {}).items():
+                if info.get("is_facet"):
+                    results.append({
+                        "name": name,
+                        "module": info.get("module", ""),
+                        "description": info.get("description", "")[:200],
+                        "property_count": len(info.get("properties", [])),
+                        "source": ext_name,
+                    })
+    return results
 
 
 @mcp.tool
@@ -304,7 +533,7 @@ def suggest_classes_for_input(concept: str) -> dict:
         if w:
             warnings_by_class[s["name"]] = w
 
-    return {
+    result = {
         "query": concept,
         "suggestions": [
             {
@@ -324,6 +553,37 @@ def suggest_classes_for_input(concept: str) -> dict:
             "keywords, or find_classes_for_domain() for broader discovery."
         ),
     }
+
+    cac_concepts = {
+        "grooming", "csam", "child", "exploitation", "cybertip", "ncmec",
+        "sextortion", "enticement", "predator", "victim", "minor",
+        "abuse", "production", "icac",
+        "trafficking", "trafficker", "trafficked", "ring", "cell",
+        "rotation", "interstate transport",
+        "recruitment", "recruiter", "school-based", "peer recruitment",
+        "street recruitment", "pretext",
+        "rescue", "extraction", "emergency response", "victim service",
+        "safety planning", "trauma", "ongoing danger", "recantation",
+        "multi-agency", "dcfs", "child protective",
+        "jurisdiction", "multi-jurisdiction", "task force", "taskforce",
+        "joint investigation", "joint operation", "mutual aid", "handoff",
+        "tactical", "arrest", "high-risk", "dynamic entry",
+        "warrant service", "undercover", "asset forfeiture", "seizure",
+        "csam forensic", "csam provenance", "chain of custody",
+        "evidence verification", "metadata correlation", "temporal pattern",
+        "geospatial correlation", "cross-platform correlation",
+        "behavioral fingerprint", "victim identification",
+        "photodna", "perceptual hash",
+    }
+    concept_lower = concept.lower()
+    if any(kw in concept_lower for kw in cac_concepts):
+        result["cac_extension_note"] = (
+            "The CAC (Crimes Against Children) Ontology extension provides "
+            "specialized classes for this concept. Use search_classes(query, scope='cac') "
+            "to find CAC-specific classes, or set CASE_UCO_EXTENSIONS=cac to load them."
+        )
+
+    return result
 
 
 @mcp.tool

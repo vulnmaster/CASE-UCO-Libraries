@@ -63,7 +63,9 @@ def parse_extension(ttl_paths: list[Path]) -> tuple[OntologySchema, str, str]:
 
     IGNORE_NS = {"w3.org", "unifiedcyberontology", "caseontology", "purl.org",
                  "xmlns.com", "schema.org", "brickschema", "opengis", "rdfs.org",
-                 "usefulinc", "linked-data"}
+                 "usefulinc", "linked-data", "nemo-ufes", "nemo/gufo",
+                 "obolibrary.org", "ontologydesignpatterns",
+                 "adversaryengagement.org"}
 
     for prefix, ns_uri in g.namespaces():
         ns_str = str(ns_uri)

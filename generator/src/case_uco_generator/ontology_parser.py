@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import json
 import logging
+import re
 from pathlib import Path
 
 from rdflib import Graph, Namespace, URIRef
@@ -49,6 +51,8 @@ PREFIX_TO_MODULE: dict[str, tuple[str, str]] = {
 }
 
 # SPARQL: Select all OWL classes that have one or more SHACL NodeShapes targeting them.
+# This is the high-fidelity path: classes with SHACL shapes carry property
+# constraints that produce typed bindings.
 CLASSES_QUERY = """
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -62,6 +66,26 @@ SELECT DISTINCT ?class ?shape ?label ?comment ?parent WHERE {
     OPTIONAL { ?class rdfs:comment ?comment . }
     OPTIONAL { ?class rdfs:subClassOf ?parent .
                ?parent a owl:Class .
+               FILTER(!isBlank(?parent))
+    }
+}
+ORDER BY ?class
+"""
+
+# SPARQL: Select all OWL classes regardless of whether they have SHACL shapes.
+# Many extension ontologies (especially CAC) declare large numbers of T-Box-only
+# subclasses without dedicated SHACL constraints — they still need to be
+# registered so search_classes / find_classes_for_domain can discover them.
+ALL_CLASSES_QUERY = """
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?class ?label ?comment ?parent WHERE {
+    ?class a owl:Class .
+    FILTER(!isBlank(?class))
+    OPTIONAL { ?class rdfs:label ?label . }
+    OPTIONAL { ?class rdfs:comment ?comment . }
+    OPTIONAL { ?class rdfs:subClassOf ?parent .
                FILTER(!isBlank(?parent))
     }
 }
@@ -120,9 +144,16 @@ def load_ontology(ontology_root: Path) -> Graph:
 def _classify_module(
     iri: str,
     extra_modules: dict[str, tuple[str, str]] | None = None,
-) -> tuple[str, str]:
-    """Map a class IRI to (top-level, module) based on namespace."""
+) -> tuple[str, str] | None:
+    """Map a class IRI to (top-level, module) based on namespace.
+
+    Returns None for IRIs from external/foundational ontologies (gUFO, BFO, etc.)
+    that should be recorded as informational parents but not classified into a
+    generated module.
+    """
     ns = iri_namespace(iri)
+    if ns in EXTERNAL_IGNORE_NS:
+        return None
     if ns in PREFIX_TO_MODULE:
         return PREFIX_TO_MODULE[ns]
     if extra_modules and ns in extra_modules:
@@ -296,8 +327,47 @@ def _extract_vocab_members(g: Graph, vocab_iri: str) -> list[str]:
     return sorted(members)
 
 
+EXTERNAL_IGNORE_NS: set[str] = {
+    "http://purl.org/nemo/gufo#",
+    "http://purl.org/nemo/gufo/",
+    "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#",
+    "http://purl.obolibrary.org/obo/",
+    "http://www.w3.org/ns/prov#",
+    "http://www.w3.org/2006/time#",
+    "http://www.opengis.net/ont/geosparql#",
+    "http://xmlns.com/foaf/0.1/",
+}
+
+
+def _derive_submodule(ext_name: str, ns_uri: str, prefix: str) -> str:
+    """Derive a sub-module name from a namespace prefix or URI."""
+    stem = prefix.replace(f"{ext_name}-", "").replace(ext_name, "").strip("-")
+    if stem:
+        return re.sub(r"[^a-z0-9]", "_", stem.lower())
+    parts = ns_uri.rstrip("#/").rsplit("/", 1)
+    if len(parts) == 2 and parts[1]:
+        return re.sub(r"[^a-z0-9]", "_", parts[1].lower())
+    return "core"
+
+
+def load_extension_manifest(ext_dir: Path) -> dict | None:
+    """Load and return a manifest.json from an extension directory, or None."""
+    manifest_path = ext_dir / "manifest.json"
+    if not manifest_path.exists():
+        return None
+    try:
+        return json.loads(manifest_path.read_text(encoding="utf-8"))
+    except Exception as e:
+        logger.warning("Failed to load manifest from %s: %s", manifest_path, e)
+        return None
+
+
 def load_extensions(g: Graph, extensions_dir: Path) -> dict[str, tuple[str, str]]:
-    """Load extension ontology .ttl files into the graph and return namespace mappings.
+    """Load extension ontology TTL files into the graph and return namespace mappings.
+
+    Uses manifest.json when present in each extension directory for explicit
+    namespace-to-module mapping and file lists.  Falls back to the legacy
+    heuristic for directories without a manifest (e.g., toolcap).
 
     Returns a dict mapping namespace URI -> (top_level, module) for each
     extension directory found under extensions_dir.
@@ -312,22 +382,93 @@ def load_extensions(g: Graph, extensions_dir: Path) -> dict[str, tuple[str, str]
         if not ext_dir.is_dir():
             continue
         ext_name = ext_dir.name
-        for ttl_file in sorted(ext_dir.glob("*.ttl")):
-            if "exemplar" in ttl_file.name:
-                continue
-            try:
-                g.parse(str(ttl_file), format="turtle")
-                ttl_count += 1
-            except Exception as e:
-                logger.warning("Failed to parse extension %s: %s", ttl_file, e)
 
-        for prefix, ns_uri in g.namespaces():
-            ns_str = str(ns_uri)
-            if ext_name in ns_str and ns_str not in PREFIX_TO_MODULE and ns_str not in ext_modules:
-                ext_modules[ns_str] = ("ext", ext_name)
+        manifest = load_extension_manifest(ext_dir)
+        if manifest is not None:
+            ttl_count += _load_extension_from_manifest(g, ext_dir, manifest, ext_modules)
+        else:
+            ttl_count += _load_extension_legacy(g, ext_dir, ext_name, ext_modules)
 
     logger.info("Loaded %d extension Turtle files", ttl_count)
     return ext_modules
+
+
+def _build_prefix_header(namespaces: dict[str, str]) -> str:
+    """Build a Turtle @prefix block from manifest namespaces.
+
+    Upstream TTL files sometimes reference sibling-module prefixes without
+    declaring them (e.g., AEO engagement.ttl uses ``objective:`` from
+    objective.ttl).  Prepending these declarations ensures the Turtle
+    parser can resolve all prefixes.
+    """
+    lines = []
+    for prefix, ns_uri in sorted(namespaces.items()):
+        lines.append(f"@prefix {prefix}: <{ns_uri}> .")
+    return "\n".join(lines) + "\n\n" if lines else ""
+
+
+def _load_extension_from_manifest(
+    g: Graph,
+    ext_dir: Path,
+    manifest: dict,
+    ext_modules: dict[str, tuple[str, str]],
+) -> int:
+    """Load extension files according to its manifest.json.  Returns count of parsed files."""
+    ext_name = manifest["name"]
+    ttl_count = 0
+
+    namespaces: dict[str, str] = manifest.get("namespaces", {})
+    prefix_header = _build_prefix_header(namespaces)
+
+    for file_list_key in ("owl_files", "shacl_files", "bridge_files"):
+        for rel_path in manifest.get(file_list_key, []):
+            ttl_file = ext_dir / rel_path
+            if not ttl_file.exists():
+                logger.warning("Extension %s: file not found: %s", ext_name, ttl_file)
+                continue
+            try:
+                ttl_content = ttl_file.read_text(encoding="utf-8")
+                g.parse(data=prefix_header + ttl_content, format="turtle")
+                ttl_count += 1
+            except Exception as e:
+                logger.warning("Failed to parse extension %s file %s: %s", ext_name, ttl_file, e)
+
+    namespaces: dict[str, str] = manifest.get("namespaces", {})
+    for prefix, ns_uri in namespaces.items():
+        if ns_uri not in PREFIX_TO_MODULE and ns_uri not in ext_modules:
+            # Use the full manifest prefix (e.g. "cacontology-sex-trafficking")
+            # as the module name. Codegen backends sanitize hyphens for
+            # language-specific file/module identifiers, but the registry
+            # records the prefix verbatim so MCP search and developer
+            # documentation match the upstream namespace convention.
+            ext_modules[ns_uri] = (f"ext.{ext_name}", prefix)
+
+    return ttl_count
+
+
+def _load_extension_legacy(
+    g: Graph,
+    ext_dir: Path,
+    ext_name: str,
+    ext_modules: dict[str, tuple[str, str]],
+) -> int:
+    """Legacy loader for extension directories without manifest.json."""
+    ttl_count = 0
+    for ttl_file in sorted(ext_dir.glob("*.ttl")):
+        if "exemplar" in ttl_file.name:
+            continue
+        try:
+            g.parse(str(ttl_file), format="turtle")
+            ttl_count += 1
+        except Exception as e:
+            logger.warning("Failed to parse extension %s: %s", ttl_file, e)
+
+    for prefix, ns_uri in g.namespaces():
+        ns_str = str(ns_uri)
+        if ext_name in ns_str and ns_str not in PREFIX_TO_MODULE and ns_str not in ext_modules:
+            ext_modules[ns_str] = ("ext", ext_name)
+
+    return ttl_count
 
 
 def parse_ontology(
@@ -352,11 +493,12 @@ def parse_ontology(
         if prefix:
             schema.namespaces[prefix] = str(ns_uri)
 
-    # Extract classes
-    results = g.query(CLASSES_QUERY)
+    # Extract classes — first pass: classes with SHACL NodeShapes (full property
+    # detail), second pass: every remaining owl:Class so that pure T-Box
+    # taxonomies (common in CAC modules) are still discoverable.
     class_data: dict[str, dict] = {}
 
-    for row in results:
+    for row in g.query(CLASSES_QUERY):
         cls_iri = str(row["class"])
         if cls_iri in class_data:
             if row.shape:
@@ -379,10 +521,40 @@ def parse_ontology(
                 "shapes": shapes,
             }
 
-    logger.info("Found %d classes with SHACL shapes", len(class_data))
+    shape_class_count = len(class_data)
+    logger.info("Found %d classes with SHACL shapes", shape_class_count)
+
+    for row in g.query(ALL_CLASSES_QUERY):
+        cls_iri = str(row["class"])
+        if cls_iri in class_data:
+            if row.parent:
+                class_data[cls_iri]["parents"].add(str(row.parent))
+            continue
+        label = str(row.label) if row.label else iri_local_name(cls_iri)
+        comment = str(row.comment) if row.comment else ""
+        parents = set()
+        if row.parent:
+            parents.add(str(row.parent))
+        class_data[cls_iri] = {
+            "label": label,
+            "comment": comment,
+            "parents": parents,
+            "shapes": set(),
+        }
+
+    logger.info(
+        "Found %d total classes (%d with SHACL shapes, %d T-Box only)",
+        len(class_data),
+        shape_class_count,
+        len(class_data) - shape_class_count,
+    )
 
     for cls_iri, data in class_data.items():
-        top_level, module = _classify_module(cls_iri, ext_modules)
+        classification = _classify_module(cls_iri, ext_modules)
+        if classification is None:
+            logger.debug("Skipping external IRI (informational parent): %s", cls_iri)
+            continue
+        top_level, module = classification
         module_key = f"{top_level}.{module}"
 
         is_facet = _is_subclass_of(g, cls_iri, FACET_IRI)

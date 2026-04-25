@@ -95,6 +95,63 @@ The [CDO Community Playground](https://docs.google.com/document/d/1EiXQiAeUGk-62
 
 See the [extensions recipe](recipes/extensions.md#cdo-community-playground-testing) for how to test and submit your own extensions to the Playground.
 
+## Extension Packages
+
+The SDK supports extension ontologies as separate, opt-in packages that provide typed bindings for domain-specific ontologies built on CASE/UCO. Each extension package tracks its upstream ontology version independently from the core SDK.
+
+### Available Extension Packages
+
+| Package | Extension | Version | Upper Ontology |
+|---------|-----------|---------|----------------|
+| `case-uco-cac` | [CAC Ontology](https://github.com/Project-VIC-International/CAC-Ontology) | 3.0.0 | gUFO |
+| `case-uco-aeo` | [Adversary Engagement Ontology](https://github.com/UNHSAILLab/Adversary-Engagement-Ontology) | 0.2.1 | None |
+
+### Installing Extension Packages
+
+Install only the extensions you need alongside the core SDK:
+
+```bash
+# Core CASE/UCO only
+pip install case-uco
+
+# Core + CAC Ontology
+pip install case-uco case-uco-cac
+
+# Core + AEO
+pip install case-uco case-uco-aeo
+
+# All three
+pip install case-uco case-uco-cac case-uco-aeo
+```
+
+### Cross-Domain Composition
+
+Extension packages can be combined in a single graph:
+
+```python
+from case_uco import CASEGraph
+
+graph = CASEGraph(extra_context={
+    "cac-core": "https://cacontology.projectvic.org/core#",
+    "engagement": "https://ontology.adversaryengagement.org/ae/engagement/",
+})
+```
+
+### CDO Shapes Compatibility Matrix
+
+When using extensions with CDO Shapes profiles, check compatibility:
+
+| CDO Shapes Profile | CAC Ontology | AEO |
+|-------------------|--------------|-----|
+| CDO-Shapes-gufo | Included (CAC imports gUFO) | Compatible |
+| CDO-Shapes-BFO | Not recommended | Compatible |
+| CDO-Shapes-PROV-O | Compatible | Compatible |
+| CDO-Shapes-Time | Compatible | Compatible |
+| CDO-Shapes-GeoSPARQL | Compatible | Compatible |
+| CDO-Shapes-FOAF | Compatible | Compatible |
+
+See the [cross-domain extensions recipe](recipes/cross-domain-extensions.md) for detailed usage examples.
+
 ## UCO Profiles — Interoperability with Other Ontologies
 
 UCO is designed as a "mid-level" domain ontology — it deliberately avoids committing to a single top-level (foundational) ontology so that it can interoperate with multiple external ontologies. To explore and formalize these alignments, the UCO community maintains a set of **Profile** repositories that map UCO concepts to other established ontologies.
@@ -111,12 +168,12 @@ All profiles are currently in **exploratory** status. They define `owl:subClassO
 
 | Profile | External Ontology | What it aligns | Useful when you need... |
 |---------|------------------|----------------|------------------------|
-| [UCO-Profile-BFO](https://github.com/ucoProject/UCO-Profile-BFO) | [Basic Formal Ontology (BFO 2020)](https://github.com/BFO-ontology/BFO-2020) | UCO classes → BFO categories (Endurant, Perdurant, etc.) | Top-level grounding for formal reasoning, biomedical/scientific ontology interop |
-| [UCO-Profile-gufo](https://github.com/ucoProject/UCO-Profile-gufo) | [gentle Unified Foundational Ontology (gUFO)](https://github.com/nemo-ufes/gufo) | UCO classes → gUFO types and relators | OntoUML-based modeling, the [CAC Ontology](https://github.com/Project-VIC-International/CAC-Ontology) uses gUFO |
-| [UCO-Profile-PROV-O](https://github.com/ucoProject/UCO-Profile-PROV-O) | [W3C PROV-O](https://www.w3.org/TR/prov-o/) | UCO actions/provenance → PROV-O Activities, Entities, Agents | Provenance tracking, chain of custody, interop with W3C provenance tooling |
-| [UCO-Profile-Time](https://github.com/ucoProject/UCO-Profile-Time) | [W3C OWL-Time](https://www.w3.org/TR/owl-time/) | UCO temporal concepts → OWL-Time instants and intervals | Temporal reasoning, calendar/clock time modeling, time-bounded existence |
-| [UCO-Profile-GeoSPARQL](https://github.com/ucoProject/UCO-Profile-GeoSPARQL) | [OGC GeoSPARQL 1.1](https://github.com/opengeospatial/ogc-geosparql) | UCO locations → GeoSPARQL Features and Geometries | Geospatial queries, coordinate reference systems, spatial reasoning |
-| [UCO-Profile-FOAF](https://github.com/ucoProject/UCO-Profile-FOAF) | [Friend-of-a-Friend (FOAF)](http://xmlns.com/foaf/0.1/) | UCO identities → FOAF Persons, Organizations, Agents | Social network data, identity linkage, Linked Data interop |
+| [CDO-Shapes-BFO](https://github.com/Cyber-Domain-Ontology/CDO-Shapes-BFO) | [Basic Formal Ontology (BFO 2020)](https://github.com/BFO-ontology/BFO-2020) | UCO classes → BFO categories (Endurant, Perdurant, etc.) | Top-level grounding for formal reasoning, biomedical/scientific ontology interop |
+| [CDO-Shapes-gufo](https://github.com/Cyber-Domain-Ontology/CDO-Shapes-gufo) | [gentle Unified Foundational Ontology (gUFO)](https://github.com/nemo-ufes/gufo) | UCO classes → gUFO types and relators | OntoUML-based modeling, the [CAC Ontology](https://github.com/Project-VIC-International/CAC-Ontology) uses gUFO |
+| [CDO-Shapes-PROV-O](https://github.com/Cyber-Domain-Ontology/CDO-Shapes-PROV-O) | [W3C PROV-O](https://www.w3.org/TR/prov-o/) | UCO actions/provenance → PROV-O Activities, Entities, Agents | Provenance tracking, chain of custody, interop with W3C provenance tooling |
+| [CDO-Shapes-Time](https://github.com/Cyber-Domain-Ontology/CDO-Shapes-Time) | [W3C OWL-Time](https://www.w3.org/TR/owl-time/) | UCO temporal concepts → OWL-Time instants and intervals | Temporal reasoning, calendar/clock time modeling, time-bounded existence |
+| [CDO-Shapes-GeoSPARQL](https://github.com/Cyber-Domain-Ontology/CDO-Shapes-GeoSPARQL) | [OGC GeoSPARQL 1.1](https://github.com/opengeospatial/ogc-geosparql) | UCO locations → GeoSPARQL Features and Geometries | Geospatial queries, coordinate reference systems, spatial reasoning |
+| [CDO-Shapes-FOAF](https://github.com/Cyber-Domain-Ontology/CDO-Shapes-FOAF) | [Friend-of-a-Friend (FOAF)](http://xmlns.com/foaf/0.1/) | UCO identities → FOAF Persons, Organizations, Agents | Social network data, identity linkage, Linked Data interop |
 
 ### Using Profiles with the SDK
 
@@ -143,19 +200,19 @@ If you're already familiar with another ontology and want to model cyber-domain 
 
 | You know... | Start with this profile | Then use these SDK resources |
 |------------|------------------------|------------------------------|
-| BFO (biomedical, scientific) | [UCO-Profile-BFO](https://github.com/ucoProject/UCO-Profile-BFO) | The profile maps BFO's Endurant/Perdurant distinction to UCO classes |
-| gUFO / OntoUML | [UCO-Profile-gufo](https://github.com/ucoProject/UCO-Profile-gufo) | [Existence intervals recipe](recipes/existence-intervals.md) covers gUFO temporal patterns |
-| W3C PROV-O (provenance) | [UCO-Profile-PROV-O](https://github.com/ucoProject/UCO-Profile-PROV-O) | [Chain of custody recipe](recipes/chain-of-custody.md) maps CASE provenance to PROV-O concepts |
-| OWL-Time (temporal) | [UCO-Profile-Time](https://github.com/ucoProject/UCO-Profile-Time) | [Existence intervals recipe](recipes/existence-intervals.md) covers OWL-Time integration |
-| GeoSPARQL (geospatial) | [UCO-Profile-GeoSPARQL](https://github.com/ucoProject/UCO-Profile-GeoSPARQL) | [Location recipe](recipes/location.md) covers GPS and geolocation modeling |
-| FOAF (social/identity) | [UCO-Profile-FOAF](https://github.com/ucoProject/UCO-Profile-FOAF) | [Accounts recipe](recipes/accounts.md) covers identity and account linking |
+| BFO (biomedical, scientific) | [CDO-Shapes-BFO](https://github.com/Cyber-Domain-Ontology/CDO-Shapes-BFO) | The profile maps BFO's Endurant/Perdurant distinction to UCO classes |
+| gUFO / OntoUML | [CDO-Shapes-gufo](https://github.com/Cyber-Domain-Ontology/CDO-Shapes-gufo) | [Existence intervals recipe](recipes/existence-intervals.md) covers gUFO temporal patterns |
+| W3C PROV-O (provenance) | [CDO-Shapes-PROV-O](https://github.com/Cyber-Domain-Ontology/CDO-Shapes-PROV-O) | [Chain of custody recipe](recipes/chain-of-custody.md) maps CASE provenance to PROV-O concepts |
+| OWL-Time (temporal) | [CDO-Shapes-Time](https://github.com/Cyber-Domain-Ontology/CDO-Shapes-Time) | [Existence intervals recipe](recipes/existence-intervals.md) covers OWL-Time integration |
+| GeoSPARQL (geospatial) | [CDO-Shapes-GeoSPARQL](https://github.com/Cyber-Domain-Ontology/CDO-Shapes-GeoSPARQL) | [Location recipe](recipes/location.md) covers GPS and geolocation modeling |
+| FOAF (social/identity) | [CDO-Shapes-FOAF](https://github.com/Cyber-Domain-Ontology/CDO-Shapes-FOAF) | [Accounts recipe](recipes/accounts.md) covers identity and account linking |
 
 ### Profile Development
 
 The [UCO-Profile-Example](https://github.com/ucoProject/UCO-Profile-Example) repository serves as a template for creating new profiles. Each profile repo follows a consistent structure:
 
 ```
-UCO-Profile-*/
+CDO-Shapes-*/
 ├── ontology/          OWL alignment file (e.g., uco-bfo.ttl)
 ├── shapes/            SHACL shapes (if applicable)
 ├── tests/             Validation tests
@@ -260,12 +317,13 @@ The `mcp_server/` directory contains a [FastMCP](https://gofastmcp.com/) server 
 
 | Tool | Description |
 |------|-------------|
-| `search_classes(query)` | Find classes by keyword (name or description) |
-| `get_class_details(name)` | Full property table for a class |
-| `find_classes_for_domain(domain)` | Map an investigative task to relevant classes |
-| `list_all_facets()` | All Facet classes for the ObservableObject pattern |
+| `search_classes(query, scope)` | Find classes by keyword. Scope: `"all"`, `"core"`, or extension name |
+| `get_class_details(name, scope)` | Full property table for a class |
+| `find_classes_for_domain(domain, scope)` | Map an investigative task to relevant classes |
+| `list_all_facets(scope)` | All Facet classes for the ObservableObject pattern |
 | `get_recipe(scenario)` | Find a code recipe for a forensic workflow |
 | `list_all_vocabs()` | All vocabulary/enum types |
+| `get_uco_profiles(query)` | CDO Shapes profiles with extension compatibility annotations |
 
 The server also exposes MCP resources (`case-uco://domains`, `case-uco://modules`, `case-uco://patterns`) that AI agents can read for orientation.
 

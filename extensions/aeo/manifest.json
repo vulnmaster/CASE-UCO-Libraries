@@ -1,0 +1,39 @@
+{
+  "name": "aeo",
+  "display_name": "Adversary Engagement Ontology",
+  "version": "0.2.1",
+  "upstream_repo": "https://github.com/UNHSAILLab/Adversary-Engagement-Ontology",
+  "upstream_ref": "main",
+  "license": "Apache-2.0",
+  "namespaces": {
+    "engagement": "https://ontology.adversaryengagement.org/ae/engagement/",
+    "objective": "https://ontology.adversaryengagement.org/ae/objective/",
+    "attack": "https://ontology.adversaryengagement.org/ae/attack/",
+    "identity": "https://ontology.adversaryengagement.org/ae/identity/",
+    "role": "https://ontology.adversaryengagement.org/ae/role/",
+    "vocabulary": "https://ontology.adversaryengagement.org/ae/vocabulary/"
+  },
+  "ontology_submodule": "ontology",
+  "owl_files": [
+    "ontology/ontology/engagement/engagement.ttl",
+    "ontology/ontology/objective/objective.ttl",
+    "ontology/ontology/attack/attack.ttl",
+    "ontology/ontology/identity/identity.ttl",
+    "ontology/ontology/role/role.ttl",
+    "ontology/ontology/vocabulary/vocabulary.ttl"
+  ],
+  "shacl_files": [],
+  "bridge_files": [],
+  "exemplar_files": [],
+  "uco_compat": ["1.2.0", "1.4.0"],
+  "upper_ontology": "none",
+  "cdo_shapes_compatibility": {
+    "CDO-Shapes-gufo": "compatible",
+    "CDO-Shapes-BFO": "compatible",
+    "CDO-Shapes-PROV-O": "compatible",
+    "CDO-Shapes-Time": "compatible",
+    "CDO-Shapes-GeoSPARQL": "compatible",
+    "CDO-Shapes-FOAF": "compatible",
+    "CDO-Shapes-OWL": "compatible"
+  }
+}

@@ -200,3 +200,62 @@ Once both `case_validate` and `make -j check` pass, place the extension in a pub
 - **[UCO Extensions (AI-Generated)](https://github.com/vulnmaster/Unified-Cyber-Ontology-Extensions-AI-Generated)** — UCO extensions for the same project
 
 See [ECOSYSTEM.md](../ECOSYSTEM.md#community-extensions) for the full list of community extensions.
+
+## Extension Manifest Schema (v1.11.0+)
+
+Complex extensions with multiple modules can provide a `manifest.json` file in their extension directory. This replaces the legacy heuristic namespace detection with explicit configuration.
+
+### Manifest Fields
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `name` | Yes | Short identifier (e.g., `"cac"`, `"aeo"`) |
+| `display_name` | Yes | Human-readable name |
+| `version` | Yes | Upstream ontology version (semver) |
+| `upstream_repo` | Yes | URL of the upstream ontology repository |
+| `upstream_ref` | No | Git tag/branch the submodule is pinned to |
+| `license` | Yes | SPDX license identifier |
+| `namespaces` | Yes | Map of prefix → namespace URI for all extension namespaces |
+| `owl_files` | Yes | Relative paths to OWL definition files |
+| `shacl_files` | No | Relative paths to SHACL shapes files |
+| `bridge_files` | No | Relative paths to bridge/alignment modules |
+| `exemplar_files` | No | Relative paths to example instance data |
+| `uco_compat` | Yes | List of compatible UCO versions |
+| `upper_ontology` | No | `"gufo"`, `"bfo"`, or `"none"` |
+| `cdo_shapes_compatibility` | No | Map of CDO Shapes profile → compatibility status |
+
+### Example Manifest
+
+```json
+{
+  "name": "myext",
+  "display_name": "My Extension Ontology",
+  "version": "1.0.0",
+  "upstream_repo": "https://github.com/example/my-extension",
+  "license": "Apache-2.0",
+  "namespaces": {
+    "myext": "https://example.org/ontology/myext/"
+  },
+  "owl_files": ["ontology/myext.ttl"],
+  "shacl_files": ["ontology/myext-shapes.ttl"],
+  "uco_compat": ["1.4.0"],
+  "upper_ontology": "none"
+}
+```
+
+The JSON Schema for validation is at [`extensions/manifest-schema.json`](../../extensions/manifest-schema.json).
+
+### Generating Extension Packages
+
+With a manifest in place, use the `generate-extension` CLI subcommand to produce complete publishable packages:
+
+```bash
+case-uco-generate generate-extension \
+  --extension extensions/myext/ \
+  --output-dir packages/case-uco-myext/ \
+  --lang all
+```
+
+This generates typed bindings for Python, C#, Java, and Rust, along with package manifests (`pyproject.toml`, `.csproj`, `pom.xml`, `Cargo.toml`) and a `_registry.json` for runtime class discovery.
+
+See the [cross-domain extensions recipe](cross-domain-extensions.md) for usage examples with CAC and AEO.

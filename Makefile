@@ -233,3 +233,39 @@ endif
 	@echo "Your extension is ready for CDO Community Playground submission."
 	@echo "Place it in a public GitHub repo and notify the Ontology Committee."
 	@rm -rf $(PLAYGROUND_DIR)
+
+# ---------------------------------------------------------------------------
+# Per-extension validation and generation (manifest-driven)
+# ---------------------------------------------------------------------------
+# Usage:
+#   make validate-extension EXT=cac DATA=path/to/data.jsonld
+#   make test-ext-cac
+#   make test-ext-aeo
+#   make generate-ext EXT=cac
+
+EXT ?= cac
+DATA ?=
+
+validate-extension:
+ifndef DATA
+	$(error DATA is required. Usage: make validate-extension EXT=$(EXT) DATA=path/to/data.jsonld)
+endif
+	$(VENV)/bin/python scripts/validate_extension.py extensions/$(EXT)/manifest.json $(DATA)
+
+test-ext-cac:
+	$(MAKE) test-extension-compat \
+	  EXT_TTL=extensions/cac/ontology/ontology/cacontology-core-spine.ttl \
+	  EXT_SHAPES=extensions/cac/ontology/ontology/cacontology-core-spine-shapes.ttl \
+	  EXT_DATA=extensions/cac/ontology/ontology/cacontology-core-spine-shapes.ttl
+
+test-ext-aeo:
+	$(MAKE) test-extension-compat \
+	  EXT_TTL=extensions/aeo/ontology/ontology/engagement/engagement.ttl \
+	  EXT_SHAPES=extensions/aeo/ontology/ontology/engagement/engagement.ttl \
+	  EXT_DATA=extensions/aeo/ontology/ontology/engagement/engagement.ttl
+
+generate-ext:
+	$(VENV)/bin/case-uco-generate generate-extension \
+	  --extension extensions/$(EXT)/ \
+	  --output-dir packages/case-uco-$(EXT)/ \
+	  --lang all

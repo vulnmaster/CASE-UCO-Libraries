@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/vulnmaster/CASE-UCO-SDK/extensions/manifest-schema.json",
+  "title": "CASE/UCO SDK Extension Manifest",
+  "description": "Metadata schema for extension ontologies that extend the CASE/UCO ecosystem. Each extension directory under extensions/ must contain a manifest.json conforming to this schema.",
+  "type": "object",
+  "required": ["name", "display_name", "version", "upstream_repo", "license", "namespaces", "owl_files", "uco_compat"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$",
+      "description": "Short identifier used as the extension directory name and package suffix (e.g., 'cac', 'aeo')."
+    },
+    "display_name": {
+      "type": "string",
+      "description": "Human-readable name for documentation and CLI output."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+",
+      "description": "Version of the upstream ontology this extension tracks. Extension binding packages use this as their package version."
+    },
+    "upstream_repo": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL of the upstream ontology repository."
+    },
+    "upstream_ref": {
+      "type": "string",
+      "description": "Git tag, branch, or commit SHA the submodule is pinned to."
+    },
+    "license": {
+      "type": "string",
+      "description": "SPDX license identifier for the extension ontology."
+    },
+    "namespaces": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "format": "uri" },
+      "description": "Map of prefix -> namespace URI for all namespaces defined by this extension. Used by the generator for module classification instead of heuristic detection."
+    },
+    "ontology_submodule": {
+      "type": "string",
+      "description": "Relative path from the extension directory to the git submodule root (typically 'ontology')."
+    },
+    "owl_files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Relative paths (from extension directory) to OWL definition files to parse. Order matters: load spine/core files before domain modules."
+    },
+    "shacl_files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Relative paths to SHACL shapes files. May be empty if SHACL is embedded in OWL files (as with AEO)."
+    },
+    "bridge_files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Relative paths to bridge/alignment modules (e.g., UCO bridge, CASE bridge, gUFO bridge). Loaded for validation but not for class generation."
+    },
+    "exemplar_files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Relative paths to example instance data files (A-Box). Used for validation testing only."
+    },
+    "uco_compat": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of UCO/CASE versions this extension is known to be compatible with (e.g., ['1.4.0', '1.5.0'])."
+    },
+    "upper_ontology": {
+      "type": "string",
+      "enum": ["gufo", "bfo", "none"],
+      "description": "Which upper/foundational ontology this extension directly depends on, if any."
+    },
+    "cdo_shapes_compatibility": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "enum": ["compatible", "included", "not_recommended"]
+      },
+      "description": "Compatibility status of each CDO Shapes profile with this extension. 'included' means the extension already provides this alignment. 'not_recommended' means loading both may produce conflicting axioms."
+    }
+  },
+  "additionalProperties": false
+}

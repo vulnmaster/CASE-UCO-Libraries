@@ -3,11 +3,16 @@
 from __future__ import annotations
 
 import argparse
+import json
 import logging
+import re
 import sys
 from pathlib import Path
 
-from case_uco_generator.ontology_parser import parse_ontology
+from case_uco_generator.ontology_parser import (
+    parse_ontology,
+    load_extension_manifest,
+)
 from case_uco_generator.backends.python_backend import PythonBackend
 from case_uco_generator.backends.csharp_backend import CSharpBackend
 from case_uco_generator.backends.java_backend import JavaBackend
@@ -68,6 +73,31 @@ def main(argv: list[str] | None = None) -> int:
         help="Output directory for scaffolded files (default: current directory)",
     )
 
+    # --- generate-extension subcommand ---
+    ext_parser = subparsers.add_parser(
+        "generate-extension",
+        help="Generate complete publishable packages from an extension manifest",
+    )
+    ext_parser.add_argument(
+        "--extension",
+        type=Path,
+        required=True,
+        help="Path to the extension directory containing manifest.json",
+    )
+    ext_parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=None,
+        help="Output directory for generated packages (default: packages/case-uco-<name>)",
+    )
+    ext_parser.add_argument(
+        "--lang",
+        choices=["python", "csharp", "java", "rust", "all"],
+        default="all",
+        help="Target language(s) (default: all)",
+    )
+    ext_parser.add_argument("--ontology-dir", type=Path, default=None)
+
     args = parser.parse_args(argv)
 
     logging.basicConfig(
@@ -83,6 +113,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_generate(args)
     elif args.command == "scaffold":
         return _cmd_scaffold(args)
+    elif args.command == "generate-extension":
+        return _cmd_generate_extension(args)
 
     return 0
 
@@ -186,6 +218,450 @@ def _create_backend(lang: str, schema, output_root: Path):
     }
     cls, out_dir = backends[lang]
     return cls(schema, out_dir)
+
+
+def _cmd_generate_extension(args) -> int:
+    ext_dir = Path(args.extension)
+    manifest = load_extension_manifest(ext_dir)
+    if manifest is None:
+        logging.error("No manifest.json found in %s", ext_dir)
+        return 1
+
+    ext_name = manifest["name"]
+    ext_version = manifest["version"]
+    display_name = manifest["display_name"]
+    pkg_name = f"case-uco-{ext_name}"
+    py_pkg = f"case_uco_{ext_name}"
+
+    repo_root = Path.cwd()
+    ontology_dir = args.ontology_dir or repo_root / "ontology"
+    output_dir = args.output_dir or repo_root / "packages" / pkg_name
+
+    if not ontology_dir.exists():
+        logging.error("Ontology directory not found: %s", ontology_dir)
+        return 1
+
+    logging.info("Parsing core ontology from %s ...", ontology_dir)
+    schema = parse_ontology(ontology_dir, extensions_dir=ext_dir.parent)
+
+    ext_schema = _filter_extension_schema(schema, ext_name)
+    if not ext_schema.classes:
+        logging.warning("No SHACL-shaped classes found for extension '%s'.", ext_name)
+
+    languages = (
+        ["python", "csharp", "java", "rust"]
+        if args.lang == "all"
+        else [args.lang]
+    )
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    total_files = 0
+
+    uco_compat = manifest.get("uco_compat", [])
+    uco_dep = f">={uco_compat[0]}" if uco_compat else ">=1.0.0"
+
+    for lang in languages:
+        logging.info("Generating %s package for %s ...", lang, ext_name)
+        count = _generate_extension_package(
+            lang, ext_schema, schema, output_dir, ext_name, ext_version,
+            display_name, py_pkg, uco_dep, manifest,
+        )
+        total_files += count
+        logging.info("  -> %d files generated for %s", count, lang)
+
+    logging.info("Generating extension registry ...")
+    reg_path = _emit_extension_registry(ext_schema, schema, output_dir, ext_name)
+    total_files += 1
+    logging.info("  -> %s", reg_path)
+
+    logging.info("Done: %d total files generated for extension '%s'.", total_files, ext_name)
+    return 0
+
+
+def _filter_extension_schema(schema, ext_name: str):
+    """Extract only the classes belonging to a given extension from the full schema."""
+    from case_uco_generator.schema_model import OntologySchema
+
+    ext_prefix = f"ext.{ext_name}"
+    filtered_modules = {k: v for k, v in schema.modules.items() if k.startswith(ext_prefix)}
+    ext_iris = set()
+    for iris in filtered_modules.values():
+        ext_iris.update(iris)
+    filtered_classes = {k: v for k, v in schema.classes.items() if k in ext_iris}
+
+    return OntologySchema(
+        classes=filtered_classes,
+        vocabs=dict(schema.vocabs),
+        namespaces=dict(schema.namespaces),
+        modules=filtered_modules,
+    )
+
+
+def _module_display_name(module_key: str, ext_name: str) -> str:
+    """Strip the internal ``ext.<name>.`` prefix from a module key.
+
+    Internal module keys look like ``ext.cac.cacontology-sex-trafficking``;
+    consumers (MCP search, language registries, documentation) expect the
+    user-facing namespace prefix (``cacontology-sex-trafficking``).
+    """
+    expected = f"ext.{ext_name}."
+    if module_key.startswith(expected):
+        return module_key[len(expected):]
+    return module_key
+
+
+def _emit_extension_registry(ext_schema, full_schema, output_dir: Path, ext_name: str) -> Path:
+    """Write _registry.json containing only the extension's classes."""
+    from case_uco_generator.schema_model import iri_local_name
+
+    module_names = sorted(
+        {_module_display_name(k, ext_name) for k in ext_schema.modules.keys()}
+    )
+
+    registry: dict = {
+        "extension": ext_name,
+        "modules": module_names,
+        "classes": {},
+        "vocabs": {},
+    }
+
+    for cls in sorted(ext_schema.classes.values(), key=lambda c: c.name):
+        all_props = full_schema.resolve_all_properties(cls)
+        props_data = []
+        for prop in all_props:
+            props_data.append({
+                "name": prop.name,
+                "type": iri_local_name(prop.range_iri),
+                "type_iri": prop.range_iri,
+                "cardinality": prop.cardinality.value,
+                "required": prop.cardinality.is_required,
+                "description": prop.description,
+            })
+        registry["classes"][cls.name] = {
+            "iri": cls.iri,
+            "module": _module_display_name(cls.module, ext_name),
+            "description": cls.description,
+            "parents": [iri_local_name(p) for p in cls.parent_iris],
+            "is_facet": cls.is_facet,
+            "properties": props_data,
+            "source": ext_name,
+        }
+
+    path = output_dir / "_registry.json"
+    path.write_text(json.dumps(registry, indent=2, ensure_ascii=False), encoding="utf-8")
+    return path
+
+
+def _to_snake(name: str) -> str:
+    s1 = re.sub(r"(.)([A-Z][a-z]+)", r"\1_\2", name)
+    return re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s1).lower()
+
+
+def _sanitize_module_id(name: str) -> str:
+    """Convert a manifest namespace prefix to a language-safe identifier.
+
+    Manifest prefixes (e.g. ``cacontology-sex-trafficking``) contain hyphens
+    that are not valid Python/C#/Java/Rust identifiers. Hyphens become
+    underscores; any other non-alphanumeric character is also normalized.
+    """
+    sanitized = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
+    return sanitized or "core"
+
+
+def _generate_extension_package(
+    lang: str,
+    ext_schema,
+    full_schema,
+    output_dir: Path,
+    ext_name: str,
+    ext_version: str,
+    display_name: str,
+    py_pkg: str,
+    uco_dep: str,
+    manifest: dict,
+) -> int:
+    """Generate a complete publishable package for one language.  Returns file count."""
+    if lang == "python":
+        return _gen_python_extension(ext_schema, full_schema, output_dir, ext_name, ext_version, display_name, py_pkg, uco_dep, manifest)
+    elif lang == "csharp":
+        return _gen_csharp_extension(ext_schema, output_dir, ext_name, ext_version, display_name, uco_dep)
+    elif lang == "java":
+        return _gen_java_extension(ext_schema, output_dir, ext_name, ext_version, display_name, uco_dep)
+    elif lang == "rust":
+        return _gen_rust_extension(ext_schema, output_dir, ext_name, ext_version, display_name, uco_dep)
+    return 0
+
+
+def _gen_python_extension(ext_schema, full_schema, output_dir, ext_name, ext_version, display_name, py_pkg, uco_dep, manifest) -> int:
+    from case_uco_generator.schema_model import iri_local_name
+
+    py_dir = output_dir / "python" / py_pkg
+    py_dir.mkdir(parents=True, exist_ok=True)
+    count = 0
+
+    namespaces = manifest.get("namespaces", {})
+    ns_lines = "\n".join(f'    "{prefix}": "{uri}",' for prefix, uri in sorted(namespaces.items()))
+
+    init_content = (
+        f'"""{display_name} — CASE/UCO SDK extension bindings."""\n\n'
+        f'__version__ = "{ext_version}"\n\n'
+        f"NAMESPACES: dict[str, str] = {{\n{ns_lines}\n}}\n\n"
+        f'_REGISTRY_PATH = __file__.replace("__init__.py", "_registry.json")\n'
+    )
+    (py_dir / "__init__.py").write_text(init_content, encoding="utf-8")
+    count += 1
+
+    modules_written: set[str] = set()
+    for module_key, class_iris in sorted(ext_schema.modules.items()):
+        parts = module_key.split(".", 2)
+        prefix = parts[-1] if len(parts) > 2 else parts[-1]
+        mod_name = _sanitize_module_id(prefix)
+        if mod_name in modules_written:
+            continue
+        modules_written.add(mod_name)
+
+        classes = [ext_schema.classes[iri] for iri in class_iris if iri in ext_schema.classes]
+        classes.sort(key=lambda c: c.name)
+        if not classes:
+            continue
+
+        lines = [
+            f'"""{display_name} — {prefix} module."""\n',
+            "from __future__ import annotations\n",
+            "from dataclasses import dataclass, field",
+            "from typing import Optional\n\n",
+        ]
+
+        for cls in classes:
+            lines.append("@dataclass")
+            lines.append(f"class {cls.name}:")
+            desc = cls.description[:200] if cls.description else cls.name
+            lines.append(f'    """{desc}"""\n')
+            lines.append(f'    CLASS_IRI: str = "{cls.iri}"')
+
+            all_props = full_schema.resolve_all_properties(cls)
+            for prop in all_props:
+                field_name = _to_snake(prop.name)
+                type_str = prop.type_name_for("python")
+                if prop.cardinality.is_list:
+                    lines.append(f"    {field_name}: list[{type_str}] = field(default_factory=list)")
+                else:
+                    lines.append(f"    {field_name}: Optional[{type_str}] = field(default=None)")
+            lines.append("\n")
+
+        (py_dir / f"{mod_name}.py").write_text("\n".join(lines), encoding="utf-8")
+        count += 1
+
+    pyproject = (
+        "[build-system]\n"
+        'requires = ["hatchling"]\n'
+        'build-backend = "hatchling.build"\n\n'
+        "[project]\n"
+        f'name = "case-uco-{ext_name}"\n'
+        f'version = "{ext_version}"\n'
+        f'description = "{display_name} bindings for CASE/UCO SDK"\n'
+        'requires-python = ">=3.10"\n'
+        "dependencies = [\n"
+        f'    "case-uco{uco_dep}",\n'
+        "]\n\n"
+        '[project.entry-points."case_uco.extensions"]\n'
+        f'{ext_name} = "{py_pkg}:_REGISTRY_PATH"\n'
+    )
+    (output_dir / "python" / "pyproject.toml").write_text(pyproject, encoding="utf-8")
+    count += 1
+    return count
+
+
+def _gen_csharp_extension(ext_schema, output_dir, ext_name, ext_version, display_name, uco_dep) -> int:
+    cs_dir = output_dir / "csharp" / f"CaseUco.{ext_name.upper()}"
+    cs_dir.mkdir(parents=True, exist_ok=True)
+    count = 0
+
+    csproj = (
+        '<Project Sdk="Microsoft.NET.Sdk">\n'
+        "  <PropertyGroup>\n"
+        "    <TargetFramework>net8.0</TargetFramework>\n"
+        f"    <PackageId>CaseUco.{ext_name.upper()}</PackageId>\n"
+        f"    <Version>{ext_version}</Version>\n"
+        f"    <Description>{display_name} bindings for CASE/UCO SDK</Description>\n"
+        "  </PropertyGroup>\n"
+        "  <ItemGroup>\n"
+        f'    <PackageReference Include="CaseUco" Version="{uco_dep.lstrip(">=")}"/>\n'
+        "  </ItemGroup>\n"
+        "</Project>\n"
+    )
+    (cs_dir / f"CaseUco.{ext_name.upper()}.csproj").write_text(csproj, encoding="utf-8")
+    count += 1
+
+    for module_key, class_iris in sorted(ext_schema.modules.items()):
+        parts = module_key.split(".", 2)
+        prefix = parts[-1] if len(parts) > 2 else parts[-1]
+        mod_name = _sanitize_module_id(prefix)
+        classes = [ext_schema.classes[iri] for iri in class_iris if iri in ext_schema.classes]
+        if not classes:
+            continue
+
+        ns_pascal = mod_name[0].upper() + mod_name[1:]
+        lines = [
+            f"// {display_name} — {mod_name} module",
+            f"namespace CaseUco.Ext.{ext_name.upper()}.{ns_pascal}",
+            "{",
+        ]
+        for cls in sorted(classes, key=lambda c: c.name):
+            lines.append(f"    public class {cls.name}")
+            lines.append("    {")
+            lines.append(f'        public static readonly string ClassIri = "{cls.iri}";')
+            for prop in cls.properties:
+                cs_type = prop.type_name_for("csharp")
+                prop_name = prop.name[0].upper() + prop.name[1:]
+                if prop.cardinality.is_list:
+                    lines.append(f"        public List<{cs_type}> {prop_name} {{ get; set; }} = new();")
+                else:
+                    lines.append(f"        public {cs_type}? {prop_name} {{ get; set; }}")
+            lines.append("    }")
+            lines.append("")
+        lines.append("}")
+
+        (cs_dir / f"{ns_pascal}.cs").write_text("\n".join(lines), encoding="utf-8")
+        count += 1
+
+    return count
+
+
+def _gen_java_extension(ext_schema, output_dir, ext_name, ext_version, display_name, uco_dep) -> int:
+    java_base = output_dir / "java" / "src" / "main" / "java" / "org" / "caseontology" / "ext" / ext_name
+    java_base.mkdir(parents=True, exist_ok=True)
+    count = 0
+
+    pom = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<project xmlns="http://maven.apache.org/POM/4.0.0"\n'
+        '         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n'
+        '         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">\n'
+        "  <modelVersion>4.0.0</modelVersion>\n"
+        f"  <groupId>org.caseontology</groupId>\n"
+        f"  <artifactId>case-uco-{ext_name}</artifactId>\n"
+        f"  <version>{ext_version}</version>\n"
+        f"  <name>{display_name}</name>\n"
+        "  <dependencies>\n"
+        "    <dependency>\n"
+        "      <groupId>org.caseontology</groupId>\n"
+        "      <artifactId>case-uco</artifactId>\n"
+        f"      <version>{uco_dep.lstrip('>=')}</version>\n"
+        "    </dependency>\n"
+        "  </dependencies>\n"
+        "</project>\n"
+    )
+    (output_dir / "java" / "pom.xml").write_text(pom, encoding="utf-8")
+    count += 1
+
+    for module_key, class_iris in sorted(ext_schema.modules.items()):
+        parts = module_key.split(".", 2)
+        prefix = parts[-1] if len(parts) > 2 else parts[-1]
+        mod_name = _sanitize_module_id(prefix)
+        classes = [ext_schema.classes[iri] for iri in class_iris if iri in ext_schema.classes]
+        if not classes:
+            continue
+
+        for cls in sorted(classes, key=lambda c: c.name):
+            lines = [
+                f"package org.caseontology.ext.{ext_name}.{mod_name};",
+                "",
+                "import java.util.ArrayList;",
+                "import java.util.List;",
+                "",
+                f"public class {cls.name} {{",
+                f'    public static final String CLASS_IRI = "{cls.iri}";',
+                "",
+            ]
+            for prop in cls.properties:
+                java_type = prop.type_name_for("java")
+                if prop.cardinality.is_list:
+                    lines.append(f"    private List<{java_type}> {prop.name} = new ArrayList<>();")
+                else:
+                    lines.append(f"    private {java_type} {prop.name};")
+            lines.append("")
+            for prop in cls.properties:
+                java_type = prop.type_name_for("java")
+                getter = "get" + prop.name[0].upper() + prop.name[1:]
+                setter = "set" + prop.name[0].upper() + prop.name[1:]
+                if prop.cardinality.is_list:
+                    lines.append(f"    public List<{java_type}> {getter}() {{ return {prop.name}; }}")
+                else:
+                    lines.append(f"    public {java_type} {getter}() {{ return {prop.name}; }}")
+                    lines.append(f"    public void {setter}({java_type} {prop.name}) {{ this.{prop.name} = {prop.name}; }}")
+            lines.append("}")
+
+            mod_dir = java_base / mod_name
+            mod_dir.mkdir(parents=True, exist_ok=True)
+            (mod_dir / f"{cls.name}.java").write_text("\n".join(lines), encoding="utf-8")
+            count += 1
+
+    return count
+
+
+def _gen_rust_extension(ext_schema, output_dir, ext_name, ext_version, display_name, uco_dep) -> int:
+    rust_dir = output_dir / "rust" / "src"
+    rust_dir.mkdir(parents=True, exist_ok=True)
+    count = 0
+
+    cargo = (
+        "[package]\n"
+        f'name = "case-uco-{ext_name}"\n'
+        f'version = "{ext_version}"\n'
+        'edition = "2021"\n'
+        f'description = "{display_name} bindings for CASE/UCO SDK"\n\n'
+        "[dependencies]\n"
+        f'case-uco = "{uco_dep.lstrip(">=")}"\n'
+        'serde = {{ version = "1", features = ["derive"] }}\n'
+    )
+    (output_dir / "rust" / "Cargo.toml").write_text(cargo, encoding="utf-8")
+    count += 1
+
+    mod_names: list[str] = []
+    for module_key, class_iris in sorted(ext_schema.modules.items()):
+        parts = module_key.split(".", 2)
+        prefix = parts[-1] if len(parts) > 2 else parts[-1]
+        mod_name = _sanitize_module_id(prefix)
+        if mod_name in mod_names:
+            continue
+        mod_names.append(mod_name)
+
+        classes = [ext_schema.classes[iri] for iri in class_iris if iri in ext_schema.classes]
+        if not classes:
+            continue
+
+        lines = [
+            f"//! {display_name} — {prefix} module\n",
+            "use serde::Serialize;\n",
+        ]
+        for cls in sorted(classes, key=lambda c: c.name):
+            desc = cls.description[:120] if cls.description else cls.name
+            lines.append(f"/// {desc}")
+            lines.append("#[derive(Debug, Clone, Serialize, Default)]")
+            lines.append(f"pub struct {cls.name} {{")
+            for prop in cls.properties:
+                rust_type = prop.type_name_for("rust")
+                field_name = _to_snake(prop.name)
+                if prop.cardinality.is_list:
+                    lines.append(f"    pub {field_name}: Vec<{rust_type}>,")
+                else:
+                    lines.append(f"    pub {field_name}: Option<{rust_type}>,")
+            lines.append("}")
+            lines.append("")
+            lines.append(f"impl {cls.name} {{")
+            lines.append(f'    pub fn class_iri() -> &\'static str {{ "{cls.iri}" }}')
+            lines.append("}")
+            lines.append("")
+
+        (rust_dir / f"{mod_name}.rs").write_text("\n".join(lines), encoding="utf-8")
+        count += 1
+
+    lib_lines = [f"pub mod {m};" for m in mod_names]
+    (rust_dir / "lib.rs").write_text("\n".join(lib_lines) + "\n", encoding="utf-8")
+    count += 1
+
+    return count
 
 
 if __name__ == "__main__":

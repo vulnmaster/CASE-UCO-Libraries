@@ -251,6 +251,118 @@ TASK_TO_CLASSES: dict[str, list[tuple[str, str]]] = {
         ("ObservableObject", "Evidence items"),
         ("ContentDataFacet", "Hash values for integrity verification"),
     ],
+    "model online grooming and cybertip workflow": [
+        ("CACInvestigation", "The CAC-specific investigation container (from cac extension)"),
+        ("GroomingBehavior", "The grooming behavior event with phases (from cac extension)"),
+        ("OnlineGrooming", "Online grooming behavior subclass (from cac extension)"),
+        ("GroomingMessage", "Grooming-specific message with explicitness/tone (from cac extension)"),
+        ("ChildVictim", "Child victim role with vulnerability modeling (from cac extension)"),
+        ("OnlinePredator", "Online predator role (from cac extension)"),
+        ("NCMECCybertipReport", "NCMEC CyberTipline report structure (from cac extension)"),
+        ("OnlineEnticementIncident", "NCMEC incident type for enticement (from cac extension)"),
+        ("MessageThread", "Core UCO chat thread container"),
+        ("MessageFacet", "Core UCO message metadata"),
+        ("ApplicationAccount", "Core UCO social media account"),
+        ("RasterPicture", "Core UCO image for CSAM evidence"),
+        ("Relationship", "Core UCO links between entities"),
+    ],
+    "model child sex trafficking ring or recruitment network": [
+        ("CACInvestigation", "The CAC investigation container (from cac extension)"),
+        ("TraffickingEnterprise", "Trafficking ring / network organization (from cac extension)"),
+        ("TraffickingRing", "Specific ring structure with role hierarchy (from cac extension)"),
+        ("TraffickingCell", "Sub-cell within a ring (from cac extension)"),
+        ("TraffickingVictimRole", "Victim role in the trafficking enterprise (from cac extension)"),
+        ("MinorTraffickingVictimRole", "Minor-specific trafficking victim role (from cac extension)"),
+        ("TraffickingVictimRescue", "Rescue event tied to a trafficking victim (from cac extension)"),
+        ("VictimRotation", "Movement of victims between locations/buyers (from cac extension)"),
+        ("InterstateVictimTransport", "Cross-state movement of victims (from cac extension)"),
+        ("InterstateTraffickingNetwork", "Trafficking network spanning multiple states (from cac extension)"),
+        ("PeerRecruitmentNetwork", "Peer-to-peer recruitment chains (from cac extension)"),
+        ("ClassmateRecruitmentNetwork", "Classmate-to-classmate recruitment chains (from cac extension)"),
+        ("SchoolBasedRecruitment", "Recruitment occurring at or via schools (from cac extension)"),
+        ("StreetBasedRecruitment", "Pretext-based street recruitment (from cac extension)"),
+        ("HelpOfferApproach", "'Need help?' pretext approach (from cac extension)"),
+        ("FoodOfferApproach", "Food-offer pretext approach (from cac extension)"),
+        ("TransportationOfferApproach", "Transportation-offer pretext approach (from cac extension)"),
+        ("PhoneChargingOffer", "Phone-charging pretext approach (from cac extension)"),
+        ("RapidEscalationRecruitment", "Compressed-timeline recruitment pattern (from cac extension)"),
+        ("DigitalToPhysicalBridge", "Online-to-offline meet event (from cac extension)"),
+        ("MandatoryReportingActivation", "Triggering of mandatory-reporter obligations (from cac extension)"),
+        ("Identity", "Core UCO identity for traffickers, recruiters, victims"),
+        ("Relationship", "Core UCO link between participants and the enterprise"),
+    ],
+    "model multi-jurisdictional task force operation or rescue": [
+        ("CACInvestigation", "The CAC investigation container (from cac extension)"),
+        ("Jurisdiction", "Jurisdiction at any level (from cac extension)"),
+        ("LocalJurisdiction", "City/county-level jurisdiction (from cac extension)"),
+        ("StateJurisdiction", "State-level jurisdiction (from cac extension)"),
+        ("FederalJurisdiction", "Federal jurisdiction (e.g., FBI, HSI) (from cac extension)"),
+        ("InternationalJurisdiction", "Cross-border jurisdiction (from cac extension)"),
+        ("TaskForce", "Multi-agency task force (e.g., ICAC) (from cac extension)"),
+        ("JointInvestigation", "Investigation spanning agencies (from cac extension)"),
+        ("JurisdictionalHandoff", "Transfer of investigative lead between agencies (from cac extension)"),
+        ("MutualAidRequest", "Cross-jurisdiction request for assistance (from cac extension)"),
+        ("MassChildRescueOperation", "Coordinated multi-victim rescue (from cac extension)"),
+        ("InvestigativeAction", "Core CASE action for each operational step"),
+        ("ProvenanceRecord", "Provenance binding the operation's evidence"),
+    ],
+    "model tactical arrest or high-risk operation": [
+        ("CACInvestigation", "The CAC investigation container (from cac extension)"),
+        ("ArrestOperation", "Arrest operation event (from cac extension)"),
+        ("HighRiskArrest", "High-risk arrest sub-type (from cac extension)"),
+        ("DynamicEntry", "Forced/dynamic entry event (from cac extension)"),
+        ("SuspectProfile", "Pre-operation suspect threat/profile (from cac extension)"),
+        ("ThreatAssessment", "Pre-operation threat assessment (from cac extension)"),
+        ("UndercoverOperation", "Undercover operation context (from cac extension)"),
+        ("AssetForfeitureAction", "Property seizure tied to CSE/trafficking (from cac extension)"),
+        ("InvestigativeAction", "Core CASE action wrapper"),
+        ("Tool", "Core UCO tool for tactical equipment, where applicable"),
+        ("Identity", "Core UCO identity for officers and suspects"),
+    ],
+    "model victim rescue extraction and post-rescue services": [
+        ("CACInvestigation", "The CAC investigation container (from cac extension)"),
+        ("EmergencyResponse", "Initial emergency response to identified victim (from cac extension)"),
+        ("VictimExtraction", "Physical extraction of a victim (from cac extension)"),
+        ("OngoingDangerAssessment", "Post-rescue danger assessment (from cac extension)"),
+        ("SafetyPlanning", "Victim safety plan (from cac extension)"),
+        ("MultiAgencyVictimResponse", "DCFS / medical / mental-health coordination (from cac extension)"),
+        ("TraumaIndicator", "Observed trauma indicator on victim (from cac extension)"),
+        ("HelpSeekingBarrier", "Barrier preventing victim from seeking help (from cac extension)"),
+        ("RecantationAssessment", "Victim recantation assessment (from cac extension)"),
+        ("PartialRecantationStatement", "Partial recantation statement (from cac extension)"),
+        ("ReaffirmedDisclosureStatement", "Disclosure reaffirmed after pressure to recant (from cac extension)"),
+        ("PostRecantationForensicInterview", "Forensic interview following recantation (from cac extension)"),
+        ("ChildVictim", "Child victim role with vulnerability modeling (from cac extension)"),
+        ("InvestigativeAction", "Core CASE action wrapper"),
+    ],
+    "model CSAM provenance forensics and victim identification": [
+        ("ForensicAcquisitionAction", "Forensic acquisition of CSAM evidence (from cac extension)"),
+        ("ChainOfCustodyAction", "Each chain-of-custody event (from cac extension)"),
+        ("EvidenceVerificationAction", "Hash/signature verification (from cac extension)"),
+        ("MetadataCorrelation", "EXIF / file-system / app metadata correlation (from cac extension)"),
+        ("TemporalPatternAnalysis", "Temporal-pattern analysis across artifacts (from cac extension)"),
+        ("GeospatialCorrelation", "Geospatial correlation of CSAM/related evidence (from cac extension)"),
+        ("CrossPlatformCorrelation", "Same actor/victim across multiple platforms (from cac extension)"),
+        ("BehavioralFingerprinting", "Behavioral pattern fingerprinting of an offender (from cac extension)"),
+        ("VictimIdentificationProcess", "Victim ID workflow against known-victim data (from cac extension)"),
+        ("ContentHashingTool", "PhotoDNA / perceptual hashing tool (from cac extension)"),
+        ("RasterPicture", "Core UCO image for the CSAM artifact"),
+        ("ContentDataFacet", "Core UCO hashes for evidentiary integrity"),
+        ("ProvenanceRecord", "Core CASE provenance record"),
+        ("Relationship", "Core UCO links between artifacts, actors, and actions"),
+    ],
+    "model CSAM detection and platform reporting to NCMEC": [
+        ("AutomatedDetectionAction", "Platform CSAM detection action (from cac extension)"),
+        ("ContentHashingTool", "PhotoDNA or perceptual hashing tool (from cac extension)"),
+        ("MachineLearningDetectionTool", "ML-based CSAM classifier (from cac extension)"),
+        ("DetectionResult", "Detection confidence and classification (from cac extension)"),
+        ("NCMECCybertipReport", "NCMEC CyberTipline report (from cac extension)"),
+        ("PlatformCooperation", "ESP cooperation with law enforcement (from cac extension)"),
+        ("ElectronicServiceProvider", "The reporting platform organization (from cac extension)"),
+        ("ContentModerationAction", "Platform content moderation event (from cac extension)"),
+        ("InvestigativeAction", "Core CASE investigative action"),
+        ("AnalyticTool", "Core UCO analytic tool"),
+    ],
 }
 
 DOMAIN_CATEGORIES: list[dict[str, str | list[str]]] = [
@@ -319,6 +431,92 @@ DOMAIN_CATEGORIES: list[dict[str, str | list[str]]] = [
                      "exhibit", "custody"],
     },
     {
+        "name": "child_exploitation",
+        "title": "Child Exploitation and Crimes Against Children",
+        "description": "Online grooming, CSAM detection, CyberTip reports, NCMEC workflows, sextortion, victim identification, and platform reporting.",
+        "keywords": ["child", "csam", "grooming", "ncmec", "cybertip", "exploitation",
+                     "victim", "offender", "enticement", "sextortion", "predator",
+                     "minor", "abuse", "production", "hotline", "cac",
+                     "icac", "crimes against children"],
+    },
+    {
+        "name": "child_trafficking",
+        "title": "Child Sex Trafficking and Exploitation Networks",
+        "description": (
+            "Trafficking rings, cells, and role hierarchies; victim rotation and "
+            "interstate transport; recruitment networks (school-based, peer, "
+            "street pretexts such as help/food/transportation/phone-charging "
+            "offers); rapid-escalation recruitment; vulnerability indicators; "
+            "digital-to-physical bridge events; mass child rescue operations."
+        ),
+        "keywords": ["trafficking", "traffic", "trafficker", "trafficked",
+                     "ring", "cell", "rotation", "transport", "interstate",
+                     "recruitment", "recruit", "recruiter", "pretext",
+                     "school-based", "peer", "street", "vulnerability",
+                     "digital-to-physical", "bridge", "rescue",
+                     "mass rescue", "csec", "cse"],
+    },
+    {
+        "name": "victim_rescue_response",
+        "title": "Victim Rescue, Extraction, and Post-Rescue Response",
+        "description": (
+            "Emergency response to identified victims, victim extraction, "
+            "ongoing-danger and threat assessments, safety planning, "
+            "trauma indicators, help-seeking barriers, recantation, and "
+            "multi-agency victim response (DCFS, medical, mental health)."
+        ),
+        "keywords": ["rescue", "extraction", "extract", "emergency",
+                     "safety", "safe", "trauma", "victim impact",
+                     "victim service", "victim response", "recantation",
+                     "danger", "threat assessment", "help-seeking",
+                     "multi-agency", "dcfs", "child protective"],
+    },
+    {
+        "name": "multi_jurisdictional_operations",
+        "title": "Multi-Jurisdictional Operations and Task Forces",
+        "description": (
+            "Local/State/Federal/International jurisdictions, joint "
+            "investigations, ICAC and HSI task forces, jurisdictional "
+            "handoffs, mutual aid requests, federal/state legal "
+            "harmonization, and international cooperation."
+        ),
+        "keywords": ["jurisdiction", "jurisdictional", "multi-jurisdiction",
+                     "taskforce", "task force", "joint investigation",
+                     "joint operation", "handoff", "mutual aid",
+                     "federal", "state", "local", "international",
+                     "interpol", "hsi", "fbi", "icac", "harmonization",
+                     "cooperation"],
+    },
+    {
+        "name": "tactical_operations",
+        "title": "Tactical and Arrest Operations",
+        "description": (
+            "Arrest operations (high-risk and standard), dynamic entry, "
+            "suspect profiling, threat assessment, undercover operations, "
+            "specialized units, and asset forfeiture tied to CSE/trafficking."
+        ),
+        "keywords": ["tactical", "arrest", "high-risk", "dynamic entry",
+                     "suspect profile", "undercover", "specialized unit",
+                     "swat", "warrant service", "asset forfeiture",
+                     "seizure", "operation", "raid"],
+    },
+    {
+        "name": "csam_provenance",
+        "title": "CSAM Forensics, Chain of Custody, and Provenance",
+        "description": (
+            "Forensic acquisition of CSAM evidence, chain-of-custody actions, "
+            "evidence verification, metadata correlation, temporal pattern "
+            "analysis, geospatial correlation, cross-platform correlation, "
+            "behavioral fingerprinting, and victim identification processes."
+        ),
+        "keywords": ["acquisition", "chain of custody", "evidence verification",
+                     "metadata correlation", "temporal pattern",
+                     "geospatial correlation", "cross-platform",
+                     "behavioral fingerprint", "victim identification",
+                     "provenance", "csam forensic", "image hashing",
+                     "perceptual hash", "photodna"],
+    },
+    {
         "name": "tool_information",
         "title": "Tool Information",
         "description": "Forensic and analysis tools, AI/ML models, their versions, and configurations.",
@@ -340,13 +538,13 @@ DOMAIN_CATEGORIES: list[dict[str, str | list[str]]] = [
     },
 ]
 
-UCO_PROFILES: list[dict[str, str | list[str]]] = [
+UCO_PROFILES: list[dict[str, str | list[str] | dict[str, str]]] = [
     {
         "id": "bfo",
-        "name": "UCO-Profile-BFO",
+        "name": "CDO-Shapes-BFO",
         "full_name": "Basic Formal Ontology (BFO 2020)",
         "ontology_url": "https://github.com/BFO-ontology/BFO-2020",
-        "repo_url": "https://github.com/ucoProject/UCO-Profile-BFO",
+        "repo_url": "https://github.com/Cyber-Domain-Ontology/CDO-Shapes-BFO",
         "profile_type": "top-level",
         "ontology_file": "uco-bfo.ttl",
         "status": "exploratory",
@@ -358,13 +556,17 @@ UCO_PROFILES: list[dict[str, str | list[str]]] = [
                       "perdurant", "formal", "reasoning", "biomedical", "scientific"],
         "related_domains": ["actions_and_events", "time_and_temporal"],
         "related_recipes": ["docs/recipes/existence-intervals.md"],
+        "extension_compatibility": {
+            "cac": "not_recommended",
+            "aeo": "compatible",
+        },
     },
     {
         "id": "gufo",
-        "name": "UCO-Profile-gufo",
+        "name": "CDO-Shapes-gufo",
         "full_name": "gentle Unified Foundational Ontology (gUFO)",
         "ontology_url": "https://github.com/nemo-ufes/gufo",
-        "repo_url": "https://github.com/ucoProject/UCO-Profile-gufo",
+        "repo_url": "https://github.com/Cyber-Domain-Ontology/CDO-Shapes-gufo",
         "profile_type": "top-level",
         "ontology_file": "uco-gufo.ttl",
         "status": "exploratory",
@@ -376,13 +578,17 @@ UCO_PROFILES: list[dict[str, str | list[str]]] = [
                       "relator", "cac", "children", "project vic"],
         "related_domains": ["actions_and_events", "time_and_temporal"],
         "related_recipes": ["docs/recipes/existence-intervals.md"],
+        "extension_compatibility": {
+            "cac": "included",
+            "aeo": "compatible",
+        },
     },
     {
         "id": "prov-o",
-        "name": "UCO-Profile-PROV-O",
+        "name": "CDO-Shapes-PROV-O",
         "full_name": "W3C PROV-O (Provenance Ontology)",
         "ontology_url": "https://www.w3.org/TR/prov-o/",
-        "repo_url": "https://github.com/ucoProject/UCO-Profile-PROV-O",
+        "repo_url": "https://github.com/Cyber-Domain-Ontology/CDO-Shapes-PROV-O",
         "profile_type": "adopting",
         "ontology_file": "uco-prov-o.ttl",
         "status": "exploratory",
@@ -394,13 +600,17 @@ UCO_PROFILES: list[dict[str, str | list[str]]] = [
                       "agent", "custody", "chain", "lineage", "derivation"],
         "related_domains": ["investigation_metadata", "actions_and_events"],
         "related_recipes": ["docs/recipes/chain-of-custody.md"],
+        "extension_compatibility": {
+            "cac": "compatible",
+            "aeo": "compatible",
+        },
     },
     {
         "id": "time",
-        "name": "UCO-Profile-Time",
+        "name": "CDO-Shapes-Time",
         "full_name": "W3C OWL-Time",
         "ontology_url": "https://www.w3.org/TR/owl-time/",
-        "repo_url": "https://github.com/ucoProject/UCO-Profile-Time",
+        "repo_url": "https://github.com/Cyber-Domain-Ontology/CDO-Shapes-Time",
         "profile_type": "adopting",
         "ontology_file": "uco-time.ttl",
         "status": "exploratory",
@@ -412,13 +622,17 @@ UCO_PROFILES: list[dict[str, str | list[str]]] = [
                       "duration", "calendar", "clock", "period"],
         "related_domains": ["time_and_temporal"],
         "related_recipes": ["docs/recipes/existence-intervals.md"],
+        "extension_compatibility": {
+            "cac": "compatible",
+            "aeo": "compatible",
+        },
     },
     {
         "id": "geosparql",
-        "name": "UCO-Profile-GeoSPARQL",
+        "name": "CDO-Shapes-GeoSPARQL",
         "full_name": "OGC GeoSPARQL 1.1",
         "ontology_url": "https://github.com/opengeospatial/ogc-geosparql",
-        "repo_url": "https://github.com/ucoProject/UCO-Profile-GeoSPARQL",
+        "repo_url": "https://github.com/Cyber-Domain-Ontology/CDO-Shapes-GeoSPARQL",
         "profile_type": "adopting",
         "ontology_file": "uco-geo.ttl",
         "status": "exploratory",
@@ -430,13 +644,17 @@ UCO_PROFILES: list[dict[str, str | list[str]]] = [
                       "location", "coordinate", "geometry", "feature", "ogc", "gis"],
         "related_domains": ["mobile_forensics"],
         "related_recipes": ["docs/recipes/location.md", "docs/recipes/cell-site.md"],
+        "extension_compatibility": {
+            "cac": "compatible",
+            "aeo": "compatible",
+        },
     },
     {
         "id": "foaf",
-        "name": "UCO-Profile-FOAF",
+        "name": "CDO-Shapes-FOAF",
         "full_name": "Friend-of-a-Friend (FOAF)",
         "ontology_url": "http://xmlns.com/foaf/0.1/",
-        "repo_url": "https://github.com/ucoProject/UCO-Profile-FOAF",
+        "repo_url": "https://github.com/Cyber-Domain-Ontology/CDO-Shapes-FOAF",
         "profile_type": "adopting",
         "ontology_file": "uco-foaf.ttl",
         "status": "exploratory",
@@ -448,6 +666,10 @@ UCO_PROFILES: list[dict[str, str | list[str]]] = [
                       "organization", "agent", "linked data", "social network"],
         "related_domains": ["user_accounts_and_identity"],
         "related_recipes": ["docs/recipes/accounts.md"],
+        "extension_compatibility": {
+            "cac": "compatible",
+            "aeo": "compatible",
+        },
     },
 ]
 
@@ -704,6 +926,18 @@ RECIPE_INDEX: list[dict[str, str]] = [
         "file": "docs/recipes/spear-phishing.md",
     },
     {
+        "title": "Online Grooming Chat Modeling",
+        "description": "Model grooming chat evidence and CAC behavioral interpretation with phase progression, role separation, and message-level classification.",
+        "keywords": "grooming csam child exploitation victim offender snapchat chat message phase escalation cac ontology crimes against children",
+        "file": "docs/recipes/grooming-chat-modeling.md",
+    },
+    {
+        "title": "NCMEC CyberTip Reporting Workflow",
+        "description": "Model platform detection, ESP reporting, NCMEC CyberTip lifecycle, investigation triggering, and platform cooperation using CAC Ontology classes.",
+        "keywords": "cybertip ncmec platform reporting enticement detection investigation trigger esp cooperation cac ontology crimes against children",
+        "file": "docs/recipes/cybertip-ncmec-workflow.md",
+    },
+    {
         "title": "Proposing Changes to CASE/UCO",
         "description": "Identify gaps, research existing proposals, and draft change proposals for new ontology concepts.",
         "keywords": "change proposal gap missing concept extension contribute upstream issue ontology committee",
@@ -867,5 +1101,201 @@ MAPPING_GUIDE_INDEX: list[dict] = [
         ],
         "starter_kit": None,
         "code_skeleton": "graph.create(ObservableObject, has_facet=[WindowsRegistryKeyFacet(key=...)])",
+    },
+    {
+        "source": "child sex trafficking ring or recruitment network",
+        "keywords": ["trafficking", "trafficker", "trafficked", "ring", "cell",
+                     "rotation", "interstate transport", "recruitment",
+                     "recruiter", "school-based", "peer recruitment",
+                     "street recruitment", "pretext", "help offer",
+                     "food offer", "transportation offer", "phone charging",
+                     "rapid escalation", "digital-to-physical", "csec", "cse",
+                     "icac"],
+        "pattern": (
+            "CACInvestigation + TraffickingEnterprise + (TraffickingRing | TraffickingCell) "
+            "+ TraffickingVictimRole + (PeerRecruitmentNetwork | "
+            "ClassmateRecruitmentNetwork) + (SchoolBasedRecruitment | "
+            "StreetBasedRecruitment with pretext approach) + DigitalToPhysicalBridge"
+        ),
+        "classes": ["CACInvestigation", "TraffickingEnterprise", "TraffickingRing",
+                    "TraffickingCell", "TraffickingVictimRole",
+                    "MinorTraffickingVictimRole", "TraffickingVictimRescue",
+                    "VictimRotation", "InterstateVictimTransport",
+                    "InterstateTraffickingNetwork",
+                    "PeerRecruitmentNetwork", "ClassmateRecruitmentNetwork",
+                    "SchoolBasedRecruitment", "StreetBasedRecruitment",
+                    "HelpOfferApproach", "FoodOfferApproach",
+                    "TransportationOfferApproach", "PhoneChargingOffer",
+                    "RapidEscalationRecruitment", "DigitalToPhysicalBridge",
+                    "MandatoryReportingActivation", "Identity", "Location",
+                    "Relationship"],
+        "anti_patterns": [
+            "Don't model a trafficking ring as a single Identity — use TraffickingEnterprise (or TraffickingRing/TraffickingCell) so role hierarchy and victim relationships have a structural anchor",
+            "Don't reuse generic InvestigativeAction for each pretext approach — use the specific *OfferApproach subclass so analysts can query approach patterns",
+            "Don't treat 'online recruitment then in-person meet' as one event — split it: one online behavior event plus a DigitalToPhysicalBridge for the meet, so the timeline shows the transition",
+            "Don't forget to set CASE_UCO_EXTENSIONS=cac so trafficking and recruitment classes load",
+        ],
+        "starter_kit": None,
+        "code_skeleton": (
+            "# Requires CASE_UCO_EXTENSIONS=cac\n"
+            "ring = graph.create(TraffickingRing, name='Ring 2026-014')\n"
+            "victim_role = graph.create(MinorTraffickingVictimRole, name='Victim A role')\n"
+            "approach = graph.create(TransportationOfferApproach, name='Bus-stop ride offer')\n"
+            "bridge = graph.create(DigitalToPhysicalBridge, name='IG DM -> motel meet')\n"
+            "graph.create(Relationship, source=[approach], target=[victim_role], kind_of_relationship='Targeted')"
+        ),
+    },
+    {
+        "source": "multi-jurisdictional rescue or task force operation",
+        "keywords": ["multi-jurisdiction", "jurisdiction", "task force", "taskforce",
+                     "joint investigation", "joint operation", "rescue",
+                     "mass rescue", "mutual aid", "handoff", "icac", "hsi",
+                     "fbi", "interpol", "federal", "interstate"],
+        "pattern": (
+            "CACInvestigation + TaskForce + (LocalJurisdiction | StateJurisdiction | "
+            "FederalJurisdiction | InternationalJurisdiction) + JointInvestigation + "
+            "(MassChildRescueOperation | VictimExtraction) + JurisdictionalHandoff + "
+            "MutualAidRequest"
+        ),
+        "classes": ["CACInvestigation", "TaskForce", "JointInvestigation",
+                    "Jurisdiction", "LocalJurisdiction", "StateJurisdiction",
+                    "FederalJurisdiction", "InternationalJurisdiction",
+                    "JurisdictionalHandoff", "MutualAidRequest",
+                    "MassChildRescueOperation", "VictimExtraction",
+                    "EmergencyResponse", "InvestigativeAction",
+                    "ProvenanceRecord", "Identity", "Location"],
+        "anti_patterns": [
+            "Don't model the task force as a generic Identity — use TaskForce so participating jurisdictions/agencies have a structural relationship",
+            "Don't bury jurisdictional transitions in a description string — use JurisdictionalHandoff (and MutualAidRequest where relevant) so the chain is queryable",
+            "Don't lose per-victim provenance during a mass rescue — pair MassChildRescueOperation with one VictimExtraction per victim, each with its own ProvenanceRecord",
+        ],
+        "starter_kit": None,
+        "code_skeleton": (
+            "# Requires CASE_UCO_EXTENSIONS=cac\n"
+            "tf = graph.create(TaskForce, name='Regional ICAC Task Force')\n"
+            "op = graph.create(MassChildRescueOperation, name='Operation Lighthouse')\n"
+            "fed = graph.create(FederalJurisdiction, name='HSI - Field Office X')\n"
+            "state = graph.create(StateJurisdiction, name='State Police')\n"
+            "graph.create(JurisdictionalHandoff, source=[state], target=[fed], name='Lead transferred to HSI')"
+        ),
+    },
+    {
+        "source": "tactical arrest or high-risk operation",
+        "keywords": ["tactical", "arrest", "high-risk", "dynamic entry",
+                     "warrant service", "swat", "raid", "undercover",
+                     "asset forfeiture", "seizure"],
+        "pattern": (
+            "CACInvestigation + (ArrestOperation | HighRiskArrest) + DynamicEntry "
+            "+ SuspectProfile + ThreatAssessment + AssetForfeitureAction"
+        ),
+        "classes": ["CACInvestigation", "ArrestOperation", "HighRiskArrest",
+                    "DynamicEntry", "SuspectProfile", "ThreatAssessment",
+                    "UndercoverOperation", "AssetForfeitureAction",
+                    "InvestigativeAction", "Tool", "Identity", "Location"],
+        "anti_patterns": [
+            "Don't collapse pre-op planning and the entry into one action — pre-op SuspectProfile/ThreatAssessment justify the operational posture and need their own records",
+            "Don't model seized property as plain ObservableObject — use AssetForfeitureAction so the legal-process linkage is explicit",
+        ],
+        "starter_kit": None,
+        "code_skeleton": (
+            "# Requires CASE_UCO_EXTENSIONS=cac\n"
+            "ta = graph.create(ThreatAssessment, name='Pre-op threat assessment')\n"
+            "arrest = graph.create(HighRiskArrest, name='Arrest of subject X')\n"
+            "entry = graph.create(DynamicEntry, name='Front-door dynamic entry')\n"
+            "forfeiture = graph.create(AssetForfeitureAction, name='Vehicle and electronics seizure')"
+        ),
+    },
+    {
+        "source": "victim rescue extraction and post-rescue services",
+        "keywords": ["rescue", "extraction", "extract", "emergency response",
+                     "victim service", "safety planning", "trauma",
+                     "ongoing danger", "recantation", "multi-agency",
+                     "dcfs", "child protective"],
+        "pattern": (
+            "CACInvestigation + EmergencyResponse + VictimExtraction + "
+            "OngoingDangerAssessment + SafetyPlanning + MultiAgencyVictimResponse "
+            "+ TraumaIndicator + HelpSeekingBarrier"
+        ),
+        "classes": ["CACInvestigation", "EmergencyResponse", "VictimExtraction",
+                    "OngoingDangerAssessment", "SafetyPlanning",
+                    "MultiAgencyVictimResponse", "TraumaIndicator",
+                    "HelpSeekingBarrier", "RecantationAssessment",
+                    "PartialRecantationStatement", "ReaffirmedDisclosureStatement",
+                    "PostRecantationForensicInterview", "ChildVictim",
+                    "InvestigativeAction"],
+        "anti_patterns": [
+            "Don't treat post-rescue services as out-of-scope — model MultiAgencyVictimResponse and SafetyPlanning so downstream services are auditable",
+            "Don't conflate recantation with case closure — RecantationAssessment is its own event and may coexist with an ongoing investigation; pair it with ReaffirmedDisclosureStatement when the disclosure is later reaffirmed",
+        ],
+        "starter_kit": None,
+        "code_skeleton": (
+            "# Requires CASE_UCO_EXTENSIONS=cac\n"
+            "extraction = graph.create(VictimExtraction, name='Victim extraction at motel')\n"
+            "danger = graph.create(OngoingDangerAssessment, name='Trafficker still at-large')\n"
+            "plan = graph.create(SafetyPlanning, name='Initial safety plan with DCFS')"
+        ),
+    },
+    {
+        "source": "csam provenance forensics and victim identification",
+        "keywords": ["csam forensic", "csam provenance", "chain of custody",
+                     "evidence verification", "metadata correlation",
+                     "temporal pattern", "geospatial correlation",
+                     "cross-platform correlation", "behavioral fingerprint",
+                     "victim identification", "photodna",
+                     "perceptual hash", "image hashing"],
+        "pattern": (
+            "ForensicAcquisitionAction + ChainOfCustodyAction (per event) + "
+            "EvidenceVerificationAction + (MetadataCorrelation | TemporalPatternAnalysis "
+            "| GeospatialCorrelation | CrossPlatformCorrelation | "
+            "BehavioralFingerprinting) + VictimIdentificationProcess"
+        ),
+        "classes": ["ForensicAcquisitionAction", "ChainOfCustodyAction",
+                    "EvidenceVerificationAction", "MetadataCorrelation",
+                    "TemporalPatternAnalysis", "GeospatialCorrelation",
+                    "CrossPlatformCorrelation", "BehavioralFingerprinting",
+                    "VictimIdentificationProcess", "ContentHashingTool",
+                    "RasterPicture", "RasterPictureFacet", "FileFacet",
+                    "ContentDataFacet", "ProvenanceRecord", "Relationship"],
+        "anti_patterns": [
+            "Don't merge acquisition, verification, and analysis into one action — each is its own auditable step with its own tool, operator, and timestamp",
+            "Don't omit hashes on CSAM artifacts — without ContentDataFacet entries the chain of custody is unverifiable",
+            "Don't store correlation findings only in description text — use the matching CAC correlation class so the result is queryable",
+        ],
+        "starter_kit": None,
+        "code_skeleton": (
+            "# Requires CASE_UCO_EXTENSIONS=cac\n"
+            "acq = graph.create(ForensicAcquisitionAction, name='Acquisition of seized device')\n"
+            "verify = graph.create(EvidenceVerificationAction, name='SHA-256 verification')\n"
+            "img = graph.create(RasterPicture, has_facet=[FileFacet(file_name=...), ContentDataFacet(hash_method='SHA-256', hash_value='...'), RasterPictureFacet(...)])\n"
+            "vid = graph.create(VictimIdentificationProcess, name='Match against known-victim DB')"
+        ),
+    },
+    {
+        "source": "cybertip grooming report",
+        "keywords": ["cybertip", "ncmec", "grooming", "csam", "child", "exploitation",
+                     "victim", "offender", "enticement", "snapchat", "platform", "reporting",
+                     "detection", "cac", "crimes against children", "hotline", "sextortion"],
+        "pattern": "CACInvestigation + GroomingBehavior + NCMECCybertipReport + GroomingMessage + ChildVictim + OnlinePredator",
+        "classes": ["CACInvestigation", "GroomingBehavior", "OnlineGrooming", "GroomingMessage",
+                    "ChildVictim", "OnlinePredator", "NCMECCybertipReport", "OnlineEnticementIncident",
+                    "AutomatedDetectionAction", "ElectronicServiceProvider", "MessageThread",
+                    "MessageFacet", "ApplicationAccount", "RasterPicture", "Relationship"],
+        "anti_patterns": [
+            "Don't use generic InvestigativeAction for grooming phases — use GroomingBehavior with grooming stage properties from the CAC extension",
+            "Don't model the CyberTip as a plain ObservableObject — use NCMECCybertipReport with incident type and annotations from the CAC extension",
+            "Don't use freetext descriptions for grooming phases — use the structured GroomingPhase classes (InitialContactPhase, TrustBuildingPhase, etc.)",
+            "Don't forget to set CASE_UCO_EXTENSIONS=cac to load CAC classes in the MCP server",
+        ],
+        "starter_kit": None,
+        "code_skeleton": (
+            "# Requires CASE_UCO_EXTENSIONS=cac\n"
+            "# CAC grooming + NCMEC classes\n"
+            "grooming = graph.create(OnlineGrooming, name=..., grooming_stage='trust_building')\n"
+            "victim = graph.create(ChildVictim, name=...)\n"
+            "offender = graph.create(OnlinePredator, name=...)\n"
+            "cybertip = graph.create(NCMECCybertipReport, name=...)\n"
+            "# Link to core UCO messaging\n"
+            "thread = graph.create(MessageThread, has_facet=[MessageThreadFacet(participant=[offender_acct, victim_acct])])"
+        ),
     },
 ]

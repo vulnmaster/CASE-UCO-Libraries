@@ -79,6 +79,16 @@
       "pattern": "ObservableObject + ContentDataFacet",
       "classes": ["ObservableObject", "ContentDataFacet", "HashFacet"],
       "usage_note": "Store hash values using ContentDataFacet on an ObservableObject. HashFacet contains the method (SHA-256, MD5) and value"
+    },
+    "grooming": {
+      "pattern": "GroomingBehavior + GroomingMessage + ChildVictim + OnlinePredator (CAC extension)",
+      "classes": ["GroomingBehavior", "OnlineGrooming", "GroomingMessage", "ChildVictim", "OnlinePredator", "GroomingPhase"],
+      "usage_note": "Use the CAC Ontology extension (CASE_UCO_EXTENSIONS=cac) for specialized grooming classes. Core UCO models grooming with generic Message + MessageFacet + Identity, but CAC adds structured grooming phases, behavior types, and victim/predator roles."
+    },
+    "cybertip": {
+      "pattern": "NCMECCybertipReport + CACInvestigation + ReceiveCybertipAction (CAC extension)",
+      "classes": ["NCMECCybertipReport", "CACInvestigation", "ReceiveCybertipAction", "ReviewCybertipAction", "OnlineEnticementIncident"],
+      "usage_note": "Use the CAC Ontology extension (CASE_UCO_EXTENSIONS=cac) for NCMEC CyberTip report modeling. CAC provides NCMECCybertipReport with incident types, report annotations, tip processing workflows, and investigation trigger classes."
     }
   },
   "deprecated_terms": {
