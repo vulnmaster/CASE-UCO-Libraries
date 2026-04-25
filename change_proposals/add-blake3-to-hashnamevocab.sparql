@@ -1,0 +1,49 @@
+# CQ1: Which types:Hash instances were computed with BLAKE3?
+# Expected: kb:hash-blake3-1, kb:hash-blake3-2
+PREFIX types: <https://ontology.unifiedcyberontology.org/uco/types/>
+
+SELECT ?hash ?hashValue
+WHERE {
+    ?hash a types:Hash ;
+          types:hashMethod "BLAKE3" ;
+          types:hashValue ?hashValue .
+}
+
+# ---
+
+# CQ2: Which evidence files have at least one BLAKE3 integrity hash recorded?
+# Expected: kb:file-1, kb:file-2
+PREFIX uco-core: <https://ontology.unifiedcyberontology.org/uco/core/>
+PREFIX uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/>
+PREFIX types: <https://ontology.unifiedcyberontology.org/uco/types/>
+
+SELECT DISTINCT ?file ?hash ?hashValue
+WHERE {
+    ?file a uco-observable:ObservableObject ;
+          uco-core:hasFacet ?cdf .
+    ?cdf  a uco-observable:ContentDataFacet ;
+          uco-observable:hash ?hash .
+    ?hash a types:Hash ;
+          types:hashMethod "BLAKE3" ;
+          types:hashValue ?hashValue .
+}
+
+# ---
+
+# CQ3: For each evidence file, list every recorded (algorithm, hashValue) pair.
+# Expected: kb:file-1 -> (BLAKE3, ...) and (SHA256, ...); kb:file-2 -> (BLAKE3, ...)
+PREFIX uco-core: <https://ontology.unifiedcyberontology.org/uco/core/>
+PREFIX uco-observable: <https://ontology.unifiedcyberontology.org/uco/observable/>
+PREFIX types: <https://ontology.unifiedcyberontology.org/uco/types/>
+
+SELECT ?file ?hashMethod ?hashValue
+WHERE {
+    ?file a uco-observable:ObservableObject ;
+          uco-core:hasFacet ?cdf .
+    ?cdf  a uco-observable:ContentDataFacet ;
+          uco-observable:hash ?hash .
+    ?hash a types:Hash ;
+          types:hashMethod ?hashMethod ;
+          types:hashValue ?hashValue .
+}
+ORDER BY ?file ?hashMethod

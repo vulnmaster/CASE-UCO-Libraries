@@ -1,0 +1,82 @@
+{
+  "@context": {
+    "kb": "http://example.org/kb/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "uco-core": "https://ontology.unifiedcyberontology.org/uco/core/",
+    "uco-observable": "https://ontology.unifiedcyberontology.org/uco/observable/",
+    "types": "https://ontology.unifiedcyberontology.org/uco/types/",
+    "vocabulary": "https://ontology.unifiedcyberontology.org/uco/vocabulary/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "kb:file-1",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:file-1-file-facet",
+          "@type": "uco-observable:FileFacet",
+          "uco-observable:fileName": "exhibit-001.jpg",
+          "uco-observable:sizeInBytes": 4096
+        },
+        {
+          "@id": "kb:file-1-contentdata-facet",
+          "@type": "uco-observable:ContentDataFacet",
+          "uco-observable:hash": [
+            { "@id": "kb:hash-blake3-1" },
+            { "@id": "kb:hash-sha256-1" }
+          ]
+        }
+      ]
+    },
+    {
+      "@id": "kb:hash-blake3-1",
+      "@type": "types:Hash",
+      "rdfs:comment": "Post-change: no sh:Info finding. Pre-change: triggers sh:Info because 'BLAKE3' is not in the current upstream HashNameVocab.",
+      "types:hashMethod": "BLAKE3",
+      "types:hashValue": {
+        "@type": "xsd:hexBinary",
+        "@value": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262"
+      }
+    },
+    {
+      "@id": "kb:hash-sha256-1",
+      "@type": "types:Hash",
+      "rdfs:comment": "Recorded alongside the BLAKE3 hash. This proposal is neutral on whether implementations record one hash or several; the example only demonstrates that both algorithm literals are vocabulary-recognised post-change.",
+      "types:hashMethod": "SHA256",
+      "types:hashValue": {
+        "@type": "xsd:hexBinary",
+        "@value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "@id": "kb:file-2",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:file-2-file-facet",
+          "@type": "uco-observable:FileFacet",
+          "uco-observable:fileName": "exhibit-002.mp4",
+          "uco-observable:sizeInBytes": 1048576
+        },
+        {
+          "@id": "kb:file-2-contentdata-facet",
+          "@type": "uco-observable:ContentDataFacet",
+          "uco-observable:hash": [
+            { "@id": "kb:hash-blake3-2" }
+          ]
+        }
+      ]
+    },
+    {
+      "@id": "kb:hash-blake3-2",
+      "@type": "types:Hash",
+      "rdfs:comment": "Demonstrates that a graph may record BLAKE3 independently. This proposal is neutral on whether implementations also record additional hashes such as SHA-256.",
+      "types:hashMethod": "BLAKE3",
+      "types:hashValue": {
+        "@type": "xsd:hexBinary",
+        "@value": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+      }
+    }
+  ]
+}
