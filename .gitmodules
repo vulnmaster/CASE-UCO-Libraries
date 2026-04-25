@@ -6,3 +6,9 @@
 	path = ontology/CASE
 	url = https://github.com/casework/CASE.git
 	branch = master
+[submodule "extensions/cac/ontology"]
+	path = extensions/cac/ontology
+	url = https://github.com/Project-VIC-International/CAC-Ontology.git
+[submodule "extensions/aeo/ontology"]
+	path = extensions/aeo/ontology
+	url = https://github.com/UNHSAILLab/Adversary-Engagement-Ontology.git
