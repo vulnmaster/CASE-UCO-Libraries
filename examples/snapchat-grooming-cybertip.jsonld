@@ -1,0 +1,1186 @@
+{
+  "@context": {
+    "@vocab": "http://example.org/local#",
+    "case-investigation": "https://ontology.caseontology.org/case/investigation/",
+    "kb": "http://example.org/kb/",
+    "uco-action": "https://ontology.unifiedcyberontology.org/uco/action/",
+    "uco-core": "https://ontology.unifiedcyberontology.org/uco/core/",
+    "uco-identity": "https://ontology.unifiedcyberontology.org/uco/identity/",
+    "uco-location": "https://ontology.unifiedcyberontology.org/uco/location/",
+    "uco-observable": "https://ontology.unifiedcyberontology.org/uco/observable/",
+    "uco-role": "https://ontology.unifiedcyberontology.org/uco/role/",
+    "uco-tool": "https://ontology.unifiedcyberontology.org/uco/tool/",
+    "uco-types": "https://ontology.unifiedcyberontology.org/uco/types/",
+    "uco-victim": "https://ontology.unifiedcyberontology.org/uco/victim/",
+    "cacontology": "https://cacontology.projectvic.org#",
+    "cacontology-grooming": "https://cacontology.projectvic.org/grooming#",
+    "cacontology-detection": "https://cacontology.projectvic.org/detection#",
+    "cacontology-us-ncmec": "https://cacontology.projectvic.org/us/ncmec#",
+    "cacontology-platforms": "https://cacontology.projectvic.org/platforms#",
+    "cacontology-production": "https://cacontology.projectvic.org/production#",
+    "cacontology-hotlines": "https://cacontology.projectvic.org/hotlines#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+
+    {
+      "@id": "kb:bundle-f7c82a01-4b3e-4d5a-9c1f-8e2d3a4b5c6d",
+      "@type": "uco-core:Bundle",
+      "uco-core:name": "Snapchat Grooming and CyberTip Report (CAC Enhanced)",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Bundle modeling a grooming chat over Snapchat between an adult offender from Indiana and a child victim from Texas. The grooming occurred across three chat sessions (April 10-12, 2025), was detected by a Snapchat monitoring service, reported to NCMEC, and resulted in a CyberTip due to self-generated CSAM. Enhanced with Crimes Against Children (CAC) Ontology types. Three semantic layers: (1) observable evidence (Messages, Threads, Accounts, RasterPicture), (2) CAC behavioral interpretation (OnlineGrooming, GroomingPhases, GroomingMessage types), (3) institutional workflow (AutomatedDetectionAction, NCMECCybertipReport, CACInvestigation)."
+      },
+      "uco-core:object": [
+        {"@id": "kb:investigation-a1b2c3d4-e5f6-7890-abcd-ef1234567890"},
+        {"@id": "kb:identity-offender-1a2b3c4d-5e6f-7890-abcd-111111111111"},
+        {"@id": "kb:identity-victim-2a3b4c5d-6e7f-8901-bcde-222222222222"},
+        {"@id": "kb:identity-ncmec-3a4b5c6d-7e8f-9012-cdef-333333333333"},
+        {"@id": "kb:identity-snapchat-4a5b6c7d-8e9f-0123-def0-444444444444"},
+        {"@id": "kb:subject-role-5a6b7c8d-9e0f-1234-ef01-555555555555"},
+        {"@id": "kb:victim-role-6a7b8c9d-0e1f-2345-f012-666666666666"},
+        {"@id": "kb:location-indiana-7a8b9c0d-1e2f-3456-0123-777777777777"},
+        {"@id": "kb:location-texas-8a9b0c1d-2e3f-4567-1234-888888888888"},
+        {"@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"},
+        {"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"},
+        {"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"},
+        {"@id": "kb:thread-session1-cc3d4e5f-6071-8901-5678-cccccccccccc"},
+        {"@id": "kb:thread-session2-dd4e5f60-7182-9012-6789-dddddddddddd"},
+        {"@id": "kb:thread-session3-ee5f6071-8293-0123-789a-eeeeeeeeeeee"},
+        {"@id": "kb:message-01-01010101-0101-0101-0101-010101010101"},
+        {"@id": "kb:message-02-02020202-0202-0202-0202-020202020202"},
+        {"@id": "kb:message-03-03030303-0303-0303-0303-030303030303"},
+        {"@id": "kb:message-04-04040404-0404-0404-0404-040404040404"},
+        {"@id": "kb:message-05-05050505-0505-0505-0505-050505050505"},
+        {"@id": "kb:message-06-06060606-0606-0606-0606-060606060606"},
+        {"@id": "kb:message-07-07070707-0707-0707-0707-070707070707"},
+        {"@id": "kb:message-08-08080808-0808-0808-0808-080808080808"},
+        {"@id": "kb:message-09-09090909-0909-0909-0909-090909090909"},
+        {"@id": "kb:csam-image-fa1b2c3d-4e5f-6789-abcd-fafafafafafa"},
+        {"@id": "kb:ip-offender-ca40ca40-ca40-ca40-ca40-ca40ca40ca40"},
+        {"@id": "kb:ip-victim-ca41ca41-ca41-ca41-ca41-ca41ca41ca41"},
+        {"@id": "kb:monitoring-tool-ab12cd34-ef56-7890-abcd-abababababab"},
+        {"@id": "kb:action-detection-bc23de45-f067-8901-bcde-bcbcbcbcbcbc"},
+        {"@id": "kb:action-ts-review-ca50ca50-ca50-ca50-ca50-ca50ca50ca50"},
+        {"@id": "kb:action-ncmec-report-cd34ef56-0178-9012-cdef-cdcdcdcdcdcd"},
+        {"@id": "kb:action-cybertip-de45f067-1289-0123-def0-dededededede"},
+        {"@id": "kb:cybertip-report-ef560178-2390-1234-ef01-efefefefefef"},
+        {"@id": "kb:grooming-behavior-ca01ca01-ca01-ca01-ca01-ca01ca01ca01"},
+        {"@id": "kb:grooming-solicitation-ca02ca02-ca02-ca02-ca02-ca02ca02ca02"},
+        {"@id": "kb:csam-incident-ca03ca03-ca03-ca03-ca03-ca03ca03ca03"},
+        {"@id": "kb:escalation-pattern-ca04ca04-ca04-ca04-ca04-ca04ca04ca04"},
+        {"@id": "kb:enticement-incident-ca05ca05-ca05-ca05-ca05-ca05ca05ca05"},
+        {"@id": "kb:platform-cooperation-ca06ca06-ca06-ca06-ca06-ca06ca06ca06"},
+        {"@id": "kb:phase-initial-contact-ca20ca20-ca20-ca20-ca20-ca20ca20ca20"},
+        {"@id": "kb:phase-trust-building-ca21ca21-ca21-ca21-ca21-ca21ca21ca21"},
+        {"@id": "kb:phase-isolation-ca22ca22-ca22-ca22-ca22-ca22ca22ca22"},
+        {"@id": "kb:phase-sexualization-ca23ca23-ca23-ca23-ca23-ca23ca23ca23"},
+        {"@id": "kb:investigation-trigger-ca30ca30-ca30-ca30-ca30-ca30ca30ca30"},
+        {"@id": "kb:relationship-offender-subject-11111111-aaaa-bbbb-cccc-111111111111"},
+        {"@id": "kb:relationship-victim-role-22222222-aaaa-bbbb-cccc-222222222222"},
+        {"@id": "kb:relationship-offender-location-55555555-aaaa-bbbb-cccc-555555555555"},
+        {"@id": "kb:relationship-victim-location-66666666-aaaa-bbbb-cccc-666666666666"},
+        {"@id": "kb:relationship-csam-attachment-77777777-aaaa-bbbb-cccc-777777777777"},
+        {"@id": "kb:relationship-offender-ip-ca42ca42-ca42-ca42-ca42-ca42ca42ca42"},
+        {"@id": "kb:relationship-victim-ip-ca43ca43-ca43-ca43-ca43-ca43ca43ca43"},
+        {"@id": "kb:relationship-grooming-to-predator-ca11ca11-ca11-ca11-ca11-ca11ca11ca11"},
+        {"@id": "kb:relationship-csam-incident-to-image-ca13ca13-ca13-ca13-ca13-ca13ca13ca13"}
+      ]
+    },
+
+    {
+      "@id": "kb:investigation-a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "@type": ["case-investigation:Investigation", "cacontology:CACInvestigation"],
+      "uco-core:name": "Snapchat Grooming Investigation - CyberTip",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Investigation initiated from NCMEC CyberTip regarding online grooming of a minor over Snapchat, resulting in self-generated CSAM."
+      },
+      "case-investigation:focus": [
+        "Online Child Exploitation",
+        "Grooming",
+        "Child Sexual Abuse Material"
+      ],
+      "case-investigation:investigationForm": "case",
+      "case-investigation:investigationStatus": "open"
+    },
+
+    {
+      "@id": "kb:identity-offender-1a2b3c4d-5e6f-7890-abcd-111111111111",
+      "@type": "uco-identity:Identity",
+      "uco-core:name": "Adult Offender",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-offender-name-a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1",
+          "@type": "uco-identity:SimpleNameFacet",
+          "uco-identity:givenName": "John",
+          "uco-identity:familyName": "Doe"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:identity-victim-2a3b4c5d-6e7f-8901-bcde-222222222222",
+      "@type": "uco-identity:Identity",
+      "uco-core:name": "Child Victim",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-victim-name-b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2",
+          "@type": "uco-identity:SimpleNameFacet",
+          "uco-identity:givenName": "Jane",
+          "uco-identity:familyName": "Minor"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:identity-ncmec-3a4b5c6d-7e8f-9012-cdef-333333333333",
+      "@type": ["uco-identity:Identity", "cacontology-hotlines:HotlineOrganization"],
+      "uco-core:name": "National Center for Missing & Exploited Children (NCMEC)",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-ncmec-org-c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3",
+          "@type": "uco-identity:OrganizationDetailsFacet"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:identity-snapchat-4a5b6c7d-8e9f-0123-def0-444444444444",
+      "@type": ["uco-identity:Identity", "cacontology-platforms:ElectronicServiceProvider"],
+      "uco-core:name": "Snap Inc.",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-snap-org-d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4",
+          "@type": "uco-identity:OrganizationDetailsFacet"
+        }
+      ],
+      "cacontology-platforms:acceptsLegalProcess": {
+        "@type": "xsd:boolean",
+        "@value": "true"
+      },
+      "cacontology-platforms:emergencyDisclosureCapable": {
+        "@type": "xsd:boolean",
+        "@value": "true"
+      }
+    },
+
+    {
+      "@id": "kb:subject-role-5a6b7c8d-9e0f-1234-ef01-555555555555",
+      "@type": ["case-investigation:Subject", "cacontology:OffenderRole"],
+      "uco-core:name": "Offender - Subject of Investigation",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Adult individual from Indiana who engaged in online grooming of a minor through Snapchat, eliciting self-generated CSAM."
+      }
+    },
+
+    {
+      "@id": "kb:victim-role-6a7b8c9d-0e1f-2345-f012-666666666666",
+      "@type": ["uco-victim:Victim", "cacontology:VictimRole"],
+      "uco-core:name": "Child Victim of Grooming",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Minor from Texas who was groomed by the offender over Snapchat and produced self-generated CSAM."
+      }
+    },
+
+    {
+      "@id": "kb:location-indiana-7a8b9c0d-1e2f-3456-0123-777777777777",
+      "@type": "uco-location:Location",
+      "uco-core:name": "Indiana, United States",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-indiana-addr-e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5",
+          "@type": "uco-location:SimpleAddressFacet",
+          "uco-location:region": "Indiana",
+          "uco-location:country": "United States"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:location-texas-8a9b0c1d-2e3f-4567-1234-888888888888",
+      "@type": "uco-location:Location",
+      "uco-core:name": "Texas, United States",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-texas-addr-f6f6f6f6-f6f6-f6f6-f6f6-f6f6f6f6f6f6",
+          "@type": "uco-location:SimpleAddressFacet",
+          "uco-location:region": "Texas",
+          "uco-location:country": "United States"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999",
+      "@type": ["uco-observable:ObservableObject", "cacontology-platforms:SocialMediaPlatform"],
+      "uco-core:name": "Snapchat",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-snapchat-app-07070707-0707-0707-0707-070707070707",
+          "@type": "uco-observable:ApplicationFacet",
+          "uco-observable:applicationIdentifier": "com.snapchat.android"
+        }
+      ],
+      "cacontology-platforms:platformType": "social_network",
+      "cacontology-platforms:primaryUserBase": "teens",
+      "cacontology-platforms:encryptionLevel": "transit"
+    },
+
+    {
+      "@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa",
+      "@type": "uco-observable:ApplicationAccount",
+      "uco-core:name": "Offender Snapchat Account",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-offender-acct-a8a8a8a8-a8a8-a8a8-a8a8-a8a8a8a8a8a8",
+          "@type": "uco-observable:AccountFacet",
+          "uco-observable:accountIdentifier": "offender_user_2025",
+          "uco-observable:accountType": "Snapchat",
+          "uco-observable:isActive": {
+            "@type": "xsd:boolean",
+            "@value": "true"
+          },
+          "uco-observable:owner": {
+            "@id": "kb:identity-offender-1a2b3c4d-5e6f-7890-abcd-111111111111"
+          }
+        },
+        {
+          "@id": "kb:facet-offender-appacct-a9a9a9a9-a9a9-a9a9-a9a9-a9a9a9a9a9a9",
+          "@type": "uco-observable:ApplicationAccountFacet",
+          "uco-observable:application": {
+            "@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"
+          }
+        },
+        {
+          "@id": "kb:facet-offender-profile-b0b0b0b0-b0b0-b0b0-b0b0-b0b0b0b0b0b0",
+          "@type": "uco-observable:ProfileFacet",
+          "uco-observable:displayName": "J_Cool_Guy",
+          "uco-observable:profileAccount": {
+            "@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"
+          },
+          "uco-observable:profileIdentity": {
+            "@id": "kb:identity-offender-1a2b3c4d-5e6f-7890-abcd-111111111111"
+          }
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb",
+      "@type": "uco-observable:ApplicationAccount",
+      "uco-core:name": "Victim Snapchat Account",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-victim-acct-b1b1b1b1-b1b1-b1b1-b1b1-b1b1b1b1b1b1",
+          "@type": "uco-observable:AccountFacet",
+          "uco-observable:accountIdentifier": "cutekid_tx",
+          "uco-observable:accountType": "Snapchat",
+          "uco-observable:isActive": {
+            "@type": "xsd:boolean",
+            "@value": "true"
+          },
+          "uco-observable:owner": {
+            "@id": "kb:identity-victim-2a3b4c5d-6e7f-8901-bcde-222222222222"
+          }
+        },
+        {
+          "@id": "kb:facet-victim-appacct-b2b2b2b3-b2b2-b2b2-b2b2-b2b2b2b2b2b2",
+          "@type": "uco-observable:ApplicationAccountFacet",
+          "uco-observable:application": {
+            "@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"
+          }
+        },
+        {
+          "@id": "kb:facet-victim-profile-b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3",
+          "@type": "uco-observable:ProfileFacet",
+          "uco-observable:displayName": "cutekid_tx",
+          "uco-observable:profileAccount": {
+            "@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"
+          },
+          "uco-observable:profileIdentity": {
+            "@id": "kb:identity-victim-2a3b4c5d-6e7f-8901-bcde-222222222222"
+          }
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:thread-session1-cc3d4e5f-6071-8901-5678-cccccccccccc",
+      "@type": "uco-observable:MessageThread",
+      "uco-core:name": "Grooming Chat Session 1 - April 10, 2025",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-thread1-c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1",
+          "@type": "uco-observable:MessageThreadFacet",
+          "uco-observable:participant": [
+            {"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"},
+            {"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"}
+          ],
+          "uco-observable:visibility": {
+            "@type": "xsd:boolean",
+            "@value": "false"
+          }
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:thread-session2-dd4e5f60-7182-9012-6789-dddddddddddd",
+      "@type": "uco-observable:MessageThread",
+      "uco-core:name": "Grooming Chat Session 2 - April 11, 2025",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-thread2-d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1",
+          "@type": "uco-observable:MessageThreadFacet",
+          "uco-observable:participant": [
+            {"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"},
+            {"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"}
+          ],
+          "uco-observable:visibility": {
+            "@type": "xsd:boolean",
+            "@value": "false"
+          }
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:thread-session3-ee5f6071-8293-0123-789a-eeeeeeeeeeee",
+      "@type": "uco-observable:MessageThread",
+      "uco-core:name": "Grooming Chat Session 3 - April 12, 2025",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Final grooming session in which the offender elicited a sexually explicit photograph from the child victim (self-generated CSAM)."
+      },
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-thread3-e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1",
+          "@type": "uco-observable:MessageThreadFacet",
+          "uco-observable:participant": [
+            {"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"},
+            {"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"}
+          ],
+          "uco-observable:visibility": {
+            "@type": "xsd:boolean",
+            "@value": "false"
+          }
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:message-01-01010101-0101-0101-0101-010101010101",
+      "@type": ["uco-observable:Message", "cacontology-grooming:GroomingMessage"],
+      "uco-core:name": "Session 1 - Initial Contact",
+      "cacontology-grooming:groomingStage": "initial_contact",
+      "cacontology-grooming:evidencesPhase": {
+        "@id": "kb:phase-initial-contact-ca20ca20-ca20-ca20-ca20-ca20ca20ca20"
+      },
+      "cacontology-grooming:emotionalTone": "caring",
+      "cacontology-grooming:explicitnessLevel": "none",
+      "cacontology-grooming:contentType": "text",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-msg01-f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1",
+          "@type": "uco-observable:MessageFacet",
+          "uco-observable:application": {"@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"},
+          "uco-observable:from": {"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"},
+          "uco-observable:to": [{"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"}],
+          "uco-observable:messageText": "Hey! Saw your story, you seem really cool. How old are you?",
+          "uco-observable:messageType": "Chat",
+          "uco-observable:sentTime": {
+            "@type": "xsd:dateTime",
+            "@value": "2025-04-10T15:30:00-05:00"
+          },
+          "uco-observable:sessionID": "snap-session-20250410-001"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:message-02-02020202-0202-0202-0202-020202020202",
+      "@type": ["uco-observable:Message", "cacontology-grooming:VictimResponse"],
+      "uco-core:name": "Session 1 - Victim Response",
+      "cacontology-grooming:groomingStage": "initial_contact",
+      "cacontology-grooming:evidencesPhase": {
+        "@id": "kb:phase-initial-contact-ca20ca20-ca20-ca20-ca20-ca20ca20ca20"
+      },
+      "cacontology-grooming:victimCompliance": "compliant",
+      "cacontology-grooming:seekingHelp": {
+        "@type": "xsd:boolean",
+        "@value": "false"
+      },
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-msg02-f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2",
+          "@type": "uco-observable:MessageFacet",
+          "uco-observable:application": {"@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"},
+          "uco-observable:from": {"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"},
+          "uco-observable:to": [{"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"}],
+          "uco-observable:messageText": "Hi! Thanks, I'm 13. Who are you?",
+          "uco-observable:messageType": "Chat",
+          "uco-observable:sentTime": {
+            "@type": "xsd:dateTime",
+            "@value": "2025-04-10T15:35:00-05:00"
+          },
+          "uco-observable:sessionID": "snap-session-20250410-001"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:message-03-03030303-0303-0303-0303-030303030303",
+      "@type": ["uco-observable:Message", "cacontology-grooming:GroomingMessage"],
+      "uco-core:name": "Session 1 - Offender Age Deception",
+      "cacontology-grooming:groomingStage": "initial_contact",
+      "cacontology-grooming:evidencesPhase": {
+        "@id": "kb:phase-initial-contact-ca20ca20-ca20-ca20-ca20-ca20ca20ca20"
+      },
+      "cacontology-grooming:emotionalTone": "seductive",
+      "cacontology-grooming:explicitnessLevel": "none",
+      "cacontology-grooming:contentType": "text",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-msg03-f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3",
+          "@type": "uco-observable:MessageFacet",
+          "uco-observable:application": {"@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"},
+          "uco-observable:from": {"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"},
+          "uco-observable:to": [{"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"}],
+          "uco-observable:messageText": "I'm 16. You're really pretty. We should talk more, but keep it between us ok?",
+          "uco-observable:messageType": "Chat",
+          "uco-observable:sentTime": {
+            "@type": "xsd:dateTime",
+            "@value": "2025-04-10T15:42:00-05:00"
+          },
+          "uco-observable:sessionID": "snap-session-20250410-001"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:message-04-04040404-0404-0404-0404-040404040404",
+      "@type": ["uco-observable:Message", "cacontology-grooming:GroomingMessage"],
+      "uco-core:name": "Session 2 - Trust Building",
+      "cacontology-grooming:groomingStage": "trust_building",
+      "cacontology-grooming:evidencesPhase": {
+        "@id": "kb:phase-trust-building-ca21ca21-ca21-ca21-ca21-ca21ca21ca21"
+      },
+      "cacontology-grooming:emotionalTone": "caring",
+      "cacontology-grooming:explicitnessLevel": "none",
+      "cacontology-grooming:contentType": "text",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-msg04-f4f4f4f4-f4f4-f4f4-f4f4-f4f4f4f4f4f4",
+          "@type": "uco-observable:MessageFacet",
+          "uco-observable:application": {"@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"},
+          "uco-observable:from": {"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"},
+          "uco-observable:to": [{"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"}],
+          "uco-observable:messageText": "I've been thinking about you all day. You're so special. No one understands you like I do.",
+          "uco-observable:messageType": "Chat",
+          "uco-observable:sentTime": {
+            "@type": "xsd:dateTime",
+            "@value": "2025-04-11T14:15:00-05:00"
+          },
+          "uco-observable:sessionID": "snap-session-20250411-001"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:message-05-05050505-0505-0505-0505-050505050505",
+      "@type": ["uco-observable:Message", "cacontology-grooming:SecrecyRequest"],
+      "uco-core:name": "Session 2 - Isolation Attempt",
+      "cacontology-grooming:groomingStage": "isolation",
+      "cacontology-grooming:evidencesPhase": {
+        "@id": "kb:phase-isolation-ca22ca22-ca22-ca22-ca22-ca22ca22ca22"
+      },
+      "cacontology-grooming:emotionalTone": "manipulative",
+      "cacontology-grooming:explicitnessLevel": "none",
+      "cacontology-grooming:contentType": "text",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-msg05-f5f5f5f5-f5f5-f5f5-f5f5-f5f5f5f5f5f5",
+          "@type": "uco-observable:MessageFacet",
+          "uco-observable:application": {"@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"},
+          "uco-observable:from": {"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"},
+          "uco-observable:to": [{"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"}],
+          "uco-observable:messageText": "Don't tell your parents about us. They wouldn't understand our friendship. This is just between us.",
+          "uco-observable:messageType": "Chat",
+          "uco-observable:sentTime": {
+            "@type": "xsd:dateTime",
+            "@value": "2025-04-11T14:45:00-05:00"
+          },
+          "uco-observable:sessionID": "snap-session-20250411-001"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:message-06-06060606-0606-0606-0606-060606060606",
+      "@type": ["uco-observable:Message", "cacontology-grooming:VictimResponse"],
+      "uco-core:name": "Session 2 - Victim Response Trust",
+      "cacontology-grooming:groomingStage": "isolation",
+      "cacontology-grooming:evidencesPhase": {
+        "@id": "kb:phase-isolation-ca22ca22-ca22-ca22-ca22-ca22ca22ca22"
+      },
+      "cacontology-grooming:victimCompliance": "compliant",
+      "cacontology-grooming:seekingHelp": {
+        "@type": "xsd:boolean",
+        "@value": "false"
+      },
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-msg06-f6f6f6f6-f6f6-f6f6-f6f6-f6f6f6f6f6f6",
+          "@type": "uco-observable:MessageFacet",
+          "uco-observable:application": {"@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"},
+          "uco-observable:from": {"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"},
+          "uco-observable:to": [{"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"}],
+          "uco-observable:messageText": "Ok I won't tell anyone. You're like the only person who gets me.",
+          "uco-observable:messageType": "Chat",
+          "uco-observable:sentTime": {
+            "@type": "xsd:dateTime",
+            "@value": "2025-04-11T14:52:00-05:00"
+          },
+          "uco-observable:sessionID": "snap-session-20250411-001"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:message-07-07070707-0707-0707-0707-070707070707",
+      "@type": ["uco-observable:Message", "cacontology-grooming:SexualSolicitation"],
+      "uco-core:name": "Session 3 - Photo Elicitation",
+      "cacontology-grooming:groomingStage": "sexualization",
+      "cacontology-grooming:evidencesPhase": {
+        "@id": "kb:phase-sexualization-ca23ca23-ca23-ca23-ca23-ca23ca23ca23"
+      },
+      "cacontology-grooming:emotionalTone": "seductive",
+      "cacontology-grooming:explicitnessLevel": "suggestive",
+      "cacontology-grooming:contentType": "text",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-msg07-f7f7f7f7-f7f7-f7f7-f7f7-f7f7f7f7f7f7",
+          "@type": "uco-observable:MessageFacet",
+          "uco-observable:application": {"@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"},
+          "uco-observable:from": {"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"},
+          "uco-observable:to": [{"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"}],
+          "uco-observable:messageText": "I want to see the real you. Send me a special pic, just for me. No one else will ever see it, I promise.",
+          "uco-observable:messageType": "Chat",
+          "uco-observable:sentTime": {
+            "@type": "xsd:dateTime",
+            "@value": "2025-04-12T16:05:00-05:00"
+          },
+          "uco-observable:sessionID": "snap-session-20250412-001"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:message-08-08080808-0808-0808-0808-080808080808",
+      "@type": ["uco-observable:Message", "cacontology-grooming:VictimResponse"],
+      "uco-core:name": "Session 3 - Victim Sends CSAM Image",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Message from victim containing self-generated CSAM as a Snapchat photo attachment, elicited by the offender."
+      },
+      "cacontology-grooming:groomingStage": "sexualization",
+      "cacontology-grooming:evidencesPhase": {
+        "@id": "kb:phase-sexualization-ca23ca23-ca23-ca23-ca23-ca23ca23ca23"
+      },
+      "cacontology-grooming:victimCompliance": "compliant",
+      "cacontology-grooming:seekingHelp": {
+        "@type": "xsd:boolean",
+        "@value": "false"
+      },
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-msg08-f8f8f8f8-f8f8-f8f8-f8f8-f8f8f8f8f8f8",
+          "@type": "uco-observable:MessageFacet",
+          "uco-observable:application": {"@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"},
+          "uco-observable:from": {"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"},
+          "uco-observable:to": [{"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"}],
+          "uco-observable:messageText": "[Photo attachment]",
+          "uco-observable:messageType": "Chat",
+          "uco-observable:sentTime": {
+            "@type": "xsd:dateTime",
+            "@value": "2025-04-12T16:22:00-05:00"
+          },
+          "uco-observable:sessionID": "snap-session-20250412-001"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:message-09-09090909-0909-0909-0909-090909090909",
+      "@type": ["uco-observable:Message", "cacontology-grooming:SexualSolicitation"],
+      "uco-core:name": "Session 3 - Offender Response After CSAM",
+      "cacontology-grooming:groomingStage": "sexualization",
+      "cacontology-grooming:evidencesPhase": {
+        "@id": "kb:phase-sexualization-ca23ca23-ca23-ca23-ca23-ca23ca23ca23"
+      },
+      "cacontology-grooming:emotionalTone": "seductive",
+      "cacontology-grooming:explicitnessLevel": "suggestive",
+      "cacontology-grooming:contentType": "text",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-msg09-f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9",
+          "@type": "uco-observable:MessageFacet",
+          "uco-observable:application": {"@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"},
+          "uco-observable:from": {"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"},
+          "uco-observable:to": [{"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"}],
+          "uco-observable:messageText": "You're so beautiful. Send me more. Remember, this is our secret.",
+          "uco-observable:messageType": "Chat",
+          "uco-observable:sentTime": {
+            "@type": "xsd:dateTime",
+            "@value": "2025-04-12T16:25:00-05:00"
+          },
+          "uco-observable:sessionID": "snap-session-20250412-001"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:csam-image-fa1b2c3d-4e5f-6789-abcd-fafafafafafa",
+      "@type": ["uco-observable:RasterPicture", "cacontology-production:ProducedImage"],
+      "uco-core:name": "Self-Generated CSAM Image",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Sexually explicit photograph self-generated by the child victim and sent to the offender via Snapchat, elicited through grooming."
+      },
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-csam-raster-1a1a1a1a-2b2b-3c3c-4d4d-5e5e5e5e5e5e",
+          "@type": "uco-observable:RasterPictureFacet",
+          "uco-observable:pictureType": "photograph",
+          "uco-observable:imageCompressionMethod": "JPEG",
+          "uco-observable:pictureHeight": {
+            "@type": "xsd:integer",
+            "@value": "1920"
+          },
+          "uco-observable:pictureWidth": {
+            "@type": "xsd:integer",
+            "@value": "1080"
+          }
+        },
+        {
+          "@id": "kb:facet-csam-content-2b2b2b2b-3c3c-4d4d-5e5e-6f6f6f6f6f6f",
+          "@type": "uco-observable:ContentDataFacet",
+          "uco-observable:mimeType": "image/jpeg",
+          "uco-observable:sizeInBytes": {
+            "@type": "xsd:integer",
+            "@value": "2048576"
+          },
+          "uco-observable:hash": [
+            {
+              "@id": "kb:hash-csam-sha256-3c3c3c3c-4d4d-5e5e-6f6f-7a7a7a7a7a7a",
+              "@type": "uco-types:Hash",
+              "uco-types:hashMethod": "SHA-256",
+              "uco-types:hashValue": {
+                "@type": "xsd:hexBinary",
+                "@value": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
+              }
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:ip-offender-ca40ca40-ca40-ca40-ca40-ca40ca40ca40",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:name": "Offender Platform Access IP",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-ip-offender-ca40ca40-ca40-ca40-ca40-111111111111",
+          "@type": "uco-observable:IPv4AddressFacet",
+          "uco-observable:addressValue": "198.51.100.42"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:ip-victim-ca41ca41-ca41-ca41-ca41-ca41ca41ca41",
+      "@type": "uco-observable:ObservableObject",
+      "uco-core:name": "Victim Platform Access IP",
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-ip-victim-ca41ca41-ca41-ca41-ca41-222222222222",
+          "@type": "uco-observable:IPv4AddressFacet",
+          "uco-observable:addressValue": "203.0.113.17"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:monitoring-tool-ab12cd34-ef56-7890-abcd-abababababab",
+      "@type": ["uco-tool:AnalyticTool", "cacontology-detection:MachineLearningDetectionTool"],
+      "uco-core:name": "Snapchat Safety Monitoring Service",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Automated content monitoring service operated by Snap Inc. to detect child sexual exploitation material and grooming behavior on the Snapchat platform."
+      },
+      "uco-tool:toolType": "Content Safety Monitoring",
+      "uco-tool:creator": {
+        "@id": "kb:identity-snapchat-4a5b6c7d-8e9f-0123-def0-444444444444"
+      }
+    },
+
+    {
+      "@id": "kb:action-detection-bc23de45-f067-8901-bcde-bcbcbcbcbcbc",
+      "@type": ["case-investigation:InvestigativeAction", "cacontology-detection:AutomatedDetectionAction"],
+      "uco-core:name": "Grooming and CSAM Detection",
+      "uco-core:description": [
+        "Snapchat's automated content monitoring service detected grooming behavior and CSAM in chat sessions between the offender and victim accounts."
+      ],
+      "uco-action:startTime": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-12T16:22:00-05:00"
+      },
+      "uco-action:endTime": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-12T16:30:00-05:00"
+      },
+      "uco-action:performer": {
+        "@id": "kb:identity-snapchat-4a5b6c7d-8e9f-0123-def0-444444444444"
+      },
+      "uco-action:instrument": [
+        {"@id": "kb:monitoring-tool-ab12cd34-ef56-7890-abcd-abababababab"}
+      ],
+      "uco-action:object": [
+        {"@id": "kb:thread-session1-cc3d4e5f-6071-8901-5678-cccccccccccc"},
+        {"@id": "kb:thread-session2-dd4e5f60-7182-9012-6789-dddddddddddd"},
+        {"@id": "kb:thread-session3-ee5f6071-8293-0123-789a-eeeeeeeeeeee"},
+        {"@id": "kb:csam-image-fa1b2c3d-4e5f-6789-abcd-fafafafafafa"}
+      ],
+      "uco-action:result": [
+        {"@id": "kb:action-ts-review-ca50ca50-ca50-ca50-ca50-ca50ca50ca50"}
+      ]
+    },
+
+    {
+      "@id": "kb:action-ts-review-ca50ca50-ca50-ca50-ca50-ca50ca50ca50",
+      "@type": "case-investigation:InvestigativeAction",
+      "uco-core:name": "Trust & Safety Review",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Human review by Snap Inc. Trust & Safety team to confirm automated detection findings before reporting to NCMEC. Platform policy determines whether automated detections require human confirmation. NCMEC relies on high-quality ESP reports that include offender and victim account handles, IP addresses, chat content, and timestamps."
+      },
+      "uco-action:startTime": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-12T16:35:00-05:00"
+      },
+      "uco-action:endTime": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-12T16:55:00-05:00"
+      },
+      "uco-action:performer": {
+        "@id": "kb:identity-snapchat-4a5b6c7d-8e9f-0123-def0-444444444444"
+      },
+      "uco-action:object": [
+        {"@id": "kb:thread-session1-cc3d4e5f-6071-8901-5678-cccccccccccc"},
+        {"@id": "kb:thread-session2-dd4e5f60-7182-9012-6789-dddddddddddd"},
+        {"@id": "kb:thread-session3-ee5f6071-8293-0123-789a-eeeeeeeeeeee"},
+        {"@id": "kb:csam-image-fa1b2c3d-4e5f-6789-abcd-fafafafafafa"},
+        {"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"},
+        {"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"},
+        {"@id": "kb:ip-offender-ca40ca40-ca40-ca40-ca40-ca40ca40ca40"},
+        {"@id": "kb:ip-victim-ca41ca41-ca41-ca41-ca41-ca41ca41ca41"}
+      ],
+      "uco-action:result": [
+        {"@id": "kb:action-ncmec-report-cd34ef56-0178-9012-cdef-cdcdcdcdcdcd"}
+      ],
+      "case-investigation:wasInformedBy": [
+        {"@id": "kb:action-detection-bc23de45-f067-8901-bcde-bcbcbcbcbcbc"}
+      ]
+    },
+
+    {
+      "@id": "kb:action-ncmec-report-cd34ef56-0178-9012-cdef-cdcdcdcdcdcd",
+      "@type": "case-investigation:InvestigativeAction",
+      "uco-core:name": "Report to NCMEC",
+      "uco-core:description": [
+        "Snap Inc. reported the detected grooming chat and CSAM to the National Center for Missing & Exploited Children (NCMEC) per federal reporting obligations under 18 U.S.C. \u00a7 2258A."
+      ],
+      "uco-action:startTime": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-12T17:00:00-05:00"
+      },
+      "uco-action:performer": {
+        "@id": "kb:identity-snapchat-4a5b6c7d-8e9f-0123-def0-444444444444"
+      },
+      "uco-action:object": [
+        {"@id": "kb:thread-session1-cc3d4e5f-6071-8901-5678-cccccccccccc"},
+        {"@id": "kb:thread-session2-dd4e5f60-7182-9012-6789-dddddddddddd"},
+        {"@id": "kb:thread-session3-ee5f6071-8293-0123-789a-eeeeeeeeeeee"},
+        {"@id": "kb:csam-image-fa1b2c3d-4e5f-6789-abcd-fafafafafafa"},
+        {"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"},
+        {"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"},
+        {"@id": "kb:ip-offender-ca40ca40-ca40-ca40-ca40-ca40ca40ca40"},
+        {"@id": "kb:ip-victim-ca41ca41-ca41-ca41-ca41-ca41ca41ca41"}
+      ],
+      "uco-action:participant": [
+        {"@id": "kb:identity-ncmec-3a4b5c6d-7e8f-9012-cdef-333333333333"}
+      ],
+      "uco-action:result": [
+        {"@id": "kb:action-cybertip-de45f067-1289-0123-def0-dededededede"}
+      ],
+      "case-investigation:wasInformedBy": [
+        {"@id": "kb:action-ts-review-ca50ca50-ca50-ca50-ca50-ca50ca50ca50"}
+      ]
+    },
+
+    {
+      "@id": "kb:action-cybertip-de45f067-1289-0123-def0-dededededede",
+      "@type": ["case-investigation:InvestigativeAction", "cacontology:ReceiveCybertipAction"],
+      "uco-core:name": "NCMEC CyberTipline Report Generation",
+      "uco-core:description": [
+        "NCMEC generated a CyberTipline report based on the report from Snap Inc. documenting online grooming and self-generated CSAM involving a minor victim."
+      ],
+      "uco-action:startTime": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-12T18:00:00-05:00"
+      },
+      "uco-action:performer": {
+        "@id": "kb:identity-ncmec-3a4b5c6d-7e8f-9012-cdef-333333333333"
+      },
+      "uco-action:object": [
+        {"@id": "kb:thread-session1-cc3d4e5f-6071-8901-5678-cccccccccccc"},
+        {"@id": "kb:thread-session2-dd4e5f60-7182-9012-6789-dddddddddddd"},
+        {"@id": "kb:thread-session3-ee5f6071-8293-0123-789a-eeeeeeeeeeee"},
+        {"@id": "kb:csam-image-fa1b2c3d-4e5f-6789-abcd-fafafafafafa"}
+      ],
+      "uco-action:result": [
+        {"@id": "kb:cybertip-report-ef560178-2390-1234-ef01-efefefefefef"}
+      ],
+      "case-investigation:wasInformedBy": [
+        {"@id": "kb:action-ncmec-report-cd34ef56-0178-9012-cdef-cdcdcdcdcdcd"}
+      ]
+    },
+
+    {
+      "@id": "kb:cybertip-report-ef560178-2390-1234-ef01-efefefefefef",
+      "@type": ["uco-observable:ObservableObject", "cacontology-us-ncmec:NCMECCybertipReport"],
+      "uco-core:name": "NCMEC CyberTipline Report #CT-2025-04-12-00001",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "CyberTipline report documenting Snapchat grooming chat between adult offender from Indiana and child victim from Texas, with self-generated CSAM elicited by the offender."
+      },
+      "cacontology-us-ncmec:hasNCMECIncidentType": {
+        "@id": "kb:enticement-incident-ca05ca05-ca05-ca05-ca05-ca05ca05ca05"
+      },
+      "uco-core:externalReference": [
+        {
+          "@id": "kb:extref-cybertip-11223344-5566-7788-9900-112233445566",
+          "@type": "uco-core:ExternalReference",
+          "uco-core:definingContext": "NCMEC CyberTipline",
+          "uco-core:externalIdentifier": "CT-2025-04-12-00001",
+          "uco-core:referenceURL": {
+            "@type": "xsd:anyURI",
+            "@value": "https://report.cybertipline.org/report/CT-2025-04-12-00001"
+          }
+        }
+      ],
+      "uco-core:hasFacet": [
+        {
+          "@id": "kb:facet-cybertip-content-22334455-6677-8899-0011-223344556677",
+          "@type": "uco-observable:ContentDataFacet",
+          "uco-observable:mimeType": "application/pdf"
+        }
+      ]
+    },
+
+    {
+      "@id": "kb:grooming-behavior-ca01ca01-ca01-ca01-ca01-ca01ca01ca01",
+      "@type": ["uco-core:UcoObject", "cacontology-grooming:OnlineGrooming"],
+      "uco-core:name": "Snapchat Online Grooming Behavior",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Predatory grooming behavior conducted by adult offender targeting a 13-year-old child through Snapchat over three sessions spanning April 10-12, 2025. The offender used age deception, emotional manipulation, isolation tactics, and secrecy demands before escalating to sexual solicitation of images."
+      },
+      "cacontology-grooming:groomingStage": "sexualization",
+      "cacontology-grooming:behaviorDuration": {
+        "@type": "xsd:integer",
+        "@value": "3"
+      },
+      "cacontology-grooming:requestsSecrecy": {
+        "@type": "xsd:boolean",
+        "@value": "true"
+      },
+      "cacontology-grooming:usesThreats": {
+        "@type": "xsd:boolean",
+        "@value": "false"
+      },
+      "cacontology-grooming:rolePlayingTactic": "peer",
+      "cacontology-grooming:evidenceValue": "high",
+      "cacontology-grooming:targetsVictim": {
+        "@id": "kb:identity-victim-2a3b4c5d-6e7f-8901-bcde-222222222222"
+      },
+      "cacontology-grooming:primaryPlatform": {
+        "@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"
+      },
+      "cacontology-grooming:exhibitsPattern": {
+        "@id": "kb:escalation-pattern-ca04ca04-ca04-ca04-ca04-ca04ca04ca04"
+      },
+      "cacontology:hasPhase": [
+        {"@id": "kb:phase-initial-contact-ca20ca20-ca20-ca20-ca20-ca20ca20ca20"},
+        {"@id": "kb:phase-trust-building-ca21ca21-ca21-ca21-ca21-ca21ca21ca21"},
+        {"@id": "kb:phase-isolation-ca22ca22-ca22-ca22-ca22-ca22ca22ca22"},
+        {"@id": "kb:phase-sexualization-ca23ca23-ca23-ca23-ca23-ca23ca23ca23"}
+      ]
+    },
+
+    {
+      "@id": "kb:phase-initial-contact-ca20ca20-ca20-ca20-ca20-ca20ca20ca20",
+      "@type": ["uco-core:UcoObject", "cacontology-grooming:InitialContactPhase"],
+      "uco-core:name": "Initial Contact Phase - Session 1",
+      "cacontology:hasPhaseBeginPoint": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-10T15:30:00-05:00"
+      },
+      "cacontology:hasPhaseEndPoint": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-10T15:42:00-05:00"
+      }
+    },
+
+    {
+      "@id": "kb:phase-trust-building-ca21ca21-ca21-ca21-ca21-ca21ca21ca21",
+      "@type": ["uco-core:UcoObject", "cacontology-grooming:TrustBuildingPhase"],
+      "uco-core:name": "Trust Building Phase - Session 2",
+      "cacontology:hasPhaseBeginPoint": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-11T14:15:00-05:00"
+      },
+      "cacontology:hasPhaseEndPoint": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-11T14:45:00-05:00"
+      }
+    },
+
+    {
+      "@id": "kb:phase-isolation-ca22ca22-ca22-ca22-ca22-ca22ca22ca22",
+      "@type": ["uco-core:UcoObject", "cacontology-grooming:IsolationPhase"],
+      "uco-core:name": "Isolation Phase - Session 2",
+      "cacontology:hasPhaseBeginPoint": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-11T14:45:00-05:00"
+      },
+      "cacontology:hasPhaseEndPoint": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-11T14:52:00-05:00"
+      }
+    },
+
+    {
+      "@id": "kb:phase-sexualization-ca23ca23-ca23-ca23-ca23-ca23ca23ca23",
+      "@type": ["uco-core:UcoObject", "cacontology-grooming:SexualizationPhase"],
+      "uco-core:name": "Sexualization Phase - Session 3",
+      "cacontology:hasPhaseBeginPoint": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-12T16:05:00-05:00"
+      },
+      "cacontology:hasPhaseEndPoint": {
+        "@type": "xsd:dateTime",
+        "@value": "2025-04-12T16:25:00-05:00"
+      }
+    },
+
+    {
+      "@id": "kb:grooming-solicitation-ca02ca02-ca02-ca02-ca02-ca02ca02ca02",
+      "@type": ["uco-core:UcoObject", "cacontology:GroomingSolicitation"],
+      "uco-core:name": "Online Grooming and Solicitation Incident",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Grooming and solicitation incident involving an adult offender from Indiana who groomed a 13-year-old victim from Texas through Snapchat, ultimately soliciting sexually explicit images."
+      }
+    },
+
+    {
+      "@id": "kb:csam-incident-ca03ca03-ca03-ca03-ca03-ca03ca03ca03",
+      "@type": ["uco-core:UcoObject", "cacontology:CSAMIncident"],
+      "uco-core:name": "Self-Generated CSAM Incident",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "CSAM incident in which a child victim produced self-generated sexually explicit imagery after being groomed and solicited by an online predator through Snapchat. The material was transmitted via the platform's messaging service."
+      }
+    },
+
+    {
+      "@id": "kb:escalation-pattern-ca04ca04-ca04-ca04-ca04-ca04ca04ca04",
+      "@type": ["uco-core:UcoObject", "cacontology-grooming:EscalationPattern"],
+      "uco-core:name": "Three-Day Grooming Escalation Pattern",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Rapid escalation pattern observed across three chat sessions: initial contact and age deception (Day 1), trust building and isolation through secrecy demands (Day 2), sexual solicitation and CSAM elicitation (Day 3)."
+      },
+      "cacontology-grooming:escalationRate": {
+        "@type": "xsd:integer",
+        "@value": "3"
+      },
+      "cacontology-grooming:patternConfidence": {
+        "@type": "xsd:decimal",
+        "@value": "0.95"
+      }
+    },
+
+    {
+      "@id": "kb:enticement-incident-ca05ca05-ca05-ca05-ca05-ca05ca05ca05",
+      "@type": ["uco-core:UcoObject", "cacontology-us-ncmec:OnlineEnticementIncident"],
+      "uco-core:name": "Online Enticement of Children for Sexual Acts",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "NCMEC incident type classification for the online enticement of a child for sexual acts, as reported through the CyberTipline by Snap Inc."
+      }
+    },
+
+    {
+      "@id": "kb:platform-cooperation-ca06ca06-ca06-ca06-ca06-ca06ca06ca06",
+      "@type": ["uco-observable:ObservableObject", "cacontology-us-ncmec:PlatformCooperation"],
+      "uco-core:name": "Snap Inc. Platform Cooperation",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "Snap Inc. provided full cooperation with the investigation, including account information, user data, chat content, and metadata for both the offender and victim accounts."
+      },
+      "cacontology-us-ncmec:cooperationLevel": "full",
+      "cacontology-us-ncmec:dataProvided": "account_info, user_data, content, metadata",
+      "cacontology-us-ncmec:involvesPlatform": {
+        "@id": "kb:snapchat-app-9a0b1c2d-3e4f-5678-2345-999999999999"
+      }
+    },
+
+    {
+      "@id": "kb:investigation-trigger-ca30ca30-ca30-ca30-ca30-ca30ca30ca30",
+      "@type": ["uco-core:UcoObject", "cacontology-us-ncmec:InvestigationTrigger"],
+      "uco-core:name": "CyberTip Investigation Trigger",
+      "uco-core:description": {
+        "@type": "xsd:string",
+        "@value": "The NCMEC CyberTip report triggered a law enforcement investigation into online grooming and self-generated CSAM."
+      },
+      "cacontology-us-ncmec:triggeredBy": {
+        "@id": "kb:cybertip-report-ef560178-2390-1234-ef01-efefefefefef"
+      },
+      "cacontology-us-ncmec:resultedInInvestigation": {
+        "@id": "kb:investigation-a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+      },
+      "cacontology-us-ncmec:triggerCriteria": "victim_age",
+      "cacontology-us-ncmec:urgencyLevel": "urgent"
+    },
+
+    {
+      "@id": "kb:relationship-offender-subject-11111111-aaaa-bbbb-cccc-111111111111",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:identity-offender-1a2b3c4d-5e6f-7890-abcd-111111111111"}],
+      "uco-core:target": {"@id": "kb:subject-role-5a6b7c8d-9e0f-1234-ef01-555555555555"},
+      "uco-core:kindOfRelationship": "has-role",
+      "uco-core:isDirectional": {
+        "@type": "xsd:boolean",
+        "@value": "true"
+      }
+    },
+
+    {
+      "@id": "kb:relationship-victim-role-22222222-aaaa-bbbb-cccc-222222222222",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:identity-victim-2a3b4c5d-6e7f-8901-bcde-222222222222"}],
+      "uco-core:target": {"@id": "kb:victim-role-6a7b8c9d-0e1f-2345-f012-666666666666"},
+      "uco-core:kindOfRelationship": "has-role",
+      "uco-core:isDirectional": {
+        "@type": "xsd:boolean",
+        "@value": "true"
+      }
+    },
+
+
+
+
+    {
+      "@id": "kb:relationship-offender-location-55555555-aaaa-bbbb-cccc-555555555555",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:identity-offender-1a2b3c4d-5e6f-7890-abcd-111111111111"}],
+      "uco-core:target": {"@id": "kb:location-indiana-7a8b9c0d-1e2f-3456-0123-777777777777"},
+      "uco-core:kindOfRelationship": "Located_At",
+      "uco-core:isDirectional": {
+        "@type": "xsd:boolean",
+        "@value": "true"
+      }
+    },
+
+    {
+      "@id": "kb:relationship-victim-location-66666666-aaaa-bbbb-cccc-666666666666",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:identity-victim-2a3b4c5d-6e7f-8901-bcde-222222222222"}],
+      "uco-core:target": {"@id": "kb:location-texas-8a9b0c1d-2e3f-4567-1234-888888888888"},
+      "uco-core:kindOfRelationship": "Located_At",
+      "uco-core:isDirectional": {
+        "@type": "xsd:boolean",
+        "@value": "true"
+      }
+    },
+
+    {
+      "@id": "kb:relationship-csam-attachment-77777777-aaaa-bbbb-cccc-777777777777",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:csam-image-fa1b2c3d-4e5f-6789-abcd-fafafafafafa"}],
+      "uco-core:target": {"@id": "kb:message-08-08080808-0808-0808-0808-080808080808"},
+      "uco-core:kindOfRelationship": "Attachment_Of",
+      "uco-core:isDirectional": {
+        "@type": "xsd:boolean",
+        "@value": "true"
+      }
+    },
+
+
+
+
+    {
+      "@id": "kb:relationship-offender-ip-ca42ca42-ca42-ca42-ca42-ca42ca42ca42",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:account-offender-aa1b2c3d-4e5f-6789-3456-aaaaaaaaaaaa"}],
+      "uco-core:target": {"@id": "kb:ip-offender-ca40ca40-ca40-ca40-ca40-ca40ca40ca40"},
+      "uco-core:kindOfRelationship": "Accessed_From",
+      "uco-core:isDirectional": {
+        "@type": "xsd:boolean",
+        "@value": "true"
+      }
+    },
+
+    {
+      "@id": "kb:relationship-victim-ip-ca43ca43-ca43-ca43-ca43-ca43ca43ca43",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:account-victim-bb2c3d4e-5f60-7890-4567-bbbbbbbbbbbb"}],
+      "uco-core:target": {"@id": "kb:ip-victim-ca41ca41-ca41-ca41-ca41-ca41ca41ca41"},
+      "uco-core:kindOfRelationship": "Accessed_From",
+      "uco-core:isDirectional": {
+        "@type": "xsd:boolean",
+        "@value": "true"
+      }
+    },
+
+    {
+      "@id": "kb:relationship-grooming-to-predator-ca11ca11-ca11-ca11-ca11-ca11ca11ca11",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:grooming-behavior-ca01ca01-ca01-ca01-ca01-ca01ca01ca01"}],
+      "uco-core:target": {"@id": "kb:identity-offender-1a2b3c4d-5e6f-7890-abcd-111111111111"},
+      "uco-core:kindOfRelationship": "Performed_By",
+      "uco-core:isDirectional": {
+        "@type": "xsd:boolean",
+        "@value": "true"
+      }
+    },
+
+    {
+      "@id": "kb:relationship-csam-incident-to-image-ca13ca13-ca13-ca13-ca13-ca13ca13ca13",
+      "@type": "uco-core:Relationship",
+      "uco-core:source": [{"@id": "kb:csam-incident-ca03ca03-ca03-ca03-ca03-ca03ca03ca03"}],
+      "uco-core:target": {"@id": "kb:csam-image-fa1b2c3d-4e5f-6789-abcd-fafafafafafa"},
+      "uco-core:kindOfRelationship": "Involves",
+      "uco-core:isDirectional": {
+        "@type": "xsd:boolean",
+        "@value": "true"
+      }
+    }
+  ]
+}

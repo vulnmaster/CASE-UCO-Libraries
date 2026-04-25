@@ -51,6 +51,8 @@ End-to-end mapping recipes that walk through source input, modeling choices, ant
 | Forensic Investigation Lifecycle | [forensic-lifecycle.md](forensic-lifecycle.md) | Ordered phases (survey, preservation, examination, analysis, reporting) | [forensic_lifecycle](https://github.com/casework/CASE-Examples/tree/master/examples/illustrations/forensic_lifecycle) |
 | Network Investigation with Bundle | [network-investigation.md](network-investigation.md) | Full investigation with warrant, PCAP extraction, provenance | [network_connection](https://github.com/casework/CASE-Examples/tree/master/examples/illustrations/network_connection) |
 | Spear Phishing and Attack Narratives | [spear-phishing.md](spear-phishing.md) | Attack chain modeling with extended ontology patterns | [spear_phishing](https://github.com/casework/CASE-Examples/tree/master/examples/illustrations/spear_phishing) |
+| Online Grooming Chat Modeling | [grooming-chat-modeling.md](grooming-chat-modeling.md) | Grooming chat evidence and CAC behavioral interpretation with phase progression | — |
+| NCMEC CyberTip Reporting Workflow | [cybertip-ncmec-workflow.md](cybertip-ncmec-workflow.md) | Platform detection, ESP reporting, CyberTip lifecycle, and CAC investigation | — |
 
 ### Devices, locations, and identity
 
@@ -94,6 +96,7 @@ End-to-end mapping recipes that walk through source input, modeling choices, ant
 |---|---|---|---|
 | Discovering Classes at Runtime | [runtime-discovery.md](runtime-discovery.md) | Use the registry API to search for classes and inspect properties | — |
 | Working with Extensions | [extensions.md](extensions.md) | Use extension ontology classes alongside the core SDK | — |
+| Cross-Domain Extensions | [cross-domain-extensions.md](cross-domain-extensions.md) | Use CAC, AEO, and other extension packages with cross-domain composition | — |
 | Round-Trip: Serialize and Deserialize | [round-trip.md](round-trip.md) | Write a graph to JSON-LD and load it back with typed deserialization | — |
 | Managing Large Datasets | [large-datasets.md](large-datasets.md) | Partition large evidence sets by forensic boundary | — |
 | Existence Intervals and Temporal Modeling | [existence-intervals.md](existence-intervals.md) | OWL-Time, gUFO, and BFO temporal patterns | [existence_intervals](https://github.com/casework/CASE-Examples/tree/master/examples/illustrations/existence_intervals) |
