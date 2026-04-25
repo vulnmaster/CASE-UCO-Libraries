@@ -86,6 +86,7 @@ SELECT DISTINCT ?class ?label ?comment ?parent WHERE {
     OPTIONAL { ?class rdfs:label ?label . }
     OPTIONAL { ?class rdfs:comment ?comment . }
     OPTIONAL { ?class rdfs:subClassOf ?parent .
+               ?parent a owl:Class .
                FILTER(!isBlank(?parent))
     }
 }
