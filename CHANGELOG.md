@@ -5,6 +5,54 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.0] - 2026-04-25
+
+### Added
+
+- Extension plugin architecture with `manifest.json` schema (`extensions/manifest-schema.json`) for declaring extension ontology metadata, namespaces, CDO Shapes compatibility, and version constraints
+- CAC Ontology (v3.0.0) extension: git submodule, manifest, README, and integration with generator/MCP
+- Adversary Engagement Ontology (v0.2.1) extension: git submodule, manifest, README, and integration with generator/MCP
+- `case-uco-generate generate-extension` CLI subcommand for producing publishable extension binding packages (Python, C#, Java, Rust) with package manifests, multi-module code, and `_registry.json`
+- MCP server `CASE_UCO_EXTENSIONS` environment variable for opt-in extension class loading
+- `scope` parameter on `search_classes`, `get_class_details`, `find_classes_for_domain`, and `list_all_facets` MCP tools for filtering by `"core"`, extension name, or `"all"`
+- CDO Shapes profile compatibility annotations per extension in `get_uco_profiles` results
+- Python entry-point-based extension auto-discovery in `case_uco.registry` (group `case_uco.extensions`)
+- Per-extension Makefile validation targets (`test-ext-cac`, `test-ext-aeo`, `validate-extension`, `generate-ext`)
+- Manifest-driven validation helper script (`scripts/validate_extension.py`)
+- Cross-domain extension usage recipe (`docs/recipes/cross-domain-extensions.md`)
+- Extension Packages section in ECOSYSTEM.md with installation guide and CDO Shapes compatibility matrix
+
+### Changed
+
+- `load_extensions()` in generator now reads `manifest.json` when present instead of heuristic namespace detection; falls back to legacy behavior for directories without manifests
+- CDO Shapes profile URLs corrected from `ucoProject/UCO-Profile-*` to `Cyber-Domain-Ontology/CDO-Shapes-*` in `domain_index.py` and `docs/ECOSYSTEM.md`
+- `_classify_module()` now returns `None` for external/foundational ontology IRIs (gUFO, BFO, PROV-O, etc.) to skip code generation for those namespaces
+- `IGNORE_NS` in `scaffold.py` expanded with gUFO, BFO, and related foundational ontology domains
+
+### Fixed
+
+- **CAC extension registry coverage** — `extensions/cac/_registry.json` previously indexed only 9 of 47 ontology modules (~80 of 1,993 OWL classes), silently missing entire domains: `cacontology-sex-trafficking`, `recruitment-networks`, `tactical`, `victim-impact`, `legal-outcomes`, `multi-jurisdiction`, `asset-forfeiture`, `analyst-wellbeing`, `educational-exploitation`, `physical-evidence`, `custodial`, `temporal`, `prevention`, `training`, `synthesis`, `bridge-case`, `bridge-uco`, `bridge-gufo`, `integration-patterns`, and others. Agents and SDKs relying on `search_classes` / `find_classes_for_domain` were therefore blind to ~81% of the CAC vocabulary.
+  - `extensions/cac/manifest.json` — corrected several namespace URIs that did not match the IRIs declared in the upstream TTL submodule (e.g., `cacontology-sex-trafficking` was mapped to a non-existent `/sex-trafficking#` IRI; the actual TTL uses `/trafficking#`). Added explicit entries for all 47 modules including bridge ontologies.
+  - `generator/src/case_uco_generator/ontology_parser.py` — added a second SPARQL pass (`ALL_CLASSES_QUERY`) that selects every `owl:Class` regardless of whether a `sh:NodeShape` targets it. T-Box-only classes (no SHACL shape) are now indexed without enforced property cardinalities; previously they were dropped entirely.
+  - `generator/src/case_uco_generator/ontology_parser.py` — extension manifest loader now stores the full manifest prefix (e.g., `cacontology-sex-trafficking`) as the canonical module identifier so MCP search results and registry entries match the upstream namespace convention.
+  - `generator/src/case_uco_generator/cli.py` — added `_sanitize_module_id()` helper that converts hyphenated manifest prefixes to language-safe identifiers (e.g., `cacontology_sex_trafficking`) when generating Python/C#/Java/Rust file paths and module names. The registry retains the original hyphenated prefix for human-friendly search.
+  - `generator/src/case_uco_generator/cli.py` — `_emit_extension_registry` now emits the manifest prefix as the `module` field instead of the internal `ext.<name>.<prefix>` key, making the registry directly usable for documentation and search.
+  - `extensions/cac/_registry.json` — regenerated; now contains 47 modules and 1,993 classes (was 9 modules / ~80 classes).
+- **CAC domain-keyword coverage in `find_classes_for_domain` / `guide_mapping`** — even with the registry restored, several high-value query terms (`trafficking`, `recruitment`, `rescue`, `multi-jurisdiction`, `tactical arrest`, `csam provenance`, `task force`, `asset forfeiture`, `undercover`, `recantation`) returned no useful results because the keyword maps that back those tools were grooming/CSAM-only.
+  - `mcp_server/domain_index.py` — added five new `DOMAIN_CATEGORIES` (`child_trafficking`, `victim_rescue_response`, `multi_jurisdictional_operations`, `tactical_operations`, `csam_provenance`) and expanded the existing `child_exploitation` keywords with `icac` and `crimes against children`.
+  - `mcp_server/domain_index.py` — added five new `TASK_TO_CLASSES` templates (trafficking ring/recruitment network, multi-jurisdictional task force / rescue, tactical arrest / high-risk operation, victim rescue extraction and post-rescue services, CSAM provenance forensics and victim identification). Each template lists 11–20 concrete CAC classes with usage roles. All class references were validated against the registry.
+  - `mcp_server/domain_index.py` — added five new `MAPPING_GUIDE_INDEX` entries (same five sources) with patterns, anti-patterns, and runnable code skeletons so `guide_mapping` returns `found=True` for these evidence sources.
+  - `mcp_server/server.py` — expanded the `cac_keywords` set in `find_classes_for_domain` and the `cac_concepts` set in `suggest_classes_for_input` so the proactive CAC extension hint fires for the new query vocabulary; expanded the `relevant_modules` list returned in the extension suggestion to surface the now-discoverable modules (sex-trafficking, recruitment-networks, street-recruitment, multi-jurisdiction, tactical, undercover, taskforce, asset-forfeiture, victim-impact, recantation, legal-outcomes/legal-harmonization).
+
+### Dependencies
+
+- Bump `org.apache.maven.plugins:maven-javadoc-plugin` from 3.11.2 to 3.12.0 in `/java`
+- Bump `org.apache.maven.plugins:maven-source-plugin` from 3.3.1 to 3.4.0 in `/java`
+- Bump `actions/attest-build-provenance` from 2 to 4
+- Bump `org.sonatype.central:central-publishing-maven-plugin` from 0.7.0 to 0.10.0 in `/java`
+- Bump `org.apache.maven.plugins:maven-gpg-plugin` from 3.2.7 to 3.2.8 in `/java`
+- Bump `Microsoft.NET.Test.Sdk` from 18.3.0 to 18.4.0
+
 ## [1.10.0] - 2026-04-02
 
 ### Added
