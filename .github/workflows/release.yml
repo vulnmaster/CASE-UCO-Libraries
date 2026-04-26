@@ -1,5 +1,14 @@
 name: Release
 
+# Cuts a GitHub Release with attested artifacts on every `v*` tag.
+#
+# The four package-registry publish jobs (PyPI, NuGet, Maven Central,
+# crates.io) are gated behind the repository variable PUBLISH_PACKAGES.
+# They stay skipped until the maintainer flips the switch:
+#   gh variable set PUBLISH_PACKAGES --repo vulnmaster/CASE-UCO-SDK --body true
+# Each registry also requires its credentials/secrets to be configured
+# (NUGET_API_KEY, MAVEN_*/GPG_*, CARGO_REGISTRY_TOKEN, and a PyPI
+# Trusted Publisher binding for this repo + workflow).
 on:
   push:
     tags:
@@ -258,6 +267,7 @@ jobs:
   publish-pypi:
     name: Publish to PyPI
     needs: release
+    if: vars.PUBLISH_PACKAGES == 'true'
     runs-on: ubuntu-latest
     environment: publish
     permissions:
@@ -279,6 +289,7 @@ jobs:
   publish-nuget:
     name: Publish to NuGet
     needs: release
+    if: vars.PUBLISH_PACKAGES == 'true'
     runs-on: ubuntu-latest
     environment: publish
     steps:
@@ -298,6 +309,7 @@ jobs:
   publish-maven:
     name: Publish to Maven Central
     needs: release
+    if: vars.PUBLISH_PACKAGES == 'true'
     runs-on: ubuntu-latest
     environment: publish
     steps:
@@ -330,6 +342,7 @@ jobs:
   publish-crates:
     name: Publish to crates.io
     needs: release
+    if: vars.PUBLISH_PACKAGES == 'true'
     runs-on: ubuntu-latest
     environment: publish
     steps:
